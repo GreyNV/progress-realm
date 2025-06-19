@@ -76,7 +76,20 @@ A progression and resource management game inspired by Progress Knight and Theor
 * Optional: Vue or Svelte for structure
 * Save system via localStorage (later: IndexedDB)
 
-#### 11. Future Extensions
+#### 11. Project Structure
+
+The repository now contains a minimal HTML/CSS/JS setup to help test the very first prototype:
+
+```
+index.html        - entry point for the game
+css/styles.css    - basic page styling
+js/main.js        - starter script that initializes the app
+docs/MVP.md       - checklist for the initial prototype
+```
+
+See **docs/MVP.md** for the MVP list.
+
+#### 12. Future Extensions
 
 * Prestige system with meta-upgrades
 * Spell research tree
