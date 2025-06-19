@@ -21,8 +21,17 @@ function updateUI() {
     document.getElementById('res-gold').textContent = state.resources.gold;
 }
 
+function trainStrength() {
+    state.stats.strength += 1;
+    updateUI();
+}
+
 function init() {
     updateUI();
+    const btn = document.getElementById('train-strength-btn');
+    if (btn) {
+        btn.addEventListener('click', trainStrength);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', init);
