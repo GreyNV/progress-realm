@@ -1,0 +1,4 @@
+# Ignore node modules and build artifacts
+node_modules/
+dist/
+*.log
