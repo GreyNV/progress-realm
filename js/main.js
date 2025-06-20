@@ -2,6 +2,7 @@
 
 const state = {
     stats: {
+
         strength: 1,
         intelligence: 1,
         charisma: 1,
@@ -81,12 +82,10 @@ function getSpeedMultiplier(action) {
     }
     return mult;
 }
-
 function updateUI() {
     document.getElementById('stat-strength').textContent = state.stats.strength;
     document.getElementById('stat-intelligence').textContent = state.stats.intelligence;
     document.getElementById('stat-charisma').textContent = state.stats.charisma;
-
     document.getElementById('prestige-strength').textContent = state.prestige.strength;
     document.getElementById('prestige-intelligence').textContent = state.prestige.intelligence;
     document.getElementById('prestige-charisma').textContent = state.prestige.charisma;
