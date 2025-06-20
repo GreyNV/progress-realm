@@ -1,5 +1,5 @@
 # progress-realm
-### Game Design Document – v0.1.0
+### Game Design Document – v0.2.0
 
 #### 1. Game Title (Working)
 
@@ -11,7 +11,7 @@ A progression and resource management game inspired by Progress Knight and Theor
 
 In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 
-This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
+This release (v0.2.0) expands the prototype with new stats, resources, and tasks. Automatic saving and loading via localStorage remains in place.
 
 #### 3. Core Gameplay Loop
 
@@ -87,7 +87,11 @@ The repository now contains a minimal HTML/CSS/JS setup to help test the very fi
 ```
 index.html        - entry point for the game
 css/styles.css    - basic page styling
-js/main.js        - starter script that initializes the app
+js/state.js       - persistent game state and save/load helpers
+js/tasks.js       - task definitions and reusable Task model
+js/engine.js      - unified tick loop and game logic
+js/ui.js          - DOM updates and event bindings
+js/main.js        - initializes the engine and UI
 docs/MVP.md       - checklist for the initial prototype
 ```
 
@@ -98,7 +102,15 @@ Habits are quick actions found below the routines for instant resource gains. Ro
 
 See **docs/MVP.md** for the MVP list.
 
-#### 12. Future Extensions
+#### 12. v0.2.0 Additions
+
+* Added Wisdom and Endurance stats.
+* Added Crystal Dust and Mana Core resources.
+* New routines: Study Glyphs and Meditate.
+* New habit: Forge Charm which grants a temporary charm buff.
+* Buffs expire automatically after 10 minutes of real time.
+
+#### 13. Future Extensions
 
 * Prestige system with meta-upgrades
 * Spell research tree

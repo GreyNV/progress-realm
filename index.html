@@ -29,7 +29,9 @@
                 <ul>
                     <li>Strength: <span id="stat-strength">0</span></li>
                     <li>Intelligence: <span id="stat-intelligence">0</span></li>
+                    <li>Wisdom: <span id="stat-wisdom">0</span></li>
                     <li>Charisma: <span id="stat-charisma">0</span></li>
+                    <li>Endurance: <span id="stat-endurance">0</span></li>
                 </ul>
 
                 <section id="prestige-block">
@@ -37,7 +39,9 @@
                     <ul>
                         <li>Strength: <span id="prestige-strength">0</span></li>
                         <li>Intelligence: <span id="prestige-intelligence">0</span></li>
+                        <li>Wisdom: <span id="prestige-wisdom">0</span></li>
                         <li>Charisma: <span id="prestige-charisma">0</span></li>
+                        <li>Endurance: <span id="prestige-endurance">0</span></li>
                     </ul>
                 </section>
             </section>
@@ -47,6 +51,9 @@
                 <ul>
                     <li>Energy: <span id="res-energy">0</span>/<span id="res-energy-cap">0</span></li>
                     <li>Gold: <span id="res-gold">0</span>/<span id="res-gold-cap">0</span></li>
+                    <li>Crystal Dust: <span id="res-dust">0</span>/<span id="res-dust-cap">0</span></li>
+                    <li>Mana Cores: <span id="res-cores">0</span>/<span id="res-cores-cap">0</span></li>
+                    <li>Active Charms: <span id="active-charms">0</span></li>
                 </ul>
             </section>
 
@@ -72,15 +79,33 @@
                     <span class="label">Guard Duty</span>
                 </div>
             </div>
+            <div class="action" id="study-glyphs" title="Cost: 1 Dust &amp; 5 Energy per tick, Effect: +INT &amp; +WIS">
+                <div class="progress-wrapper">
+                    <progress id="study-glyphs-progress" value="0" max="10"></progress>
+                    <span class="label">Study Glyphs</span>
+                </div>
+            </div>
+            <div class="action" id="meditate" title="Cost: 3 Energy per tick, Effect: +WIS and restore Energy">
+                <div class="progress-wrapper">
+                    <progress id="meditate-progress" value="0" max="5"></progress>
+                    <span class="label">Meditate</span>
+                </div>
+            </div>
 
             <section id="habits">
                 <h3>Habits</h3>
                 <div class="action" id="collect-taxes" title="Effect: +5 Gold after 3s">
-                    <div class="progress-wrapper">
-                        <progress id="collect-taxes-progress" value="0" max="3"></progress>
-                        <span class="label">Collect Taxes</span>
-                    </div>
+                <div class="progress-wrapper">
+                    <progress id="collect-taxes-progress" value="0" max="3"></progress>
+                    <span class="label">Collect Taxes</span>
                 </div>
+            </div>
+            <div class="action" id="forge-charm" title="Consume 1 Mana Core to create a Charm (expires after 10m)">
+                <div class="progress-wrapper">
+                    <progress id="forge-charm-progress" value="0" max="30"></progress>
+                    <span class="label">Forge Charm</span>
+                </div>
+            </div>
             </section>
         </div>
 
@@ -95,6 +120,6 @@
         <button id="load-btn">Load</button>
         <button id="settings-btn">Settings</button>
     </footer>
-    <script src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
