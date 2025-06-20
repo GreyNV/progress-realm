@@ -2,16 +2,19 @@
 
 const state = {
     stats: {
-        strength: 0,
-        intelligence: 0,
-        charisma: 0,
+        strength: 1,
+        intelligence: 1,
+        charisma: 1,
     },
     prestige: {
         strength: 0,
         intelligence: 0,
         charisma: 0,
     },
-    age: 16,
+    showPrestige: false,
+    ageYears: 16,
+    ageDays: 0,
+    ageHours: 0,
     maxAge: 75,
     time: 1,
     resources: {
@@ -38,8 +41,15 @@ function updateUI() {
     document.getElementById('prestige-intelligence').textContent = state.prestige.intelligence;
     document.getElementById('prestige-charisma').textContent = state.prestige.charisma;
 
-    document.getElementById('stat-age').textContent = state.age;
-    document.getElementById('stat-max-age').textContent = state.maxAge;
+    const prestigeBlock = document.getElementById('prestige-block');
+    if (prestigeBlock) {
+        prestigeBlock.style.display = state.showPrestige ? 'block' : 'none';
+    }
+
+    document.getElementById('age-years').textContent = state.ageYears;
+    document.getElementById('age-days').textContent = state.ageDays;
+    document.getElementById('age-hours').textContent = state.ageHours;
+    document.getElementById('max-age').textContent = state.maxAge;
 
     document.getElementById('res-energy').textContent = state.resources.energy;
     document.getElementById('res-energy-cap').textContent = state.resources.maxEnergy;
@@ -53,13 +63,33 @@ function updateUI() {
         const desc = state.activeRoutine ? state.activeRoutine.description : '';
         descEl.textContent = desc;
     }
+
+    const speedEl = document.getElementById('speed-value');
+    if (speedEl) {
+        speedEl.textContent = state.time + 'x';
+    }
+
+    Object.values(routines).forEach(r => {
+        if (!r.buttonId) return;
+        const el = document.getElementById(r.buttonId);
+        if (el) {
+            el.style.display = r.showCondition() ? 'inline-block' : 'none';
+            el.disabled = !r.unlockCondition();
+        }
+    });
 }
 
 const routines = {
     trainStrength: {
         name: 'Strength Training',
         description: 'Drill at the barracks with your retired mercenary father to build muscle.',
+        buttonId: 'train-strength-btn',
+        duration: 5,
+        progress: 0,
+        modifiers: [],
         intervalId: null,
+        showCondition() { return true; },
+        unlockCondition() { return true; },
         effect() {
             const cost = 1 * state.time;
             if (state.resources.energy >= cost) {
@@ -77,7 +107,13 @@ const routines = {
     guardDuty: {
         name: 'Guard Duty',
         description: 'Patrol the family lands and earn a small wage.',
+        buttonId: 'guard-duty-btn',
+        duration: 10,
+        progress: 0,
+        modifiers: [],
         intervalId: null,
+        showCondition() { return state.stats.strength >= 2; },
+        unlockCondition() { return state.stats.strength >= 2; },
         effect() {
             const cost = 2 * state.time;
             if (state.resources.energy >= cost) {
@@ -95,7 +131,13 @@ const routines = {
     rest: {
         name: 'Resting',
         description: 'Take a break to recover your energy.',
+        buttonId: null,
+        duration: 5,
+        progress: 0,
+        modifiers: [],
         intervalId: null,
+        showCondition() { return true; },
+        unlockCondition() { return true; },
         effect() {
             if (state.resources.energy < state.resources.maxEnergy) {
                 state.resources.energy += 1 * state.time;
@@ -112,9 +154,17 @@ const routines = {
 };
 
 function startRoutine(routine) {
+    if (!routine.unlockCondition()) return;
     if (state.activeRoutine === routine) return;
     if (state.activeRoutine) stopRoutine(state.activeRoutine);
-    routine.intervalId = setInterval(() => routine.effect(), 1000);
+    routine.progress = 0;
+    routine.intervalId = setInterval(() => {
+        routine.progress += state.time;
+        if (routine.progress >= routine.duration) {
+            routine.progress -= routine.duration;
+            routine.effect();
+        }
+    }, 1000);
     state.activeRoutine = routine;
     updateUI();
 }
@@ -123,12 +173,21 @@ function stopRoutine(routine) {
     if (routine && routine.intervalId) {
         clearInterval(routine.intervalId);
         routine.intervalId = null;
+        routine.progress = 0;
     }
 }
 
 function tick() {
-    state.age += 1;
-    if (state.age >= state.maxAge) {
+    state.ageHours += state.time;
+    while (state.ageHours >= 24) {
+        state.ageHours -= 24;
+        state.ageDays += 1;
+    }
+    while (state.ageDays >= 365) {
+        state.ageDays -= 365;
+        state.ageYears += 1;
+    }
+    if (state.ageYears >= state.maxAge) {
         restart();
     }
     updateUI();
@@ -137,9 +196,12 @@ function tick() {
 function restart() {
     for (const key in state.stats) {
         state.prestige[key] += state.stats[key];
-        state.stats[key] = 0;
+        state.stats[key] = 1;
     }
-    state.age = 16;
+    state.showPrestige = true;
+    state.ageYears = 16;
+    state.ageDays = 0;
+    state.ageHours = 0;
     state.resources.energy = state.resources.maxEnergy;
     state.resources.gold = 0;
     if (state.activeRoutine) stopRoutine(state.activeRoutine);
@@ -158,6 +220,24 @@ function init() {
     if (btnGuard) {
         btnGuard.addEventListener('click', () => startRoutine(routines.guardDuty));
     }
+    document.querySelectorAll('[data-speed]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const val = parseFloat(btn.getAttribute('data-speed'));
+            if (!isNaN(val)) {
+                state.time = val;
+                updateUI();
+            }
+        });
+    });
+
+    Object.values(routines).forEach(r => {
+        if (!r.buttonId) return;
+        const el = document.getElementById(r.buttonId);
+        if (el) {
+            el.style.display = r.showCondition() ? 'inline-block' : 'none';
+            el.disabled = !r.unlockCondition();
+        }
+    });
     startRoutine(routines.rest);
     setInterval(tick, 1000);
 }

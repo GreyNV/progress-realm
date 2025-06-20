@@ -7,44 +7,70 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Progress Realm</h1>
+    <header>
+        <h1>Progress Realm</h1>
+        <div id="header-info">
+            Age: <span id="age-years">16</span>y <span id="age-days">0</span>d <span id="age-hours">0</span>h / <span id="max-age">75</span>y
+            <span id="speed-display">Speed: <span id="speed-value">1x</span></span>
+            <span id="speed-controls">
+                <button data-speed="1">1x</button>
+                <button data-speed="2">2x</button>
+                <button data-speed="10">10x</button>
+            </span>
+        </div>
+    </header>
+
     <p id="intro">Reborn as the son of a retired mercenary, you help oversee a small territory your family earned in the war.</p>
-    <div id="app">
-        <div id="stats">
-            <h2>Stats</h2>
-            <ul>
-                <li>Strength: <span id="stat-strength">0</span></li>
-                <li>Intelligence: <span id="stat-intelligence">0</span></li>
-                <li>Charisma: <span id="stat-charisma">0</span></li>
-            </ul>
 
-            <h3>Prestige</h3>
-            <ul>
-                <li>Strength: <span id="prestige-strength">0</span></li>
-                <li>Intelligence: <span id="prestige-intelligence">0</span></li>
-                <li>Charisma: <span id="prestige-charisma">0</span></li>
-            </ul>
+    <main id="app">
+        <div id="left" class="panel">
+            <section id="stats">
+                <h2>Stats</h2>
+                <ul>
+                    <li>Strength: <span id="stat-strength">0</span></li>
+                    <li>Intelligence: <span id="stat-intelligence">0</span></li>
+                    <li>Charisma: <span id="stat-charisma">0</span></li>
+                </ul>
 
-            <h3>Age</h3>
-            <p><span id="stat-age">0</span>/<span id="stat-max-age">0</span></p>
+                <section id="prestige-block">
+                    <h3>Prestige</h3>
+                    <ul>
+                        <li>Strength: <span id="prestige-strength">0</span></li>
+                        <li>Intelligence: <span id="prestige-intelligence">0</span></li>
+                        <li>Charisma: <span id="prestige-charisma">0</span></li>
+                    </ul>
+                </section>
+            </section>
+
+            <section id="resources">
+                <h2>Resources</h2>
+                <ul>
+                    <li>Energy: <span id="res-energy">0</span>/<span id="res-energy-cap">0</span></li>
+                    <li>Gold: <span id="res-gold">0</span>/<span id="res-gold-cap">0</span></li>
+                </ul>
+            </section>
         </div>
 
-        <div id="resources">
-            <h2>Resources</h2>
-            <ul>
-                <li>Energy: <span id="res-energy">0</span>/<span id="res-energy-cap">0</span></li>
-                <li>Gold: <span id="res-gold">0</span>/<span id="res-gold-cap">0</span></li>
-            </ul>
-        </div>
-
-        <div id="routines">
+        <div id="center" class="panel">
             <h2>Routines</h2>
             <p>Current: <span id="current-routine">Resting</span></p>
             <p id="routine-description"></p>
             <button id="train-strength-btn">Strength Training</button>
             <button id="guard-duty-btn">Guard Duty</button>
         </div>
-    </div>
+
+        <div id="right" class="panel">
+            <h2>Control</h2>
+            <p>Crafting and Automation go here.</p>
+        </div>
+    </main>
+
+    <footer>
+        <button id="save-btn">Save</button>
+        <button id="load-btn">Load</button>
+        <button id="settings-btn">Settings</button>
+    </footer>
+
     <script src="js/main.js"></script>
 </body>
 </html>
