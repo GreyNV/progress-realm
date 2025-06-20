@@ -311,7 +311,7 @@ function init() {
         }
     });
     startRoutine(routines.rest);
-    setInterval(tick, 1000);
+    setInterval(tick, 50);
 }
 
 document.addEventListener('DOMContentLoaded', init);
