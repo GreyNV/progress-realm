@@ -14,7 +14,6 @@ const state = {
     showPrestige: false,
     ageYears: 16,
     ageDays: 0,
-    ageHours: 0, // internal tracking only
     maxAge: 75,
     time: 1,
     resources: {
@@ -32,12 +31,10 @@ function applyResourceCaps() {
     state.resources.gold = Math.min(state.resources.gold, state.resources.maxGold);
 }
 
-function getSpeedMultiplier(routine) {
+function getSpeedMultiplier(action) {
     let mult = state.time;
-    if (routine.category === 'physical') {
-        mult *= 1 + (state.stats.strength - 1) * 0.02;
-    } else if (routine.category === 'education') {
-        mult *= 1 + (state.stats.intelligence - 1) * 0.02;
+    if (action.bonusStat && state.stats[action.bonusStat] !== undefined) {
+        mult *= 1 + (state.stats[action.bonusStat] - 1) * 0.02;
     }
     return mult;
 }
@@ -81,16 +78,26 @@ function updateUI() {
     Object.values(routines).forEach(r => {
         if (!r.buttonId) return;
         const el = document.getElementById(r.buttonId);
+        const prog = document.getElementById(r.buttonId + '-progress');
         if (el) {
             el.style.display = r.showCondition() ? 'inline-block' : 'none';
             el.disabled = !r.unlockCondition();
+            if (prog) {
+                prog.max = r.duration;
+                prog.value = state.activeRoutine === r ? r.progress : 0;
+            }
         }
     });
 
     Object.values(habits).forEach(h => {
         const el = document.getElementById(h.buttonId);
+        const prog = document.getElementById(h.buttonId + '-progress');
         if (el) {
             el.style.display = h.showCondition() ? 'inline-block' : 'none';
+            if (prog) {
+                prog.max = h.duration || 0;
+                prog.value = h.progress || 0;
+            }
         }
     });
 }
@@ -99,6 +106,7 @@ const routines = {
     swordPractice: {
         name: 'Sword Practice',
         category: 'physical',
+        bonusStat: 'strength',
         description: 'Drill at the barracks with your retired mercenary father to build muscle.',
         buttonId: 'sword-training-btn',
         duration: 5,
@@ -124,6 +132,7 @@ const routines = {
     guardDuty: {
         name: 'Guard Duty',
         category: 'physical',
+        bonusStat: 'strength',
         description: 'Patrol the family lands and earn a small wage.',
         buttonId: 'guard-duty-btn',
         duration: 10,
@@ -176,11 +185,15 @@ const habits = {
     collectTaxes: {
         name: 'Collect Taxes',
         buttonId: 'collect-taxes-btn',
+        category: 'social',
+        bonusStat: 'charisma',
+        duration: 3,
+        progress: 0,
+        running: false,
         showCondition() { return true; },
         effect() {
             state.resources.gold += 5;
             applyResourceCaps();
-            updateUI();
         },
     },
 };
@@ -196,6 +209,7 @@ function startRoutine(routine) {
             routine.progress -= routine.duration;
             routine.effect();
         }
+        updateUI();
     }, 1000);
     state.activeRoutine = routine;
     updateUI();
@@ -209,12 +223,29 @@ function stopRoutine(routine) {
     }
 }
 
+function runHabit(habit) {
+    if (habit.running) return;
+    habit.running = true;
+    habit.progress = 0;
+    const button = document.getElementById(habit.buttonId);
+    if (button) button.disabled = true;
+    const interval = setInterval(() => {
+        habit.progress += getSpeedMultiplier(habit);
+        if (habit.progress >= habit.duration) {
+            clearInterval(interval);
+            habit.effect();
+            habit.running = false;
+            habit.progress = 0;
+            if (button) button.disabled = false;
+            updateUI();
+            return;
+        }
+        updateUI();
+    }, 1000);
+}
+
 function tick() {
-    state.ageHours += state.time;
-    while (state.ageHours >= 24) {
-        state.ageHours -= 24;
-        state.ageDays += 1;
-    }
+    state.ageDays += state.time;
     while (state.ageDays >= 365) {
         state.ageDays -= 365;
         state.ageYears += 1;
@@ -233,7 +264,6 @@ function restart() {
     state.showPrestige = true;
     state.ageYears = 16;
     state.ageDays = 0;
-    state.ageHours = 0;
     state.resources.energy = state.resources.maxEnergy;
     state.resources.gold = 0;
     if (state.activeRoutine) stopRoutine(state.activeRoutine);
@@ -254,7 +284,7 @@ function init() {
     }
     const btnTaxes = document.getElementById('collect-taxes-btn');
     if (btnTaxes) {
-        btnTaxes.addEventListener('click', habits.collectTaxes.effect);
+        btnTaxes.addEventListener('click', () => runHabit(habits.collectTaxes));
     }
     document.querySelectorAll('[data-speed]').forEach(btn => {
         btn.addEventListener('click', () => {

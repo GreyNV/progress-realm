@@ -55,12 +55,21 @@
             <h2>Routines</h2>
             <p>Current: <span id="current-routine">Resting</span></p>
             <p id="routine-description"></p>
-            <button id="sword-training-btn">Sword Practice</button>
-            <button id="guard-duty-btn">Guard Duty</button>
+            <div class="action">
+                <button id="sword-training-btn">Sword Practice</button>
+                <progress id="sword-training-btn-progress" value="0" max="5"></progress>
+            </div>
+            <div class="action">
+                <button id="guard-duty-btn">Guard Duty</button>
+                <progress id="guard-duty-btn-progress" value="0" max="10"></progress>
+            </div>
 
             <section id="habits">
                 <h3>Habits</h3>
-                <button id="collect-taxes-btn">Collect Taxes</button>
+                <div class="action">
+                    <button id="collect-taxes-btn">Collect Taxes</button>
+                    <progress id="collect-taxes-btn-progress" value="0" max="3"></progress>
+                </div>
             </section>
         </div>
 
