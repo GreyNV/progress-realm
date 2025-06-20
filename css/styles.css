@@ -1,13 +1,80 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 1rem;
     background-color: #f5f5f5;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    height: 100vh;
 }
 
-#app {
+header h1 {
+    margin: 0;
+}
+
+header, footer {
+    background: #333;
+    color: #fff;
+    padding: 0.5rem 1rem;
+}
+
+#intro {
+    margin: 0.5rem 1rem;
+}
+
+main {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) 2fr minmax(180px, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    align-items: start;
+}
+
+.panel {
     background: #fff;
     padding: 1rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#habits {
+    margin-top: 1rem;
+}
+
+.action {
+    margin-bottom: 0.5rem;
+}
+
+.action .progress-wrapper {
+    margin-top: 0.25rem;
+}
+
+.progress-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.progress-wrapper progress {
+    width: 100%;
+    height: 1rem;
+    display: block;
+}
+
+.progress-wrapper .label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    pointer-events: none;
+    color: #000;
+}
+
+@media (max-width: 700px) {
+    main {
+        grid-template-columns: 1fr;
+    }
 }

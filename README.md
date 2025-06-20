@@ -1,5 +1,5 @@
 # progress-realm
-### Game Design Document – v0.2
+### Game Design Document – v0.1.0
 
 #### 1. Game Title (Working)
 
@@ -8,6 +8,10 @@
 #### 2. High-Level Concept
 
 A progression and resource management game inspired by Progress Knight and Theory of Magic: Arcanum. Players assign limited action slots to repeatable tasks that consume resources and grant stat growth or magical benefits. The core loop involves efficiency optimization, task automation, and progression toward mastery.
+
+In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
+
+This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
 
 #### 3. Core Gameplay Loop
 
@@ -86,6 +90,11 @@ css/styles.css    - basic page styling
 js/main.js        - starter script that initializes the app
 docs/MVP.md       - checklist for the initial prototype
 ```
+
+#### Prototype Layout
+
+The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and crafting or automation placeholders occupy the right panel. The header shows the current age and provides buttons to adjust the game speed.
+Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
 
 See **docs/MVP.md** for the MVP list.
 
