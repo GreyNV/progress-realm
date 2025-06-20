@@ -14,7 +14,7 @@ const state = {
     showPrestige: false,
     ageYears: 16,
     ageDays: 0,
-    ageHours: 0,
+    ageHours: 0, // internal tracking only
     maxAge: 75,
     time: 1,
     resources: {
@@ -30,6 +30,16 @@ const state = {
 function applyResourceCaps() {
     state.resources.energy = Math.min(state.resources.energy, state.resources.maxEnergy);
     state.resources.gold = Math.min(state.resources.gold, state.resources.maxGold);
+}
+
+function getSpeedMultiplier(routine) {
+    let mult = state.time;
+    if (routine.category === 'physical') {
+        mult *= 1 + (state.stats.strength - 1) * 0.02;
+    } else if (routine.category === 'education') {
+        mult *= 1 + (state.stats.intelligence - 1) * 0.02;
+    }
+    return mult;
 }
 
 function updateUI() {
@@ -48,7 +58,6 @@ function updateUI() {
 
     document.getElementById('age-years').textContent = state.ageYears;
     document.getElementById('age-days').textContent = state.ageDays;
-    document.getElementById('age-hours').textContent = state.ageHours;
     document.getElementById('max-age').textContent = state.maxAge;
 
     document.getElementById('res-energy').textContent = state.resources.energy;
@@ -77,13 +86,21 @@ function updateUI() {
             el.disabled = !r.unlockCondition();
         }
     });
+
+    Object.values(habits).forEach(h => {
+        const el = document.getElementById(h.buttonId);
+        if (el) {
+            el.style.display = h.showCondition() ? 'inline-block' : 'none';
+        }
+    });
 }
 
 const routines = {
-    trainStrength: {
-        name: 'Strength Training',
+    swordPractice: {
+        name: 'Sword Practice',
+        category: 'physical',
         description: 'Drill at the barracks with your retired mercenary father to build muscle.',
-        buttonId: 'train-strength-btn',
+        buttonId: 'sword-training-btn',
         duration: 5,
         progress: 0,
         modifiers: [],
@@ -94,7 +111,7 @@ const routines = {
             const cost = 1 * state.time;
             if (state.resources.energy >= cost) {
                 state.resources.energy -= cost;
-                state.stats.strength += 1 * state.time;
+                state.stats.strength += 0.5 * state.time;
                 applyResourceCaps();
                 updateUI();
             } else {
@@ -106,6 +123,7 @@ const routines = {
     },
     guardDuty: {
         name: 'Guard Duty',
+        category: 'physical',
         description: 'Patrol the family lands and earn a small wage.',
         buttonId: 'guard-duty-btn',
         duration: 10,
@@ -130,6 +148,7 @@ const routines = {
     },
     rest: {
         name: 'Resting',
+        category: 'rest',
         description: 'Take a break to recover your energy.',
         buttonId: null,
         duration: 5,
@@ -153,13 +172,26 @@ const routines = {
     },
 };
 
+const habits = {
+    collectTaxes: {
+        name: 'Collect Taxes',
+        buttonId: 'collect-taxes-btn',
+        showCondition() { return true; },
+        effect() {
+            state.resources.gold += 5;
+            applyResourceCaps();
+            updateUI();
+        },
+    },
+};
+
 function startRoutine(routine) {
     if (!routine.unlockCondition()) return;
     if (state.activeRoutine === routine) return;
     if (state.activeRoutine) stopRoutine(state.activeRoutine);
     routine.progress = 0;
     routine.intervalId = setInterval(() => {
-        routine.progress += state.time;
+        routine.progress += getSpeedMultiplier(routine);
         if (routine.progress >= routine.duration) {
             routine.progress -= routine.duration;
             routine.effect();
@@ -212,13 +244,17 @@ function restart() {
 
 function init() {
     updateUI();
-    const btnTrain = document.getElementById('train-strength-btn');
+    const btnTrain = document.getElementById('sword-training-btn');
     if (btnTrain) {
-        btnTrain.addEventListener('click', () => startRoutine(routines.trainStrength));
+        btnTrain.addEventListener('click', () => startRoutine(routines.swordPractice));
     }
     const btnGuard = document.getElementById('guard-duty-btn');
     if (btnGuard) {
         btnGuard.addEventListener('click', () => startRoutine(routines.guardDuty));
+    }
+    const btnTaxes = document.getElementById('collect-taxes-btn');
+    if (btnTaxes) {
+        btnTaxes.addEventListener('click', habits.collectTaxes.effect);
     }
     document.querySelectorAll('[data-speed]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -236,6 +272,12 @@ function init() {
         if (el) {
             el.style.display = r.showCondition() ? 'inline-block' : 'none';
             el.disabled = !r.unlockCondition();
+        }
+    });
+    Object.values(habits).forEach(h => {
+        const el = document.getElementById(h.buttonId);
+        if (el) {
+            el.style.display = h.showCondition() ? 'inline-block' : 'none';
         }
     });
     startRoutine(routines.rest);

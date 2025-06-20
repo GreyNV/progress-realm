@@ -92,6 +92,7 @@ docs/MVP.md       - checklist for the initial prototype
 #### Prototype Layout
 
 The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and crafting or automation placeholders occupy the right panel. The header shows the current age and provides buttons to adjust the game speed.
+Habits are quick actions found below the routine buttons for instant resource gains.
 
 See **docs/MVP.md** for the MVP list.
 
