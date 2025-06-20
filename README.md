@@ -12,6 +12,7 @@ A progression and resource management game inspired by Progress Knight and Theor
 In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 
 This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
+It also adds a drag-and-drop task system with tooltips and simple completion animations.
 
 #### 3. Core Gameplay Loop
 

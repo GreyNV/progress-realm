@@ -36,16 +36,39 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#habits {
+#task-list {
+    list-style: none;
+    padding: 0;
+}
+
+#task-list li {
+    background: #eee;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    cursor: grab;
+    border-radius: 4px;
+}
+
+#task-list li.dragging {
+    opacity: 0.5;
+}
+
+.slots {
+    display: flex;
+    gap: 1rem;
     margin-top: 1rem;
 }
 
-.action {
-    margin-bottom: 0.5rem;
+.slot {
+    flex: 1;
+    border: 2px dashed #ccc;
+    padding: 0.5rem;
+    min-height: 3rem;
+    position: relative;
 }
 
-.action .progress-wrapper {
-    margin-top: 0.25rem;
+.slot.active {
+    border-color: #66cc66;
 }
 
 .progress-wrapper {
@@ -71,6 +94,28 @@ main {
     font-size: 0.8rem;
     pointer-events: none;
     color: #000;
+}
+
+.tooltip {
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    pointer-events: none;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+@keyframes completeFlash {
+    from { background-color: transparent; }
+    50% { background-color: #8f8; }
+    to { background-color: transparent; }
+}
+
+.slot.complete {
+    animation: completeFlash 1s;
 }
 
 @media (max-width: 700px) {

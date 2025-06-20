@@ -49,39 +49,32 @@
                     <li>Gold: <span id="res-gold">0</span>/<span id="res-gold-cap">0</span></li>
                 </ul>
             </section>
-
-            <section id="activity">
-                <h2>Activity</h2>
-                <p>Routine: <span id="current-routine">Resting</span> (<span id="current-category">rest</span>)</p>
-                <ul id="active-habits"></ul>
-            </section>
         </div>
 
         <div id="center" class="panel">
-            <h2>Routines</h2>
-            <p id="routine-description"></p>
-            <div class="action" id="sword-training" title="Cost: 1 Energy per tick, Effect: +0.5 Strength per tick">
-                <div class="progress-wrapper">
-                    <progress id="sword-training-progress" value="0" max="5"></progress>
-                    <span class="label">Sword Practice</span>
-                </div>
-            </div>
-            <div class="action" id="guard-duty" title="Cost: 2 Energy per tick, Effect: +1 Gold per tick">
-                <div class="progress-wrapper">
-                    <progress id="guard-duty-progress" value="0" max="10"></progress>
-                    <span class="label">Guard Duty</span>
-                </div>
-            </div>
-
-            <section id="habits">
-                <h3>Habits</h3>
-                <div class="action" id="collect-taxes" title="Effect: +5 Gold after 3s">
+            <h2>Available Tasks</h2>
+            <ul id="task-list"></ul>
+            <h2>Task Slots</h2>
+            <div id="slots" class="slots">
+                <div class="slot" data-slot="0" data-tooltip="Drag a task here">
                     <div class="progress-wrapper">
-                        <progress id="collect-taxes-progress" value="0" max="3"></progress>
-                        <span class="label">Collect Taxes</span>
+                        <progress value="0" max="100"></progress>
+                        <span class="label"></span>
                     </div>
                 </div>
-            </section>
+                <div class="slot" data-slot="1" data-tooltip="Drag a task here">
+                    <div class="progress-wrapper">
+                        <progress value="0" max="100"></progress>
+                        <span class="label"></span>
+                    </div>
+                </div>
+                <div class="slot" data-slot="2" data-tooltip="Drag a task here">
+                    <div class="progress-wrapper">
+                        <progress value="0" max="100"></progress>
+                        <span class="label"></span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="right" class="panel">

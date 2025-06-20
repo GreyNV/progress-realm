@@ -1,0 +1,29 @@
+[
+  {
+    "id": "swordPractice",
+    "name": "Sword Practice",
+    "description": "Train your sword skills to gain Strength.",
+    "category": "physical",
+    "duration": 5,
+    "cost": {"energy": 1},
+    "reward": {"strength": 0.5}
+  },
+  {
+    "id": "guardDuty",
+    "name": "Guard Duty",
+    "description": "Patrol the lands to earn gold.",
+    "category": "physical",
+    "duration": 10,
+    "cost": {"energy": 2},
+    "reward": {"gold": 1}
+  },
+  {
+    "id": "rest",
+    "name": "Rest",
+    "description": "Recover your energy.",
+    "category": "rest",
+    "duration": 5,
+    "cost": {},
+    "reward": {"energy": 1}
+  }
+]
