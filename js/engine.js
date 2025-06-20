@@ -22,10 +22,10 @@ export function runHabit(habit) {
     habit.progress = 0;
 }
 
-function processRoutine() {
+function processRoutine(dt) {
     const r = state.activeRoutine;
     if (!r) return;
-    r.progress += state.time * r.speedMultiplier();
+    r.progress += dt * r.speedMultiplier();
     if (r.progress >= r.baseDuration) {
         r.progress -= r.baseDuration;
         r.effect(r.yieldMultiplier());
@@ -38,10 +38,10 @@ function processRoutine() {
     }
 }
 
-function processHabits() {
+function processHabits(dt) {
     Object.values(habits).forEach(h => {
         if (!h.running) return;
-        h.progress += state.time * h.speedMultiplier();
+        h.progress += dt * h.speedMultiplier();
         if (h.progress >= h.baseDuration) {
             h.running = false;
             h.progress = 0;
@@ -51,9 +51,9 @@ function processHabits() {
     });
 }
 
-function processBuffsAndAge() {
+function processBuffsAndAge(dt) {
     state.buffs = state.buffs.filter(b => !b.expiresAt || Date.now() < b.expiresAt);
-    state.ageDays += state.time;
+    state.ageDays += dt;
     while (state.ageDays >= 365) {
         state.ageDays -= 365;
         state.ageYears += 1;
@@ -63,10 +63,11 @@ function processBuffsAndAge() {
     }
 }
 
-export function tick() {
-    processRoutine();
-    processHabits();
-    processBuffsAndAge();
+export function tick(delta = 1) {
+    const dt = delta * state.time;
+    processRoutine(dt);
+    processHabits(dt);
+    processBuffsAndAge(dt);
     applyResourceCaps();
     if (!state.activeRoutine && state.queuedRoutine && state.resources.energy > 0) {
         const routine = state.queuedRoutine;

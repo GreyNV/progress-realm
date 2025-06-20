@@ -5,9 +5,11 @@ import { saveState } from './state.js';
 document.addEventListener('DOMContentLoaded', () => {
     initUI();
     initEngine();
+    const interval = 200; // ms
+    const delta = interval / 1000;
     setInterval(() => {
-        tick();
+        tick(delta);
         updateUI();
         saveState();
-    }, 1000);
+    }, interval);
 });
