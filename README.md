@@ -1,5 +1,5 @@
 # progress-realm
-### Game Design Document – v0.1.0
+### Game Design Document – v0.2.0
 
 #### 1. Game Title (Working)
 
@@ -11,7 +11,7 @@ A progression and resource management game inspired by Progress Knight and Theor
 
 In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 
-This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
+This release (v0.2.0) overhauls actions and hobbies with a leveling system and introduces upgrade tabs. Automatic saving and loading via localStorage remains in place.
 
 #### 3. Core Gameplay Loop
 
@@ -58,9 +58,9 @@ This release (v0.1.0) introduces automatic saving and loading of progress via lo
 
 | Task Name    | Cost                      | Duration | Output                             |
 | ------------ | ------------------------- | -------- | ---------------------------------- |
-| Study Glyphs | 1x Crystal Dust, 5 Energy | 10s      | +0.2 INT, +0.1 WIS                 |
-| Forge Charm  | 2x Iron Ore, 1x Mana Core | 30s      | +1 Charm (buff, 10 min duration)   |
-| Meditate     | 3 Energy                  | 5s       | +0.1 WIS, regain 1 Energy per tick |
+| Push-Ups     | 1 Energy                  | 5s       | +STR gain (scales with level) |
+| Read Scrolls | 1 Scroll, 4 Energy        | 8s       | +INT/WIS (scales with level) |
+| Brew Potion  | 1 Herb, 1 Mana Core       | 10s      | Temporary buff for 5 min |
 
 #### 8. Slot System
 
@@ -87,18 +87,30 @@ The repository now contains a minimal HTML/CSS/JS setup to help test the very fi
 ```
 index.html        - entry point for the game
 css/styles.css    - basic page styling
-js/main.js        - starter script that initializes the app
+js/state.js       - persistent game state and save/load helpers
+js/tasks.js       - task definitions and reusable Task model
+js/engine.js      - unified tick loop and game logic
+js/ui.js          - DOM updates and event bindings
+js/main.js        - initializes the engine and UI
 docs/MVP.md       - checklist for the initial prototype
 ```
 
 #### Prototype Layout
 
 The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and crafting or automation placeholders occupy the right panel. The header shows the current age and provides buttons to adjust the game speed.
-Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
+Hobbies are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
 
 See **docs/MVP.md** for the MVP list.
 
-#### 12. Future Extensions
+#### 12. v0.2.0 Additions
+
+* Introduced Herbs and Scrolls resources.
+* Replaced actions with leveled routines: Push-Ups, Read Scrolls, Mind Focus and Arcane Experiment.
+* New hobbies: Gather Herbs, Sell Trinkets and Brew Potion which grants a short buff.
+* Actions and hobbies now gain levels to increase speed and rewards with diminishing returns.
+* Progress bars now show only XP and actions switch to an Idle state when resources are missing. A 0x speed button allows manual pausing.
+
+#### 13. Future Extensions
 
 * Prestige system with meta-upgrades
 * Spell research tree
