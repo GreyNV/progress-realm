@@ -9,7 +9,7 @@
 
 A progression and resource management game inspired by Progress Knight and Theory of Magic: Arcanum. Players assign limited action slots to repeatable tasks that consume resources and grant stat growth or magical benefits. The core loop involves efficiency optimization, task automation, and progression toward mastery.
 
-In the prototype scenario you are reborn as the son of a retired mercenary who was granted a small territory for his service. Early routines revolve around training with your father and guarding the family lands.
+In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 
 This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
 
@@ -94,7 +94,7 @@ docs/MVP.md       - checklist for the initial prototype
 #### Prototype Layout
 
 The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and crafting or automation placeholders occupy the right panel. The header shows the current age and provides buttons to adjust the game speed.
-Habits are quick actions found below the routine buttons for instant resource gains. Action buttons now display progress bars so you can see when the next effect will occur.
+Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
 
 See **docs/MVP.md** for the MVP list.
 

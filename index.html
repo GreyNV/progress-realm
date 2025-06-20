@@ -20,7 +20,7 @@
         </div>
     </header>
 
-    <p id="intro">Reborn as the son of a retired mercenary, you help oversee a small territory your family earned in the war.</p>
+    <p id="intro">You awaken as a 16-year-old survivor of a caravan ambush. A passing stranger saved you and brought you to a small medieval town.</p>
 
     <main id="app">
         <div id="left" class="panel">
@@ -49,26 +49,37 @@
                     <li>Gold: <span id="res-gold">0</span>/<span id="res-gold-cap">0</span></li>
                 </ul>
             </section>
+
+            <section id="activity">
+                <h2>Activity</h2>
+                <p>Routine: <span id="current-routine">Resting</span> (<span id="current-category">rest</span>)</p>
+                <ul id="active-habits"></ul>
+            </section>
         </div>
 
         <div id="center" class="panel">
             <h2>Routines</h2>
-            <p>Current: <span id="current-routine">Resting</span></p>
             <p id="routine-description"></p>
-            <div class="action">
-                <button id="sword-training-btn">Sword Practice</button>
-                <progress id="sword-training-btn-progress" value="0" max="5"></progress>
+            <div class="action" id="sword-training" title="Cost: 1 Energy per tick, Effect: +0.5 Strength per tick">
+                <div class="progress-wrapper">
+                    <progress id="sword-training-progress" value="0" max="5"></progress>
+                    <span class="label">Sword Practice</span>
+                </div>
             </div>
-            <div class="action">
-                <button id="guard-duty-btn">Guard Duty</button>
-                <progress id="guard-duty-btn-progress" value="0" max="10"></progress>
+            <div class="action" id="guard-duty" title="Cost: 2 Energy per tick, Effect: +1 Gold per tick">
+                <div class="progress-wrapper">
+                    <progress id="guard-duty-progress" value="0" max="10"></progress>
+                    <span class="label">Guard Duty</span>
+                </div>
             </div>
 
             <section id="habits">
                 <h3>Habits</h3>
-                <div class="action">
-                    <button id="collect-taxes-btn">Collect Taxes</button>
-                    <progress id="collect-taxes-btn-progress" value="0" max="3"></progress>
+                <div class="action" id="collect-taxes" title="Effect: +5 Gold after 3s">
+                    <div class="progress-wrapper">
+                        <progress id="collect-taxes-progress" value="0" max="3"></progress>
+                        <span class="label">Collect Taxes</span>
+                    </div>
                 </div>
             </section>
         </div>

@@ -106,7 +106,9 @@ function updateUI() {
     document.getElementById('res-gold-cap').textContent = state.resources.maxGold;
 
     const routineName = state.activeRoutine ? state.activeRoutine.name : 'None';
+    const routineCategory = state.activeRoutine ? state.activeRoutine.category : 'none';
     document.getElementById('current-routine').textContent = routineName;
+    document.getElementById('current-category').textContent = routineCategory;
     const descEl = document.getElementById('routine-description');
     if (descEl) {
         const desc = state.activeRoutine ? state.activeRoutine.description : '';
@@ -118,13 +120,24 @@ function updateUI() {
         speedEl.textContent = state.time + 'x';
     }
 
+    const habitList = document.getElementById('active-habits');
+    if (habitList) {
+        habitList.innerHTML = '';
+        Object.values(habits).forEach(h => {
+            if (h.running) {
+                const li = document.createElement('li');
+                li.textContent = `${h.name} (${h.category})`;
+                habitList.appendChild(li);
+            }
+        });
+    }
+
     Object.values(routines).forEach(r => {
-        if (!r.buttonId) return;
-        const el = document.getElementById(r.buttonId);
-        const prog = document.getElementById(r.buttonId + '-progress');
-        if (el) {
-            el.style.display = r.showCondition() ? 'inline-block' : 'none';
-            el.disabled = !r.unlockCondition();
+        if (!r.elementId) return;
+        const container = document.getElementById(r.elementId);
+        const prog = document.getElementById(r.elementId + '-progress');
+        if (container) {
+            container.style.display = r.showCondition() ? 'block' : 'none';
             if (prog) {
                 prog.max = r.duration;
                 prog.value = state.activeRoutine === r ? r.progress : 0;
@@ -133,10 +146,10 @@ function updateUI() {
     });
 
     Object.values(habits).forEach(h => {
-        const el = document.getElementById(h.buttonId);
-        const prog = document.getElementById(h.buttonId + '-progress');
-        if (el) {
-            el.style.display = h.showCondition() ? 'inline-block' : 'none';
+        const container = document.getElementById(h.elementId);
+        const prog = document.getElementById(h.elementId + '-progress');
+        if (container) {
+            container.style.display = h.showCondition() ? 'block' : 'none';
             if (prog) {
                 prog.max = h.duration || 0;
                 prog.value = h.progress || 0;
@@ -151,7 +164,7 @@ const routines = {
         category: 'physical',
         bonusStat: 'strength',
         description: 'Drill at the barracks with your retired mercenary father to build muscle.',
-        buttonId: 'sword-training-btn',
+        elementId: 'sword-training',
         duration: 5,
         progress: 0,
         modifiers: [],
@@ -177,7 +190,7 @@ const routines = {
         category: 'physical',
         bonusStat: 'strength',
         description: 'Patrol the family lands and earn a small wage.',
-        buttonId: 'guard-duty-btn',
+        elementId: 'guard-duty',
         duration: 10,
         progress: 0,
         modifiers: [],
@@ -202,7 +215,7 @@ const routines = {
         name: 'Resting',
         category: 'rest',
         description: 'Take a break to recover your energy.',
-        buttonId: null,
+        elementId: null,
         duration: 5,
         progress: 0,
         modifiers: [],
@@ -227,7 +240,7 @@ const routines = {
 const habits = {
     collectTaxes: {
         name: 'Collect Taxes',
-        buttonId: 'collect-taxes-btn',
+        elementId: 'collect-taxes',
         category: 'social',
         bonusStat: 'charisma',
         duration: 3,
@@ -270,8 +283,6 @@ function runHabit(habit) {
     if (habit.running) return;
     habit.running = true;
     habit.progress = 0;
-    const button = document.getElementById(habit.buttonId);
-    if (button) button.disabled = true;
     const interval = setInterval(() => {
         habit.progress += getSpeedMultiplier(habit);
         if (habit.progress >= habit.duration) {
@@ -279,7 +290,6 @@ function runHabit(habit) {
             habit.effect();
             habit.running = false;
             habit.progress = 0;
-            if (button) button.disabled = false;
             updateUI();
             return;
         }
@@ -320,17 +330,17 @@ function restart() {
 function init() {
     loadState();
     updateUI();
-    const btnTrain = document.getElementById('sword-training-btn');
-    if (btnTrain) {
-        btnTrain.addEventListener('click', () => startRoutine(routines.swordPractice));
+    const trainEl = document.getElementById('sword-training');
+    if (trainEl) {
+        trainEl.addEventListener('click', () => startRoutine(routines.swordPractice));
     }
-    const btnGuard = document.getElementById('guard-duty-btn');
-    if (btnGuard) {
-        btnGuard.addEventListener('click', () => startRoutine(routines.guardDuty));
+    const guardEl = document.getElementById('guard-duty');
+    if (guardEl) {
+        guardEl.addEventListener('click', () => startRoutine(routines.guardDuty));
     }
-    const btnTaxes = document.getElementById('collect-taxes-btn');
-    if (btnTaxes) {
-        btnTaxes.addEventListener('click', () => runHabit(habits.collectTaxes));
+    const taxesEl = document.getElementById('collect-taxes');
+    if (taxesEl) {
+        taxesEl.addEventListener('click', () => runHabit(habits.collectTaxes));
     }
     document.querySelectorAll('[data-speed]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -343,17 +353,16 @@ function init() {
     });
 
     Object.values(routines).forEach(r => {
-        if (!r.buttonId) return;
-        const el = document.getElementById(r.buttonId);
-        if (el) {
-            el.style.display = r.showCondition() ? 'inline-block' : 'none';
-            el.disabled = !r.unlockCondition();
+        if (!r.elementId) return;
+        const container = document.getElementById(r.elementId);
+        if (container) {
+            container.style.display = r.showCondition() ? 'block' : 'none';
         }
     });
     Object.values(habits).forEach(h => {
-        const el = document.getElementById(h.buttonId);
-        if (el) {
-            el.style.display = h.showCondition() ? 'inline-block' : 'none';
+        const container = document.getElementById(h.elementId);
+        if (container) {
+            container.style.display = h.showCondition() ? 'block' : 'none';
         }
     });
     const saveBtn = document.getElementById('save-btn');
