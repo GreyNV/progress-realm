@@ -1,54 +1,28 @@
-// Modular Progress Realm prototype with drag-and-drop tasks
-const VERSION = 1;
+// Progress Realm prototype with leveled actions and resource consumption
+const VERSION = 2;
 
 const State = {
     version: VERSION,
     stats: {
-        strength: 1,
-        intelligence: 1,
-        charisma: 1,
+        strength: 0,
+        intelligence: 0,
+        creativity: 0,
     },
     resources: {
-        energy: 5,
+        energy: 10,
         maxEnergy: 10,
-        gold: 0,
-        maxGold: 100,
+        focus: 10,
+        maxFocus: 10,
     },
     slots: [
-        { taskId: null, progress: 0 },
-        { taskId: null, progress: 0 },
-        { taskId: null, progress: 0 },
+        { actionId: null, progress: 0, blocked: false },
+        { actionId: null, progress: 0, blocked: false },
+        { actionId: null, progress: 0, blocked: false },
     ],
     time: 1,
-    ageYears: 16,
-    ageDays: 0,
-    maxAge: 75,
 };
 
-let tasks = {};
-
-const ResourceManager = {
-    spend(cost) {
-        if (cost.energy && State.resources.energy < cost.energy) return false;
-        if (cost.gold && State.resources.gold < cost.gold) return false;
-        if (cost.energy) State.resources.energy -= cost.energy;
-        if (cost.gold) State.resources.gold -= cost.gold;
-        this.cap();
-        return true;
-    },
-    reward(rew) {
-        if (rew.energy) State.resources.energy += rew.energy;
-        if (rew.gold) State.resources.gold += rew.gold;
-        if (rew.strength) State.stats.strength += rew.strength;
-        if (rew.intelligence) State.stats.intelligence += rew.intelligence;
-        if (rew.charisma) State.stats.charisma += rew.charisma;
-        this.cap();
-    },
-    cap() {
-        State.resources.energy = Math.min(State.resources.energy, State.resources.maxEnergy);
-        State.resources.gold = Math.min(State.resources.gold, State.resources.maxGold);
-    }
-};
+let actions = {};
 
 const SaveSystem = {
     save() {
@@ -67,36 +41,72 @@ const SaveSystem = {
     }
 };
 
-const TaskEngine = {
-    start(slotIndex, taskId) {
+function scalingMultiplier(action) {
+    const f = action.scaling;
+    let lvl = action.level;
+    if (lvl > f.softcapLevel) {
+        lvl = f.softcapLevel + (lvl - f.softcapLevel) * f.falloff;
+    }
+    return f.base + f.multiplier * lvl;
+}
+
+function consume(cost) {
+    for (const k in cost) {
+        if (!State.resources[k] || State.resources[k] < cost[k]) return false;
+    }
+    for (const k in cost) {
+        State.resources[k] -= cost[k];
+    }
+    return true;
+}
+
+function applyYield(base, mult) {
+    if (base.stats) {
+        for (const s in base.stats) {
+            State.stats[s] = (State.stats[s] || 0) + base.stats[s] * mult * State.time;
+        }
+    }
+    if (base.resources) {
+        for (const r in base.resources) {
+            const capKey = 'max' + r.charAt(0).toUpperCase() + r.slice(1);
+            State.resources[r] = (State.resources[r] || 0) + base.resources[r] * mult * State.time;
+            if (State.resources[capKey] !== undefined) {
+                State.resources[r] = Math.min(State.resources[r], State.resources[capKey]);
+            }
+        }
+    }
+}
+
+function gainExp(action, amount) {
+    action.exp += amount;
+    while (action.exp >= action.expToNext) {
+        action.exp -= action.expToNext;
+        action.level += 1;
+        action.expToNext = Math.floor(action.expToNext * 1.1 + 5);
+    }
+}
+
+const ActionEngine = {
+    start(slotIndex, actionId) {
         const slot = State.slots[slotIndex];
-        slot.taskId = taskId;
+        slot.actionId = actionId;
         slot.progress = 0;
+        slot.blocked = false;
         updateSlotUI(slotIndex);
     },
     tick() {
-        State.ageDays += State.time;
-        while (State.ageDays >= 365) {
-            State.ageDays -= 365;
-            State.ageYears += 1;
-        }
-        if (State.ageYears >= State.maxAge) {
-            State.ageYears = 16;
-            State.ageDays = 0;
-        }
         State.slots.forEach((slot, i) => {
-            if (!slot.taskId) return;
-            const task = tasks[slot.taskId];
-            slot.progress += State.time;
-            if (slot.progress >= task.duration) {
-                if (ResourceManager.spend(task.cost)) {
-                    ResourceManager.reward(task.reward);
-                    slot.progress -= task.duration;
-                    flashSlot(i);
-                } else {
-                    // not enough resources, switch to rest
-                    this.start(i, 'rest');
-                }
+            if (!slot.actionId) return;
+            const action = actions[slot.actionId];
+            const canRun = consume(action.resourceConsumption);
+            slot.blocked = !canRun;
+            if (!canRun) {
+                slot.progress = 0;
+            } else {
+                const mult = scalingMultiplier(action);
+                applyYield(action.baseYield, mult);
+                gainExp(action, action.baseYield.exp * mult * State.time);
+                slot.progress = action.exp / action.expToNext;
             }
             updateSlotUI(i);
         });
@@ -105,15 +115,15 @@ const TaskEngine = {
     }
 };
 
-function createTaskElement(task) {
+function createActionElement(action) {
     const li = document.createElement('li');
-    li.textContent = task.name;
+    li.textContent = action.name;
     li.setAttribute('draggable', 'true');
-    li.dataset.taskId = task.id;
-    li.dataset.tooltip = task.description;
+    li.dataset.taskId = action.id;
+    li.dataset.tooltip = action.name;
     li.addEventListener('dragstart', e => {
         li.classList.add('dragging');
-        e.dataTransfer.setData('text/plain', task.id);
+        e.dataTransfer.setData('text/plain', action.id);
     });
     li.addEventListener('dragend', () => li.classList.remove('dragging'));
     return li;
@@ -124,9 +134,9 @@ function setupDragAndDrop() {
         slotEl.addEventListener('dragover', e => e.preventDefault());
         slotEl.addEventListener('drop', e => {
             e.preventDefault();
-            const taskId = e.dataTransfer.getData('text/plain');
+            const id = e.dataTransfer.getData('text/plain');
             const index = parseInt(slotEl.dataset.slot, 10);
-            TaskEngine.start(index, taskId);
+            ActionEngine.start(index, id);
         });
     });
 }
@@ -149,68 +159,53 @@ function setupTooltips() {
     document.addEventListener('mouseout', hide);
 }
 
-function flashSlot(i) {
-    const slotEl = document.querySelector(`.slot[data-slot="${i}"]`);
-    if (slotEl) {
-        slotEl.classList.add('complete');
-        setTimeout(() => slotEl.classList.remove('complete'), 1000);
-    }
-}
-
 function updateSlotUI(i) {
     const slot = State.slots[i];
     const slotEl = document.querySelector(`.slot[data-slot="${i}"]`);
     if (!slotEl) return;
     const progressEl = slotEl.querySelector('progress');
     const labelEl = slotEl.querySelector('.label');
-    if (!slot.taskId) {
+    slotEl.classList.toggle('blocked', slot.blocked);
+    if (!slot.actionId) {
         progressEl.value = 0;
+        progressEl.max = 1;
         labelEl.textContent = '';
         return;
     }
-    const task = tasks[slot.taskId];
-    progressEl.max = task.duration;
+    const action = actions[slot.actionId];
+    progressEl.max = 1;
     progressEl.value = slot.progress;
-    labelEl.textContent = task.name;
+    labelEl.textContent = `${action.name} Lv.${action.level}`;
 }
 
 function updateUI() {
     document.getElementById('stat-strength').textContent = State.stats.strength.toFixed(1);
     document.getElementById('stat-intelligence').textContent = State.stats.intelligence.toFixed(1);
-    document.getElementById('stat-charisma').textContent = State.stats.charisma.toFixed(1);
+    document.getElementById('stat-creativity').textContent = State.stats.creativity.toFixed(1);
 
-    document.getElementById('res-energy').textContent = Math.floor(State.resources.energy);
+    document.getElementById('res-energy').textContent = State.resources.energy.toFixed(1);
     document.getElementById('res-energy-cap').textContent = State.resources.maxEnergy;
-    document.getElementById('res-gold').textContent = Math.floor(State.resources.gold);
-    document.getElementById('res-gold-cap').textContent = State.resources.maxGold;
-
-    document.getElementById('age-years').textContent = State.ageYears;
-    document.getElementById('age-days').textContent = State.ageDays;
-    document.getElementById('max-age').textContent = State.maxAge;
-
-    // milestone indicator simple example
-    if (State.stats.strength >= 5) {
-        document.getElementById('stat-strength').style.color = 'green';
-    }
+    document.getElementById('res-focus').textContent = State.resources.focus.toFixed(1);
+    document.getElementById('res-focus-cap').textContent = State.resources.maxFocus;
 }
 
 async function init() {
     SaveSystem.load();
     try {
-        const res = await fetch('data/tasks.json');
+        const res = await fetch('data/actions.json');
         const json = await res.json();
-        json.forEach(t => tasks[t.id] = t);
+        json.forEach(a => actions[a.id] = a);
     } catch (e) {
-        console.error('Failed to load tasks', e);
+        console.error('Failed to load actions', e);
     }
-    const taskList = document.getElementById('task-list');
-    Object.values(tasks).forEach(task => {
-        if (task.id !== 'rest') taskList.appendChild(createTaskElement(task));
+    const list = document.getElementById('task-list');
+    Object.values(actions).forEach(a => {
+        if (a.id !== 'rest') list.appendChild(createActionElement(a));
     });
     setupDragAndDrop();
     setupTooltips();
     updateUI();
-    setInterval(() => TaskEngine.tick(), 1000);
+    setInterval(() => ActionEngine.tick(), 1000);
 }
 
 document.addEventListener('DOMContentLoaded', init);

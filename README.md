@@ -14,6 +14,8 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
 It also adds a drag-and-drop task system with tooltips and simple completion animations.
 
+Version 0.2.0 introduces a leveled action system with per-second yields and resource blocking.
+
 #### 3. Core Gameplay Loop
 
 * Player assigns actions to limited slots
