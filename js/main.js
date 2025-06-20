@@ -26,6 +26,49 @@ const state = {
     queuedRoutine: null,
 };
 
+function getRoutineKey(obj) {
+    for (const key in routines) {
+        if (routines[key] === obj) return key;
+    }
+    return null;
+}
+
+function saveState() {
+    const data = {
+        stats: state.stats,
+        prestige: state.prestige,
+        showPrestige: state.showPrestige,
+        ageYears: state.ageYears,
+        ageDays: state.ageDays,
+        maxAge: state.maxAge,
+        time: state.time,
+        resources: state.resources,
+        activeRoutine: getRoutineKey(state.activeRoutine),
+        queuedRoutine: getRoutineKey(state.queuedRoutine),
+    };
+    localStorage.setItem('progressRealmSave', JSON.stringify(data));
+}
+
+function loadState() {
+    const raw = localStorage.getItem('progressRealmSave');
+    if (!raw) return;
+    try {
+        const data = JSON.parse(raw);
+        Object.assign(state.stats, data.stats || {});
+        Object.assign(state.prestige, data.prestige || {});
+        state.showPrestige = data.showPrestige || false;
+        state.ageYears = data.ageYears || 16;
+        state.ageDays = data.ageDays || 0;
+        state.maxAge = data.maxAge || 75;
+        state.time = data.time || 1;
+        Object.assign(state.resources, data.resources || {});
+        state.activeRoutine = data.activeRoutine ? routines[data.activeRoutine] : null;
+        state.queuedRoutine = data.queuedRoutine ? routines[data.queuedRoutine] : null;
+    } catch (e) {
+        console.error('Failed to load save', e);
+    }
+}
+
 function applyResourceCaps() {
     state.resources.energy = Math.min(state.resources.energy, state.resources.maxEnergy);
     state.resources.gold = Math.min(state.resources.gold, state.resources.maxGold);
@@ -254,6 +297,7 @@ function tick() {
         restart();
     }
     updateUI();
+    saveState();
 }
 
 function restart() {
@@ -270,9 +314,11 @@ function restart() {
     state.queuedRoutine = null;
     startRoutine(routines.rest);
     updateUI();
+    saveState();
 }
 
 function init() {
+    loadState();
     updateUI();
     const btnTrain = document.getElementById('sword-training-btn');
     if (btnTrain) {
@@ -310,7 +356,16 @@ function init() {
             el.style.display = h.showCondition() ? 'inline-block' : 'none';
         }
     });
-    startRoutine(routines.rest);
+    const saveBtn = document.getElementById('save-btn');
+    if (saveBtn) saveBtn.addEventListener('click', saveState);
+    const loadBtn = document.getElementById('load-btn');
+    if (loadBtn) loadBtn.addEventListener('click', () => { loadState(); updateUI(); });
+
+    if (state.activeRoutine) {
+        startRoutine(state.activeRoutine);
+    } else {
+        startRoutine(routines.rest);
+    }
     setInterval(tick, 50);
 }
 
