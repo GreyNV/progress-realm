@@ -11,8 +11,9 @@ const state = {
         intelligence: 0,
         charisma: 0,
     },
-    age: 0,
-    maxAge: 100,
+    age: 16,
+    maxAge: 75,
+    time: 1,
     resources: {
         energy: 5,
         maxEnergy: 10,
@@ -47,35 +48,60 @@ function updateUI() {
 
     const routineName = state.activeRoutine ? state.activeRoutine.name : 'None';
     document.getElementById('current-routine').textContent = routineName;
+    const descEl = document.getElementById('routine-description');
+    if (descEl) {
+        const desc = state.activeRoutine ? state.activeRoutine.description : '';
+        descEl.textContent = desc;
+    }
 }
 
 const routines = {
     trainStrength: {
         name: 'Strength Training',
+        description: 'Drill at the barracks with your retired mercenary father to build muscle.',
         intervalId: null,
         effect() {
-            if (state.resources.energy > 0) {
-                state.resources.energy -= 1;
-                state.stats.strength += 1;
+            const cost = 1 * state.time;
+            if (state.resources.energy >= cost) {
+                state.resources.energy -= cost;
+                state.stats.strength += 1 * state.time;
                 applyResourceCaps();
                 updateUI();
-                if (state.resources.energy === 0) {
-                    stopRoutine(this);
-                    state.queuedRoutine = this;
-                    startRoutine(routines.rest);
-                }
+            } else {
+                stopRoutine(this);
+                state.queuedRoutine = this;
+                startRoutine(routines.rest);
+            }
+        },
+    },
+    guardDuty: {
+        name: 'Guard Duty',
+        description: 'Patrol the family lands and earn a small wage.',
+        intervalId: null,
+        effect() {
+            const cost = 2 * state.time;
+            if (state.resources.energy >= cost) {
+                state.resources.energy -= cost;
+                state.resources.gold += 1 * state.time;
+                applyResourceCaps();
+                updateUI();
+            } else {
+                stopRoutine(this);
+                state.queuedRoutine = this;
+                startRoutine(routines.rest);
             }
         },
     },
     rest: {
         name: 'Resting',
+        description: 'Take a break to recover your energy.',
         intervalId: null,
         effect() {
             if (state.resources.energy < state.resources.maxEnergy) {
-                state.resources.energy += 1;
+                state.resources.energy += 1 * state.time;
                 applyResourceCaps();
                 updateUI();
-                if (state.resources.energy === state.resources.maxEnergy && state.queuedRoutine) {
+                if (state.resources.energy >= state.resources.maxEnergy && state.queuedRoutine) {
                     const routine = state.queuedRoutine;
                     state.queuedRoutine = null;
                     startRoutine(routine);
@@ -113,7 +139,7 @@ function restart() {
         state.prestige[key] += state.stats[key];
         state.stats[key] = 0;
     }
-    state.age = 0;
+    state.age = 16;
     state.resources.energy = state.resources.maxEnergy;
     state.resources.gold = 0;
     if (state.activeRoutine) stopRoutine(state.activeRoutine);
@@ -124,9 +150,13 @@ function restart() {
 
 function init() {
     updateUI();
-    const btn = document.getElementById('train-strength-btn');
-    if (btn) {
-        btn.addEventListener('click', () => startRoutine(routines.trainStrength));
+    const btnTrain = document.getElementById('train-strength-btn');
+    if (btnTrain) {
+        btnTrain.addEventListener('click', () => startRoutine(routines.trainStrength));
+    }
+    const btnGuard = document.getElementById('guard-duty-btn');
+    if (btnGuard) {
+        btnGuard.addEventListener('click', () => startRoutine(routines.guardDuty));
     }
     startRoutine(routines.rest);
     setInterval(tick, 1000);

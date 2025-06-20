@@ -9,6 +9,8 @@
 
 A progression and resource management game inspired by Progress Knight and Theory of Magic: Arcanum. Players assign limited action slots to repeatable tasks that consume resources and grant stat growth or magical benefits. The core loop involves efficiency optimization, task automation, and progression toward mastery.
 
+In the prototype scenario you are reborn as the son of a retired mercenary who was granted a small territory for his service. Early routines revolve around training with your father and guarding the family lands.
+
 #### 3. Core Gameplay Loop
 
 * Player assigns actions to limited slots
