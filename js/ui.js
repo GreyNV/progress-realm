@@ -1,13 +1,14 @@
 import { state, saveState, loadState } from './state.js';
 import { routines, habits, routinesById, upgradesById } from './tasks.js';
-import { startRoutine, runHabit } from './engine.js';
+import { startRoutine, runHabit, restart } from './engine.js';
 
+let currentTooltipTask = null;
 export function showTaskInfo(task) {
     const el = document.getElementById('routine-description');
     if (!el) return;
-    if (!task) {
-        el.textContent = '';
-    } else {
+    if (!task) return;
+    if (currentTooltipTask !== task) {
+        currentTooltipTask = task;
         el.textContent = `${task.name}: ${task.description} | Cost: ${task.costDesc} | Result: ${task.resultDesc} | XP ${task.xp}/${task.xpNeeded()}`;
     }
 }
@@ -165,48 +166,42 @@ function initTabs() {
 export function initUI() {
     updateUI();
 
+
     if (document.getElementById('push-ups')) {
         const el = document.getElementById('push-ups');
         el.addEventListener('click', () => startRoutine(routines.pushUps));
         el.addEventListener('mouseenter', () => showTaskInfo(routines.pushUps));
-        el.addEventListener('mouseleave', () => showTaskInfo(null));
     }
     if (document.getElementById('read-scrolls')) {
         const el = document.getElementById('read-scrolls');
         el.addEventListener('click', () => startRoutine(routines.readScrolls));
         el.addEventListener('mouseenter', () => showTaskInfo(routines.readScrolls));
-        el.addEventListener('mouseleave', () => showTaskInfo(null));
     }
     if (document.getElementById('mind-focus')) {
         const el = document.getElementById('mind-focus');
         el.addEventListener('click', () => startRoutine(routines.mindFocus));
         el.addEventListener('mouseenter', () => showTaskInfo(routines.mindFocus));
-        el.addEventListener('mouseleave', () => showTaskInfo(null));
     }
     if (document.getElementById('arcane-experiment')) {
         const el = document.getElementById('arcane-experiment');
         el.addEventListener('click', () => startRoutine(routines.arcaneExperiment));
         el.addEventListener('mouseenter', () => showTaskInfo(routines.arcaneExperiment));
-        el.addEventListener('mouseleave', () => showTaskInfo(null));
     }
 
     if (document.getElementById('gather-herbs')) {
         const el = document.getElementById('gather-herbs');
         el.addEventListener('click', () => runHabit(habits.gatherHerbs));
         el.addEventListener('mouseenter', () => showTaskInfo(habits.gatherHerbs));
-        el.addEventListener('mouseleave', () => showTaskInfo(null));
     }
     if (document.getElementById('sell-trinkets')) {
         const el = document.getElementById('sell-trinkets');
         el.addEventListener('click', () => runHabit(habits.sellTrinkets));
         el.addEventListener('mouseenter', () => showTaskInfo(habits.sellTrinkets));
-        el.addEventListener('mouseleave', () => showTaskInfo(null));
     }
     if (document.getElementById('brew-potion')) {
         const el = document.getElementById('brew-potion');
         el.addEventListener('click', () => runHabit(habits.brewPotion));
         el.addEventListener('mouseenter', () => showTaskInfo(habits.brewPotion));
-        el.addEventListener('mouseleave', () => showTaskInfo(null));
     }
 
     document.querySelectorAll('[data-speed]').forEach(btn => {
@@ -223,6 +218,8 @@ export function initUI() {
     if (saveBtn) saveBtn.addEventListener('click', saveState);
     const loadBtn = document.getElementById('load-btn');
     if (loadBtn) loadBtn.addEventListener('click', () => { loadState(routinesById); updateUI(); });
+    const resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) resetBtn.addEventListener('click', () => { restart(); updateUI(); saveState(); });
 
     initTabs();
 }
