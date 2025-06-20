@@ -11,7 +11,7 @@ A progression and resource management game inspired by Progress Knight and Theor
 
 In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 
-This release (v0.2.0) expands the prototype with new stats, resources, and tasks. Automatic saving and loading via localStorage remains in place.
+This release (v0.2.0) overhauls actions and habits with a leveling system and introduces upgrade tabs. Automatic saving and loading via localStorage remains in place.
 
 #### 3. Core Gameplay Loop
 
@@ -58,9 +58,9 @@ This release (v0.2.0) expands the prototype with new stats, resources, and tasks
 
 | Task Name    | Cost                      | Duration | Output                             |
 | ------------ | ------------------------- | -------- | ---------------------------------- |
-| Study Glyphs | 1x Crystal Dust, 5 Energy | 10s      | +0.2 INT, +0.1 WIS                 |
-| Forge Charm  | 2x Iron Ore, 1x Mana Core | 30s      | +1 Charm (buff, 10 min duration)   |
-| Meditate     | 3 Energy                  | 5s       | +0.1 WIS, regain 1 Energy per tick |
+| Push-Ups     | 1 Energy                  | 5s       | +STR gain (scales with level) |
+| Read Scrolls | 1 Scroll, 4 Energy        | 8s       | +INT/WIS (scales with level) |
+| Brew Potion  | 1 Herb, 1 Mana Core       | 10s      | Temporary buff for 5 min |
 
 #### 8. Slot System
 
@@ -104,11 +104,11 @@ See **docs/MVP.md** for the MVP list.
 
 #### 12. v0.2.0 Additions
 
-* Added Wisdom and Endurance stats.
-* Added Crystal Dust and Mana Core resources.
-* New routines: Study Glyphs and Meditate.
-* New habit: Forge Charm which grants a temporary charm buff.
-* Buffs expire automatically after 10 minutes of real time.
+* Introduced Herbs and Scrolls resources.
+* Replaced actions with leveled routines: Push-Ups, Read Scrolls, Mind Focus and Arcane Experiment.
+* New habits: Gather Herbs, Sell Trinkets and Brew Potion which grants a short buff.
+* Actions and habits now gain levels to increase speed and rewards with diminishing returns.
+* Added a tabbed sidebar with Helpers and Upgrades sections and a basic upgrade system.
 
 #### 13. Future Extensions
 

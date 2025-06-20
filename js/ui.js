@@ -1,5 +1,5 @@
 import { state, saveState, loadState } from './state.js';
-import { routines, habits, routinesById } from './tasks.js';
+import { routines, habits, routinesById, upgradesById } from './tasks.js';
 import { startRoutine, runHabit } from './engine.js';
 
 export function updateUI() {
@@ -24,11 +24,13 @@ export function updateUI() {
     document.getElementById('res-energy-cap').textContent = res.maxEnergy;
     document.getElementById('res-gold').textContent = res.gold;
     document.getElementById('res-gold-cap').textContent = res.maxGold;
-    document.getElementById('res-dust').textContent = res.crystalDust;
-    document.getElementById('res-dust-cap').textContent = res.maxCrystalDust;
+    document.getElementById('res-herbs').textContent = res.herbs;
+    document.getElementById('res-herbs-cap').textContent = res.maxHerbs;
+    document.getElementById('res-scrolls').textContent = res.scrolls;
+    document.getElementById('res-scrolls-cap').textContent = res.maxScrolls;
     document.getElementById('res-cores').textContent = res.manaCores;
     document.getElementById('res-cores-cap').textContent = res.maxManaCores;
-    document.getElementById('active-charms').textContent = state.buffs.filter(b => b.name === 'Charm').length;
+    document.getElementById('active-charms').textContent = state.buffs.length;
 
     const routineName = state.activeRoutine ? state.activeRoutine.name : 'None';
     const routineCategory = state.activeRoutine ? state.activeRoutine.category : 'none';
@@ -54,9 +56,13 @@ export function updateUI() {
         if (!r.elementId) return;
         const container = document.getElementById(r.elementId);
         const prog = document.getElementById(r.elementId + '-progress');
-        if (container) container.style.display = r.showCondition() ? 'block' : 'none';
+        if (container) {
+            container.style.display = r.showCondition() ? 'block' : 'none';
+            const label = container.querySelector('.label');
+            if (label) label.textContent = `${r.name} (Lv ${r.level})`;
+        }
         if (prog) {
-            prog.max = r.duration;
+            prog.max = r.baseDuration;
             prog.value = state.activeRoutine === r ? r.progress : 0;
         }
     });
@@ -64,24 +70,87 @@ export function updateUI() {
     Object.values(habits).forEach(h => {
         const container = document.getElementById(h.elementId);
         const prog = document.getElementById(h.elementId + '-progress');
-        if (container) container.style.display = h.showCondition() ? 'block' : 'none';
+        if (container) {
+            container.style.display = h.showCondition() ? 'block' : 'none';
+            const label = container.querySelector('.label');
+            if (label) label.textContent = `${h.name} (Lv ${h.level})`;
+        }
         if (prog) {
-            prog.max = h.duration;
+            prog.max = h.baseDuration;
             prog.value = h.progress;
         }
     });
+
+    updateUpgradesUI();
+}
+
+export function updateUpgradesUI() {
+    const availList = document.getElementById('available-upgrades');
+    const activeList = document.getElementById('active-upgrades');
+    if (availList) {
+        availList.innerHTML = '';
+        state.upgrades.available.forEach(id => {
+            const up = upgradesById[id];
+            if (!up) return;
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.textContent = 'Activate';
+            btn.addEventListener('click', () => activateUpgrade(id));
+            li.textContent = `${up.name} - ${up.description} `;
+            li.appendChild(btn);
+            availList.appendChild(li);
+        });
+    }
+    if (activeList) {
+        activeList.innerHTML = '';
+        state.upgrades.active.forEach(id => {
+            const up = upgradesById[id];
+            if (!up) return;
+            const li = document.createElement('li');
+            li.textContent = `${up.name} (Tier ${up.tier})`;
+            activeList.appendChild(li);
+        });
+    }
+}
+
+export function activateUpgrade(id) {
+    const up = upgradesById[id];
+    if (!up) return;
+    const conflict = state.upgrades.active.some(aid => {
+        const act = upgradesById[aid];
+        return act && act.category === up.category && act.tier === up.tier;
+    });
+    if (conflict) return;
+    state.upgrades.active.push(id);
+    state.upgrades.available = state.upgrades.available.filter(x => x !== id);
+    if (typeof up.apply === 'function') up.apply();
+    updateUpgradesUI();
+}
+
+function initTabs() {
+    const buttons = document.querySelectorAll('.tabs button');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.toggle('active', el.id === tabId);
+            });
+        });
+    });
+    if (buttons[0]) buttons[0].click();
 }
 
 export function initUI() {
     updateUI();
 
-    if (document.getElementById('sword-training')) document.getElementById('sword-training').addEventListener('click', () => startRoutine(routines.swordPractice));
-    if (document.getElementById('guard-duty')) document.getElementById('guard-duty').addEventListener('click', () => startRoutine(routines.guardDuty));
-    if (document.getElementById('study-glyphs')) document.getElementById('study-glyphs').addEventListener('click', () => startRoutine(routines.studyGlyphs));
-    if (document.getElementById('meditate')) document.getElementById('meditate').addEventListener('click', () => startRoutine(routines.meditate));
+    if (document.getElementById('push-ups')) document.getElementById('push-ups').addEventListener('click', () => startRoutine(routines.pushUps));
+    if (document.getElementById('read-scrolls')) document.getElementById('read-scrolls').addEventListener('click', () => startRoutine(routines.readScrolls));
+    if (document.getElementById('mind-focus')) document.getElementById('mind-focus').addEventListener('click', () => startRoutine(routines.mindFocus));
+    if (document.getElementById('arcane-experiment')) document.getElementById('arcane-experiment').addEventListener('click', () => startRoutine(routines.arcaneExperiment));
 
-    if (document.getElementById('collect-taxes')) document.getElementById('collect-taxes').addEventListener('click', () => runHabit(habits.collectTaxes));
-    if (document.getElementById('forge-charm')) document.getElementById('forge-charm').addEventListener('click', () => runHabit(habits.forgeCharm));
+    if (document.getElementById('gather-herbs')) document.getElementById('gather-herbs').addEventListener('click', () => runHabit(habits.gatherHerbs));
+    if (document.getElementById('sell-trinkets')) document.getElementById('sell-trinkets').addEventListener('click', () => runHabit(habits.sellTrinkets));
+    if (document.getElementById('brew-potion')) document.getElementById('brew-potion').addEventListener('click', () => runHabit(habits.brewPotion));
 
     document.querySelectorAll('[data-speed]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -97,5 +166,7 @@ export function initUI() {
     if (saveBtn) saveBtn.addEventListener('click', saveState);
     const loadBtn = document.getElementById('load-btn');
     if (loadBtn) loadBtn.addEventListener('click', () => { loadState(routinesById); updateUI(); });
+
+    initTabs();
 }
 

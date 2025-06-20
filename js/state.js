@@ -23,12 +23,18 @@ export const state = {
         maxEnergy: 10,
         gold: 0,
         maxGold: 100,
-        crystalDust: 0,
-        maxCrystalDust: 50,
+        herbs: 0,
+        maxHerbs: 30,
+        scrolls: 0,
+        maxScrolls: 20,
         manaCores: 0,
         maxManaCores: 10,
     },
     buffs: [],
+    upgrades: {
+        active: [],
+        available: ['fitTrainer', 'scholarlyMentor'],
+    },
     activeRoutine: null,
     queuedRoutine: null,
 };
@@ -37,7 +43,8 @@ export function applyResourceCaps() {
     const res = state.resources;
     res.energy = Math.min(res.energy, res.maxEnergy);
     res.gold = Math.min(res.gold, res.maxGold);
-    res.crystalDust = Math.min(res.crystalDust, res.maxCrystalDust);
+    res.herbs = Math.min(res.herbs, res.maxHerbs);
+    res.scrolls = Math.min(res.scrolls, res.maxScrolls);
     res.manaCores = Math.min(res.manaCores, res.maxManaCores);
 }
 
@@ -59,6 +66,7 @@ export function saveState() {
         buffs: state.buffs,
         activeRoutine: getRoutineKey(state.activeRoutine),
         queuedRoutine: getRoutineKey(state.queuedRoutine),
+        upgrades: state.upgrades,
     };
     localStorage.setItem('progressRealmSave', JSON.stringify(data));
 }
@@ -77,6 +85,10 @@ export function loadState(routinesById) {
         state.time = data.time || 1;
         Object.assign(state.resources, data.resources || {});
         state.buffs = (data.buffs || []).filter(b => !b.expiresAt || Date.now() < b.expiresAt);
+        if (data.upgrades) {
+            state.upgrades.active = data.upgrades.active || [];
+            state.upgrades.available = data.upgrades.available || [];
+        }
         state.activeRoutine = routinesById[data.activeRoutine] || null;
         state.queuedRoutine = routinesById[data.queuedRoutine] || null;
     } catch (e) {

@@ -51,9 +51,10 @@
                 <ul>
                     <li>Energy: <span id="res-energy">0</span>/<span id="res-energy-cap">0</span></li>
                     <li>Gold: <span id="res-gold">0</span>/<span id="res-gold-cap">0</span></li>
-                    <li>Crystal Dust: <span id="res-dust">0</span>/<span id="res-dust-cap">0</span></li>
+                    <li>Herbs: <span id="res-herbs">0</span>/<span id="res-herbs-cap">0</span></li>
+                    <li>Scrolls: <span id="res-scrolls">0</span>/<span id="res-scrolls-cap">0</span></li>
                     <li>Mana Cores: <span id="res-cores">0</span>/<span id="res-cores-cap">0</span></li>
-                    <li>Active Charms: <span id="active-charms">0</span></li>
+                    <li>Active Buffs: <span id="active-charms">0</span></li>
                 </ul>
             </section>
 
@@ -67,51 +68,68 @@
         <div id="center" class="panel">
             <h2>Routines</h2>
             <p id="routine-description"></p>
-            <div class="action" id="sword-training" title="Cost: 1 Energy per tick, Effect: +0.5 Strength per tick">
+            <div class="action" id="push-ups" title="Gain Strength">
                 <div class="progress-wrapper">
-                    <progress id="sword-training-progress" value="0" max="5"></progress>
-                    <span class="label">Sword Practice</span>
+                    <progress id="push-ups-progress" value="0" max="5"></progress>
+                    <span class="label">Push-Ups</span>
                 </div>
             </div>
-            <div class="action" id="guard-duty" title="Cost: 2 Energy per tick, Effect: +1 Gold per tick">
+            <div class="action" id="read-scrolls" title="Use Scrolls to gain INT and WIS">
                 <div class="progress-wrapper">
-                    <progress id="guard-duty-progress" value="0" max="10"></progress>
-                    <span class="label">Guard Duty</span>
+                    <progress id="read-scrolls-progress" value="0" max="8"></progress>
+                    <span class="label">Read Scrolls</span>
                 </div>
             </div>
-            <div class="action" id="study-glyphs" title="Cost: 1 Dust &amp; 5 Energy per tick, Effect: +INT &amp; +WIS">
+            <div class="action" id="mind-focus" title="Meditate briefly to restore energy and gain Wisdom">
                 <div class="progress-wrapper">
-                    <progress id="study-glyphs-progress" value="0" max="10"></progress>
-                    <span class="label">Study Glyphs</span>
+                    <progress id="mind-focus-progress" value="0" max="6"></progress>
+                    <span class="label">Mind Focus</span>
                 </div>
             </div>
-            <div class="action" id="meditate" title="Cost: 3 Energy per tick, Effect: +WIS and restore Energy">
+            <div class="action" id="arcane-experiment" title="Spend Mana Cores to improve INT and WIS">
                 <div class="progress-wrapper">
-                    <progress id="meditate-progress" value="0" max="5"></progress>
-                    <span class="label">Meditate</span>
+                    <progress id="arcane-experiment-progress" value="0" max="12"></progress>
+                    <span class="label">Arcane Experiment</span>
                 </div>
             </div>
 
             <section id="habits">
                 <h3>Habits</h3>
-                <div class="action" id="collect-taxes" title="Effect: +5 Gold after 3s">
-                <div class="progress-wrapper">
-                    <progress id="collect-taxes-progress" value="0" max="3"></progress>
-                    <span class="label">Collect Taxes</span>
+                <div class="action" id="gather-herbs" title="Collect Herbs quickly">
+                    <div class="progress-wrapper">
+                        <progress id="gather-herbs-progress" value="0" max="3"></progress>
+                        <span class="label">Gather Herbs</span>
+                    </div>
                 </div>
-            </div>
-            <div class="action" id="forge-charm" title="Consume 1 Mana Core to create a Charm (expires after 10m)">
-                <div class="progress-wrapper">
-                    <progress id="forge-charm-progress" value="0" max="30"></progress>
-                    <span class="label">Forge Charm</span>
+                <div class="action" id="sell-trinkets" title="Earn Gold">
+                    <div class="progress-wrapper">
+                        <progress id="sell-trinkets-progress" value="0" max="5"></progress>
+                        <span class="label">Sell Trinkets</span>
+                    </div>
                 </div>
-            </div>
+                <div class="action" id="brew-potion" title="Use Herbs and Mana Core to gain a temporary buff">
+                    <div class="progress-wrapper">
+                        <progress id="brew-potion-progress" value="0" max="10"></progress>
+                        <span class="label">Brew Potion</span>
+                    </div>
+                </div>
             </section>
         </div>
 
         <div id="right" class="panel">
-            <h2>Control</h2>
-            <p>Crafting and Automation go here.</p>
+            <div class="tabs">
+                <button data-tab="helpers-tab">Helpers</button>
+                <button data-tab="updates-tab">Upgrades</button>
+            </div>
+            <div id="helpers-tab" class="tab-content">
+                <p>Automation helpers will appear here.</p>
+            </div>
+            <div id="updates-tab" class="tab-content">
+                <h3>Available Upgrades</h3>
+                <ul id="available-upgrades"></ul>
+                <h3>Active Upgrades</h3>
+                <ul id="active-upgrades"></ul>
+            </div>
         </div>
     </main>
 

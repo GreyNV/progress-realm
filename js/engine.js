@@ -25,10 +25,11 @@ export function runHabit(habit) {
 function processRoutine() {
     const r = state.activeRoutine;
     if (!r) return;
-    r.progress += state.time;
-    if (r.progress >= r.duration) {
-        r.progress -= r.duration;
-        r.effect();
+    r.progress += state.time * r.speedMultiplier();
+    if (r.progress >= r.baseDuration) {
+        r.progress -= r.baseDuration;
+        r.effect(r.yieldMultiplier());
+        r.gainXp();
     }
     if (state.resources.energy <= 0 && r !== routines.rest) {
         state.queuedRoutine = r;
@@ -40,11 +41,12 @@ function processRoutine() {
 function processHabits() {
     Object.values(habits).forEach(h => {
         if (!h.running) return;
-        h.progress += state.time;
-        if (h.progress >= h.duration) {
+        h.progress += state.time * h.speedMultiplier();
+        if (h.progress >= h.baseDuration) {
             h.running = false;
             h.progress = 0;
-            h.effect();
+            h.effect(h.yieldMultiplier());
+            h.gainXp();
         }
     });
 }
@@ -84,7 +86,8 @@ export function restart() {
     Object.assign(state.resources, {
         energy: state.resources.maxEnergy,
         gold: 0,
-        crystalDust: 0,
+        herbs: 0,
+        scrolls: 0,
         manaCores: 0,
     });
     state.buffs = [];
