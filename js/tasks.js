@@ -1,12 +1,14 @@
 import { state, applyResourceCaps } from './state.js';
 
 export class Task {
-    constructor({ id, name, category, bonusStat, description, elementId, baseDuration, showCondition = () => true, unlockCondition = () => true, effect }) {
+    constructor({ id, name, category, bonusStat, description, costDesc = '', resultDesc = '', elementId, baseDuration, showCondition = () => true, unlockCondition = () => true, effect }) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.bonusStat = bonusStat;
         this.description = description;
+        this.costDesc = costDesc;
+        this.resultDesc = resultDesc;
         this.elementId = elementId;
         this.baseDuration = baseDuration;
         this.showCondition = showCondition;
@@ -37,6 +39,14 @@ export class Task {
             this.level += 1;
         }
     }
+
+    xpNeeded() {
+        return this.level * 5;
+    }
+
+    xpRatio() {
+        return this.xp / this.xpNeeded();
+    }
 }
 
 export const routines = {
@@ -46,6 +56,8 @@ export const routines = {
         category: 'physical',
         bonusStat: 'strength',
         description: 'Basic strength training to build your body.',
+        costDesc: '1 Energy',
+        resultDesc: '+0.3 STR',
         elementId: 'push-ups',
         baseDuration: 5,
         effect(mult) {
@@ -63,6 +75,8 @@ export const routines = {
         category: 'mental',
         bonusStat: 'intelligence',
         description: 'Study arcane scrolls to improve intellect.',
+        costDesc: '1 Scroll, 4 Energy',
+        resultDesc: '+0.3 INT, +0.1 WIS',
         elementId: 'read-scrolls',
         baseDuration: 8,
         showCondition() { return state.resources.scrolls > 0; },
@@ -84,6 +98,8 @@ export const routines = {
         category: 'spiritual',
         bonusStat: 'wisdom',
         description: 'Center your thoughts and recover energy.',
+        costDesc: '2 Energy',
+        resultDesc: '+0.2 WIS, +0.5 Energy',
         elementId: 'mind-focus',
         baseDuration: 6,
         effect(mult) {
@@ -102,6 +118,8 @@ export const routines = {
         category: 'arcane',
         bonusStat: 'intelligence',
         description: 'Risky experiments to push magical boundaries.',
+        costDesc: '2 Mana Cores',
+        resultDesc: '+0.5 INT, +0.5 WIS',
         elementId: 'arcane-experiment',
         baseDuration: 12,
         showCondition() { return state.stats.intelligence >= 5 && state.stats.wisdom >= 5; },
@@ -137,6 +155,8 @@ export const habits = {
         elementId: 'gather-herbs',
         category: 'foraging',
         bonusStat: 'endurance',
+        costDesc: 'None',
+        resultDesc: '+1 Herb',
         baseDuration: 3,
         effect(mult) {
             state.resources.herbs += 1;
@@ -149,6 +169,8 @@ export const habits = {
         elementId: 'sell-trinkets',
         category: 'social',
         bonusStat: 'charisma',
+        costDesc: 'None',
+        resultDesc: '+10 Gold',
         baseDuration: 5,
         effect(mult) {
             state.resources.gold += 10;
@@ -161,6 +183,8 @@ export const habits = {
         elementId: 'brew-potion',
         category: 'alchemy',
         bonusStat: 'intelligence',
+        costDesc: '1 Herb, 1 Mana Core',
+        resultDesc: 'Gain Clarity buff',
         baseDuration: 10,
         showCondition() { return state.resources.herbs > 0 && state.resources.manaCores > 0; },
         effect(mult) {

@@ -2,6 +2,16 @@ import { state, saveState, loadState } from './state.js';
 import { routines, habits, routinesById, upgradesById } from './tasks.js';
 import { startRoutine, runHabit } from './engine.js';
 
+export function showTaskInfo(task) {
+    const el = document.getElementById('routine-description');
+    if (!el) return;
+    if (!task) {
+        el.textContent = '';
+    } else {
+        el.textContent = `${task.name}: ${task.description} | Cost: ${task.costDesc} | Result: ${task.resultDesc} | XP ${task.xp}/${task.xpNeeded()}`;
+    }
+}
+
 export function updateUI() {
     document.getElementById('stat-strength').textContent = state.stats.strength;
     document.getElementById('stat-intelligence').textContent = state.stats.intelligence;
@@ -60,10 +70,16 @@ export function updateUI() {
             container.style.display = r.showCondition() ? 'block' : 'none';
             const label = container.querySelector('.label');
             if (label) label.textContent = `${r.name} (Lv ${r.level})`;
+            container.title = `Cost: ${r.costDesc} | Result: ${r.resultDesc}`;
         }
         if (prog) {
             prog.max = r.baseDuration;
             prog.value = state.activeRoutine === r ? r.progress : 0;
+        }
+        const xpBar = document.getElementById(r.elementId + '-xp');
+        if (xpBar) {
+            xpBar.max = r.xpNeeded();
+            xpBar.value = r.xp;
         }
     });
 
@@ -74,10 +90,16 @@ export function updateUI() {
             container.style.display = h.showCondition() ? 'block' : 'none';
             const label = container.querySelector('.label');
             if (label) label.textContent = `${h.name} (Lv ${h.level})`;
+            container.title = `Cost: ${h.costDesc} | Result: ${h.resultDesc}`;
         }
         if (prog) {
             prog.max = h.baseDuration;
             prog.value = h.progress;
+        }
+        const xpBar = document.getElementById(h.elementId + '-xp');
+        if (xpBar) {
+            xpBar.max = h.xpNeeded();
+            xpBar.value = h.xp;
         }
     });
 
@@ -143,14 +165,49 @@ function initTabs() {
 export function initUI() {
     updateUI();
 
-    if (document.getElementById('push-ups')) document.getElementById('push-ups').addEventListener('click', () => startRoutine(routines.pushUps));
-    if (document.getElementById('read-scrolls')) document.getElementById('read-scrolls').addEventListener('click', () => startRoutine(routines.readScrolls));
-    if (document.getElementById('mind-focus')) document.getElementById('mind-focus').addEventListener('click', () => startRoutine(routines.mindFocus));
-    if (document.getElementById('arcane-experiment')) document.getElementById('arcane-experiment').addEventListener('click', () => startRoutine(routines.arcaneExperiment));
+    if (document.getElementById('push-ups')) {
+        const el = document.getElementById('push-ups');
+        el.addEventListener('click', () => startRoutine(routines.pushUps));
+        el.addEventListener('mouseenter', () => showTaskInfo(routines.pushUps));
+        el.addEventListener('mouseleave', () => showTaskInfo(null));
+    }
+    if (document.getElementById('read-scrolls')) {
+        const el = document.getElementById('read-scrolls');
+        el.addEventListener('click', () => startRoutine(routines.readScrolls));
+        el.addEventListener('mouseenter', () => showTaskInfo(routines.readScrolls));
+        el.addEventListener('mouseleave', () => showTaskInfo(null));
+    }
+    if (document.getElementById('mind-focus')) {
+        const el = document.getElementById('mind-focus');
+        el.addEventListener('click', () => startRoutine(routines.mindFocus));
+        el.addEventListener('mouseenter', () => showTaskInfo(routines.mindFocus));
+        el.addEventListener('mouseleave', () => showTaskInfo(null));
+    }
+    if (document.getElementById('arcane-experiment')) {
+        const el = document.getElementById('arcane-experiment');
+        el.addEventListener('click', () => startRoutine(routines.arcaneExperiment));
+        el.addEventListener('mouseenter', () => showTaskInfo(routines.arcaneExperiment));
+        el.addEventListener('mouseleave', () => showTaskInfo(null));
+    }
 
-    if (document.getElementById('gather-herbs')) document.getElementById('gather-herbs').addEventListener('click', () => runHabit(habits.gatherHerbs));
-    if (document.getElementById('sell-trinkets')) document.getElementById('sell-trinkets').addEventListener('click', () => runHabit(habits.sellTrinkets));
-    if (document.getElementById('brew-potion')) document.getElementById('brew-potion').addEventListener('click', () => runHabit(habits.brewPotion));
+    if (document.getElementById('gather-herbs')) {
+        const el = document.getElementById('gather-herbs');
+        el.addEventListener('click', () => runHabit(habits.gatherHerbs));
+        el.addEventListener('mouseenter', () => showTaskInfo(habits.gatherHerbs));
+        el.addEventListener('mouseleave', () => showTaskInfo(null));
+    }
+    if (document.getElementById('sell-trinkets')) {
+        const el = document.getElementById('sell-trinkets');
+        el.addEventListener('click', () => runHabit(habits.sellTrinkets));
+        el.addEventListener('mouseenter', () => showTaskInfo(habits.sellTrinkets));
+        el.addEventListener('mouseleave', () => showTaskInfo(null));
+    }
+    if (document.getElementById('brew-potion')) {
+        const el = document.getElementById('brew-potion');
+        el.addEventListener('click', () => runHabit(habits.brewPotion));
+        el.addEventListener('mouseenter', () => showTaskInfo(habits.brewPotion));
+        el.addEventListener('mouseleave', () => showTaskInfo(null));
+    }
 
     document.querySelectorAll('[data-speed]').forEach(btn => {
         btn.addEventListener('click', () => {
