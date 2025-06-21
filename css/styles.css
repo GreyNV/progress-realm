@@ -17,8 +17,30 @@ header, footer {
     padding: 0.5rem 1rem;
 }
 
-#intro {
-    margin: 0.5rem 1rem;
+
+.hidden {
+    display: none !important;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    max-width: 400px;
+    text-align: center;
 }
 
 main {
@@ -120,6 +142,26 @@ main {
 
 .slot.blocked {
     border-color: #cc6666;
+}
+
+#task-list li.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tab-headers {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tab-headers button.active {
+    background: #333;
+    color: #fff;
+}
+
+.tab-content.hidden {
+    display: none;
 }
 
 @media (max-width: 700px) {
