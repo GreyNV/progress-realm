@@ -22,6 +22,7 @@ const State = {
         { actionId: null, progress: 0, blocked: false },
     ],
     time: 1,
+    masteryPoints: 0,
 };
 
 let actions = {};
@@ -73,6 +74,17 @@ const ResourcesUI = {
             document.getElementById(`res-${key}-cap`).textContent = State.resources['max' + capitalize(key)];
             document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
         });
+    }
+};
+
+const MasteryUI = {
+    init() {
+        const el = document.getElementById('mastery-points');
+        if (el) el.textContent = State.masteryPoints;
+    },
+    update() {
+        const el = document.getElementById('mastery-points');
+        if (el) el.textContent = State.masteryPoints;
     }
 };
 
@@ -129,19 +141,34 @@ const TabManager = {
 
 const SaveSystem = {
     save() {
-        localStorage.setItem('progressRealmSave', JSON.stringify(State));
+        const actionData = {};
+        Object.values(actions).forEach(a => {
+            actionData[a.id] = {
+                level: a.level,
+                exp: a.exp,
+                expToNext: a.expToNext,
+                currentTier: a.currentTier
+            };
+        });
+        const data = { version: VERSION, state: State, actions: actionData };
+        localStorage.setItem('progressRealmSave', JSON.stringify(data));
     },
     load() {
         const raw = localStorage.getItem('progressRealmSave');
-        if (!raw) return false;
+        if (!raw) return null;
         try {
             const data = JSON.parse(raw);
-            if (data.version !== VERSION) return false;
-            Object.assign(State, data);
-            return true;
+            if (data.version !== VERSION) return null;
+            if (data.state) {
+                Object.assign(State, data.state);
+                return data.actions || null;
+            } else {
+                Object.assign(State, data); // legacy save
+                return null;
+            }
         } catch (e) {
             console.error('Load failed', e);
-            return false;
+            return null;
         }
     },
     reset() {
@@ -177,11 +204,36 @@ function formatDelta(v) {
     return sign + v.toFixed(1);
 }
 
+const TierSystem = {
+    tiers: [
+        { name: 'bronze', level: 10 },
+        { name: 'silver', level: 50 },
+        { name: 'gold', level: 200 }
+    ],
+    scale: 4,
+    getTier(level) {
+        let tier = 'normal';
+        let last = 1;
+        for (const t of this.tiers) {
+            if (level >= t.level) {
+                tier = t.name;
+                last = t.level;
+            } else {
+                return tier;
+            }
+        }
+        let index = this.tiers.length;
+        while (level >= last * this.scale) {
+            last *= this.scale;
+            tier = `tier${index}`;
+            index++;
+        }
+        return tier;
+    }
+};
+
 function getActionTier(level) {
-    if (level >= 15) return 'gold';
-    if (level >= 10) return 'silver';
-    if (level >= 5) return 'bronze';
-    return 'normal';
+    return TierSystem.getTier(level);
 }
 
 function checkStoryEvents() {
@@ -228,8 +280,14 @@ function gainExp(action, amount) {
     action.exp += amount;
     while (action.exp >= action.expToNext) {
         action.exp -= action.expToNext;
+        const oldTier = getActionTier(action.level);
         action.level += 1;
         action.expToNext = Math.floor(action.expToNext * 1.1 + 5);
+        const newTier = getActionTier(action.level);
+        if (newTier !== oldTier) {
+            State.masteryPoints += 1;
+            action.currentTier = newTier;
+        }
     }
 }
 
@@ -361,6 +419,7 @@ function updateSlotUI(i) {
 function updateUI() {
     StatsUI.update();
     ResourcesUI.update();
+    MasteryUI.update();
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
@@ -368,14 +427,14 @@ function updateUI() {
 }
 
 async function init() {
-    const loaded = SaveSystem.load();
+    const loadedActions = SaveSystem.load();
     const intro = document.getElementById('intro-modal');
     document.getElementById('intro-close').addEventListener('click', () => {
         intro.classList.add('hidden');
         State.introSeen = true;
         SaveSystem.save();
     });
-    if (loaded && State.introSeen) {
+    if (loadedActions && State.introSeen) {
         intro.classList.add('hidden');
     }
     document.getElementById('speed-controls').addEventListener('click', e => {
@@ -392,6 +451,16 @@ async function init() {
             a.locked = a.locked || false;
             actions[a.id] = a;
         });
+        if (loadedActions) {
+            for (const id in loadedActions) {
+                if (actions[id]) {
+                    Object.assign(actions[id], loadedActions[id]);
+                }
+            }
+        }
+        Object.values(actions).forEach(a => {
+            a.currentTier = getActionTier(a.level);
+        });
     } catch (e) {
         console.error('Failed to load actions', e);
     }
@@ -402,6 +471,7 @@ async function init() {
     });
     StatsUI.init();
     ResourcesUI.init();
+    MasteryUI.init();
     updateTaskList();
     setupDragAndDrop();
     setupTooltips();
