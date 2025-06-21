@@ -32,17 +32,7 @@
         <div id="left" class="panel">
             <section id="stats">
                 <h2>Stats</h2>
-                <ul>
-                    <li>Strength: <span id="stat-strength">0</span>
-                        (<span id="stat-strength-delta" class="delta">0</span>/s)
-                    </li>
-                    <li>Intelligence: <span id="stat-intelligence">0</span>
-                        (<span id="stat-intelligence-delta" class="delta">0</span>/s)
-                    </li>
-                    <li>Creativity: <span id="stat-creativity">0</span>
-                        (<span id="stat-creativity-delta" class="delta">0</span>/s)
-                    </li>
-                </ul>
+                <ul id="stats-list"></ul>
 
                 <section id="prestige-block">
                     <h3>Prestige</h3>
@@ -56,14 +46,7 @@
 
             <section id="resources">
                 <h2>Resources</h2>
-                <ul>
-                    <li>Energy: <span id="res-energy">0</span>/<span id="res-energy-cap">0</span>
-                        (<span id="res-energy-delta" class="delta">0</span>/s)
-                    </li>
-                    <li>Focus: <span id="res-focus">0</span>/<span id="res-focus-cap">0</span>
-                        (<span id="res-focus-delta" class="delta">0</span>/s)
-                    </li>
-                </ul>
+                <ul id="resources-list"></ul>
             </section>
         </div>
 
@@ -114,6 +97,7 @@
         <button id="save-btn">Save</button>
         <button id="load-btn">Load</button>
         <button id="settings-btn">Settings</button>
+        <button id="reset-btn">Reset</button>
     </footer>
     <script src="js/main.js"></script>
 </body>
