@@ -194,7 +194,8 @@ main {
 
 .intro-image {
     background: #ccc;
-    height: 120px;
+    width: 320px;
+    height: 320px;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
