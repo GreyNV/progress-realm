@@ -202,3 +202,19 @@ main {
     color: #666;
     font-size: 0.9rem;
 }
+
+.log-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.log-view {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 0.5rem;
+}
+
+.log-entry {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
