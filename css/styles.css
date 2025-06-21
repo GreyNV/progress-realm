@@ -164,6 +164,12 @@ main {
     display: none;
 }
 
+.delta {
+    color: #666;
+    font-size: 0.8rem;
+    margin-left: 0.25rem;
+}
+
 @media (max-width: 700px) {
     main {
         grid-template-columns: 1fr;

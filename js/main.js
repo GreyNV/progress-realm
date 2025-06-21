@@ -26,6 +26,14 @@ const State = {
 
 let actions = {};
 
+let prevStats = { ...State.stats };
+let prevResources = {
+    energy: State.resources.energy,
+    focus: State.resources.focus,
+};
+let statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
+let resourceDeltas = { energy: 0, focus: 0 };
+
 const TabManager = {
     tabs: [
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
@@ -86,6 +94,22 @@ const AgeSystem = {
         }
     }
 };
+
+function updateDeltas() {
+    for (const s in State.stats) {
+        statDeltas[s] = State.stats[s] - (prevStats[s] || 0);
+        prevStats[s] = State.stats[s];
+    }
+    for (const r of ['energy', 'focus']) {
+        resourceDeltas[r] = State.resources[r] - (prevResources[r] || 0);
+        prevResources[r] = State.resources[r];
+    }
+}
+
+function formatDelta(v) {
+    const sign = v > 0 ? '+' : '';
+    return sign + v.toFixed(1);
+}
 
 function checkStoryEvents() {
     // Future story triggers will go here
@@ -162,6 +186,7 @@ const ActionEngine = {
             updateSlotUI(i);
         });
         checkStoryEvents();
+        updateDeltas();
         updateUI();
         SaveSystem.save();
     }
@@ -237,13 +262,18 @@ function updateSlotUI(i) {
 
 function updateUI() {
     document.getElementById('stat-strength').textContent = State.stats.strength.toFixed(1);
+    document.getElementById('stat-strength-delta').textContent = formatDelta(statDeltas.strength);
     document.getElementById('stat-intelligence').textContent = State.stats.intelligence.toFixed(1);
+    document.getElementById('stat-intelligence-delta').textContent = formatDelta(statDeltas.intelligence);
     document.getElementById('stat-creativity').textContent = State.stats.creativity.toFixed(1);
+    document.getElementById('stat-creativity-delta').textContent = formatDelta(statDeltas.creativity);
 
     document.getElementById('res-energy').textContent = State.resources.energy.toFixed(1);
     document.getElementById('res-energy-cap').textContent = State.resources.maxEnergy;
+    document.getElementById('res-energy-delta').textContent = formatDelta(resourceDeltas.energy);
     document.getElementById('res-focus').textContent = State.resources.focus.toFixed(1);
     document.getElementById('res-focus-cap').textContent = State.resources.maxFocus;
+    document.getElementById('res-focus-delta').textContent = formatDelta(resourceDeltas.focus);
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
