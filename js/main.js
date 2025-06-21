@@ -17,9 +17,9 @@ const State = {
         maxFocus: 10,
     },
     slots: [
-        { actionId: null, progress: 0, blocked: false },
-        { actionId: null, progress: 0, blocked: false },
-        { actionId: null, progress: 0, blocked: false },
+        { actionId: null, progress: 0, blocked: false, text: '' },
+        { actionId: null, progress: 0, blocked: false, text: '' },
+        { actionId: null, progress: 0, blocked: false, text: '' },
     ],
     time: 1,
     masteryPoints: 0,
@@ -202,6 +202,11 @@ const SaveSystem = {
             if (data.version !== VERSION) return null;
             if (data.state) {
                 Object.assign(State, data.state);
+                if (Array.isArray(State.slots)) {
+                    State.slots.forEach(s => {
+                        if (s.text === undefined) s.text = '';
+                    });
+                }
                 return data.actions || null;
             } else {
                 Object.assign(State, data); // legacy save
@@ -338,6 +343,7 @@ const ActionEngine = {
         slot.actionId = actionId;
         slot.progress = 0;
         slot.blocked = false;
+        slot.text = actions[actionId] ? actions[actionId].name : '';
         updateSlotUI(slotIndex);
     },
     tick() {
@@ -448,13 +454,13 @@ function updateSlotUI(i) {
     if (!slot.actionId) {
         progressEl.value = 0;
         progressEl.max = 1;
-        labelEl.textContent = '';
+        labelEl.textContent = slot.text || '';
         return;
     }
     const action = actions[slot.actionId];
     progressEl.max = 1;
     progressEl.value = slot.progress;
-    labelEl.textContent = `${action.name} Lv.${action.level}`;
+    labelEl.textContent = slot.text || `${action.name} Lv.${action.level}`;
 }
 
 function updateUI() {
