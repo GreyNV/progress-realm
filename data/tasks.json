@@ -6,7 +6,9 @@
     "category": "physical",
     "duration": 5,
     "cost": {"energy": 1},
-    "reward": {"strength": 0.5}
+    "reward": {"strength": 0.5},
+    "locked": false,
+    "hidden": false
   },
   {
     "id": "guardDuty",
@@ -15,7 +17,9 @@
     "category": "physical",
     "duration": 10,
     "cost": {"energy": 2},
-    "reward": {"gold": 1}
+    "reward": {"gold": 1},
+    "locked": false,
+    "hidden": false
   },
   {
     "id": "rest",
@@ -24,6 +28,8 @@
     "category": "rest",
     "duration": 5,
     "cost": {},
-    "reward": {"energy": 1}
+    "reward": {"energy": 1},
+    "locked": false,
+    "hidden": false
   }
 ]

@@ -106,16 +106,21 @@ const TaskEngine = {
 };
 
 function createTaskElement(task) {
+    if (task.hidden) return null;
     const li = document.createElement('li');
     li.textContent = task.name;
-    li.setAttribute('draggable', 'true');
     li.dataset.taskId = task.id;
     li.dataset.tooltip = task.description;
-    li.addEventListener('dragstart', e => {
-        li.classList.add('dragging');
-        e.dataTransfer.setData('text/plain', task.id);
-    });
-    li.addEventListener('dragend', () => li.classList.remove('dragging'));
+    if (task.locked) {
+        li.classList.add('locked');
+    } else {
+        li.setAttribute('draggable', 'true');
+        li.addEventListener('dragstart', e => {
+            li.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', task.id);
+        });
+        li.addEventListener('dragend', () => li.classList.remove('dragging'));
+    }
     return li;
 }
 
@@ -147,6 +152,27 @@ function setupTooltips() {
     document.addEventListener('mouseover', show);
     document.addEventListener('mousemove', show);
     document.addEventListener('mouseout', hide);
+}
+
+function setupIntroModal() {
+    const modal = document.getElementById('intro-modal');
+    const close = document.getElementById('intro-close');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    close.addEventListener('click', () => modal.classList.add('hidden'));
+}
+
+function setupTabs() {
+    const buttons = document.querySelectorAll('#center-tabs button');
+    const contents = document.querySelectorAll('#center .tab-content');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            contents.forEach(c => c.classList.add('hidden'));
+            btn.classList.add('active');
+            document.querySelector(`#center .tab-content[data-tab="${btn.dataset.tab}"]`).classList.remove('hidden');
+        });
+    });
 }
 
 function flashSlot(i) {
@@ -205,10 +231,15 @@ async function init() {
     }
     const taskList = document.getElementById('task-list');
     Object.values(tasks).forEach(task => {
-        if (task.id !== 'rest') taskList.appendChild(createTaskElement(task));
+        if (task.id !== 'rest') {
+            const el = createTaskElement(task);
+            if (el) taskList.appendChild(el);
+        }
     });
     setupDragAndDrop();
     setupTooltips();
+    setupIntroModal();
+    setupTabs();
     updateUI();
     setInterval(() => TaskEngine.tick(), 1000);
 }

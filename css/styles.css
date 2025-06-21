@@ -17,9 +17,6 @@ header, footer {
     padding: 0.5rem 1rem;
 }
 
-#intro {
-    margin: 0.5rem 1rem;
-}
 
 main {
     display: grid;
@@ -47,6 +44,11 @@ main {
     padding: 0.5rem;
     cursor: grab;
     border-radius: 4px;
+}
+
+#task-list li.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 #task-list li.dragging {
@@ -116,6 +118,54 @@ main {
 
 .slot.complete {
     animation: completeFlash 1s;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    max-width: 400px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.tab-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.tab-bar button {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    background: #eee;
+    cursor: pointer;
+}
+
+.tab-bar button.active {
+    background: #ddd;
+    font-weight: bold;
+}
+
+.tab-content.hidden {
+    display: none;
 }
 
 @media (max-width: 700px) {
