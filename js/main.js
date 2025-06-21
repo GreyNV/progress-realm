@@ -25,6 +25,7 @@ const State = {
 };
 
 let actions = {};
+let selectedActionId = null;
 
 let prevStats = { ...State.stats };
 let prevResources = {
@@ -176,6 +177,13 @@ function formatDelta(v) {
     return sign + v.toFixed(1);
 }
 
+function getActionTier(level) {
+    if (level >= 15) return 'gold';
+    if (level >= 10) return 'silver';
+    if (level >= 5) return 'bronze';
+    return 'normal';
+}
+
 function checkStoryEvents() {
     // Future story triggers will go here
 }
@@ -253,6 +261,7 @@ const ActionEngine = {
         checkStoryEvents();
         SoftCapSystem.apply();
         updateDeltas();
+        updateTaskList();
         updateUI();
         SaveSystem.save();
     }
@@ -261,9 +270,11 @@ const ActionEngine = {
 function createActionElement(action) {
     if (action.hidden) return null;
     const li = document.createElement('li');
-    li.textContent = action.name;
+    li.textContent = `${action.name} Lv.${action.level}`;
     li.dataset.taskId = action.id;
-    li.dataset.tooltip = action.name;
+    li.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
+    const tierClass = `tier-${getActionTier(action.level)}`;
+    li.classList.add(tierClass);
     if (action.locked) {
         li.classList.add('locked');
     } else {
@@ -273,6 +284,11 @@ function createActionElement(action) {
             e.dataTransfer.setData('text/plain', action.id);
         });
         li.addEventListener('dragend', () => li.classList.remove('dragging'));
+        li.addEventListener('click', () => {
+            selectedActionId = action.id;
+            document.querySelectorAll('#task-list li').forEach(el => el.classList.remove('selected'));
+            li.classList.add('selected');
+        });
     }
     return li;
 }
@@ -285,6 +301,11 @@ function setupDragAndDrop() {
             const id = e.dataTransfer.getData('text/plain');
             const index = parseInt(slotEl.dataset.slot, 10);
             ActionEngine.start(index, id);
+        });
+        slotEl.addEventListener('click', () => {
+            if (!selectedActionId) return;
+            const index = parseInt(slotEl.dataset.slot, 10);
+            ActionEngine.start(index, selectedActionId);
         });
     });
 }
@@ -305,6 +326,17 @@ function setupTooltips() {
     document.addEventListener('mouseover', show);
     document.addEventListener('mousemove', show);
     document.addEventListener('mouseout', hide);
+}
+
+function updateTaskList() {
+    Object.values(actions).forEach(action => {
+        const li = document.querySelector(`#task-list li[data-task-id="${action.id}"]`);
+        if (!li) return;
+        li.textContent = `${action.name} Lv.${action.level}`;
+        li.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
+        li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');
+        li.classList.add(`tier-${getActionTier(action.level)}`);
+    });
 }
 
 function updateSlotUI(i) {
@@ -370,6 +402,7 @@ async function init() {
     });
     StatsUI.init();
     ResourcesUI.init();
+    updateTaskList();
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();

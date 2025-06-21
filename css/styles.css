@@ -149,6 +149,22 @@ main {
     cursor: not-allowed;
 }
 
+#task-list li.selected {
+    outline: 2px solid #66f;
+}
+
+#task-list li.tier-bronze {
+    border-left: 4px solid #cd7f32;
+}
+
+#task-list li.tier-silver {
+    border-left: 4px solid #c0c0c0;
+}
+
+#task-list li.tier-gold {
+    border-left: 4px solid #ffd700;
+}
+
 .tab-headers {
     display: flex;
     gap: 0.5rem;
