@@ -87,6 +87,9 @@ main {
     padding: 0.5rem;
     min-height: 3rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .slot.active {
@@ -96,6 +99,8 @@ main {
 .progress-wrapper {
     position: relative;
     cursor: pointer;
+    width: 100%;
+    margin-top: auto;
 }
 
 .progress-wrapper progress {
@@ -196,7 +201,7 @@ main {
     background: #ccc;
     width: 320px;
     height: 320px;
-    margin-bottom: 1rem;
+    margin: 0 auto 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
