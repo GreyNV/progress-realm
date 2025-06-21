@@ -34,6 +34,67 @@ let prevResources = {
 let statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
 let resourceDeltas = { energy: 0, focus: 0 };
 
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+const StatsUI = {
+    list: ['strength', 'intelligence', 'creativity'],
+    init() {
+        const listEl = document.getElementById('stats-list');
+        this.list.forEach(key => {
+            const li = document.createElement('li');
+            li.innerHTML = `${capitalize(key)}: <span id="stat-${key}">0</span> (<span id="stat-${key}-delta" class="delta">0</span>/s)`;
+            listEl.appendChild(li);
+        });
+    },
+    update() {
+        this.list.forEach(key => {
+            document.getElementById(`stat-${key}`).textContent = State.stats[key].toFixed(1);
+            document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
+        });
+    }
+};
+
+const ResourcesUI = {
+    list: ['energy', 'focus'],
+    init() {
+        const listEl = document.getElementById('resources-list');
+        this.list.forEach(key => {
+            const li = document.createElement('li');
+            li.innerHTML = `${capitalize(key)}: <span id="res-${key}">0</span>/<span id="res-${key}-cap">0</span> (<span id="res-${key}-delta" class="delta">0</span>/s)`;
+            listEl.appendChild(li);
+        });
+    },
+    update() {
+        this.list.forEach(key => {
+            document.getElementById(`res-${key}`).textContent = State.resources[key].toFixed(1);
+            document.getElementById(`res-${key}-cap`).textContent = State.resources['max' + capitalize(key)];
+            document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
+        });
+    }
+};
+
+const SoftCapSystem = {
+    statCaps: { strength: 50, intelligence: 50, creativity: 50 },
+    resourceCaps: { energy: 20, focus: 20 },
+    falloff: 0.5,
+    apply() {
+        for (const s in this.statCaps) {
+            const cap = this.statCaps[s];
+            if (State.stats[s] > cap) {
+                State.stats[s] = cap + (State.stats[s] - cap) * this.falloff;
+            }
+        }
+        for (const r in this.resourceCaps) {
+            const cap = this.resourceCaps[r];
+            if (State.resources[r] > cap) {
+                State.resources[r] = cap + (State.resources[r] - cap) * this.falloff;
+            }
+        }
+    }
+};
+
 const TabManager = {
     tabs: [
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
@@ -81,6 +142,10 @@ const SaveSystem = {
             console.error('Load failed', e);
             return false;
         }
+    },
+    reset() {
+        localStorage.removeItem('progressRealmSave');
+        window.location.reload();
     }
 };
 
@@ -186,6 +251,7 @@ const ActionEngine = {
             updateSlotUI(i);
         });
         checkStoryEvents();
+        SoftCapSystem.apply();
         updateDeltas();
         updateUI();
         SaveSystem.save();
@@ -261,19 +327,8 @@ function updateSlotUI(i) {
 }
 
 function updateUI() {
-    document.getElementById('stat-strength').textContent = State.stats.strength.toFixed(1);
-    document.getElementById('stat-strength-delta').textContent = formatDelta(statDeltas.strength);
-    document.getElementById('stat-intelligence').textContent = State.stats.intelligence.toFixed(1);
-    document.getElementById('stat-intelligence-delta').textContent = formatDelta(statDeltas.intelligence);
-    document.getElementById('stat-creativity').textContent = State.stats.creativity.toFixed(1);
-    document.getElementById('stat-creativity-delta').textContent = formatDelta(statDeltas.creativity);
-
-    document.getElementById('res-energy').textContent = State.resources.energy.toFixed(1);
-    document.getElementById('res-energy-cap').textContent = State.resources.maxEnergy;
-    document.getElementById('res-energy-delta').textContent = formatDelta(resourceDeltas.energy);
-    document.getElementById('res-focus').textContent = State.resources.focus.toFixed(1);
-    document.getElementById('res-focus-cap').textContent = State.resources.maxFocus;
-    document.getElementById('res-focus-delta').textContent = formatDelta(resourceDeltas.focus);
+    StatsUI.update();
+    ResourcesUI.update();
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
@@ -313,9 +368,12 @@ async function init() {
         const el = createActionElement(a);
         if (el) list.appendChild(el);
     });
+    StatsUI.init();
+    ResourcesUI.init();
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
+    document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
     setInterval(() => ActionEngine.tick(), 1000);
 }
