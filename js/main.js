@@ -88,6 +88,47 @@ const MasteryUI = {
     }
 };
 
+const Log = {
+    messages: [],
+    init() {
+        this.el = document.getElementById('log');
+    },
+    add(msg) {
+        this.messages.push(msg);
+        if (this.el) {
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.textContent = msg;
+            this.el.appendChild(div);
+            this.el.scrollTop = this.el.scrollHeight;
+        }
+    }
+};
+
+const Story = {
+    show(text, image, onClose) {
+        const modal = document.getElementById('story-modal');
+        const textEl = document.getElementById('story-text');
+        const imageEl = document.getElementById('story-image');
+        textEl.textContent = text;
+        imageEl.innerHTML = '';
+        if (image) {
+            const img = document.createElement('img');
+            img.src = image;
+            img.alt = '';
+            imageEl.appendChild(img);
+        }
+        modal.classList.remove('hidden');
+        function close() {
+            modal.classList.add('hidden');
+            document.getElementById('story-close').removeEventListener('click', close);
+            Log.add(text);
+            if (onClose) onClose();
+        }
+        document.getElementById('story-close').addEventListener('click', close);
+    }
+};
+
 const SoftCapSystem = {
     statCaps: { strength: 50, intelligence: 50, creativity: 50 },
     resourceCaps: { energy: 20, focus: 20 },
@@ -428,14 +469,16 @@ function updateUI() {
 
 async function init() {
     const loadedActions = SaveSystem.load();
-    const intro = document.getElementById('intro-modal');
-    document.getElementById('intro-close').addEventListener('click', () => {
-        intro.classList.add('hidden');
-        State.introSeen = true;
-        SaveSystem.save();
-    });
-    if (loadedActions && State.introSeen) {
-        intro.classList.add('hidden');
+    Log.init();
+    if (!State.introSeen) {
+        Story.show(
+            "You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins. The healer, an old woman with eyes like weathered stone, presses a worn pendant into your hand — the only item found with you. Its unfamiliar symbol stirs something deep and cold in your chest, but no memory surfaces.",
+            'assets/Intro.png',
+            () => {
+                State.introSeen = true;
+                SaveSystem.save();
+            }
+        );
     }
     document.getElementById('speed-controls').addEventListener('click', e => {
         const s = e.target.dataset.speed;
