@@ -6,7 +6,7 @@
     "exp": 0,
     "expToNext": 10,
     "baseYield": {
-      "stats": {"intelligence": 0.15},
+      "stats": {"intelligence": 0.01},
       "resources": {},
       "exp": 1
     },
@@ -20,7 +20,7 @@
     "exp": 0,
     "expToNext": 10,
     "baseYield": {
-      "stats": {"strength": 0.25},
+      "stats": {"strength": 0.02},
       "resources": {},
       "exp": 1
     },
