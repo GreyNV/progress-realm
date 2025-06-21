@@ -3,6 +3,8 @@ const VERSION = 2;
 
 const State = {
     version: VERSION,
+    age: { years: 16, days: 0, max: 75 },
+    introSeen: false,
     stats: {
         strength: 0,
         intelligence: 0,
@@ -61,16 +63,33 @@ const SaveSystem = {
     },
     load() {
         const raw = localStorage.getItem('progressRealmSave');
-        if (!raw) return;
+        if (!raw) return false;
         try {
             const data = JSON.parse(raw);
-            if (data.version !== VERSION) return;
+            if (data.version !== VERSION) return false;
             Object.assign(State, data);
+            return true;
         } catch (e) {
             console.error('Load failed', e);
+            return false;
         }
     }
 };
+
+const AgeSystem = {
+    daysPerYear: 365,
+    tick() {
+        State.age.days += State.time;
+        if (State.age.days >= this.daysPerYear) {
+            State.age.years += Math.floor(State.age.days / this.daysPerYear);
+            State.age.days = State.age.days % this.daysPerYear;
+        }
+    }
+};
+
+function checkStoryEvents() {
+    // Future story triggers will go here
+}
 
 function scalingMultiplier(action) {
     const f = action.scaling;
@@ -126,6 +145,7 @@ const ActionEngine = {
         updateSlotUI(slotIndex);
     },
     tick() {
+        AgeSystem.tick();
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
@@ -141,6 +161,7 @@ const ActionEngine = {
             }
             updateSlotUI(i);
         });
+        checkStoryEvents();
         updateUI();
         SaveSystem.save();
     }
@@ -223,13 +244,28 @@ function updateUI() {
     document.getElementById('res-energy-cap').textContent = State.resources.maxEnergy;
     document.getElementById('res-focus').textContent = State.resources.focus.toFixed(1);
     document.getElementById('res-focus-cap').textContent = State.resources.maxFocus;
+    document.getElementById('age-years').textContent = State.age.years;
+    document.getElementById('age-days').textContent = Math.floor(State.age.days);
+    document.getElementById('max-age').textContent = State.age.max;
+    document.getElementById('speed-value').textContent = State.time + 'x';
 }
 
 async function init() {
-    SaveSystem.load();
+    const loaded = SaveSystem.load();
     const intro = document.getElementById('intro-modal');
     document.getElementById('intro-close').addEventListener('click', () => {
         intro.classList.add('hidden');
+        State.introSeen = true;
+        SaveSystem.save();
+    });
+    if (loaded && State.introSeen) {
+        intro.classList.add('hidden');
+    }
+    document.getElementById('speed-controls').addEventListener('click', e => {
+        const s = e.target.dataset.speed;
+        if (!s) return;
+        State.time = parseInt(s, 10);
+        updateUI();
     });
     try {
         const res = await fetch('data/actions.json');
