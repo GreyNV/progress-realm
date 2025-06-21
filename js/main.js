@@ -24,6 +24,37 @@ const State = {
 
 let actions = {};
 
+const TabManager = {
+    tabs: [
+        { id: 'routines', name: 'Routines', hidden: false, locked: false },
+        { id: 'automation', name: 'Automation', hidden: false, locked: false },
+    ],
+    init() {
+        const header = document.getElementById('tab-headers');
+        this.tabs.forEach(tab => {
+            if (tab.hidden) return;
+            const btn = document.createElement('button');
+            btn.textContent = tab.locked ? `${tab.name} (Locked)` : tab.name;
+            btn.dataset.tab = tab.id;
+            if (tab.locked) btn.disabled = true;
+            header.appendChild(btn);
+        });
+        header.addEventListener('click', e => {
+            if (!e.target.dataset.tab) return;
+            this.showTab(e.target.dataset.tab);
+        });
+        if (this.tabs.length) this.showTab(this.tabs[0].id);
+    },
+    showTab(id) {
+        document.querySelectorAll('.tab-content').forEach(el => {
+            el.classList.toggle('hidden', el.dataset.tab !== id);
+        });
+        document.querySelectorAll('#tab-headers button').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === id);
+        });
+    }
+};
+
 const SaveSystem = {
     save() {
         localStorage.setItem('progressRealmSave', JSON.stringify(State));
@@ -116,16 +147,21 @@ const ActionEngine = {
 };
 
 function createActionElement(action) {
+    if (action.hidden) return null;
     const li = document.createElement('li');
     li.textContent = action.name;
-    li.setAttribute('draggable', 'true');
     li.dataset.taskId = action.id;
     li.dataset.tooltip = action.name;
-    li.addEventListener('dragstart', e => {
-        li.classList.add('dragging');
-        e.dataTransfer.setData('text/plain', action.id);
-    });
-    li.addEventListener('dragend', () => li.classList.remove('dragging'));
+    if (action.locked) {
+        li.classList.add('locked');
+    } else {
+        li.setAttribute('draggable', 'true');
+        li.addEventListener('dragstart', e => {
+            li.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', action.id);
+        });
+        li.addEventListener('dragend', () => li.classList.remove('dragging'));
+    }
     return li;
 }
 
@@ -191,19 +227,29 @@ function updateUI() {
 
 async function init() {
     SaveSystem.load();
+    const intro = document.getElementById('intro-modal');
+    document.getElementById('intro-close').addEventListener('click', () => {
+        intro.classList.add('hidden');
+    });
     try {
         const res = await fetch('data/actions.json');
         const json = await res.json();
-        json.forEach(a => actions[a.id] = a);
+        json.forEach(a => {
+            a.hidden = a.hidden || false;
+            a.locked = a.locked || false;
+            actions[a.id] = a;
+        });
     } catch (e) {
         console.error('Failed to load actions', e);
     }
     const list = document.getElementById('task-list');
     Object.values(actions).forEach(a => {
-        if (a.id !== 'rest') list.appendChild(createActionElement(a));
+        const el = createActionElement(a);
+        if (el) list.appendChild(el);
     });
     setupDragAndDrop();
     setupTooltips();
+    TabManager.init();
     updateUI();
     setInterval(() => ActionEngine.tick(), 1000);
 }

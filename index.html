@@ -20,7 +20,12 @@
         </div>
     </header>
 
-    <p id="intro">You awaken as a 16-year-old survivor of a caravan ambush. A passing stranger saved you and brought you to a small medieval town.</p>
+    <div id="intro-modal" class="modal">
+        <div class="modal-content">
+            <p>You awaken as a 16-year-old survivor of a caravan ambush. A passing stranger saved you and brought you to a small medieval town.</p>
+            <button id="intro-close">Start</button>
+        </div>
+    </div>
 
     <main id="app">
         <div id="left" class="panel">
@@ -52,26 +57,37 @@
         </div>
 
         <div id="center" class="panel">
-            <h2>Available Actions</h2>
-            <ul id="task-list"></ul>
-            <h2>Action Slots</h2>
-            <div id="slots" class="slots">
-                <div class="slot" data-slot="0" data-tooltip="Drag an action here">
-                    <div class="progress-wrapper">
-                        <progress value="0" max="100"></progress>
-                        <span class="label"></span>
+            <div class="tabs">
+                <div id="tab-headers" class="tab-headers"></div>
+                <div id="tab-contents">
+                    <div class="tab-content" data-tab="routines">
+                        <h2>Available Actions</h2>
+                        <ul id="task-list"></ul>
+                        <h2>Action Slots</h2>
+                        <div id="slots" class="slots">
+                            <div class="slot" data-slot="0" data-tooltip="Drag an action here">
+                                <div class="progress-wrapper">
+                                    <progress value="0" max="100"></progress>
+                                    <span class="label"></span>
+                                </div>
+                            </div>
+                            <div class="slot" data-slot="1" data-tooltip="Drag an action here">
+                                <div class="progress-wrapper">
+                                    <progress value="0" max="100"></progress>
+                                    <span class="label"></span>
+                                </div>
+                            </div>
+                            <div class="slot" data-slot="2" data-tooltip="Drag an action here">
+                                <div class="progress-wrapper">
+                                    <progress value="0" max="100"></progress>
+                                    <span class="label"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="slot" data-slot="1" data-tooltip="Drag an action here">
-                    <div class="progress-wrapper">
-                        <progress value="0" max="100"></progress>
-                        <span class="label"></span>
-                    </div>
-                </div>
-                <div class="slot" data-slot="2" data-tooltip="Drag an action here">
-                    <div class="progress-wrapper">
-                        <progress value="0" max="100"></progress>
-                        <span class="label"></span>
+                    <div class="tab-content hidden" data-tab="automation">
+                        <h2>Control</h2>
+                        <p>Crafting and Automation go here.</p>
                     </div>
                 </div>
             </div>
