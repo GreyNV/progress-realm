@@ -2,6 +2,8 @@
   {
     "id": "studying",
     "name": "Studying",
+    "category": "home",
+    "requiresItem": "oldBooks",
     "level": 1,
     "exp": 0,
     "expToNext": 10,
@@ -16,6 +18,8 @@
   {
     "id": "training",
     "name": "Training",
+    "category": "home",
+    "requiresItem": "backyard",
     "level": 1,
     "exp": 0,
     "expToNext": 10,
@@ -30,15 +34,32 @@
   {
     "id": "rest",
     "name": "Rest",
+    "category": "home",
+    "requiresItem": "bed",
     "level": 1,
     "exp": 0,
     "expToNext": 5,
     "baseYield": {
       "stats": {},
-      "resources": {"focus": 1, "energy": 1},
+      "resources": {"focus": 1, "energy": 1, "health": 0.1},
       "exp": 0
     },
     "scaling": {"type": "softcap", "base": 1, "multiplier": 0, "softcapLevel": 1, "falloff": 0},
     "resourceConsumption": {}
+  },
+  {
+    "id": "goHunting",
+    "name": "Go Hunting",
+    "category": "tasks",
+    "level": 1,
+    "exp": 0,
+    "expToNext": 10,
+    "baseYield": {
+      "stats": {"strength": 0.01},
+      "resources": {"gold": 1, "health": -0.1},
+      "exp": 1
+    },
+    "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
+    "resourceConsumption": {"energy": 2}
   }
 ]

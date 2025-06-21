@@ -15,12 +15,19 @@ const State = {
         maxEnergy: 10,
         focus: 10,
         maxFocus: 10,
+        health: 10,
+        maxHealth: 10,
+        gold: 0,
+        maxGold: 100,
     },
-    slots: [
-        { actionId: null, progress: 0, blocked: false, text: '' },
-        { actionId: null, progress: 0, blocked: false, text: '' },
-        { actionId: null, progress: 0, blocked: false, text: '' },
-    ],
+    slotCount: 6,
+    slots: Array.from({ length: 6 }, () => ({ actionId: null, progress: 0, blocked: false, text: '' })),
+    home: {
+        items: ['oldBooks', 'bed', 'backyard'],
+        maxSlots: 3,
+    },
+    unlockedCategories: { home: true, tasks: false },
+    recoveryStorySeen: false,
     time: 1,
     masteryPoints: 0,
 };
@@ -32,9 +39,11 @@ let prevStats = { ...State.stats };
 let prevResources = {
     energy: State.resources.energy,
     focus: State.resources.focus,
+    health: State.resources.health,
+    gold: State.resources.gold,
 };
 let statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
-let resourceDeltas = { energy: 0, focus: 0 };
+let resourceDeltas = { energy: 0, focus: 0, health: 0, gold: 0 };
 
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -59,7 +68,7 @@ const StatsUI = {
 };
 
 const ResourcesUI = {
-    list: ['energy', 'focus'],
+    list: ['energy', 'focus', 'health'],
     init() {
         const listEl = document.getElementById('resources-list');
         this.list.forEach(key => {
@@ -73,6 +82,38 @@ const ResourcesUI = {
             document.getElementById(`res-${key}`).textContent = State.resources[key].toFixed(1);
             document.getElementById(`res-${key}-cap`).textContent = State.resources['max' + capitalize(key)];
             document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
+        });
+    }
+};
+
+const EconomyUI = {
+    list: ['gold'],
+    init() {
+        const listEl = document.getElementById('economy-list');
+        this.list.forEach(key => {
+            const li = document.createElement('li');
+            li.innerHTML = `${capitalize(key)}: <span id="eco-${key}">0</span>/<span id="eco-${key}-cap">0</span>`;
+            listEl.appendChild(li);
+        });
+    },
+    update() {
+        this.list.forEach(key => {
+            document.getElementById(`eco-${key}`).textContent = State.resources[key].toFixed(1);
+            document.getElementById(`eco-${key}-cap`).textContent = State.resources['max' + capitalize(key)];
+        });
+    }
+};
+
+const HomeUI = {
+    getItemName(id) {
+        const names = { oldBooks: 'Old Books', bed: 'Bed', backyard: 'Backyard' };
+        return names[id] || id;
+    },
+    init() {
+        const container = document.getElementById('home-slots');
+        State.home.items.forEach((id, i) => {
+            const slotEl = container.querySelector(`[data-item-slot="${i}"]`);
+            if (slotEl) slotEl.textContent = this.getItemName(id);
         });
     }
 };
@@ -131,7 +172,7 @@ const Story = {
 
 const SoftCapSystem = {
     statCaps: { strength: 50, intelligence: 50, creativity: 50 },
-    resourceCaps: { energy: 20, focus: 20 },
+    resourceCaps: { energy: 20, focus: 20, health: 10, gold: 100 },
     falloff: 0.5,
     apply() {
         for (const s in this.statCaps) {
@@ -152,7 +193,7 @@ const SoftCapSystem = {
 const TabManager = {
     tabs: [
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
-        { id: 'automation', name: 'Automation', hidden: false, locked: false },
+        { id: 'home', name: 'Home', hidden: false, locked: false },
     ],
     init() {
         const header = document.getElementById('tab-headers');
@@ -203,6 +244,9 @@ const SaveSystem = {
             if (data.state) {
                 Object.assign(State, data.state);
                 if (Array.isArray(State.slots)) {
+                    while (State.slots.length < State.slotCount) {
+                        State.slots.push({ actionId: null, progress: 0, blocked: false, text: '' });
+                    }
                     State.slots.forEach(s => {
                         if (s.text === undefined) s.text = '';
                     });
@@ -239,7 +283,7 @@ function updateDeltas() {
         statDeltas[s] = State.stats[s] - (prevStats[s] || 0);
         prevStats[s] = State.stats[s];
     }
-    for (const r of ['energy', 'focus']) {
+    for (const r of ['energy', 'focus', 'health', 'gold']) {
         resourceDeltas[r] = State.resources[r] - (prevResources[r] || 0);
         prevResources[r] = State.resources[r];
     }
@@ -283,7 +327,23 @@ function getActionTier(level) {
 }
 
 function checkStoryEvents() {
-    // Future story triggers will go here
+    if (!State.recoveryStorySeen && (State.age.years > 16 || (State.age.years === 16 && State.age.days > 30))) {
+        Story.show(
+            "Our hero finally recovered and discovers that the healer disappeared. He overviewed the place and has to decide what to do next. It was only forest around him and no trace of any road or people.",
+            'assets/Intro.png',
+            () => {
+                State.recoveryStorySeen = true;
+                State.unlockedCategories.tasks = true;
+                SaveSystem.save();
+            }
+        );
+    }
+}
+
+function isActionUnlocked(action) {
+    if (!State.unlockedCategories[action.category]) return false;
+    if (action.requiresItem && !State.home.items.includes(action.requiresItem)) return false;
+    return !action.locked;
 }
 
 function scalingMultiplier(action) {
@@ -339,6 +399,7 @@ function gainExp(action, amount) {
 
 const ActionEngine = {
     start(slotIndex, actionId) {
+        if (slotIndex >= State.slotCount) return;
         const slot = State.slots[slotIndex];
         slot.actionId = actionId;
         slot.progress = 0;
@@ -348,7 +409,8 @@ const ActionEngine = {
     },
     tick() {
         AgeSystem.tick();
-        State.slots.forEach((slot, i) => {
+        for (let i = 0; i < State.slotCount; i++) {
+            const slot = State.slots[i];
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
             const canRun = consume(action.resourceConsumption);
@@ -362,7 +424,7 @@ const ActionEngine = {
                 slot.progress = action.exp / action.expToNext;
             }
             updateSlotUI(i);
-        });
+        }
         checkStoryEvents();
         SoftCapSystem.apply();
         updateDeltas();
@@ -380,7 +442,7 @@ function createActionElement(action) {
     li.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
     const tierClass = `tier-${getActionTier(action.level)}`;
     li.classList.add(tierClass);
-    if (action.locked) {
+    if (!isActionUnlocked(action)) {
         li.classList.add('locked');
     } else {
         li.setAttribute('draggable', 'true');
@@ -441,6 +503,7 @@ function updateTaskList() {
         li.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
         li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');
         li.classList.add(`tier-${getActionTier(action.level)}`);
+        li.classList.toggle('locked', !isActionUnlocked(action));
     });
 }
 
@@ -448,6 +511,7 @@ function updateSlotUI(i) {
     const slot = State.slots[i];
     const slotEl = document.querySelector(`.slot[data-slot="${i}"]`);
     if (!slotEl) return;
+    slotEl.classList.toggle('hidden', i >= State.slotCount);
     const progressEl = slotEl.querySelector('progress');
     const labelEl = slotEl.querySelector('.label');
     slotEl.classList.toggle('blocked', slot.blocked);
@@ -466,6 +530,7 @@ function updateSlotUI(i) {
 function updateUI() {
     StatsUI.update();
     ResourcesUI.update();
+    EconomyUI.update();
     MasteryUI.update();
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
@@ -520,11 +585,14 @@ async function init() {
     });
     StatsUI.init();
     ResourcesUI.init();
+    EconomyUI.init();
     MasteryUI.init();
     updateTaskList();
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
+    HomeUI.init();
+    State.slots.forEach((_, i) => updateSlotUI(i));
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
     setInterval(() => ActionEngine.tick(), 1000);
