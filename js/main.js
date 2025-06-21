@@ -16,14 +16,16 @@ const State = {
         focus: 10,
         maxFocus: 10,
     },
-    slots: [
-        { actionId: null, progress: 0, blocked: false, text: '' },
-        { actionId: null, progress: 0, blocked: false, text: '' },
-        { actionId: null, progress: 0, blocked: false, text: '' },
-    ],
+    // number of available action slots
+    slotCount: 6,
+    slots: [],
     time: 1,
     masteryPoints: 0,
 };
+
+for (let i = 0; i < State.slotCount; i++) {
+    State.slots.push({ actionId: null, progress: 0, blocked: false, text: '' });
+}
 
 let actions = {};
 let selectedActionId = null;
@@ -206,6 +208,11 @@ const SaveSystem = {
                     State.slots.forEach(s => {
                         if (s.text === undefined) s.text = '';
                     });
+                } else {
+                    State.slots = [];
+                }
+                if (State.slotCount === undefined) {
+                    State.slotCount = Array.isArray(State.slots) ? State.slots.length : 0;
                 }
                 return data.actions || null;
             } else {
@@ -398,6 +405,41 @@ function createActionElement(action) {
     return li;
 }
 
+function setupSlots() {
+    const container = document.getElementById('slots');
+    if (!container) return;
+    container.innerHTML = '';
+    if (!Array.isArray(State.slots)) State.slots = [];
+    if (State.slotCount === undefined) State.slotCount = State.slots.length;
+    while (State.slots.length < State.slotCount) {
+        State.slots.push({ actionId: null, progress: 0, blocked: false, text: '' });
+    }
+    if (State.slots.length > State.slotCount) {
+        State.slots = State.slots.slice(0, State.slotCount);
+    }
+    for (let i = 0; i < State.slotCount; i++) {
+        const slotEl = document.createElement('div');
+        slotEl.className = 'slot';
+        slotEl.dataset.slot = i;
+        slotEl.dataset.tooltip = 'Drag an action here';
+
+        const label = document.createElement('span');
+        label.className = 'label';
+        slotEl.appendChild(label);
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'progress-wrapper';
+        const prog = document.createElement('progress');
+        prog.value = 0;
+        prog.max = 100;
+        wrapper.appendChild(prog);
+        slotEl.appendChild(wrapper);
+
+        container.appendChild(slotEl);
+        updateSlotUI(i);
+    }
+}
+
 function setupDragAndDrop() {
     document.querySelectorAll('.slot').forEach(slotEl => {
         slotEl.addEventListener('dragover', e => e.preventDefault());
@@ -522,6 +564,7 @@ async function init() {
     ResourcesUI.init();
     MasteryUI.init();
     updateTaskList();
+    setupSlots();
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
