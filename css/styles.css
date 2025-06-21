@@ -192,6 +192,11 @@ main {
     main {
         grid-template-columns: 1fr;
     }
+    .slots {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
 }
 
 .intro-image {
