@@ -106,6 +106,7 @@ See **docs/MVP.md** for the MVP list.
 * Prestige system with meta-upgrades
 * Spell research tree
 * Dynamic events or time-limited quests
+* Mastery points earned from action tiers
 * Player avatar or magical tower interface (for immersion)
 
 ---

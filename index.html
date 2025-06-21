@@ -20,11 +20,11 @@
         </div>
     </header>
 
-    <div id="intro-modal" class="modal">
+    <div id="story-modal" class="modal hidden">
         <div class="modal-content">
-            <div id="intro-image" class="intro-image">Image goes here</div>
-            <p>You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins.</p>
-            <button id="intro-close">Start</button>
+            <div id="story-image" class="intro-image"></div>
+            <p id="story-text"></p>
+            <button id="story-close">Continue</button>
         </div>
     </div>
 
@@ -42,6 +42,10 @@
                         <li>Creativity: <span id="prestige-creativity">0</span></li>
                     </ul>
                 </section>
+            </section>
+
+            <section id="mastery">
+                <h2>Mastery Points: <span id="mastery-points">0</span></h2>
             </section>
 
             <section id="resources">
@@ -87,9 +91,9 @@
             </div>
         </div>
 
-        <div id="right" class="panel">
-            <h2>Control</h2>
-            <p>Crafting and Automation go here.</p>
+        <div id="right" class="panel log-panel">
+            <h2>Log</h2>
+            <div id="log" class="log-view"></div>
         </div>
     </main>
 
