@@ -21,12 +21,18 @@ const State = {
     // number of available action slots
     slotCount: 6,
     slots: [],
+    adventureSlotCount: 9,
+    adventureSlots: [],
     time: 1,
     masteryPoints: 0,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
     State.slots.push({ actionId: null, progress: 0, blocked: false, text: '' });
+}
+
+for (let i = 0; i < State.adventureSlotCount; i++) {
+    State.adventureSlots.push({ text: '', progress: 0 });
 }
 
 let actions = {};
@@ -163,6 +169,7 @@ const SoftCapSystem = {
 const TabManager = {
     tabs: [
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
+        { id: 'adventure', name: 'Adventure', hidden: false, locked: false },
         { id: 'automation', name: 'Automation', hidden: false, locked: false },
     ],
     init() {
@@ -468,8 +475,41 @@ function setupSlots() {
     }
 }
 
+function setupAdventureSlots() {
+    const container = document.getElementById('adventure-slots');
+    if (!container) return;
+    container.innerHTML = '';
+    if (!Array.isArray(State.adventureSlots)) State.adventureSlots = [];
+    if (State.adventureSlotCount === undefined) State.adventureSlotCount = State.adventureSlots.length;
+    while (State.adventureSlots.length < State.adventureSlotCount) {
+        State.adventureSlots.push({ text: '', progress: 0 });
+    }
+    if (State.adventureSlots.length > State.adventureSlotCount) {
+        State.adventureSlots = State.adventureSlots.slice(0, State.adventureSlotCount);
+    }
+    for (let i = 0; i < State.adventureSlotCount; i++) {
+        const slotEl = document.createElement('div');
+        slotEl.className = 'slot';
+        slotEl.dataset.slot = i;
+
+        const label = document.createElement('span');
+        label.className = 'label';
+        slotEl.appendChild(label);
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'progress-wrapper';
+        const prog = document.createElement('progress');
+        prog.value = 0;
+        prog.max = 1;
+        wrapper.appendChild(prog);
+        slotEl.appendChild(wrapper);
+
+        container.appendChild(slotEl);
+    }
+}
+
 function setupDragAndDrop() {
-    document.querySelectorAll('.slot').forEach(slotEl => {
+    document.querySelectorAll('#slots .slot').forEach(slotEl => {
         slotEl.addEventListener('dragover', e => e.preventDefault());
         slotEl.addEventListener('drop', e => {
             e.preventDefault();
@@ -516,7 +556,7 @@ function updateTaskList() {
 
 function updateSlotUI(i) {
     const slot = State.slots[i];
-    const slotEl = document.querySelector(`.slot[data-slot="${i}"]`);
+    const slotEl = document.querySelector(`#slots .slot[data-slot="${i}"]`);
     if (!slotEl) return;
     const progressEl = slotEl.querySelector('progress');
     const labelEl = slotEl.querySelector('.label');
@@ -593,6 +633,7 @@ async function init() {
     MasteryUI.init();
     updateTaskList();
     setupSlots();
+    setupAdventureSlots();
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
