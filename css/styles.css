@@ -97,6 +97,9 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .slot.active {

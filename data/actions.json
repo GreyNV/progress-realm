@@ -2,6 +2,7 @@
   {
     "id": "studying",
     "name": "Studying",
+    "image": "assets/enc/studying.png",
     "level": 1,
     "exp": 0,
     "expToNext": 10,
@@ -16,6 +17,7 @@
   {
     "id": "training",
     "name": "Training",
+    "image": "assets/enc/training.png",
     "level": 1,
     "exp": 0,
     "expToNext": 10,
@@ -30,6 +32,7 @@
   {
     "id": "rest",
     "name": "Rest",
+    "image": "assets/enc/rest.png",
     "level": 1,
     "exp": 0,
     "expToNext": 5,

@@ -580,12 +580,18 @@ function updateSlotUI(i) {
         progressEl.value = 0;
         progressEl.max = 1;
         labelEl.textContent = slot.text || '';
+        slotEl.style.backgroundImage = 'none';
         return;
     }
     const action = actions[slot.actionId];
     progressEl.max = 1;
     progressEl.value = slot.progress;
     labelEl.textContent = slot.text || `${action.name} Lv.${action.level}`;
+    if (action.image) {
+        slotEl.style.backgroundImage = `url(${action.image})`;
+    } else {
+        slotEl.style.backgroundImage = 'none';
+    }
 }
 
 function updateAdventureSlotUI(i) {
