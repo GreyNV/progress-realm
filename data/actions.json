@@ -11,7 +11,7 @@
       "exp": 1
     },
     "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
-    "resourceConsumption": {"focus": 0.2}
+    "resourceConsumption": {"focus": 0.5}
   },
   {
     "id": "training",
@@ -25,7 +25,7 @@
       "exp": 1
     },
     "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
-    "resourceConsumption": {"energy": 0.2}
+    "resourceConsumption": {"energy": 0.5}
   },
   {
     "id": "rest",
