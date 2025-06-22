@@ -49,7 +49,8 @@ Version 0.3.0 expands the prototype with six starting action slots, an introduct
 * Charisma
 * Endurance
 * Energy (resource)
-* Gold (resource)
+* Health (resource)
+* Money (resource)
 
 #### 6. Magic System Overview
 
