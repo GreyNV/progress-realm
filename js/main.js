@@ -5,6 +5,7 @@ const State = {
     version: VERSION,
     age: { years: 16, days: 0, max: 75 },
     introSeen: false,
+    healerGoneSeen: false,
     stats: {
         strength: 0,
         intelligence: 0,
@@ -290,7 +291,20 @@ function getActionTier(level) {
 }
 
 function checkStoryEvents() {
-    // Future story triggers will go here
+    // Trigger when the hero recovers and notices the healer is gone
+    if (!State.introSeen || State.healerGoneSeen) return;
+    const currentDays = State.age.years * AgeSystem.daysPerYear + State.age.days;
+    const triggerDays = 16 * AgeSystem.daysPerYear + 30;
+    if (currentDays > triggerDays) {
+        Story.show(
+            "Our hero finally recovered and discovers that the healer disappeared. He overviewed the place and has to decide what he is going to do next. It was only forest around him and no trace of any road or people.",
+            null,
+            () => {
+                State.healerGoneSeen = true;
+                SaveSystem.save();
+            }
+        );
+    }
 }
 
 function scalingMultiplier(action) {

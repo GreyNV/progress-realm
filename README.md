@@ -100,7 +100,7 @@ docs/MVP.md         - checklist for the first prototype
 #### Prototype Layout
 
 The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and a log panel occupies the right side. The header shows the current age and provides buttons to adjust the game speed.
-A story modal appears once on the first load and all log messages are recorded in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
+A story modal appears once on the first load and another short scene triggers after thirty days pass in game time. Both modals only appear during the first life and all log messages are recorded in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
 
 See **docs/MVP.md** for the MVP list.
 
