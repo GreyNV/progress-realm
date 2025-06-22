@@ -420,9 +420,14 @@ function createActionElement(action) {
         });
         li.addEventListener('dragend', () => li.classList.remove('dragging'));
         li.addEventListener('click', () => {
-            selectedActionId = action.id;
+            const alreadySelected = selectedActionId === action.id;
             document.querySelectorAll('#task-list li').forEach(el => el.classList.remove('selected'));
-            li.classList.add('selected');
+            if (alreadySelected) {
+                selectedActionId = null;
+            } else {
+                selectedActionId = action.id;
+                li.classList.add('selected');
+            }
         });
     }
     return li;
