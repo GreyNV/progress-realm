@@ -36,7 +36,7 @@ for (let i = 0; i < State.slotCount; i++) {
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
-    State.adventureSlots.push({ text: '', progress: 0 });
+    State.adventureSlots.push({ text: '', progress: 0, encounter: null });
 }
 
 let actions = {};
@@ -496,7 +496,7 @@ function setupAdventureSlots() {
     if (!Array.isArray(State.adventureSlots)) State.adventureSlots = [];
     if (State.adventureSlotCount === undefined) State.adventureSlotCount = State.adventureSlots.length;
     while (State.adventureSlots.length < State.adventureSlotCount) {
-        State.adventureSlots.push({ text: '', progress: 0 });
+        State.adventureSlots.push({ text: '', progress: 0, encounter: null });
     }
     if (State.adventureSlots.length > State.adventureSlotCount) {
         State.adventureSlots = State.adventureSlots.slice(0, State.adventureSlotCount);
@@ -519,6 +519,7 @@ function setupAdventureSlots() {
         slotEl.appendChild(wrapper);
 
         container.appendChild(slotEl);
+        updateAdventureSlotUI(i);
     }
 }
 
@@ -587,6 +588,26 @@ function updateSlotUI(i) {
     labelEl.textContent = slot.text || `${action.name} Lv.${action.level}`;
 }
 
+function updateAdventureSlotUI(i) {
+    const slot = State.adventureSlots[i];
+    const slotEl = document.querySelector(`#adventure-slots .slot[data-slot="${i}"]`);
+    if (!slotEl) return;
+    const progressEl = slotEl.querySelector('progress');
+    const labelEl = slotEl.querySelector('.label');
+    progressEl.value = slot.progress || 0;
+    progressEl.max = 1;
+    if (slot.encounter) {
+        labelEl.textContent = slot.encounter.name;
+        if (slot.encounter.image) {
+            slotEl.style.backgroundImage = `url(${slot.encounter.image})`;
+            slotEl.style.backgroundSize = 'cover';
+        }
+    } else {
+        labelEl.textContent = slot.text || '';
+        slotEl.style.backgroundImage = 'none';
+    }
+}
+
 function updateUI() {
     StatsUI.update();
     ResourcesUI.update();
@@ -642,12 +663,14 @@ async function init() {
         const el = createActionElement(a);
         if (el) list.appendChild(el);
     });
+    await EncounterGenerator.load();
     StatsUI.init();
     ResourcesUI.init();
     MasteryUI.init();
     updateTaskList();
     setupSlots();
     setupAdventureSlots();
+    EncounterGenerator.init();
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();

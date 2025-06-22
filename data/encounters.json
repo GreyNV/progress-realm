@@ -1,0 +1,20 @@
+[
+  {
+    "id": "banditAmbush",
+    "name": "Bandit Ambush",
+    "description": "A group of bandits block your path.",
+    "image": "assets/HealerGone.png"
+  },
+  {
+    "id": "quietPath",
+    "name": "Quiet Forest Path",
+    "description": "The woods are silent and eerie.",
+    "image": "assets/Intro.png"
+  },
+  {
+    "id": "merchantCaravan",
+    "name": "Merchant Caravan",
+    "description": "A traveling merchant offers goods.",
+    "image": "assets/Intro.png"
+  }
+]
