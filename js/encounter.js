@@ -39,7 +39,7 @@ const EncounterGenerator = {
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
     durationModPerStat: 0.02, // -2% duration per stat point
     namesByLevel: {
-        1: 'hut in the forest'
+        1: 'Hut in the forest'
     },
 
     updateName() {
