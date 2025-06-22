@@ -1,5 +1,5 @@
 # progress-realm
-### Game Design Document – v0.1.0
+### Game Design Document – v0.3.0
 
 #### 1. Game Title (Working)
 
@@ -14,7 +14,8 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
 It also adds a drag-and-drop task system with tooltips and simple completion animations.
 
-Version 0.2.0 introduces a leveled action system with per-second yields and resource blocking.
+Version 0.2.0 introduced a leveled action system with per-second yields and resource blocking.
+Version 0.3.0 expands the prototype with six starting action slots, an introductory story modal, and a simple log panel.
 
 #### 3. Core Gameplay Loop
 
@@ -67,9 +68,9 @@ Version 0.2.0 introduces a leveled action system with per-second yields and reso
 
 #### 8. Slot System
 
-* Player starts with 1 task slot
-* Unlocks additional slots at milestones (e.g., 3 INT, 5 WIS)
-* Some actions require multiple slots or temporary lockouts
+* Player begins with **six** action slots
+* Additional slots may be added dynamically
+* Actions are blocked if resources are insufficient
 
 #### 9. Visual Style
 
@@ -85,19 +86,21 @@ Version 0.2.0 introduces a leveled action system with per-second yields and reso
 
 #### 11. Project Structure
 
-The repository now contains a minimal HTML/CSS/JS setup to help test the very first prototype:
+The repository now contains a minimal HTML/CSS/JS setup with data files and static assets:
 
 ```
-index.html        - entry point for the game
-css/styles.css    - basic page styling
-js/main.js        - starter script that initializes the app
-docs/MVP.md       - checklist for the initial prototype
+index.html          - main HTML entry point
+css/styles.css      - page styling
+js/main.js          - core game logic
+assets/             - images and static assets
+data/actions.json   - action definitions
+docs/MVP.md         - checklist for the first prototype
 ```
 
 #### Prototype Layout
 
-The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and crafting or automation placeholders occupy the right panel. The header shows the current age and provides buttons to adjust the game speed.
-Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
+The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and a log panel occupies the right side. The header shows the current age and provides buttons to adjust the game speed.
+A story modal appears once on the first load and all log messages are recorded in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
 
 See **docs/MVP.md** for the MVP list.
 
@@ -111,4 +114,4 @@ See **docs/MVP.md** for the MVP list.
 
 ---
 
-Next step: Define the Task Execution Engine or Resource System in detail.
+Next step: expand automation and prestige mechanics.
