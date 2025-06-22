@@ -297,11 +297,7 @@ function checkStoryEvents() {
     const triggerDays = 16 * AgeSystem.daysPerYear + 30;
     if (currentDays > triggerDays) {
         Story.show(
-            "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs.
-
-You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises.
-
-The pendant at your neck feels heavier — as if urging you forward.",
+            "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
             null,
             () => {
                 State.healerGoneSeen = true;
