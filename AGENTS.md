@@ -1,0 +1,37 @@
+# Agent Guidelines
+
+## Project Structure
+
+- `assets/` – images and static assets used by the site
+- `css/` – stylesheets
+- `js/` – JavaScript for game logic and UI
+- `data/` – JSON files for tasks and actions
+- `docs/` – design documents and other project notes
+- `index.html` – main HTML entry point
+- `README.md` – high‑level overview and design goals
+
+## Coding Standards
+
+- Use **4‑space indentation** for all languages
+- Follow **PEP8** when writing Python code
+- Prefer descriptive variable and function names
+- Keep code modular and comment important sections
+
+## Testing Protocols
+
+- Run all tests with `pytest`
+- Use `pytest --cov` to check coverage; aim for **80%** or higher
+- Ensure dependencies are installed in a local virtual environment before running tests
+
+## Security Guidelines
+
+- Validate all user input and sanitize data before processing
+- Avoid SQL injection and similar vulnerabilities
+- Never expose secrets or credentials in the codebase
+
+## Workflow Guidelines
+
+- Commit messages should include an issue reference when applicable, e.g. `Fix #123: short summary`
+- Keep commit messages concise but descriptive
+- Open a pull request for every change instead of pushing directly to `main`
+- Provide a clear PR title and summary of the changes
