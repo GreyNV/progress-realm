@@ -1,20 +1,23 @@
 [
-  {
-    "id": "banditAmbush",
-    "name": "Bandit Ambush",
-    "description": "A group of bandits block your path.",
-    "image": "assets/HealerGone.png"
-  },
-  {
-    "id": "quietPath",
-    "name": "Quiet Forest Path",
-    "description": "The woods are silent and eerie.",
-    "image": "assets/Intro.png"
-  },
-  {
-    "id": "merchantCaravan",
-    "name": "Merchant Caravan",
-    "description": "A traveling merchant offers goods.",
-    "image": "assets/Intro.png"
-  }
+    {
+        "id": "foragingHerbs",
+        "name": "Foraging for Herbs",
+        "description": "Dewy plants grow in the underbrush, promising useful herbs.",
+        "rarity": "common",
+        "image": "assets/enc/foraging.png"
+    },
+    {
+        "id": "rabbitHunt",
+        "name": "Rabbit Hunting",
+        "description": "A swift rabbit darts between the trees, ripe for the chase.",
+        "rarity": "common",
+        "image": "assets/enc/rabbit.png"
+    },
+    {
+        "id": "wolfAmbush",
+        "name": "Wolf Ambush",
+        "description": "Hungry wolves burst from the shadows with fangs bared.",
+        "rarity": "rare",
+        "image": "assets/enc/wolf.png"
+    }
 ]
