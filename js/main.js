@@ -1,5 +1,7 @@
 // Progress Realm prototype with leveled actions and resource consumption
 const VERSION = 2;
+// Interval in milliseconds for game updates
+const TICK_INTERVAL = 100;
 
 const State = {
     version: VERSION,
@@ -240,8 +242,8 @@ const SaveSystem = {
 
 const AgeSystem = {
     daysPerYear: 365,
-    tick() {
-        State.age.days += State.time;
+    tick(dt) {
+        State.age.days += State.time * dt;
         if (State.age.days >= this.daysPerYear) {
             State.age.years += Math.floor(State.age.days / this.daysPerYear);
             State.age.days = State.age.days % this.daysPerYear;
@@ -249,13 +251,13 @@ const AgeSystem = {
     }
 };
 
-function updateDeltas() {
+function updateDeltas(dt) {
     for (const s in State.stats) {
-        statDeltas[s] = State.stats[s] - (prevStats[s] || 0);
+        statDeltas[s] = (State.stats[s] - (prevStats[s] || 0)) / dt;
         prevStats[s] = State.stats[s];
     }
     for (const r of ['energy', 'focus']) {
-        resourceDeltas[r] = State.resources[r] - (prevResources[r] || 0);
+        resourceDeltas[r] = (State.resources[r] - (prevResources[r] || 0)) / dt;
         prevResources[r] = State.resources[r];
     }
 }
@@ -333,16 +335,16 @@ function consume(cost) {
     return true;
 }
 
-function applyYield(base, mult) {
+function applyYield(base, mult, dt) {
     if (base.stats) {
         for (const s in base.stats) {
-            State.stats[s] = (State.stats[s] || 0) + base.stats[s] * mult * State.time;
+            State.stats[s] = (State.stats[s] || 0) + base.stats[s] * mult * State.time * dt;
         }
     }
     if (base.resources) {
         for (const r in base.resources) {
             const capKey = 'max' + r.charAt(0).toUpperCase() + r.slice(1);
-            State.resources[r] = (State.resources[r] || 0) + base.resources[r] * mult * State.time;
+            State.resources[r] = (State.resources[r] || 0) + base.resources[r] * mult * State.time * dt;
             if (State.resources[capKey] !== undefined) {
                 State.resources[r] = Math.min(State.resources[r], State.resources[capKey]);
             }
@@ -374,8 +376,8 @@ const ActionEngine = {
         slot.text = actions[actionId] ? actions[actionId].name : '';
         updateSlotUI(slotIndex);
     },
-    tick() {
-        AgeSystem.tick();
+    tick(dt) {
+        AgeSystem.tick(dt);
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
@@ -385,15 +387,15 @@ const ActionEngine = {
                 slot.progress = 0;
             } else {
                 const mult = scalingMultiplier(action);
-                applyYield(action.baseYield, mult);
-                gainExp(action, action.baseYield.exp * mult * State.time);
+                applyYield(action.baseYield, mult, dt);
+                gainExp(action, action.baseYield.exp * mult * State.time * dt);
                 slot.progress = action.exp / action.expToNext;
             }
             updateSlotUI(i);
         });
         checkStoryEvents();
         SoftCapSystem.apply();
-        updateDeltas();
+        updateDeltas(dt);
         updateTaskList();
         updateUI();
         SaveSystem.save();
@@ -418,9 +420,14 @@ function createActionElement(action) {
         });
         li.addEventListener('dragend', () => li.classList.remove('dragging'));
         li.addEventListener('click', () => {
-            selectedActionId = action.id;
-            document.querySelectorAll('#task-list li').forEach(el => el.classList.remove('selected'));
-            li.classList.add('selected');
+            if (selectedActionId === action.id) {
+                selectedActionId = null;
+                document.querySelectorAll('#task-list li').forEach(el => el.classList.remove('selected'));
+            } else {
+                selectedActionId = action.id;
+                document.querySelectorAll('#task-list li').forEach(el => el.classList.remove('selected'));
+                li.classList.add('selected');
+            }
         });
     }
     return li;
@@ -591,7 +598,7 @@ async function init() {
     TabManager.init();
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
-    setInterval(() => ActionEngine.tick(), 1000);
+    setInterval(() => ActionEngine.tick(TICK_INTERVAL / 1000), TICK_INTERVAL);
 }
 
 document.addEventListener('DOMContentLoaded', init);
