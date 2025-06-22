@@ -35,7 +35,7 @@
     "expToNext": 5,
     "baseYield": {
       "stats": {},
-      "resources": {"focus": 1, "energy": 1},
+      "resources": {"focus": 0.33, "energy": 0.5},
       "exp": 0
     },
     "scaling": {"type": "softcap", "base": 1, "multiplier": 0, "softcapLevel": 1, "falloff": 0},
