@@ -36,7 +36,7 @@ for (let i = 0; i < State.slotCount; i++) {
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
-    State.adventureSlots.push({ text: '', progress: 0, encounter: null });
+    State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null });
 }
 
 let actions = {};
@@ -271,6 +271,23 @@ const AgeSystem = {
     }
 };
 
+const AdventureEngine = {
+    tick(delta) {
+        State.adventureSlots.forEach((slot, i) => {
+            if (!slot.encounter) return;
+            slot.progress += delta / slot.duration;
+            if (slot.progress >= 1) {
+                EncounterGenerator.resolve(slot.encounter);
+                const next = EncounterGenerator.randomEncounter();
+                slot.encounter = next;
+                slot.duration = next ? next.getDuration() : 1;
+                slot.progress = 0;
+            }
+            updateAdventureSlotUI(i);
+        });
+    }
+};
+
 function updateDeltas() {
     for (const s in State.stats) {
         statDeltas[s] = State.stats[s] - (prevStats[s] || 0);
@@ -496,7 +513,7 @@ function setupAdventureSlots() {
     if (!Array.isArray(State.adventureSlots)) State.adventureSlots = [];
     if (State.adventureSlotCount === undefined) State.adventureSlotCount = State.adventureSlots.length;
     while (State.adventureSlots.length < State.adventureSlotCount) {
-        State.adventureSlots.push({ text: '', progress: 0, encounter: null });
+        State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null });
     }
     if (State.adventureSlots.length > State.adventureSlotCount) {
         State.adventureSlots = State.adventureSlots.slice(0, State.adventureSlotCount);
@@ -682,7 +699,10 @@ async function init() {
     TabManager.init();
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
-    setInterval(() => ActionEngine.tick(TICK_MS / 1000), TICK_MS);
+    setInterval(() => {
+        ActionEngine.tick(TICK_MS / 1000);
+        AdventureEngine.tick(TICK_MS / 1000);
+    }, TICK_MS);
 }
 
 document.addEventListener('DOMContentLoaded', init);
