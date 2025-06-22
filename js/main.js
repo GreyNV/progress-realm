@@ -17,6 +17,10 @@ const State = {
         maxEnergy: 10,
         focus: 10,
         maxFocus: 10,
+        health: 1,
+        maxHealth: 10,
+        money: 0,
+        maxMoney: 100,
     },
     // number of available action slots
     slotCount: 6,
@@ -42,9 +46,11 @@ let prevStats = { ...State.stats };
 let prevResources = {
     energy: State.resources.energy,
     focus: State.resources.focus,
+    health: State.resources.health,
+    money: State.resources.money,
 };
 let statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
-let resourceDeltas = { energy: 0, focus: 0 };
+let resourceDeltas = { energy: 0, focus: 0, health: 0, money: 0 };
 
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -69,7 +75,7 @@ const StatsUI = {
 };
 
 const ResourcesUI = {
-    list: ['energy', 'focus'],
+    list: ['energy', 'focus', 'health', 'money'],
     init() {
         const listEl = document.getElementById('resources-list');
         this.list.forEach(key => {
@@ -148,7 +154,7 @@ const Story = {
 
 const SoftCapSystem = {
     statCaps: { strength: 50, intelligence: 50, creativity: 50 },
-    resourceCaps: { energy: 20, focus: 20 },
+    resourceCaps: { energy: 20, focus: 20, health: 10, money: 100 },
     falloff: 0.5,
     apply() {
         for (const s in this.statCaps) {
@@ -220,6 +226,14 @@ const SaveSystem = {
             if (data.version !== VERSION) return null;
             if (data.state) {
                 Object.assign(State, data.state);
+                if (State.resources.health === undefined) {
+                    State.resources.health = 1;
+                    State.resources.maxHealth = 10;
+                }
+                if (State.resources.money === undefined) {
+                    State.resources.money = 0;
+                    State.resources.maxMoney = 100;
+                }
                 if (Array.isArray(State.slots)) {
                     State.slots.forEach(s => {
                         if (s.text === undefined) s.text = '';
@@ -262,7 +276,7 @@ function updateDeltas() {
         statDeltas[s] = State.stats[s] - (prevStats[s] || 0);
         prevStats[s] = State.stats[s];
     }
-    for (const r of ['energy', 'focus']) {
+    for (const r of ['energy', 'focus', 'health', 'money']) {
         resourceDeltas[r] = State.resources[r] - (prevResources[r] || 0);
         prevResources[r] = State.resources[r];
     }
