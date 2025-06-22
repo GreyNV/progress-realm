@@ -14,24 +14,10 @@
         "image": "assets/enc/rabbit.png"
     },
     {
-        "id": "travelingMerchant",
-        "name": "Traveling Merchant",
-        "description": "A colorful wagon rolls up with wares from distant lands.",
-        "rarity": "uncommon",
-        "image": "assets/Intro.png"
-    },
-    {
         "id": "wolfAmbush",
         "name": "Wolf Ambush",
         "description": "Hungry wolves burst from the shadows with fangs bared.",
         "rarity": "rare",
         "image": "assets/enc/wolf.png"
-    },
-    {
-        "id": "drunkardEncounter",
-        "name": "Drunkard Encounter",
-        "description": "A stumbling drunk slurs a greeting and reaches for your arm.",
-        "rarity": "common",
-        "image": "assets/enc/rest.png"
     }
 ]
