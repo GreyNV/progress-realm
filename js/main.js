@@ -112,7 +112,10 @@ const Log = {
 };
 
 const Story = {
+    active: false,
     show(text, image, onClose) {
+        if (this.active) return;
+        this.active = true;
         const modal = document.getElementById('story-modal');
         const textEl = document.getElementById('story-text');
         const imageEl = document.getElementById('story-image');
@@ -125,12 +128,13 @@ const Story = {
             imageEl.appendChild(img);
         }
         modal.classList.remove('hidden');
-        function close() {
+        const close = () => {
             modal.classList.add('hidden');
             document.getElementById('story-close').removeEventListener('click', close);
+            this.active = false;
             Log.add(text);
             if (onClose) onClose();
-        }
+        };
         document.getElementById('story-close').addEventListener('click', close);
     }
 };
