@@ -81,6 +81,13 @@ main {
     margin-top: 1rem;
 }
 
+.grid-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
 .slot {
     flex: 1;
     border: 2px dashed #ccc;
