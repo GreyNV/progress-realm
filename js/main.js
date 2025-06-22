@@ -175,24 +175,38 @@ const SoftCapSystem = {
 const TabManager = {
     tabs: [
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
-        { id: 'adventure', name: 'Adventure', hidden: false, locked: false },
+        { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
         { id: 'automation', name: 'Automation', hidden: false, locked: false },
     ],
     init() {
-        const header = document.getElementById('tab-headers');
+        this.header = document.getElementById('tab-headers');
+        if (State.healerGoneSeen) {
+            const adv = this.tabs.find(t => t.id === 'adventure');
+            if (adv) adv.hidden = false;
+        }
         this.tabs.forEach(tab => {
             if (tab.hidden) return;
-            const btn = document.createElement('button');
-            btn.textContent = tab.locked ? `${tab.name} (Locked)` : tab.name;
-            btn.dataset.tab = tab.id;
-            if (tab.locked) btn.disabled = true;
-            header.appendChild(btn);
+            this._createButton(tab);
         });
-        header.addEventListener('click', e => {
+        this.header.addEventListener('click', e => {
             if (!e.target.dataset.tab) return;
             this.showTab(e.target.dataset.tab);
         });
-        if (this.tabs.length) this.showTab(this.tabs[0].id);
+        const first = this.tabs.find(t => !t.hidden);
+        if (first) this.showTab(first.id);
+    },
+    _createButton(tab) {
+        const btn = document.createElement('button');
+        btn.textContent = tab.locked ? `${tab.name} (Locked)` : tab.name;
+        btn.dataset.tab = tab.id;
+        if (tab.locked) btn.disabled = true;
+        this.header.appendChild(btn);
+    },
+    unlockTab(id) {
+        const tab = this.tabs.find(t => t.id === id);
+        if (!tab || !tab.hidden) return;
+        tab.hidden = false;
+        this._createButton(tab);
     },
     showTab(id) {
         document.querySelectorAll('.tab-content').forEach(el => {
@@ -347,6 +361,8 @@ function checkStoryEvents() {
             'assets/HealerGone.png',
             () => {
                 State.healerGoneSeen = true;
+                TabManager.unlockTab('adventure');
+                TabManager.showTab('adventure');
                 SaveSystem.save();
             }
         );
