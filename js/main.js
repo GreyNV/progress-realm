@@ -94,6 +94,7 @@ const MasteryUI = {
 const Log = {
     messages: [],
     init() {
+        this.container = document.getElementById('log-container');
         this.el = document.getElementById('log');
     },
     add(msg) {
@@ -103,7 +104,9 @@ const Log = {
             div.className = 'log-entry';
             div.textContent = msg;
             this.el.appendChild(div);
-            this.el.scrollTop = this.el.scrollHeight;
+            if (this.container) {
+                this.container.scrollTop = this.container.scrollHeight;
+            }
         }
     }
 };
