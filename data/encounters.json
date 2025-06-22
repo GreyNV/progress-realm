@@ -4,6 +4,8 @@
         "name": "Foraging for Herbs",
         "description": "Dewy plants grow in the underbrush, promising useful herbs.",
         "rarity": "common",
+        "category": "intelligence",
+        "baseDuration": 5,
         "image": "assets/enc/foraging.png"
     },
     {
@@ -11,6 +13,8 @@
         "name": "Rabbit Hunting",
         "description": "A swift rabbit darts between the trees, ripe for the chase.",
         "rarity": "common",
+        "category": "strength",
+        "baseDuration": 6,
         "image": "assets/enc/rabbit.png"
     },
     {
@@ -18,6 +22,8 @@
         "name": "Wolf Ambush",
         "description": "Hungry wolves burst from the shadows with fangs bared.",
         "rarity": "rare",
+        "category": "strength",
+        "baseDuration": 10,
         "image": "assets/enc/wolf.png"
     }
 ]
