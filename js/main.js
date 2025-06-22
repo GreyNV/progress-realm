@@ -1,5 +1,6 @@
 // Progress Realm prototype with leveled actions and resource consumption
 const VERSION = 2;
+const TICK_MS = 100; // interval for game updates in milliseconds
 
 const State = {
     version: VERSION,
@@ -240,8 +241,8 @@ const SaveSystem = {
 
 const AgeSystem = {
     daysPerYear: 365,
-    tick() {
-        State.age.days += State.time;
+    tick(delta) {
+        State.age.days += State.time * delta;
         if (State.age.days >= this.daysPerYear) {
             State.age.years += Math.floor(State.age.days / this.daysPerYear);
             State.age.days = State.age.days % this.daysPerYear;
@@ -323,26 +324,27 @@ function scalingMultiplier(action) {
     return f.base + f.multiplier * lvl;
 }
 
-function consume(cost) {
+function consume(cost, delta) {
     for (const k in cost) {
-        if (!State.resources[k] || State.resources[k] < cost[k]) return false;
+        const amount = cost[k] * delta;
+        if (!State.resources[k] || State.resources[k] < amount) return false;
     }
     for (const k in cost) {
-        State.resources[k] -= cost[k];
+        State.resources[k] -= cost[k] * delta;
     }
     return true;
 }
 
-function applyYield(base, mult) {
+function applyYield(base, mult, delta) {
     if (base.stats) {
         for (const s in base.stats) {
-            State.stats[s] = (State.stats[s] || 0) + base.stats[s] * mult * State.time;
+            State.stats[s] = (State.stats[s] || 0) + base.stats[s] * mult * State.time * delta;
         }
     }
     if (base.resources) {
         for (const r in base.resources) {
             const capKey = 'max' + r.charAt(0).toUpperCase() + r.slice(1);
-            State.resources[r] = (State.resources[r] || 0) + base.resources[r] * mult * State.time;
+            State.resources[r] = (State.resources[r] || 0) + base.resources[r] * mult * State.time * delta;
             if (State.resources[capKey] !== undefined) {
                 State.resources[r] = Math.min(State.resources[r], State.resources[capKey]);
             }
@@ -374,19 +376,19 @@ const ActionEngine = {
         slot.text = actions[actionId] ? actions[actionId].name : '';
         updateSlotUI(slotIndex);
     },
-    tick() {
-        AgeSystem.tick();
+    tick(delta) {
+        AgeSystem.tick(delta);
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
-            const canRun = consume(action.resourceConsumption);
+            const canRun = consume(action.resourceConsumption, delta);
             slot.blocked = !canRun;
             if (!canRun) {
                 slot.progress = 0;
             } else {
                 const mult = scalingMultiplier(action);
-                applyYield(action.baseYield, mult);
-                gainExp(action, action.baseYield.exp * mult * State.time);
+                applyYield(action.baseYield, mult, delta);
+                gainExp(action, action.baseYield.exp * mult * State.time * delta);
                 slot.progress = action.exp / action.expToNext;
             }
             updateSlotUI(i);
@@ -591,7 +593,7 @@ async function init() {
     TabManager.init();
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
-    setInterval(() => ActionEngine.tick(), 1000);
+    setInterval(() => ActionEngine.tick(TICK_MS / 1000), TICK_MS);
 }
 
 document.addEventListener('DOMContentLoaded', init);

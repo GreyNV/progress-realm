@@ -11,7 +11,7 @@
       "exp": 1
     },
     "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
-    "resourceConsumption": {"focus": 0.5}
+    "resourceConsumption": {"focus": 0.1}
   },
   {
     "id": "training",
@@ -25,7 +25,7 @@
       "exp": 1
     },
     "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
-    "resourceConsumption": {"energy": 1}
+    "resourceConsumption": {"energy": 0.2}
   },
   {
     "id": "rest",
@@ -35,7 +35,7 @@
     "expToNext": 5,
     "baseYield": {
       "stats": {},
-      "resources": {"focus": 1, "energy": 1},
+      "resources": {"focus": 0.33, "energy": 0.5},
       "exp": 0
     },
     "scaling": {"type": "softcap", "base": 1, "multiplier": 0, "softcapLevel": 1, "falloff": 0},
