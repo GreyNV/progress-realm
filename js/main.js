@@ -686,6 +686,8 @@ function updateUI() {
     document.getElementById('speed-value').textContent = State.time + 'x';
     const genNameEl = document.getElementById('encounter-generator-name');
     if (genNameEl) genNameEl.textContent = State.encounterName;
+    const genLvlEl = document.getElementById('encounter-generator-level');
+    if (genLvlEl) genLvlEl.textContent = `Level ${State.encounterLevel}`;
 }
 
 async function init() {

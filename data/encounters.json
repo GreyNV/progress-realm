@@ -6,6 +6,7 @@
         "rarity": "common",
         "category": "intelligence",
         "baseDuration": 5,
+        "level": 1,
         "image": "assets/enc/foraging.png"
     },
     {
@@ -15,6 +16,7 @@
         "rarity": "common",
         "category": "strength",
         "baseDuration": 6,
+        "level": 2,
         "image": "assets/enc/rabbit.png"
     },
     {
@@ -24,6 +26,7 @@
         "rarity": "rare",
         "category": "strength",
         "baseDuration": 10,
+        "level": 3,
         "image": "assets/enc/wolf.png"
     }
 ]

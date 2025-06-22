@@ -7,6 +7,7 @@ class Encounter {
         this.rarity = data.rarity || 'common';
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
+        this.level = data.level || 1;
     }
 
     getDuration() {
@@ -39,13 +40,17 @@ const EncounterGenerator = {
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
     durationModPerStat: 0.02, // -2% duration per stat point
     namesByLevel: {
-        1: 'Hut in the forest'
-    },
+        const nameEl = document.getElementById('encounter-generator-name');
+        if (nameEl) nameEl.textContent = State.encounterName;
+        const levelEl = document.getElementById('encounter-generator-level');
+        if (levelEl) levelEl.textContent = `Level ${State.encounterLevel}`;
 
-    updateName() {
-        let name = this.namesByLevel[1];
-        for (const lvl in this.namesByLevel) {
-            if (State.encounterLevel >= parseInt(lvl, 10)) {
+        const available = this.encounters.filter(e => e.level <= State.encounterLevel);
+        if (!available.length) return null;
+        const weights = available.map(e => this.rarityWeights[e.rarity] || 1);
+        for (let i = 0; i < available.length; i++) {
+            if (r <= 0) return available[i];
+        return available[available.length - 1];
                 name = this.namesByLevel[lvl];
             }
         }

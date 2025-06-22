@@ -10,3 +10,6 @@ def test_encounter_fields():
         assert 'baseDuration' in enc
         assert isinstance(enc['baseDuration'], (int, float))
         assert enc['baseDuration'] > 0
+        assert 'level' in enc
+        assert isinstance(enc['level'], int)
+        assert enc['level'] >= 1
