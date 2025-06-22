@@ -29,6 +29,9 @@ const State = {
     adventureSlots: [],
     time: 1,
     masteryPoints: 0,
+    encounterLevel: 1,
+    encounterName: 'hut in the forest',
+    activeAdventureIndex: -1,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -258,6 +261,9 @@ const SaveSystem = {
                 if (State.slotCount === undefined) {
                     State.slotCount = Array.isArray(State.slots) ? State.slots.length : 0;
                 }
+                if (State.encounterLevel === undefined) State.encounterLevel = 1;
+                if (!State.encounterName) State.encounterName = 'hut in the forest';
+                if (State.activeAdventureIndex === undefined) State.activeAdventureIndex = -1;
                 return data.actions || null;
             } else {
                 Object.assign(State, data); // legacy save
@@ -286,19 +292,40 @@ const AgeSystem = {
 };
 
 const AdventureEngine = {
+    start() {
+        if (State.activeAdventureIndex !== -1) return;
+        State.activeAdventureIndex = 0;
+        this.prepareSlot(State.activeAdventureIndex);
+    },
+    prepareSlot(i) {
+        const encounter = EncounterGenerator.randomEncounter();
+        const slot = State.adventureSlots[i];
+        slot.encounter = encounter;
+        slot.duration = encounter ? encounter.getDuration() : 1;
+        slot.progress = 0;
+        updateAdventureSlotUI(i);
+    },
     tick(delta) {
-        State.adventureSlots.forEach((slot, i) => {
-            if (!slot.encounter) return;
-            slot.progress += delta / slot.duration;
-            if (slot.progress >= 1) {
-                EncounterGenerator.resolve(slot.encounter);
-                const next = EncounterGenerator.randomEncounter();
-                slot.encounter = next;
-                slot.duration = next ? next.getDuration() : 1;
-                slot.progress = 0;
+        const i = State.activeAdventureIndex;
+        if (i === -1) return;
+        const slot = State.adventureSlots[i];
+        if (!slot.encounter) this.prepareSlot(i);
+        slot.progress += delta / slot.duration;
+        if (slot.progress >= 1) {
+            EncounterGenerator.resolve(slot.encounter);
+            const last = State.adventureSlots.length - 1;
+            if (i === last) {
+                State.encounterLevel += 1;
+                EncounterGenerator.updateName();
+                EncounterGenerator.updateUI();
+                State.activeAdventureIndex = 0;
+            } else {
+                State.activeAdventureIndex = i + 1;
             }
-            updateAdventureSlotUI(i);
-        });
+            this.prepareSlot(State.activeAdventureIndex);
+            slot.progress = 0;
+        }
+        updateAdventureSlotUI(i);
     }
 };
 
@@ -363,6 +390,8 @@ function checkStoryEvents() {
                 State.healerGoneSeen = true;
                 TabManager.unlockTab('adventure');
                 TabManager.showTab('adventure');
+                AdventureEngine.start();
+                EncounterGenerator.updateUI();
                 SaveSystem.save();
             }
         );
@@ -655,6 +684,8 @@ function updateUI() {
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
     document.getElementById('speed-value').textContent = State.time + 'x';
+    const genNameEl = document.getElementById('encounter-generator-name');
+    if (genNameEl) genNameEl.textContent = State.encounterName;
 }
 
 async function init() {

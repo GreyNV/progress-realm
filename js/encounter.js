@@ -38,6 +38,24 @@ const EncounterGenerator = {
     },
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
     durationModPerStat: 0.02, // -2% duration per stat point
+    namesByLevel: {
+        1: 'hut in the forest'
+    },
+
+    updateName() {
+        let name = this.namesByLevel[1];
+        for (const lvl in this.namesByLevel) {
+            if (State.encounterLevel >= parseInt(lvl, 10)) {
+                name = this.namesByLevel[lvl];
+            }
+        }
+        State.encounterName = name;
+    },
+
+    updateUI() {
+        const el = document.getElementById('encounter-generator-name');
+        if (el) el.textContent = State.encounterName;
+    },
 
     async load() {
         try {
@@ -54,6 +72,8 @@ const EncounterGenerator = {
         this.container = document.getElementById('adventure-slots');
         if (!this.container) return;
         this.populateSlots();
+        this.updateName();
+        this.updateUI();
     },
 
     randomEncounter() {
