@@ -124,14 +124,8 @@ main {
     text-align: center;
     font-size: 0.8rem;
     pointer-events: none;
-    color: #000;
-}
-# Adventure slots display encounter names on top of background images.
-# Use a white font for better readability.
-# This overrides the default black text color above.
-
-#adventure-slots .slot .label {
     color: #fff;
+}
 }
 
 .tooltip {
