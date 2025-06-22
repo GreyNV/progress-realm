@@ -30,7 +30,7 @@ const State = {
     time: 1,
     masteryPoints: 0,
     encounterLevel: 1,
-    encounterName: 'hut in the forest',
+    encounterName: 'Hut in the forest',
     activeAdventureIndex: -1,
 };
 
@@ -262,7 +262,7 @@ const SaveSystem = {
                     State.slotCount = Array.isArray(State.slots) ? State.slots.length : 0;
                 }
                 if (State.encounterLevel === undefined) State.encounterLevel = 1;
-                if (!State.encounterName) State.encounterName = 'hut in the forest';
+                if (!State.encounterName) State.encounterName = 'Hut in the forest';
                 if (State.activeAdventureIndex === undefined) State.activeAdventureIndex = -1;
                 return data.actions || null;
             } else {
