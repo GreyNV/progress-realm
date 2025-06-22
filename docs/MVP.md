@@ -7,3 +7,6 @@ Use this list to verify the first playable prototype of **Progress Realm**:
 - [x] Allow simple task execution logic (placeholder function)
 - [x] Show stat and resource placeholders on screen
 - [x] Ensure page reload keeps game state using `localStorage` (optional for prototype)
+- [x] Leveled actions with experience and tiers
+- [x] Multiple action slots with drag-and-drop
+- [x] Introductory story modal and log panel
