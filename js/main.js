@@ -297,7 +297,11 @@ function checkStoryEvents() {
     const triggerDays = 16 * AgeSystem.daysPerYear + 30;
     if (currentDays > triggerDays) {
         Story.show(
-            "Our hero finally recovered and discovers that the healer disappeared. He overviewed the place and has to decide what he is going to do next. It was only forest around him and no trace of any road or people.",
+            "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs.
+
+You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises.
+
+The pendant at your neck feels heavier — as if urging you forward.",
             null,
             () => {
                 State.healerGoneSeen = true;
