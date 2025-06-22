@@ -5,6 +5,7 @@ const State = {
     version: VERSION,
     age: { years: 16, days: 0, max: 75 },
     introSeen: false,
+    healerGoneSeen: false,
     stats: {
         strength: 0,
         intelligence: 0,
@@ -290,7 +291,20 @@ function getActionTier(level) {
 }
 
 function checkStoryEvents() {
-    // Future story triggers will go here
+    // Trigger when the hero recovers and notices the healer is gone
+    if (!State.introSeen || State.healerGoneSeen) return;
+    const currentDays = State.age.years * AgeSystem.daysPerYear + State.age.days;
+    const triggerDays = 16 * AgeSystem.daysPerYear + 30;
+    if (currentDays > triggerDays) {
+        Story.show(
+            "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
+            null,
+            () => {
+                State.healerGoneSeen = true;
+                SaveSystem.save();
+            }
+        );
+    }
 }
 
 function scalingMultiplier(action) {
