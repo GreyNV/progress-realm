@@ -298,7 +298,7 @@ function checkStoryEvents() {
     if (currentDays > triggerDays) {
         Story.show(
             "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
-            null,
+            'assets/HealerGone.png',
             () => {
                 State.healerGoneSeen = true;
                 SaveSystem.save();
