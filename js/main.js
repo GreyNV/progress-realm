@@ -668,6 +668,7 @@ async function init() {
         if (el) list.appendChild(el);
     });
     await EncounterGenerator.load();
+    await ItemGenerator.load();
     StatsUI.init();
     ResourcesUI.init();
     MasteryUI.init();
