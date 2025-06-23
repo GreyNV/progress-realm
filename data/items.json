@@ -4,7 +4,7 @@
         "name": "Herb",
         "rarity": "common",
         "effectType": "increaseSoftcap",
-        "effectValue": {"focus": 2},
+        "effectValue": {"focus": 1},
         "image": "assets/items/herb.png"
     },
     {
