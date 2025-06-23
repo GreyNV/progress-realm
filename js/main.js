@@ -301,6 +301,7 @@ const AdventureEngine = {
         } else {
             updateAdventureSlotUI(this.activeIndex);
         }
+        checkHealth();
     }
 };
 
@@ -363,6 +364,13 @@ function applyDeltas(deltaSeconds) {
             ResourceSystem.consume(State.resources[k], -change);
         }
     });
+}
+
+function checkHealth() {
+    if (State.resources.health.value <= 0) {
+        EncounterGenerator.decrementLevel();
+        EncounterGenerator.resetProgress();
+    }
 }
 
 function formatDelta(v) {
@@ -494,6 +502,7 @@ const ActionEngine = {
         });
         checkStoryEvents();
         SoftCapSystem.apply();
+        checkHealth();
         SaveSystem.save();
     }
 };

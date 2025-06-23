@@ -37,11 +37,7 @@ const EncounterGenerator = {
     encounters: [],
     container: null,
     level: 0,
-    milestones: [
-        { level: 0, name: 'Hut in the Forest' },
-        { level: 3, name: 'Abandoned Clearing' },
-        { level: 6, name: 'Ruined Keep' }
-    ],
+    milestones: [],
     rarityWeights: {
         common: 1,
         rare: 0.5,
@@ -66,6 +62,15 @@ const EncounterGenerator = {
             console.error('Failed to load encounters', e);
             this.encounters = [];
         }
+
+        try {
+            const res = await fetch('data/locations.json');
+            const json = await res.json();
+            this.milestones = json;
+        } catch (e) {
+            console.error('Failed to load locations', e);
+            this.milestones = [{ level: 0, name: 'Unknown' }];
+        }
     },
 
     updateName() {
@@ -84,6 +89,21 @@ const EncounterGenerator = {
         this.level += 1;
         State.encounterLevel = this.level;
         this.updateName();
+    },
+
+    decrementLevel() {
+        if (this.level > 0) {
+            this.level -= 1;
+            State.encounterLevel = this.level;
+            this.updateName();
+        }
+    },
+
+    resetProgress() {
+        this.populateSlots();
+        if (typeof AdventureEngine !== 'undefined') {
+            AdventureEngine.activeIndex = null;
+        }
     },
 
     init() {
