@@ -77,13 +77,9 @@ for (let i = 0; i < State.adventureSlotCount; i++) {
 let actions = {};
 let selectedActionId = null;
 
-let prevStats = { ...State.stats };
-let prevResources = {
-    energy: getResourceValue("energy"),
-    focus: getResourceValue("focus"),
-    health: getResourceValue("health"),
-    money: getResourceValue("money")
-};
+const STAT_KEYS = ["strength", "intelligence", "creativity"];
+const RESOURCE_KEYS = ["energy", "focus", "health", "money"];
+
 let statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
 let resourceDeltas = { energy: 0, focus: 0, health: 0, money: 0 };
 
@@ -303,19 +299,48 @@ const AdventureEngine = {
     }
 };
 
-function updateDeltas(delta) {
-    const factor = 1 / delta;
-    for (const s in State.stats) {
-        const diff = State.stats[s] - (prevStats[s] || 0);
-        statDeltas[s] = diff * factor;
-        prevStats[s] = State.stats[s];
-    }
-    for (const r of ['energy', 'focus', 'health', 'money']) {
-        const val = getResourceValue(r);
-        const diff = val - (prevResources[r] || 0);
-        resourceDeltas[r] = diff * factor;
-        prevResources[r] = val;
-    }
+function updateDeltas() {
+    // reset deltas
+    STAT_KEYS.forEach(k => { statDeltas[k] = 0; });
+    RESOURCE_KEYS.forEach(k => { resourceDeltas[k] = 0; });
+
+    // contributions from active actions
+    State.slots.forEach(slot => {
+        if (!slot.actionId) return;
+        const action = actions[slot.actionId];
+        const mult = scalingMultiplier(action);
+
+        if (action.baseYield.stats) {
+            for (const s in action.baseYield.stats) {
+                statDeltas[s] = (statDeltas[s] || 0) +
+                    action.baseYield.stats[s] * mult * State.time;
+            }
+        }
+
+        if (action.baseYield.resources) {
+            for (const r in action.baseYield.resources) {
+                resourceDeltas[r] = (resourceDeltas[r] || 0) +
+                    action.baseYield.resources[r] * mult * State.time;
+            }
+        }
+
+        if (action.resourceConsumption) {
+            for (const r in action.resourceConsumption) {
+                resourceDeltas[r] = (resourceDeltas[r] || 0) -
+                    action.resourceConsumption[r] * mult * State.time;
+            }
+        }
+    });
+
+    // contributions from active encounters
+    State.adventureSlots.forEach(slot => {
+        if (!slot.active || !slot.encounter) return;
+        const cost = slot.encounter.getResourceCost();
+        for (const r in cost) {
+            resourceDeltas[r] = (resourceDeltas[r] || 0) -
+                cost[r] * State.time;
+        }
+    });
 }
 
 function formatDelta(v) {
@@ -452,7 +477,7 @@ const ActionEngine = {
         });
         checkStoryEvents();
         SoftCapSystem.apply();
-        updateDeltas(delta);
+        updateDeltas();
         updateTaskList();
         updateUI();
         SaveSystem.save();
