@@ -66,6 +66,8 @@ const State = {
     slots: [],
     adventureSlotCount: 1,
     adventureSlots: [],
+    inventorySlotCount: 8,
+    inventory: {},
     time: 1,
     masteryPoints: 0,
     encounterLevel: 0,
@@ -147,6 +149,7 @@ const TabManager = {
     tabs: [
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
         { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
+        { id: 'inventory', name: 'Inventory', hidden: false, locked: false },
         { id: 'automation', name: 'Automation', hidden: false, locked: false },
     ],
     init() {
@@ -238,6 +241,12 @@ const SaveSystem = {
                     State.adventureSlots.forEach(s => {
                         if (s.active === undefined) s.active = false;
                     });
+                }
+                if (State.inventorySlotCount === undefined) {
+                    State.inventorySlotCount = 8;
+                }
+                if (!State.inventory) {
+                    State.inventory = {};
                 }
                 return data.actions || null;
             } else {
@@ -618,6 +627,22 @@ function setupAdventureSlots() {
     }
 }
 
+function setupInventorySlots() {
+    const container = document.getElementById('inventory-slots');
+    if (!container) return;
+    container.innerHTML = '';
+    const count = State.inventorySlotCount || 0;
+    for (let i = 0; i < count; i++) {
+        const slotEl = document.createElement('div');
+        slotEl.className = 'slot';
+        const label = document.createElement('span');
+        label.className = 'label';
+        slotEl.appendChild(label);
+        container.appendChild(slotEl);
+    }
+    InventoryUI.update();
+}
+
 function setupDragAndDrop() {
     document.querySelectorAll('#slots .slot').forEach(slotEl => {
         slotEl.addEventListener('dragover', e => e.preventDefault());
@@ -769,9 +794,11 @@ async function init() {
     StatsUI.init();
     ResourcesUI.init();
     MasteryUI.init();
+    InventoryUI.init();
     updateTaskList();
     setupSlots();
     setupAdventureSlots();
+    setupInventorySlots();
     EncounterGenerator.init();
     setupDragAndDrop();
     setupTooltips();

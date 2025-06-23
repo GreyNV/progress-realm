@@ -47,6 +47,31 @@ const MasteryUI = {
     }
 };
 
+const InventoryUI = {
+    init() {
+        this.container = document.getElementById('inventory-slots');
+        this.update();
+    },
+    update() {
+        if (!this.container) return;
+        const items = Inventory.getItems();
+        const count = State.inventorySlotCount || 0;
+        this.container.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot';
+            const label = document.createElement('span');
+            label.className = 'label';
+            if (items[i]) {
+                const item = items[i];
+                label.textContent = `${item.quantity}x ${item.id}`;
+            }
+            slot.appendChild(label);
+            this.container.appendChild(slot);
+        }
+    }
+};
+
 const Log = {
     messages: [],
     init() {

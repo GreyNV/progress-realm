@@ -8,6 +8,7 @@ class Encounter {
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
         this.resourceConsumption = data.resourceConsumption || {};
+        this.items = data.items || null;
     }
 
     getDuration() {
@@ -140,7 +141,11 @@ const EncounterGenerator = {
     resolve(encounter) {
         const chance = encounter.getLootChance();
         if (Math.random() < chance) {
-            Log.add(`You found loot during ${encounter.name}!`);
+            const item = ItemGenerator.generateFromEncounter(encounter);
+            if (item) {
+                Log.add(`You found ${capitalize(item.rarity)} ${item.name} during ${encounter.name}!`);
+                Inventory.add(item);
+            }
         }
     }
 };
