@@ -286,7 +286,7 @@ const AdventureEngine = {
         const slot = State.adventureSlots[this.activeIndex];
         if (!slot.encounter) return;
         const cost = slot.encounter.getResourceCost();
-        const missing = consume(cost, delta);
+        const missing = canAfford(cost, delta);
         if (missing) {
             retreat(missing);
             return;
@@ -452,15 +452,11 @@ function scalingMultiplier(action) {
     return f.base + f.multiplier * lvl;
 }
 
-function consume(cost, delta, mult = 1) {
+function canAfford(cost, delta, mult = 1) {
     for (const k in cost) {
         const amount = cost[k] * mult * State.time * delta;
         const res = State.resources[k];
         if (!res || res.value < amount) return k;
-    }
-    for (const k in cost) {
-        const amount = cost[k] * mult * State.time * delta;
-        ResourceSystem.consume(State.resources[k], amount);
     }
     return null;
 }
