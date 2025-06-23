@@ -63,7 +63,9 @@ const EncounterGenerator = {
             .find(m => this.level >= m.level);
         const name = milestone ? milestone.name : this.milestones[0].name;
         const el = document.getElementById('encounter-location');
-        if (el) el.textContent = name;
+        if (el) {
+            el.textContent = `${name} (Level ${this.level})`;
+        }
     },
 
     incrementLevel() {
