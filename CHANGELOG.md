@@ -9,6 +9,12 @@ All notable changes to this project will be documented in this file.
 - Updated README and docs with inventory details and modularization progress.
 - Added `docs/AGENTS.md` with documentation update rules.
 
+## [0.7.0] - 2025-06-25
+### Added
+- New level-gated encounters from common to legendary tiers with item rewards.
+### Documentation
+- Updated README with encounter tier details.
+
 ## [0.5.0]
 ### Changed
 - Adventure tab redesigned with a single slot.

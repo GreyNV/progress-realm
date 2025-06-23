@@ -7,6 +7,7 @@ class Encounter {
         this.rarity = data.rarity || 'common';
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
+        this.minLevel = data.minLevel || 0;
         this.resourceConsumption = data.resourceConsumption || {};
         this.items = data.items || null;
     }
@@ -118,14 +119,16 @@ const EncounterGenerator = {
 
     randomEncounter() {
         if (!this.encounters.length) return null;
-        const weights = this.encounters.map(e => this.rarityWeights[e.rarity] || 1);
+        const pool = this.encounters.filter(e => (e.minLevel || 0) <= this.level);
+        if (!pool.length) return null;
+        const weights = pool.map(e => this.rarityWeights[e.rarity] || 1);
         const total = weights.reduce((a, b) => a + b, 0);
         let r = Math.random() * total;
-        for (let i = 0; i < this.encounters.length; i++) {
+        for (let i = 0; i < pool.length; i++) {
             r -= weights[i];
-            if (r <= 0) return this.encounters[i];
+            if (r <= 0) return pool[i];
         }
-        return this.encounters[this.encounters.length - 1];
+        return pool[pool.length - 1];
     },
 
     populateSlots() {

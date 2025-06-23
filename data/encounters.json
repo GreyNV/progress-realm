@@ -1,35 +1,145 @@
 [
-    {
-        "id": "foragingHerbs",
-        "name": "Foraging for Herbs",
-        "description": "Dewy plants grow in the underbrush, promising useful herbs.",
-        "rarity": "common",
-        "category": "intelligence",
-        "baseDuration": 5,
-        "image": "assets/enc/foraging.png",
-        "resourceConsumption": {"energy": 0.5, "focus": 1},
-        "items": {"herb": 1.0}
+  {
+    "id": "foragingHerbs",
+    "name": "Foraging for Herbs",
+    "description": "Dewy plants grow in the underbrush, promising useful herbs.",
+    "rarity": "common",
+    "category": "intelligence",
+    "baseDuration": 5,
+    "minLevel": 0,
+    "image": "assets/enc/foraging.png",
+    "resourceConsumption": {
+      "energy": 0.5,
+      "focus": 1
     },
-    {
-        "id": "rabbitHunt",
-        "name": "Rabbit Hunting",
-        "description": "A swift rabbit darts between the trees, ripe for the chase.",
-        "rarity": "common",
-        "category": "strength",
-        "baseDuration": 6,
-        "image": "assets/enc/rabbit.png",
-        "resourceConsumption": {"energy": 1, "focus": 0.5},
-        "items": {"rabbit_meat": 0.7, "herb": 0.3}
-    },
-    {
-        "id": "wolfAmbush",
-        "name": "Wolf Ambush",
-        "description": "Hungry wolves burst from the shadows with fangs bared.",
-        "rarity": "rare",
-        "category": "strength",
-        "baseDuration": 10,
-        "image": "assets/enc/wolf.png",
-        "resourceConsumption": {"energy": 1.5, "focus": 1, "health": 2},
-        "items": {"wolf_pelt": 0.5}
+    "items": {
+      "herb": 1.0
     }
+  },
+  {
+    "id": "rabbitHunt",
+    "name": "Rabbit Hunting",
+    "description": "A swift rabbit darts between the trees, ripe for the chase.",
+    "rarity": "common",
+    "category": "strength",
+    "baseDuration": 6,
+    "minLevel": 0,
+    "image": "assets/enc/rabbit.png",
+    "resourceConsumption": {
+      "energy": 1,
+      "focus": 0.5
+    },
+    "items": {
+      "rabbit_meat": 0.7,
+      "herb": 0.3
+    }
+  },
+  {
+    "id": "wolfAmbush",
+    "name": "Wolf Ambush",
+    "description": "Hungry wolves burst from the shadows with fangs bared.",
+    "rarity": "rare",
+    "category": "strength",
+    "baseDuration": 10,
+    "minLevel": 0,
+    "image": "assets/enc/wolf.png",
+    "resourceConsumption": {
+      "energy": 1.5,
+      "focus": 1,
+      "health": 2
+    },
+    "items": {
+      "wolf_pelt": 0.5
+    }
+  },
+  {
+    "id": "chopWood",
+    "name": "Chop Wood",
+    "description": "Gather firewood from the nearby forest.",
+    "rarity": "common",
+    "category": "strength",
+    "baseDuration": 5,
+    "minLevel": 1,
+    "image": "assets/enc/training.png",
+    "resourceConsumption": {
+      "energy": 1,
+      "focus": 0.5
+    },
+    "items": {
+      "wood_log": 0.8
+    }
+  },
+  {
+    "id": "collectStones",
+    "name": "Collect Stones",
+    "description": "Search the ground for useful stones.",
+    "rarity": "common",
+    "category": "strength",
+    "baseDuration": 4,
+    "minLevel": 1,
+    "image": "assets/enc/rest.png",
+    "resourceConsumption": {
+      "energy": 0.8,
+      "focus": 0.6
+    },
+    "items": {
+      "stone_piece": 0.8
+    }
+  },
+  {
+    "id": "boarHunt",
+    "name": "Boar Hunt",
+    "description": "A wild boar charges through the brush—dangerous but rewarding.",
+    "rarity": "rare",
+    "category": "strength",
+    "baseDuration": 7,
+    "minLevel": 10,
+    "image": "assets/enc/rabbit.png",
+    "resourceConsumption": {
+      "energy": 1.5,
+      "focus": 1,
+      "health": 1
+    },
+    "items": {
+      "boar_tusk": 0.6,
+      "herb": 0.3
+    }
+  },
+  {
+    "id": "findOre",
+    "name": "Find Ore",
+    "description": "Deep in the earth lies precious ore waiting to be mined.",
+    "rarity": "epic",
+    "category": "strength",
+    "baseDuration": 10,
+    "minLevel": 15,
+    "image": "assets/enc/studying.png",
+    "resourceConsumption": {
+      "energy": 2,
+      "focus": 1.2
+    },
+    "items": {
+      "ore_chunk": 0.5
+    }
+  },
+  {
+    "id": "ancientVault",
+    "name": "Ancient Vault Awakens",
+    "description": "A mysterious vault opens, promising untold riches.",
+    "rarity": "legendary",
+    "category": "intelligence",
+    "baseDuration": 12,
+    "minLevel": 30,
+    "image": "assets/enc/foraging.png",
+    "resourceConsumption": {
+      "energy": 2,
+      "focus": 2,
+      "health": 1
+    },
+    "items": {
+      "vault_relic": 0.2,
+      "ore_chunk": 0.5,
+      "boar_tusk": 0.3
+    }
+  }
 ]
