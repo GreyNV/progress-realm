@@ -6,6 +6,7 @@ class Item {
         this.effectType = data.effectType;
         this.effectValue = data.effectValue;
         this.maxQuantity = data.maxQuantity || 1;
+        this.image = data.image || null;
     }
 
     applyEffect(targetState) {
@@ -46,9 +47,9 @@ const ItemGenerator = {
         legendary: 0.02,
     },
     generationSources: {
-        hunting: ['energy_potion'],
-        exploring: ['ancient_tome'],
-        quests: ['energy_potion', 'ancient_tome'],
+        hunting: ['rabbit_meat', 'wolf_pelt'],
+        exploring: ['herb'],
+        quests: ['herb', 'rabbit_meat', 'wolf_pelt'],
     },
 
     async load() {
@@ -119,10 +120,14 @@ const Inventory = {
         InventoryUI.update();
     },
     getItems() {
-        return Object.entries(State.inventory).map(([id, data]) => ({
-            id,
-            quantity: data.quantity,
-        }));
+        return Object.entries(State.inventory).map(([id, data]) => {
+            const itemData = ItemGenerator.itemList.find(i => i.id === id) || {};
+            return {
+                id,
+                quantity: data.quantity,
+                image: itemData.image,
+            };
+        });
     },
 };
 

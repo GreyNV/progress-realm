@@ -55,7 +55,7 @@ const InventoryUI = {
     update() {
         if (!this.container) return;
         const items = Inventory.getItems();
-        const count = State.inventorySlotCount || 0;
+        const count = items.length;
         this.container.innerHTML = '';
         for (let i = 0; i < count; i++) {
             const slot = document.createElement('div');
@@ -65,6 +65,11 @@ const InventoryUI = {
             if (items[i]) {
                 const item = items[i];
                 label.textContent = `${item.quantity}x ${item.id}`;
+                if (item.image) {
+                    slot.style.backgroundImage = `url(${item.image})`;
+                }
+            } else {
+                slot.style.backgroundImage = 'none';
             }
             slot.appendChild(label);
             this.container.appendChild(slot);

@@ -1,26 +1,29 @@
 [
     {
-        "id": "energy_potion",
-        "name": "Energy Potion",
-        "rarity": "common",
-        "effectType": "generateResource",
-        "effectValue": {"energy": 5},
-        "maxQuantity": 5
-    },
-    {
-        "id": "ancient_tome",
-        "name": "Ancient Tome",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {"intelligence": 2},
-        "maxQuantity": 1
-    },
-    {
         "id": "herb",
         "name": "Herb",
         "rarity": "common",
         "effectType": "generateResource",
         "effectValue": {"health": 2},
-        "maxQuantity": 10
+        "maxQuantity": 10,
+        "image": "assets/items/herb.png"
+    },
+    {
+        "id": "rabbit_meat",
+        "name": "Rabbit Meat",
+        "rarity": "common",
+        "effectType": "generateResource",
+        "effectValue": {"energy": 3},
+        "maxQuantity": 5,
+        "image": "assets/items/rabbit.png"
+    },
+    {
+        "id": "wolf_pelt",
+        "name": "Wolf Pelt",
+        "rarity": "rare",
+        "effectType": "increaseSoftcap",
+        "effectValue": {"strength": 1},
+        "maxQuantity": 3,
+        "image": "assets/items/wolfpelt.png"
     }
 ]

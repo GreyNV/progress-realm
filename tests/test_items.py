@@ -14,3 +14,4 @@ def test_item_fields():
         assert 'effectValue' in item
         assert 'maxQuantity' in item
         assert isinstance(item['maxQuantity'], int)
+        assert 'image' in item
