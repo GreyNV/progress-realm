@@ -1,5 +1,5 @@
 [
     {"level": 0, "name": "Hut in the Forest"},
-    {"level": 3, "name": "Abandoned Clearing"},
-    {"level": 6, "name": "Ruined Keep"}
+    {"level": 50, "name": "Abandoned Clearing"},
+    {"level": 100, "name": "Ruined Keep"}
 ]
