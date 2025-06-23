@@ -17,6 +17,7 @@ It also adds a drag-and-drop task system with tooltips and simple completion ani
 Version 0.2.0 introduced a leveled action system with per-second yields and resource blocking.
 Version 0.3.0 expands the prototype with six starting action slots, an introductory story modal, and a simple log panel.
 Version 0.4.0 adds weighted random encounters with durations and loot chances influenced by your stats.
+Version 0.5.0 redesigns the Adventure tab with a single slot. Encounter level now increases after ten consecutive successes.
 
 #### 3. Core Gameplay Loop
 

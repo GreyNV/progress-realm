@@ -64,11 +64,12 @@ const State = {
     // number of available action slots
     slotCount: 6,
     slots: [],
-    adventureSlotCount: 9,
+    adventureSlotCount: 1,
     adventureSlots: [],
     time: 1,
     masteryPoints: 0,
     encounterLevel: 0,
+    encounterStreak: 0,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -227,6 +228,12 @@ const SaveSystem = {
                 if (State.encounterLevel === undefined) {
                     State.encounterLevel = 0;
                 }
+                if (State.encounterStreak === undefined) {
+                    State.encounterStreak = 0;
+                }
+                if (State.adventureSlotCount === undefined || State.adventureSlotCount > 1) {
+                    State.adventureSlotCount = 1;
+                }
                 if (Array.isArray(State.adventureSlots)) {
                     State.adventureSlots.forEach(s => {
                         if (s.active === undefined) s.active = false;
@@ -261,7 +268,7 @@ const AgeSystem = {
 
 const AdventureEngine = {
     activeIndex: null,
-    startSlot(i) {
+    startSlot(i = 0) {
         const encounter = EncounterGenerator.randomEncounter();
         const slot = State.adventureSlots[i];
         slot.encounter = encounter;
@@ -290,14 +297,13 @@ const AdventureEngine = {
             slot.active = false;
             slot.encounter = null;
             slot.progress = 0;
+            State.encounterStreak += 1;
             updateAdventureSlotUI(this.activeIndex);
-            const nextIndex = this.activeIndex + 1;
-            if (nextIndex < State.adventureSlots.length) {
-                this.startSlot(nextIndex);
-            } else {
+            if (State.encounterStreak >= 10) {
                 EncounterGenerator.incrementLevel();
-                this.activeIndex = null;
+                State.encounterStreak = 0;
             }
+            this.startSlot(this.activeIndex);
         } else {
             updateAdventureSlotUI(this.activeIndex);
         }
