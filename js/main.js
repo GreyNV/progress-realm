@@ -306,7 +306,7 @@ function updateDeltas() {
 
     // contributions from active actions
     State.slots.forEach(slot => {
-        if (!slot.actionId || slot.blocked) return;
+        if (!slot.actionId) return;
         const action = actions[slot.actionId];
         const mult = scalingMultiplier(action);
 
@@ -320,21 +320,14 @@ function updateDeltas() {
         if (action.baseYield.resources) {
             for (const r in action.baseYield.resources) {
                 const rate = action.baseYield.resources[r] * mult * State.time;
-                const res = State.resources[r];
-                const max = ResourceSystem.max(res);
-                const available = Math.max(0, max - res.value);
-                resourceDeltas[r] = (resourceDeltas[r] || 0) +
-                    Math.min(rate, available);
+                resourceDeltas[r] = (resourceDeltas[r] || 0) + rate;
             }
         }
 
         if (action.resourceConsumption) {
             for (const r in action.resourceConsumption) {
                 const rate = action.resourceConsumption[r] * mult * State.time;
-                const res = State.resources[r];
-                const available = res.value;
-                resourceDeltas[r] = (resourceDeltas[r] || 0) -
-                    Math.min(rate, available);
+                resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
             }
         }
     });
@@ -345,10 +338,7 @@ function updateDeltas() {
         const cost = slot.encounter.getResourceCost();
         for (const r in cost) {
             const rate = cost[r] * State.time;
-            const res = State.resources[r];
-            const available = res.value;
-            resourceDeltas[r] = (resourceDeltas[r] || 0) -
-                Math.min(rate, available);
+            resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
         }
     });
 }
