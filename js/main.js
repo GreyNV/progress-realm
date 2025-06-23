@@ -29,9 +29,6 @@ const State = {
     adventureSlots: [],
     time: 1,
     masteryPoints: 0,
-    encounterLevel: 1,
-    encounterName: 'Hut in the forest',
-    activeAdventureIndex: -1,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -63,7 +60,6 @@ const StatsUI = {
     list: ['strength', 'intelligence', 'creativity'],
     init() {
         const listEl = document.getElementById('stats-list');
-        if (!listEl) return;
         this.list.forEach(key => {
             const li = document.createElement('li');
             li.innerHTML = `${capitalize(key)}: <span id="stat-${key}">0</span> (<span id="stat-${key}-delta" class="delta">0</span>/s)`;
@@ -72,10 +68,8 @@ const StatsUI = {
     },
     update() {
         this.list.forEach(key => {
-            const statEl = document.getElementById(`stat-${key}`);
-            if (statEl) statEl.textContent = State.stats[key].toFixed(1);
-            const deltaEl = document.getElementById(`stat-${key}-delta`);
-            if (deltaEl) deltaEl.textContent = formatDelta(statDeltas[key]);
+            document.getElementById(`stat-${key}`).textContent = State.stats[key].toFixed(1);
+            document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
         });
     }
 };
@@ -84,7 +78,6 @@ const ResourcesUI = {
     list: ['energy', 'focus', 'health', 'money'],
     init() {
         const listEl = document.getElementById('resources-list');
-        if (!listEl) return;
         this.list.forEach(key => {
             const li = document.createElement('li');
             li.innerHTML = `${capitalize(key)}: <span id="res-${key}">0</span>/<span id="res-${key}-cap">0</span> (<span id="res-${key}-delta" class="delta">0</span>/s)`;
@@ -93,12 +86,9 @@ const ResourcesUI = {
     },
     update() {
         this.list.forEach(key => {
-            const valEl = document.getElementById(`res-${key}`);
-            if (valEl) valEl.textContent = State.resources[key].toFixed(1);
-            const capEl = document.getElementById(`res-${key}-cap`);
-            if (capEl) capEl.textContent = State.resources['max' + capitalize(key)];
-            const deltaEl = document.getElementById(`res-${key}-delta`);
-            if (deltaEl) deltaEl.textContent = formatDelta(resourceDeltas[key]);
+            document.getElementById(`res-${key}`).textContent = State.resources[key].toFixed(1);
+            document.getElementById(`res-${key}-cap`).textContent = State.resources['max' + capitalize(key)];
+            document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
         });
     }
 };
@@ -185,38 +175,24 @@ const SoftCapSystem = {
 const TabManager = {
     tabs: [
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
-        { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
+        { id: 'adventure', name: 'Adventure', hidden: false, locked: false },
         { id: 'automation', name: 'Automation', hidden: false, locked: false },
     ],
     init() {
-        this.header = document.getElementById('tab-headers');
-        if (State.healerGoneSeen) {
-            const adv = this.tabs.find(t => t.id === 'adventure');
-            if (adv) adv.hidden = false;
-        }
+        const header = document.getElementById('tab-headers');
         this.tabs.forEach(tab => {
             if (tab.hidden) return;
-            this._createButton(tab);
+            const btn = document.createElement('button');
+            btn.textContent = tab.locked ? `${tab.name} (Locked)` : tab.name;
+            btn.dataset.tab = tab.id;
+            if (tab.locked) btn.disabled = true;
+            header.appendChild(btn);
         });
-        this.header.addEventListener('click', e => {
+        header.addEventListener('click', e => {
             if (!e.target.dataset.tab) return;
             this.showTab(e.target.dataset.tab);
         });
-        const first = this.tabs.find(t => !t.hidden);
-        if (first) this.showTab(first.id);
-    },
-    _createButton(tab) {
-        const btn = document.createElement('button');
-        btn.textContent = tab.locked ? `${tab.name} (Locked)` : tab.name;
-        btn.dataset.tab = tab.id;
-        if (tab.locked) btn.disabled = true;
-        this.header.appendChild(btn);
-    },
-    unlockTab(id) {
-        const tab = this.tabs.find(t => t.id === id);
-        if (!tab || !tab.hidden) return;
-        tab.hidden = false;
-        this._createButton(tab);
+        if (this.tabs.length) this.showTab(this.tabs[0].id);
     },
     showTab(id) {
         document.querySelectorAll('.tab-content').forEach(el => {
@@ -268,9 +244,6 @@ const SaveSystem = {
                 if (State.slotCount === undefined) {
                     State.slotCount = Array.isArray(State.slots) ? State.slots.length : 0;
                 }
-                if (State.encounterLevel === undefined) State.encounterLevel = 1;
-                if (!State.encounterName) State.encounterName = 'Hut in the forest';
-                if (State.activeAdventureIndex === undefined) State.activeAdventureIndex = -1;
                 return data.actions || null;
             } else {
                 Object.assign(State, data); // legacy save
@@ -299,40 +272,19 @@ const AgeSystem = {
 };
 
 const AdventureEngine = {
-    start() {
-        if (State.activeAdventureIndex !== -1) return;
-        State.activeAdventureIndex = 0;
-        this.prepareSlot(State.activeAdventureIndex);
-    },
-    prepareSlot(i) {
-        const encounter = EncounterGenerator.randomEncounter();
-        const slot = State.adventureSlots[i];
-        slot.encounter = encounter;
-        slot.duration = encounter ? encounter.getDuration() : 1;
-        slot.progress = 0;
-        updateAdventureSlotUI(i);
-    },
     tick(delta) {
-        const i = State.activeAdventureIndex;
-        if (i === -1) return;
-        const slot = State.adventureSlots[i];
-        if (!slot.encounter) this.prepareSlot(i);
-        slot.progress += delta / slot.duration;
-        if (slot.progress >= 1) {
-            EncounterGenerator.resolve(slot.encounter);
-            const last = State.adventureSlots.length - 1;
-            if (i === last) {
-                State.encounterLevel += 1;
-                EncounterGenerator.updateName();
-                EncounterGenerator.updateUI();
-                State.activeAdventureIndex = 0;
-            } else {
-                State.activeAdventureIndex = i + 1;
+        State.adventureSlots.forEach((slot, i) => {
+            if (!slot.encounter) return;
+            slot.progress += delta / slot.duration;
+            if (slot.progress >= 1) {
+                EncounterGenerator.resolve(slot.encounter);
+                const next = EncounterGenerator.randomEncounter();
+                slot.encounter = next;
+                slot.duration = next ? next.getDuration() : 1;
+                slot.progress = 0;
             }
-            this.prepareSlot(State.activeAdventureIndex);
-            slot.progress = 0;
-        }
-        updateAdventureSlotUI(i);
+            updateAdventureSlotUI(i);
+        });
     }
 };
 
@@ -395,10 +347,6 @@ function checkStoryEvents() {
             'assets/HealerGone.png',
             () => {
                 State.healerGoneSeen = true;
-                TabManager.unlockTab('adventure');
-                TabManager.showTab('adventure');
-                AdventureEngine.start();
-                EncounterGenerator.updateUI();
                 SaveSystem.save();
             }
         );
@@ -691,10 +639,6 @@ function updateUI() {
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
     document.getElementById('speed-value').textContent = State.time + 'x';
-    const genNameEl = document.getElementById('encounter-generator-name');
-    if (genNameEl) genNameEl.textContent = State.encounterName;
-    const genLvlEl = document.getElementById('encounter-generator-level');
-    if (genLvlEl) genLvlEl.textContent = `Level ${State.encounterLevel}`;
 }
 
 async function init() {

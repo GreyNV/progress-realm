@@ -129,6 +129,7 @@ main {
     pointer-events: none;
     color: #fff;
 }
+}
 
 .tooltip {
     position: absolute;

@@ -7,7 +7,6 @@ class Encounter {
         this.rarity = data.rarity || 'common';
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
-        this.level = data.level || 1;
     }
 
     getDuration() {
@@ -39,35 +38,11 @@ const EncounterGenerator = {
     },
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
     durationModPerStat: 0.02, // -2% duration per stat point
-    namesByLevel: {
-        const nameEl = document.getElementById('encounter-generator-name');
-        if (nameEl) nameEl.textContent = State.encounterName;
-        const levelEl = document.getElementById('encounter-generator-level');
-        if (levelEl) levelEl.textContent = `Level ${State.encounterLevel}`;
 
-        const available = this.encounters.filter(e => e.level <= State.encounterLevel);
-        if (!available.length) return null;
-        const weights = available.map(e => this.rarityWeights[e.rarity] || 1);
-        for (let i = 0; i < available.length; i++) {
-            if (r <= 0) return available[i];
-        return available[available.length - 1];
-                name = this.namesByLevel[lvl];
-            }
-        }
-        State.encounterName = name;
-    },
-
-    updateUI() {
-        const el = document.getElementById('encounter-generator-name');
-        if (el) el.textContent = State.encounterName;
-    },
-
-    async load() {
-        try {
-            const res = await fetch('data/encounters.json');
-            const json = await res.json();
-            this.encounters = json.map(e => new Encounter(e));
-        } catch (e) {
+        const weights = this.encounters.map(e => this.rarityWeights[e.rarity] || 1);
+        for (let i = 0; i < this.encounters.length; i++) {
+            if (r <= 0) return this.encounters[i];
+        return this.encounters[this.encounters.length - 1];
             console.error('Failed to load encounters', e);
             this.encounters = [];
         }
