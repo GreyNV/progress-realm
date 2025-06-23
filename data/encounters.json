@@ -7,7 +7,7 @@
         "category": "intelligence",
         "baseDuration": 5,
         "image": "assets/enc/foraging.png",
-        "resourceConsumption": {"energy": 1}
+        "resourceConsumption": {"energy": 0.5, "focus": 1}
     },
     {
         "id": "rabbitHunt",
@@ -17,7 +17,7 @@
         "category": "strength",
         "baseDuration": 6,
         "image": "assets/enc/rabbit.png",
-        "resourceConsumption": {"energy": 1.5}
+        "resourceConsumption": {"energy": 1, "focus": 0.5}
     },
     {
         "id": "wolfAmbush",
@@ -27,6 +27,6 @@
         "category": "strength",
         "baseDuration": 10,
         "image": "assets/enc/wolf.png",
-        "resourceConsumption": {"energy": 2, "health": 0.5}
+        "resourceConsumption": {"energy": 1.5, "focus": 1, "health": 2}
     }
 ]
