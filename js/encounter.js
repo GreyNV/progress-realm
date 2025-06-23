@@ -7,6 +7,7 @@ class Encounter {
         this.rarity = data.rarity || 'common';
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
+        this.resourceConsumption = data.resourceConsumption || {};
     }
 
     getDuration() {
@@ -19,6 +20,16 @@ class Encounter {
         const base = EncounterGenerator.lootBaseByCategory[this.category] || 0;
         const stat = State.stats[this.category] || 0;
         return base + stat * EncounterGenerator.lootBonusPerStat;
+    }
+
+    getResourceCost() {
+        const scale =
+            1 + EncounterGenerator.level * EncounterGenerator.costScalePerLevel;
+        const cost = {};
+        for (const k in this.resourceConsumption) {
+            cost[k] = this.resourceConsumption[k] * scale;
+        }
+        return cost;
     }
 }
 
@@ -44,6 +55,7 @@ const EncounterGenerator = {
     },
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
     durationModPerStat: 0.02, // -2% duration per stat point
+    costScalePerLevel: 0.1, // +10% cost per encounter level
 
     async load() {
         try {

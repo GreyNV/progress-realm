@@ -10,3 +10,8 @@ def test_encounter_fields():
         assert 'baseDuration' in enc
         assert isinstance(enc['baseDuration'], (int, float))
         assert enc['baseDuration'] > 0
+        assert 'resourceConsumption' in enc
+        assert isinstance(enc['resourceConsumption'], dict)
+        for val in enc['resourceConsumption'].values():
+            assert isinstance(val, (int, float))
+            assert val > 0

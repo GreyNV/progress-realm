@@ -6,7 +6,8 @@
         "rarity": "common",
         "category": "intelligence",
         "baseDuration": 5,
-        "image": "assets/enc/foraging.png"
+        "image": "assets/enc/foraging.png",
+        "resourceConsumption": {"energy": 1}
     },
     {
         "id": "rabbitHunt",
@@ -15,7 +16,8 @@
         "rarity": "common",
         "category": "strength",
         "baseDuration": 6,
-        "image": "assets/enc/rabbit.png"
+        "image": "assets/enc/rabbit.png",
+        "resourceConsumption": {"energy": 1.5}
     },
     {
         "id": "wolfAmbush",
@@ -24,6 +26,7 @@
         "rarity": "rare",
         "category": "strength",
         "baseDuration": 10,
-        "image": "assets/enc/wolf.png"
+        "image": "assets/enc/wolf.png",
+        "resourceConsumption": {"energy": 2, "health": 0.5}
     }
 ]
