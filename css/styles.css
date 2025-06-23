@@ -91,6 +91,10 @@ main {
     margin-top: 0.5rem;
 }
 
+#return-btn {
+    margin-top: 0.5rem;
+}
+
 .slot {
     flex: 1;
     border: 2px dashed #ccc;

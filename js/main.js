@@ -373,7 +373,7 @@ function applyDeltas(deltaSeconds) {
 }
 
 function checkHealth() {
-    if (State.resources.health.value <= 0) {
+    if (State.resources.health.value < 0.1) {
         EncounterGenerator.decrementLevel();
         EncounterGenerator.resetProgress();
     }
@@ -772,6 +772,10 @@ async function init() {
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
+    document.getElementById('return-btn').addEventListener('click', () => {
+        EncounterGenerator.decrementLevel();
+        EncounterGenerator.resetProgress();
+    });
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
     // Game logic ticked separately from UI updates so resource generation
