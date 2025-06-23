@@ -101,6 +101,7 @@ const EncounterGenerator = {
 
     resetProgress() {
         this.populateSlots();
+        State.encounterStreak = 0;
         if (typeof AdventureEngine !== 'undefined') {
             AdventureEngine.startSlot(0);
         }
