@@ -277,7 +277,16 @@ const AgeSystem = {
 
 const AdventureEngine = {
     activeIndex: null,
+    waitResource: null,
     startSlot(i = 0) {
+        if (this.waitResource) {
+            const res = State.resources[this.waitResource];
+            if (res && res.value < ResourceSystem.max(res)) {
+                this.activeIndex = null;
+                return;
+            }
+            this.waitResource = null;
+        }
         const encounter = EncounterGenerator.randomEncounter();
         const slot = State.adventureSlots[i];
         slot.encounter = encounter;
@@ -386,6 +395,7 @@ function retreat(resourceName) {
         State.adventureSlots[AdventureEngine.activeIndex] : null;
     const enc = slot && slot.encounter ? slot.encounter.name : 'an encounter';
     Log.add(`You had to retreat after ${enc} because you ran out of ${resourceName}.`);
+    AdventureEngine.waitResource = resourceName;
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
 }
