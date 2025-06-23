@@ -21,3 +21,6 @@ This document outlines the steps required to modularize the JavaScript code for 
 4. Confirm existing tests still pass and add new ones for separated modules.
 
 This incremental approach will gradually reduce the size of `main.js` and clarify each subsystem.
+
+### Progress
+As of version 0.6.0, `items.js` and parts of `ui.js` have been extracted from `main.js` to manage item generation and inventory. The planned `state.js` and `engine.js` modules are still pending.
