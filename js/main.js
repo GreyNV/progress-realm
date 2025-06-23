@@ -246,6 +246,12 @@ const AdventureEngine = {
         }
         const slot = State.adventureSlots[this.activeIndex];
         if (!slot.encounter) return;
+        const cost = slot.encounter.getResourceCost();
+        const canRun = consume(cost, delta);
+        if (!canRun) {
+            updateAdventureSlotUI(this.activeIndex);
+            return;
+        }
         slot.progress += delta / slot.duration;
         if (slot.progress >= 1) {
             EncounterGenerator.resolve(slot.encounter);
