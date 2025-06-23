@@ -1,0 +1,18 @@
+[
+    {
+        "id": "energy_potion",
+        "name": "Energy Potion",
+        "rarity": "common",
+        "effectType": "generateResource",
+        "effectValue": {"energy": 5},
+        "maxQuantity": 5
+    },
+    {
+        "id": "ancient_tome",
+        "name": "Ancient Tome",
+        "rarity": "rare",
+        "effectType": "increaseSoftcap",
+        "effectValue": {"intelligence": 2},
+        "maxQuantity": 1
+    }
+]
