@@ -99,7 +99,7 @@ main {
     flex: 1;
     border: 2px dashed #ccc;
     padding: 0.5rem;
-    min-height: 3rem;
+    min-height: 5rem;
     position: relative;
     display: flex;
     flex-direction: column;
