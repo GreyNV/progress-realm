@@ -5,13 +5,15 @@ const StatsUI = {
         const listEl = document.getElementById('stats-list');
         this.list.forEach(key => {
             const li = document.createElement('li');
-            li.innerHTML = `${capitalize(key)}: <span id="stat-${key}">0</span>(<span id="stat-${key}-delta" class="delta">0</span>/s)`;
+            li.innerHTML = `${capitalize(key)}: <span id="stat-${key}">0</span>/<span id="stat-${key}-cap">0</span> (<span id="stat-${key}-delta" class="delta">0</span>/s)`;
             listEl.appendChild(li);
         });
     },
     update() {
         this.list.forEach(key => {
             document.getElementById(`stat-${key}`).textContent = State.stats[key].toFixed(1);
+            const capEl = document.getElementById(`stat-${key}-cap`);
+            if (capEl) capEl.textContent = SoftCapSystem.statCaps[key].toFixed(1);
             document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
         });
     }
@@ -30,7 +32,8 @@ const ResourcesUI = {
     update() {
         this.list.forEach(key => {
             document.getElementById(`res-${key}`).textContent = getResourceValue(key).toFixed(1);
-            document.getElementById(`res-${key}-cap`).textContent = getResourceMax(key);
+            const capEl = document.getElementById(`res-${key}-cap`);
+            if (capEl) capEl.textContent = SoftCapSystem.resourceCaps[key].toFixed(1);
             document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
         });
     }
