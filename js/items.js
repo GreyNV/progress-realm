@@ -124,6 +124,7 @@ const Inventory = {
             const itemData = ItemGenerator.itemList.find(i => i.id === id) || {};
             return {
                 id,
+                name: itemData.name || id,
                 quantity: data.quantity,
                 image: itemData.image,
             };
