@@ -12,15 +12,8 @@ class Item {
         if (!targetState) return;
         if (this.effectType === 'generateResource') {
             for (const key in this.effectValue) {
-                const capKey = 'max' + key.charAt(0).toUpperCase() + key.slice(1);
-                targetState.resources[key] =
-                    (targetState.resources[key] || 0) + this.effectValue[key];
-                if (targetState.resources[capKey] !== undefined) {
-                    targetState.resources[key] = Math.min(
-                        targetState.resources[key],
-                        targetState.resources[capKey]
-                    );
-                }
+                if (!targetState.resources[key]) continue;
+                ResourceSystem.add(targetState.resources[key], this.effectValue[key]);
             }
         } else if (this.effectType === 'increaseSoftcap') {
             for (const key in this.effectValue) {
