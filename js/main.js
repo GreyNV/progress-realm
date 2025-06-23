@@ -147,6 +147,11 @@ const SoftCapSystem = {
                 }
             }
         }
+        for (const r in this.resourceCaps) {
+            if (State.resources[r]) {
+                State.resources[r].baseMax = this.resourceCaps[r];
+            }
+        }
     },
     apply() {
         for (const s in this.statCaps) {
