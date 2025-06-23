@@ -55,18 +55,29 @@ const InventoryUI = {
     update() {
         if (!this.container) return;
         const items = Inventory.getItems();
-        const count = State.inventorySlotCount || 0;
+        const count = items.length;
         this.container.innerHTML = '';
         for (let i = 0; i < count; i++) {
             const slot = document.createElement('div');
             slot.className = 'slot';
             const label = document.createElement('span');
             label.className = 'label';
+            const countEl = document.createElement('span');
+            countEl.className = 'count';
             if (items[i]) {
                 const item = items[i];
-                label.textContent = `${item.quantity}x ${item.id}`;
+                label.textContent = capitalize(item.name);
+                countEl.textContent = item.quantity;
+                if (item.image) {
+                    slot.style.backgroundImage = `url(${item.image})`;
+                }
+            } else {
+                slot.style.backgroundImage = 'none';
+                label.textContent = '';
+                countEl.textContent = '';
             }
             slot.appendChild(label);
+            slot.appendChild(countEl);
             this.container.appendChild(slot);
         }
     }

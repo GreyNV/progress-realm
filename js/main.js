@@ -628,18 +628,6 @@ function setupAdventureSlots() {
 }
 
 function setupInventorySlots() {
-    const container = document.getElementById('inventory-slots');
-    if (!container) return;
-    container.innerHTML = '';
-    const count = State.inventorySlotCount || 0;
-    for (let i = 0; i < count; i++) {
-        const slotEl = document.createElement('div');
-        slotEl.className = 'slot';
-        const label = document.createElement('span');
-        label.className = 'label';
-        slotEl.appendChild(label);
-        container.appendChild(slotEl);
-    }
     InventoryUI.update();
 }
 

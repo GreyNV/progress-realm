@@ -8,7 +8,7 @@
         "baseDuration": 5,
         "image": "assets/enc/foraging.png",
         "resourceConsumption": {"energy": 0.5, "focus": 1},
-        "items": {"herb": 0.8, "energy_potion": 0.2}
+        "items": {"herb": 1.0}
     },
     {
         "id": "rabbitHunt",
@@ -19,7 +19,7 @@
         "baseDuration": 6,
         "image": "assets/enc/rabbit.png",
         "resourceConsumption": {"energy": 1, "focus": 0.5},
-        "items": {"herb": 0.3}
+        "items": {"rabbit_meat": 0.7, "herb": 0.3}
     },
     {
         "id": "wolfAmbush",
@@ -30,6 +30,6 @@
         "baseDuration": 10,
         "image": "assets/enc/wolf.png",
         "resourceConsumption": {"energy": 1.5, "focus": 1, "health": 2},
-        "items": {"energy_potion": 0.5, "ancient_tome": 0.1}
+        "items": {"wolf_pelt": 0.5}
     }
 ]
