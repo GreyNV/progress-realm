@@ -84,8 +84,48 @@ const ItemGenerator = {
             this.rarityTable.common -= 0.05;
         }
     },
+
+    generateFromEncounter(encounter) {
+        if (!encounter.items) return null;
+        const pool = [];
+        const weights = [];
+        for (const [id, weight] of Object.entries(encounter.items)) {
+            const item = this.itemList.find(i => i.id === id);
+            if (!item) continue;
+            pool.push(item);
+            weights.push(weight);
+        }
+        if (!pool.length) return null;
+        const total = weights.reduce((a, b) => a + b, 0);
+        let r = Math.random() * total;
+        for (let i = 0; i < pool.length; i++) {
+            r -= weights[i];
+            if (r <= 0) return pool[i];
+        }
+        return pool[pool.length - 1];
+    },
+};
+
+const Inventory = {
+    add(item) {
+        if (!State.inventory[item.id]) {
+            State.inventory[item.id] = { quantity: 1 };
+        } else {
+            const result = item.handleDuplicate(State.inventory);
+            if (result !== 'converted') {
+                State.inventory[item.id].quantity += 1;
+            }
+        }
+        InventoryUI.update();
+    },
+    getItems() {
+        return Object.entries(State.inventory).map(([id, data]) => ({
+            id,
+            quantity: data.quantity,
+        }));
+    },
 };
 
 if (typeof module !== 'undefined') {
-    module.exports = { Item, ItemGenerator };
+    module.exports = { Item, ItemGenerator, Inventory };
 }

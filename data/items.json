@@ -14,5 +14,13 @@
         "effectType": "increaseSoftcap",
         "effectValue": {"intelligence": 2},
         "maxQuantity": 1
+    },
+    {
+        "id": "herb",
+        "name": "Herb",
+        "rarity": "common",
+        "effectType": "generateResource",
+        "effectValue": {"health": 2},
+        "maxQuantity": 10
     }
 ]
