@@ -303,14 +303,17 @@ const AdventureEngine = {
     }
 };
 
-function updateDeltas() {
+function updateDeltas(delta) {
+    const factor = 1 / delta;
     for (const s in State.stats) {
-        statDeltas[s] = State.stats[s] - (prevStats[s] || 0);
+        const diff = State.stats[s] - (prevStats[s] || 0);
+        statDeltas[s] = diff * factor;
         prevStats[s] = State.stats[s];
     }
     for (const r of ['energy', 'focus', 'health', 'money']) {
         const val = getResourceValue(r);
-        resourceDeltas[r] = val - (prevResources[r] || 0);
+        const diff = val - (prevResources[r] || 0);
+        resourceDeltas[r] = diff * factor;
         prevResources[r] = val;
     }
 }
@@ -449,7 +452,7 @@ const ActionEngine = {
         });
         checkStoryEvents();
         SoftCapSystem.apply();
-        updateDeltas();
+        updateDeltas(delta);
         updateTaskList();
         updateUI();
         SaveSystem.save();
