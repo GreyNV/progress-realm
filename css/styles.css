@@ -81,12 +81,10 @@ main {
     margin-top: 1rem;
 }
 
-.grid-slots {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-top: 1rem;
+#adventure-slots {
+    display: flex;
 }
+
 
 #encounter-location {
     font-style: italic;
@@ -211,6 +209,10 @@ main {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
+    }
+    #adventure-slots {
+        display: flex;
+        flex-direction: column;
     }
 }
 
