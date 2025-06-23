@@ -25,6 +25,12 @@ class Encounter {
 const EncounterGenerator = {
     encounters: [],
     container: null,
+    level: 0,
+    milestones: [
+        { level: 0, name: 'Hut in the Forest' },
+        { level: 3, name: 'Abandoned Clearing' },
+        { level: 6, name: 'Ruined Keep' }
+    ],
     rarityWeights: {
         common: 1,
         rare: 0.5,
@@ -50,9 +56,27 @@ const EncounterGenerator = {
         }
     },
 
+    updateName() {
+        const milestone = this.milestones
+            .slice()
+            .reverse()
+            .find(m => this.level >= m.level);
+        const name = milestone ? milestone.name : this.milestones[0].name;
+        const el = document.getElementById('encounter-location');
+        if (el) el.textContent = name;
+    },
+
+    incrementLevel() {
+        this.level += 1;
+        State.encounterLevel = this.level;
+        this.updateName();
+    },
+
     init() {
         this.container = document.getElementById('adventure-slots');
         if (!this.container) return;
+        this.level = State.encounterLevel || 0;
+        this.updateName();
         this.populateSlots();
     },
 
@@ -70,10 +94,10 @@ const EncounterGenerator = {
 
     populateSlots() {
         for (let i = 0; i < State.adventureSlots.length; i++) {
-            const encounter = this.randomEncounter();
-            State.adventureSlots[i].encounter = encounter;
-            State.adventureSlots[i].duration = encounter ? encounter.getDuration() : 1;
+            State.adventureSlots[i].encounter = null;
+            State.adventureSlots[i].duration = 1;
             State.adventureSlots[i].progress = 0;
+            State.adventureSlots[i].active = false;
             updateAdventureSlotUI(i);
         }
     },

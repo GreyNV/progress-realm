@@ -88,6 +88,11 @@ main {
     margin-top: 1rem;
 }
 
+#encounter-location {
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
 .slot {
     flex: 1;
     border: 2px dashed #ccc;

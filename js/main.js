@@ -29,6 +29,7 @@ const State = {
     adventureSlots: [],
     time: 1,
     masteryPoints: 0,
+    encounterLevel: 0,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -36,7 +37,7 @@ for (let i = 0; i < State.slotCount; i++) {
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
-    State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null });
+    State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null, active: false });
 }
 
 let actions = {};
@@ -258,6 +259,14 @@ const SaveSystem = {
                 if (State.slotCount === undefined) {
                     State.slotCount = Array.isArray(State.slots) ? State.slots.length : 0;
                 }
+                if (State.encounterLevel === undefined) {
+                    State.encounterLevel = 0;
+                }
+                if (Array.isArray(State.adventureSlots)) {
+                    State.adventureSlots.forEach(s => {
+                        if (s.active === undefined) s.active = false;
+                    });
+                }
                 return data.actions || null;
             } else {
                 Object.assign(State, data); // legacy save
@@ -286,19 +295,41 @@ const AgeSystem = {
 };
 
 const AdventureEngine = {
+    activeIndex: null,
+    startSlot(i) {
+        const encounter = EncounterGenerator.randomEncounter();
+        const slot = State.adventureSlots[i];
+        slot.encounter = encounter;
+        slot.duration = encounter ? encounter.getDuration() : 1;
+        slot.progress = 0;
+        slot.active = true;
+        this.activeIndex = i;
+        updateAdventureSlotUI(i);
+    },
     tick(delta) {
-        State.adventureSlots.forEach((slot, i) => {
-            if (!slot.encounter) return;
-            slot.progress += delta / slot.duration;
-            if (slot.progress >= 1) {
-                EncounterGenerator.resolve(slot.encounter);
-                const next = EncounterGenerator.randomEncounter();
-                slot.encounter = next;
-                slot.duration = next ? next.getDuration() : 1;
-                slot.progress = 0;
+        if (this.activeIndex === null) {
+            if (State.healerGoneSeen) this.startSlot(0);
+            return;
+        }
+        const slot = State.adventureSlots[this.activeIndex];
+        if (!slot.encounter) return;
+        slot.progress += delta / slot.duration;
+        if (slot.progress >= 1) {
+            EncounterGenerator.resolve(slot.encounter);
+            slot.active = false;
+            slot.encounter = null;
+            slot.progress = 0;
+            updateAdventureSlotUI(this.activeIndex);
+            const nextIndex = this.activeIndex + 1;
+            if (nextIndex < State.adventureSlots.length) {
+                this.startSlot(nextIndex);
+            } else {
+                EncounterGenerator.incrementLevel();
+                this.activeIndex = null;
             }
-            updateAdventureSlotUI(i);
-        });
+        } else {
+            updateAdventureSlotUI(this.activeIndex);
+        }
     }
 };
 
@@ -529,12 +560,13 @@ function setupAdventureSlots() {
     if (!Array.isArray(State.adventureSlots)) State.adventureSlots = [];
     if (State.adventureSlotCount === undefined) State.adventureSlotCount = State.adventureSlots.length;
     while (State.adventureSlots.length < State.adventureSlotCount) {
-        State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null });
+        State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null, active: false });
     }
     if (State.adventureSlots.length > State.adventureSlotCount) {
         State.adventureSlots = State.adventureSlots.slice(0, State.adventureSlotCount);
     }
     for (let i = 0; i < State.adventureSlotCount; i++) {
+        if (State.adventureSlots[i].active === undefined) State.adventureSlots[i].active = false;
         const slotEl = document.createElement('div');
         slotEl.className = 'slot';
         slotEl.dataset.slot = i;
@@ -635,7 +667,7 @@ function updateAdventureSlotUI(i) {
     const labelEl = slotEl.querySelector('.label');
     progressEl.value = slot.progress || 0;
     progressEl.max = 1;
-    if (slot.encounter) {
+    if (slot.active && slot.encounter) {
         labelEl.textContent = slot.encounter.name;
         if (slot.encounter.image) {
             slotEl.style.backgroundImage = `url(${slot.encounter.image})`;
