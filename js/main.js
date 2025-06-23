@@ -310,23 +310,37 @@ function updateDeltas() {
         const action = actions[slot.actionId];
         const mult = scalingMultiplier(action);
 
+        // determine fraction of a second the action can run
+        let fraction = 1;
+        if (action.resourceConsumption) {
+            for (const r in action.resourceConsumption) {
+                const rate = action.resourceConsumption[r] * mult * State.time;
+                if (rate <= 0) continue;
+                const available = getResourceValue(r);
+                if (available <= 0) { fraction = 0; break; }
+                fraction = Math.min(fraction, available / rate);
+            }
+        }
+
+        if (fraction <= 0) return;
+
         if (action.baseYield.stats) {
             for (const s in action.baseYield.stats) {
                 statDeltas[s] = (statDeltas[s] || 0) +
-                    action.baseYield.stats[s] * mult * State.time;
+                    action.baseYield.stats[s] * mult * State.time * fraction;
             }
         }
 
         if (action.baseYield.resources) {
             for (const r in action.baseYield.resources) {
-                const rate = action.baseYield.resources[r] * mult * State.time;
+                const rate = action.baseYield.resources[r] * mult * State.time * fraction;
                 resourceDeltas[r] = (resourceDeltas[r] || 0) + rate;
             }
         }
 
         if (action.resourceConsumption) {
             for (const r in action.resourceConsumption) {
-                const rate = action.resourceConsumption[r] * mult * State.time;
+                const rate = action.resourceConsumption[r] * mult * State.time * fraction;
                 resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
             }
         }
@@ -336,8 +350,17 @@ function updateDeltas() {
     State.adventureSlots.forEach(slot => {
         if (!slot.active || !slot.encounter) return;
         const cost = slot.encounter.getResourceCost();
+        let fraction = 1;
         for (const r in cost) {
             const rate = cost[r] * State.time;
+            if (rate <= 0) continue;
+            const available = getResourceValue(r);
+            if (available <= 0) { fraction = 0; break; }
+            fraction = Math.min(fraction, available / rate);
+        }
+        if (fraction <= 0) return;
+        for (const r in cost) {
+            const rate = cost[r] * State.time * fraction;
             resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
         }
     });
