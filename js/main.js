@@ -348,13 +348,13 @@ function scalingMultiplier(action) {
     return f.base + f.multiplier * lvl;
 }
 
-function consume(cost, delta) {
+function consume(cost, delta, mult = 1) {
     for (const k in cost) {
-        const amount = cost[k] * delta;
+        const amount = cost[k] * mult * State.time * delta;
         if (!State.resources[k] || State.resources[k] < amount) return false;
     }
     for (const k in cost) {
-        State.resources[k] -= cost[k] * delta;
+        State.resources[k] -= cost[k] * mult * State.time * delta;
     }
     return true;
 }
@@ -405,12 +405,12 @@ const ActionEngine = {
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
-            const canRun = consume(action.resourceConsumption, delta);
+            const mult = scalingMultiplier(action);
+            const canRun = consume(action.resourceConsumption, delta, mult);
             slot.blocked = !canRun;
             if (!canRun) {
                 slot.progress = 0;
             } else {
-                const mult = scalingMultiplier(action);
                 applyYield(action.baseYield, mult, delta);
                 gainExp(action, action.baseYield.exp * mult * State.time * delta);
                 slot.progress = action.exp / action.expToNext;
