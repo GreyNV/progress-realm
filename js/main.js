@@ -1,6 +1,11 @@
 // Progress Realm prototype with leveled actions and resource consumption
 const VERSION = 2;
-const TICK_MS = 100; // interval for game updates in milliseconds
+// Game logic runs independently from UI updates. Logic ticks occur at a fixed
+// rate defined here and resources scale per real-time second regardless of the
+// UI refresh rate.
+const LOGIC_TICK_MS = 100; // milliseconds between logic updates
+const UI_UPDATE_MS = 200;  // milliseconds between UI refreshes
+const TICKS_PER_SECOND = 1000 / LOGIC_TICK_MS;
 
 const ResourceSystem = {
     create(value, baseMax) {
@@ -313,20 +318,20 @@ function updateDeltas() {
         if (action.baseYield.stats) {
             for (const s in action.baseYield.stats) {
                 statDeltas[s] = (statDeltas[s] || 0) +
-                    action.baseYield.stats[s] * mult * State.time;
+                    action.baseYield.stats[s] * mult;
             }
         }
 
         if (action.baseYield.resources) {
             for (const r in action.baseYield.resources) {
-                const rate = action.baseYield.resources[r] * mult * State.time;
+                const rate = action.baseYield.resources[r] * mult;
                 resourceDeltas[r] = (resourceDeltas[r] || 0) + rate;
             }
         }
 
         if (action.resourceConsumption) {
             for (const r in action.resourceConsumption) {
-                const rate = action.resourceConsumption[r] * mult * State.time;
+                const rate = action.resourceConsumption[r] * mult;
                 resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
             }
         }
@@ -337,8 +342,25 @@ function updateDeltas() {
         if (!slot.active || !slot.encounter) return;
         const cost = slot.encounter.getResourceCost();
         for (const r in cost) {
-            const rate = cost[r] * State.time;
+            const rate = cost[r];
             resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
+        }
+    });
+}
+
+// Apply the computed per-second deltas to stats and resources based on the
+// elapsed time fraction. Negative resource deltas consume resources using the
+// ResourceSystem so values never drop below zero.
+function applyDeltas(deltaSeconds) {
+    STAT_KEYS.forEach(k => {
+        State.stats[k] = (State.stats[k] || 0) + statDeltas[k] * deltaSeconds;
+    });
+    RESOURCE_KEYS.forEach(k => {
+        const change = resourceDeltas[k] * deltaSeconds;
+        if (change >= 0) {
+            ResourceSystem.add(State.resources[k], change);
+        } else {
+            ResourceSystem.consume(State.resources[k], -change);
         }
     });
 }
@@ -460,26 +482,18 @@ const ActionEngine = {
     },
     tick(delta) {
         AgeSystem.tick(delta);
+        updateDeltas();
+        applyDeltas(delta);
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
             const mult = scalingMultiplier(action);
-            const canRun = consume(action.resourceConsumption, delta, mult);
-            slot.blocked = !canRun;
-            if (!canRun) {
-                slot.progress = 0;
-            } else {
-                applyYield(action.baseYield, mult, delta);
-                gainExp(action, action.baseYield.exp * mult * State.time * delta);
-                slot.progress = action.exp / action.expToNext;
-            }
+            gainExp(action, action.baseYield.exp * mult * delta);
+            slot.progress = action.exp / action.expToNext;
             updateSlotUI(i);
         });
         checkStoryEvents();
         SoftCapSystem.apply();
-        updateDeltas();
-        updateTaskList();
-        updateUI();
         SaveSystem.save();
     }
 };
@@ -745,10 +759,16 @@ async function init() {
     TabManager.init();
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
+    // Game logic ticked separately from UI updates so resource generation
+    // remains consistent regardless of UI refresh rate.
     setInterval(() => {
-        ActionEngine.tick(TICK_MS / 1000);
-        AdventureEngine.tick(TICK_MS / 1000);
-    }, TICK_MS);
+        ActionEngine.tick(LOGIC_TICK_MS / 1000);
+        AdventureEngine.tick(LOGIC_TICK_MS / 1000);
+    }, LOGIC_TICK_MS);
+    setInterval(() => {
+        updateTaskList();
+        updateUI();
+    }, UI_UPDATE_MS);
 }
 
 document.addEventListener('DOMContentLoaded', init);
