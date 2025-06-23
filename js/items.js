@@ -5,36 +5,16 @@ class Item {
         this.rarity = data.rarity || 'common';
         this.effectType = data.effectType;
         this.effectValue = data.effectValue;
-        this.maxQuantity = data.maxQuantity || 1;
         this.image = data.image || null;
     }
 
-    applyEffect(targetState) {
-        if (!targetState) return;
-        if (this.effectType === 'generateResource') {
-            for (const key in this.effectValue) {
-                if (!targetState.resources[key]) continue;
-                ResourceSystem.add(targetState.resources[key], this.effectValue[key]);
-            }
-        } else if (this.effectType === 'increaseSoftcap') {
-            for (const key in this.effectValue) {
-                SoftCapSystem.statCaps[key] =
-                    (SoftCapSystem.statCaps[key] || 0) + this.effectValue[key];
-            }
-        }
+    applyEffect() {
+        // Effect application now handled by SoftCapSystem.recalculateCaps
     }
 
-    handleDuplicate(inventory) {
-        const record = inventory[this.id];
-        if (!record) return;
-        if (record.quantity >= this.maxQuantity) {
-            record.quantity = this.maxQuantity;
-            if (!inventory.knowledge) inventory.knowledge = 0;
-            inventory.knowledge += 1;
-            return 'converted';
-        }
-        record.effectiveness = (record.effectiveness || 1) * 0.5;
-        return 'reduced';
+    handleDuplicate() {
+        // No conversion or diminishing returns for duplicates
+        return null;
     }
 }
 
@@ -112,11 +92,10 @@ const Inventory = {
         if (!State.inventory[item.id]) {
             State.inventory[item.id] = { quantity: 1 };
         } else {
-            const result = item.handleDuplicate(State.inventory);
-            if (result !== 'converted') {
-                State.inventory[item.id].quantity += 1;
-            }
+            item.handleDuplicate(State.inventory);
+            State.inventory[item.id].quantity += 1;
         }
+        SoftCapSystem.recalculateCaps(State.inventory);
         InventoryUI.update();
     },
     getItems() {

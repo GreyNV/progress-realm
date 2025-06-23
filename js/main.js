@@ -125,9 +125,29 @@ const Story = {
 };
 
 const SoftCapSystem = {
-    statCaps: { strength: 50, intelligence: 50, creativity: 50 },
-    resourceCaps: { energy: 20, focus: 20, health: 10, money: 100 },
+    baseStatCaps: { strength: 50, intelligence: 50, creativity: 50 },
+    baseResourceCaps: { energy: 20, focus: 20, health: 10, money: 100 },
+    statCaps: {},
+    resourceCaps: {},
     falloff: 0.5,
+    recalculateCaps(inventory) {
+        this.statCaps = { ...this.baseStatCaps };
+        this.resourceCaps = { ...this.baseResourceCaps };
+        if (!inventory) return;
+        for (const [id, record] of Object.entries(inventory)) {
+            const item = ItemGenerator.itemList.find(i => i.id === id);
+            if (!item || item.effectType !== 'increaseSoftcap') continue;
+            const qty = record.quantity || 0;
+            for (const key in item.effectValue) {
+                const value = item.effectValue[key] * Math.log(qty + 1);
+                if (this.statCaps[key] !== undefined) {
+                    this.statCaps[key] += value;
+                } else {
+                    this.resourceCaps[key] = (this.resourceCaps[key] || (this.baseResourceCaps[key] || 0)) + value;
+                }
+            }
+        }
+    },
     apply() {
         for (const s in this.statCaps) {
             const cap = this.statCaps[s];
@@ -789,6 +809,7 @@ async function init() {
     });
     await EncounterGenerator.load();
     await ItemGenerator.load();
+    SoftCapSystem.recalculateCaps(State.inventory);
     StatsUI.init();
     ResourcesUI.init();
     MasteryUI.init();
