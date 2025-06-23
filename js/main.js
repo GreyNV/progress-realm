@@ -286,9 +286,9 @@ const AdventureEngine = {
         const slot = State.adventureSlots[this.activeIndex];
         if (!slot.encounter) return;
         const cost = slot.encounter.getResourceCost();
-        const canRun = consume(cost, delta);
-        if (!canRun) {
-            updateAdventureSlotUI(this.activeIndex);
+        const missing = consume(cost, delta);
+        if (missing) {
+            retreat(missing);
             return;
         }
         slot.progress += delta / slot.duration;
@@ -372,10 +372,18 @@ function applyDeltas(deltaSeconds) {
     });
 }
 
+function retreat(resourceName) {
+    const slot = AdventureEngine.activeIndex !== null ?
+        State.adventureSlots[AdventureEngine.activeIndex] : null;
+    const enc = slot && slot.encounter ? slot.encounter.name : 'an encounter';
+    Log.add(`You had to retreat after ${enc} because you ran out of ${resourceName}.`);
+    EncounterGenerator.decrementLevel();
+    EncounterGenerator.resetProgress();
+}
+
 function checkHealth() {
     if (State.resources.health.value < 0.1) {
-        EncounterGenerator.decrementLevel();
-        EncounterGenerator.resetProgress();
+        retreat('health');
     }
 }
 
@@ -448,13 +456,13 @@ function consume(cost, delta, mult = 1) {
     for (const k in cost) {
         const amount = cost[k] * mult * State.time * delta;
         const res = State.resources[k];
-        if (!res || res.value < amount) return false;
+        if (!res || res.value < amount) return k;
     }
     for (const k in cost) {
         const amount = cost[k] * mult * State.time * delta;
         ResourceSystem.consume(State.resources[k], amount);
     }
-    return true;
+    return null;
 }
 
 function applyYield(base, mult, delta) {
@@ -773,8 +781,7 @@ async function init() {
     setupTooltips();
     TabManager.init();
     document.getElementById('return-btn').addEventListener('click', () => {
-        EncounterGenerator.decrementLevel();
-        EncounterGenerator.resetProgress();
+        retreat('resolve');
     });
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     updateUI();
