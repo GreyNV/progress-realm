@@ -2,6 +2,44 @@
 const VERSION = 2;
 const TICK_MS = 100; // interval for game updates in milliseconds
 
+const ResourceSystem = {
+    create(value, baseMax) {
+        return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [] };
+    },
+    max(res) {
+        let m = res.baseMax;
+        res.maxAdditions.forEach(a => { m += a; });
+        res.maxMultipliers.forEach(x => { m *= x; });
+        return m;
+    },
+    add(res, amt) {
+        res.value = Math.min(res.value + amt, this.max(res));
+    },
+    consume(res, amt) {
+        if (res.value < amt) return false;
+        res.value -= amt;
+        return true;
+    }
+};
+
+function getResourceValue(name) {
+    return State.resources[name].value;
+}
+
+function getResourceMax(name) {
+    return ResourceSystem.max(State.resources[name]);
+}
+
+function setResourceValue(name, val) {
+    const r = State.resources[name];
+    r.value = Math.min(val, getResourceMax(name));
+}
+function ensureResource(name, value, max) {
+    if (!State.resources[name] || typeof State.resources[name].value !== "number") {
+        State.resources[name] = ResourceSystem.create(value, max);
+    }
+}
+
 const State = {
     version: VERSION,
     age: { years: 16, days: 0, max: 75 },
@@ -13,14 +51,10 @@ const State = {
         creativity: 0,
     },
     resources: {
-        energy: 10,
-        maxEnergy: 10,
-        focus: 10,
-        maxFocus: 10,
-        health: 1,
-        maxHealth: 10,
-        money: 0,
-        maxMoney: 100,
+        energy: ResourceSystem.create(10, 10),
+        focus: ResourceSystem.create(10, 10),
+        health: ResourceSystem.create(1, 10),
+        money: ResourceSystem.create(0, 100)
     },
     // number of available action slots
     slotCount: 6,
@@ -45,10 +79,10 @@ let selectedActionId = null;
 
 let prevStats = { ...State.stats };
 let prevResources = {
-    energy: State.resources.energy,
-    focus: State.resources.focus,
-    health: State.resources.health,
-    money: State.resources.money,
+    energy: getResourceValue("energy"),
+    focus: getResourceValue("focus"),
+    health: getResourceValue("health"),
+    money: getResourceValue("money")
 };
 let statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
 let resourceDeltas = { energy: 0, focus: 0, health: 0, money: 0 };
@@ -99,8 +133,9 @@ const SoftCapSystem = {
         }
         for (const r in this.resourceCaps) {
             const cap = this.resourceCaps[r];
-            if (State.resources[r] > cap) {
-                State.resources[r] = cap + (State.resources[r] - cap) * this.falloff;
+            const val = getResourceValue(r);
+            if (val > cap) {
+                setResourceValue(r, cap + (val - cap) * this.falloff);
             }
         }
     }
@@ -174,14 +209,10 @@ const SaveSystem = {
             if (data.version !== VERSION) return null;
             if (data.state) {
                 Object.assign(State, data.state);
-                if (State.resources.health === undefined) {
-                    State.resources.health = 1;
-                    State.resources.maxHealth = 10;
-                }
-                if (State.resources.money === undefined) {
-                    State.resources.money = 0;
-                    State.resources.maxMoney = 100;
-                }
+                ensureResource("energy", 10, 10);
+                ensureResource("focus", 10, 10);
+                ensureResource("health", 1, 10);
+                ensureResource("money", 0, 100);
                 if (Array.isArray(State.slots)) {
                     State.slots.forEach(s => {
                         if (s.text === undefined) s.text = '';
@@ -278,8 +309,9 @@ function updateDeltas() {
         prevStats[s] = State.stats[s];
     }
     for (const r of ['energy', 'focus', 'health', 'money']) {
-        resourceDeltas[r] = State.resources[r] - (prevResources[r] || 0);
-        prevResources[r] = State.resources[r];
+        const val = getResourceValue(r);
+        resourceDeltas[r] = val - (prevResources[r] || 0);
+        prevResources[r] = val;
     }
 }
 
@@ -351,10 +383,12 @@ function scalingMultiplier(action) {
 function consume(cost, delta, mult = 1) {
     for (const k in cost) {
         const amount = cost[k] * mult * State.time * delta;
-        if (!State.resources[k] || State.resources[k] < amount) return false;
+        const res = State.resources[k];
+        if (!res || res.value < amount) return false;
     }
     for (const k in cost) {
-        State.resources[k] -= cost[k] * mult * State.time * delta;
+        const amount = cost[k] * mult * State.time * delta;
+        ResourceSystem.consume(State.resources[k], amount);
     }
     return true;
 }
@@ -367,11 +401,7 @@ function applyYield(base, mult, delta) {
     }
     if (base.resources) {
         for (const r in base.resources) {
-            const capKey = 'max' + r.charAt(0).toUpperCase() + r.slice(1);
-            State.resources[r] = (State.resources[r] || 0) + base.resources[r] * mult * State.time * delta;
-            if (State.resources[capKey] !== undefined) {
-                State.resources[r] = Math.min(State.resources[r], State.resources[capKey]);
-            }
+            ResourceSystem.add(State.resources[r], base.resources[r] * mult * State.time * delta);
         }
     }
 }
