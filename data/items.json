@@ -3,18 +3,16 @@
         "id": "herb",
         "name": "Herb",
         "rarity": "common",
-        "effectType": "generateResource",
-        "effectValue": {"health": 2},
-        "maxQuantity": 10,
+        "effectType": "increaseSoftcap",
+        "effectValue": {"focus": 1},
         "image": "assets/items/herb.png"
     },
     {
         "id": "rabbit_meat",
         "name": "Rabbit Meat",
         "rarity": "common",
-        "effectType": "generateResource",
-        "effectValue": {"energy": 3},
-        "maxQuantity": 5,
+        "effectType": "increaseSoftcap",
+        "effectValue": {"strength": 1},
         "image": "assets/items/rabbit.png"
     },
     {
@@ -22,8 +20,7 @@
         "name": "Wolf Pelt",
         "rarity": "rare",
         "effectType": "increaseSoftcap",
-        "effectValue": {"strength": 1},
-        "maxQuantity": 3,
+        "effectValue": {"health": 2},
         "image": "assets/items/wolfpelt.png"
     }
 ]
