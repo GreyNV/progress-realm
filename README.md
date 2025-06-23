@@ -1,5 +1,5 @@
 # progress-realm
-### Game Design Document – v0.3.0
+### Game Design Document – v0.6.0
 
 #### 1. Game Title (Working)
 
@@ -18,6 +18,7 @@ Version 0.2.0 introduced a leveled action system with per-second yields and reso
 Version 0.3.0 expands the prototype with six starting action slots, an introductory story modal, and a simple log panel.
 Version 0.4.0 adds weighted random encounters with durations and loot chances influenced by your stats.
 Version 0.5.0 redesigns the Adventure tab with a single slot. Encounter level now increases after ten consecutive successes.
+Version 0.6.0 introduces an Inventory tab and item generator to track loot from encounters.
 
 #### 3. Core Gameplay Loop
 

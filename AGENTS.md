@@ -35,3 +35,4 @@
 - Keep commit messages concise but descriptive
 - Open a pull request for every change instead of pushing directly to `main`
 - Provide a clear PR title and summary of the changes
+- Update `CHANGELOG.md` with a short note describing each change

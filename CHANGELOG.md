@@ -1,0 +1,34 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.6.0] - 2025-06-24
+### Added
+- Inventory tab with item generator. Items now drop from encounters and appear in your inventory.
+### Documentation
+- Updated README and docs with inventory details and modularization progress.
+- Added `docs/AGENTS.md` with documentation update rules.
+
+## [0.5.0]
+### Changed
+- Adventure tab redesigned with a single slot.
+- Encounter level increases after ten consecutive successes.
+
+## [0.4.0]
+### Added
+- Weighted random encounters with loot chances influenced by stats.
+
+## [0.3.0]
+### Added
+- Six starting action slots.
+- Introductory story modal and log panel.
+
+## [0.2.0]
+### Added
+- Leveled action system with per-second yields.
+- Resource blocking for tasks.
+
+## [0.1.0]
+### Added
+- Automatic saving and loading of progress via localStorage.
+- Drag-and-drop task system with tooltips and completion animations.
