@@ -63,6 +63,7 @@ const StatsUI = {
     list: ['strength', 'intelligence', 'creativity'],
     init() {
         const listEl = document.getElementById('stats-list');
+        if (!listEl) return;
         this.list.forEach(key => {
             const li = document.createElement('li');
             li.innerHTML = `${capitalize(key)}: <span id="stat-${key}">0</span> (<span id="stat-${key}-delta" class="delta">0</span>/s)`;
@@ -71,8 +72,10 @@ const StatsUI = {
     },
     update() {
         this.list.forEach(key => {
-            document.getElementById(`stat-${key}`).textContent = State.stats[key].toFixed(1);
-            document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
+            const statEl = document.getElementById(`stat-${key}`);
+            if (statEl) statEl.textContent = State.stats[key].toFixed(1);
+            const deltaEl = document.getElementById(`stat-${key}-delta`);
+            if (deltaEl) deltaEl.textContent = formatDelta(statDeltas[key]);
         });
     }
 };
@@ -81,6 +84,7 @@ const ResourcesUI = {
     list: ['energy', 'focus', 'health', 'money'],
     init() {
         const listEl = document.getElementById('resources-list');
+        if (!listEl) return;
         this.list.forEach(key => {
             const li = document.createElement('li');
             li.innerHTML = `${capitalize(key)}: <span id="res-${key}">0</span>/<span id="res-${key}-cap">0</span> (<span id="res-${key}-delta" class="delta">0</span>/s)`;
@@ -89,9 +93,12 @@ const ResourcesUI = {
     },
     update() {
         this.list.forEach(key => {
-            document.getElementById(`res-${key}`).textContent = State.resources[key].toFixed(1);
-            document.getElementById(`res-${key}-cap`).textContent = State.resources['max' + capitalize(key)];
-            document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
+            const valEl = document.getElementById(`res-${key}`);
+            if (valEl) valEl.textContent = State.resources[key].toFixed(1);
+            const capEl = document.getElementById(`res-${key}-cap`);
+            if (capEl) capEl.textContent = State.resources['max' + capitalize(key)];
+            const deltaEl = document.getElementById(`res-${key}-delta`);
+            if (deltaEl) deltaEl.textContent = formatDelta(resourceDeltas[key]);
         });
     }
 };
