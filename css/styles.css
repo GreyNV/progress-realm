@@ -353,3 +353,16 @@ main {
     margin-bottom: 0.25rem;
     font-size: 0.9rem;
 }
+
+/* Rarity-based colors */
+.slot.rarity-common { border-color: #999; }
+.slot.rarity-rare { border-color: #3a5fcd; }
+.slot.rarity-epic { border-color: #a335ee; }
+.slot.rarity-legendary { border-color: #e69138; }
+.slot.rarity-story { border-color: #f1c40f; }
+
+.log-entry .rarity-common { color: #999; font-weight: bold; }
+.log-entry .rarity-rare { color: #3a5fcd; font-weight: bold; }
+.log-entry .rarity-epic { color: #a335ee; font-weight: bold; }
+.log-entry .rarity-legendary { color: #e69138; font-weight: bold; }
+.log-entry .rarity-story { color: #f1c40f; font-weight: bold; }

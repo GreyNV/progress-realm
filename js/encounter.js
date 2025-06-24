@@ -177,7 +177,9 @@ const EncounterGenerator = {
         if (Math.random() < chance) {
             const item = ItemGenerator.generateFromEncounter(encounter);
             if (item) {
-                Log.add(`You found ${capitalize(item.rarity)} ${item.name} during ${encounter.name}!`);
+                const itemHTML = `<span class="rarity-${item.rarity}"><b>${item.name}</b></span>`;
+                const encHTML = `<span class="rarity-${encounter.rarity}"><b>${encounter.name}</b></span>`;
+                Log.add(`You found ${itemHTML} during ${encHTML}!`);
                 Inventory.add(item);
             }
         }

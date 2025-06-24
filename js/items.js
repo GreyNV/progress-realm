@@ -107,6 +107,7 @@ const Inventory = {
             return {
                 id,
                 name: itemData.name || id,
+                rarity: itemData.rarity || 'common',
                 quantity: data.quantity,
                 image: itemData.image,
             };

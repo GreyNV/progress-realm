@@ -26,6 +26,7 @@ Version 0.14.0 lets Bandits Ambush return with a very low chance and drops items
 Version 0.16.0 separates delta calculations into a new engine module with speed multipliers.
 Version 0.17.0 moves aging and experience generation into DeltaEngine so all progression scales with game speed.
 Version 0.18.0 ties encounter progress to DeltaEngine so adventure speed follows game time.
+Version 0.19.0 adds rarity-based borders for items and encounters and highlights names in the log.
 
 #### 3. Core Gameplay Loop
 
