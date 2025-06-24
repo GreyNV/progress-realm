@@ -29,10 +29,13 @@ def generate_prompt(item: Dict) -> str:
     """Generate an image prompt for an item."""
     name = item.get('name', 'Unknown Item')
     description = item.get('description', '')
-    base_prompt = f"Photorealistic image of a {name}"
+    base_prompt = f"Generate image in photorealistic style based on the item and setting."
+    base_prompt +=  f"The setting is medieval times reincarnation game-novel. Item is on the wooden table and from the close-up and from above "
+    base_prompt +=  f"(suitable for display in inventory). The target item is {name}"
     if description:
-        base_prompt += f" in {description}"
-    base_prompt += ", collected state."
+        base_prompt += f". Some item background: {description}"
+    base_prompt += ""
+    print(base_prompt)
     return base_prompt
 
 
@@ -47,12 +50,11 @@ def generate_image(prompt: str) -> str:
 
     client = OpenAI(api_key=api_key)
     response = client.images.generate(
-        prompt=prompt,
         model="dall-e-3",
+        prompt=prompt,
         n=1,
         size="1024x1024",
-        style="natural",
-        response_format="url",
+        style="natural"
     )
     return response.data[0].url
 
