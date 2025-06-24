@@ -20,6 +20,7 @@ Version 0.4.0 adds weighted random encounters with durations and loot chances in
 Version 0.5.0 redesigns the Adventure tab with a single slot. Encounter level now increases after ten consecutive successes.
 Version 0.6.0 introduces an Inventory tab and item generator to track loot from encounters.
 Version 0.7.0 adds level-gated encounters ranging from common to legendary tiers with new item rewards.
+Version 0.9.0 adds story encounters that trigger once at specific location levels. The first, Bandits Ambush, grants a gem and an iron sword.
 
 #### 3. Core Gameplay Loop
 
@@ -108,6 +109,14 @@ The page uses a simple header/main/footer structure. Stats and resources are kep
 A story modal appears once on the first load and another short scene triggers after thirty days pass in game time. Both modals only appear during the first life and all log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect.
 
 See **docs/MVP.md** for the MVP list.
+
+#### Item Image Pipeline
+
+The `scripts/image_pipeline.py` tool reads `data/items.json` and generates
+missing item images using OpenAI's DALL·E API. Each new image is stored in
+`assets/generated/` and the item JSON is updated with the file path.
+Run the script only after setting the `OPENAI_API_KEY` environment variable.
+Make sure the `openai` Python package version 1.x is installed.
 
 #### 12. Future Extensions
 

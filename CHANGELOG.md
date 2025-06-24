@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2025-06-29
+### Added
+- Python script `scripts/image_pipeline.py` to auto-generate missing item images
+  via OpenAI's DALL·E API.
+- Documentation section on the new image pipeline.
+### Fixed
+- Updated image pipeline to use `client.images.generate` with API key handling.
+
 ## [0.6.0] - 2025-06-24
 ### Added
 - Inventory tab with item generator. Items now drop from encounters and appear in your inventory.
@@ -24,6 +32,11 @@ All notable changes to this project will be documented in this file.
 ## [0.8.1] - 2025-06-27
 ### Fixed
 - Corrected image paths for woodcutting, stone collecting, boar hunting and ore finding encounters.
+
+## [0.9.0] - 2025-06-28
+### Added
+- Story encounter rarity with level-triggered events.
+- New "Bandits Ambush" story encounter grants a gem and an iron sword on first completion.
 
 ## [0.5.0]
 ### Changed
