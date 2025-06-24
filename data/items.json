@@ -117,16 +117,6 @@
     "effectValue": {
       "strength": 2
     },
-    "image": "assets/items/spear.PNG"
-  },
-  {
-    "id": "vault_relic",
-    "name": "Vault Relic",
-    "rarity": "legendary",
-    "effectType": "increaseSoftcap",
-    "effectValue": {
-      "focus": 3
-    },
-    "image": "assets/items/relic.png"
+    "image": "assets/items/ironsword.png"
   }
 ]
