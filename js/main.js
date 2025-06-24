@@ -340,7 +340,6 @@ const AdventureEngine = {
             retreat(missing);
             return;
         }
-        slot.progress += delta / slot.duration;
         if (slot.progress >= 1) {
             EncounterGenerator.resolve(slot.encounter);
             slot.active = false;
