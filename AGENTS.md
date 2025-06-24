@@ -16,7 +16,7 @@
 - Follow **PEP8** when writing Python code
 - Prefer descriptive variable and function names
 - Keep code modular and comment important sections
-- when creatimg new keys in json files do not reuse existing image sources
+- When creatimg new keys in json files do not reuse existing image sources
 
 ## Testing Protocols
 
