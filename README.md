@@ -110,13 +110,19 @@ A story modal appears once on the first load and another short scene triggers af
 
 See **docs/MVP.md** for the MVP list.
 
-#### Item Image Pipeline
+#### Image Pipeline
 
-The `scripts/image_pipeline.py` tool reads `data/items.json` and generates
-missing item images using OpenAI's DALL·E API. Each new image is stored in
-`assets/generated/` and the item JSON is updated with the file path.
-Run the script only after setting the `OPENAI_API_KEY` environment variable.
-Make sure the `openai` Python package version 1.x is installed.
+The project includes small helper scripts to auto-generate missing images using
+OpenAI's DALL·E API:
+
+- `scripts/image_pipeline.py` for items
+- `scripts/image_pipeline_encounters.py` for encounters
+- `scripts/image_pipeline_actions.py` for actions
+
+Each script reads its respective JSON file, creates a prompt and stores the
+resulting image in `assets/generated/` before updating the JSON entry.
+Run the scripts only after setting the `OPENAI_API_KEY` environment variable and
+ensure the `openai` Python package version 1.x is installed.
 
 #### 12. Future Extensions
 

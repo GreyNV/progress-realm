@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Updated image pipeline to use `client.images.generate` with API key handling.
 
+## [0.11.0] - 2025-06-30
+### Added
+- Scripts `image_pipeline_encounters.py` and `image_pipeline_actions.py` for
+  generating encounter and action images.
+- Updated README with image pipeline details for all asset types.
+
 ## [0.6.0] - 2025-06-24
 ### Added
 - Inventory tab with item generator. Items now drop from encounters and appear in your inventory.
