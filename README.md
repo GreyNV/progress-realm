@@ -27,6 +27,8 @@ Version 0.16.0 separates delta calculations into a new engine module with speed 
 Version 0.17.0 moves aging and experience generation into DeltaEngine so all progression scales with game speed.
 Version 0.18.0 ties encounter progress to DeltaEngine so adventure speed follows game time.
 Version 0.19.0 adds rarity-based borders for items and encounters and highlights names in the log.
+Version 0.19.1 introduces a Bonus Engine that applies additive and multiplicative modifiers before deltas update stats and resources. It now supports exponent bonuses for stats and cost divisors for resource consumption.
+
 
 #### 3. Core Gameplay Loop
 
@@ -50,6 +52,7 @@ Version 0.19.0 adds rarity-based borders for items and encounters and highlights
 | Magic System | Simplified crafting and consumption system for magical items               |
 | Inventory    | Manages player's resource quantities and magical components                |
 | Automation   | Enables actions to loop with or without conditions |
+| Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots |
 | Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |

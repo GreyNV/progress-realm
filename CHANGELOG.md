@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Border colors now reflect item and encounter rarity.
 - Log entries highlight item and encounter names by rarity without showing rarity text.
+- Bonus Engine module applies additive, multiplicative and exponential modifiers before deltas update stats and resources, and supports cost divisors for consumptions.
 
 ## [0.15.0] - 2025-07-04
 ### Added
