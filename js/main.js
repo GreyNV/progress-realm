@@ -90,8 +90,6 @@ let selectedActionId = null;
 const STAT_KEYS = ["strength", "intelligence", "creativity"];
 const RESOURCE_KEYS = ["energy", "focus", "health", "money"];
 
-let statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
-let resourceDeltas = { energy: 0, focus: 0, health: 0, money: 0 };
 
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -366,66 +364,6 @@ const AdventureEngine = {
     }
 };
 
-function updateDeltas() {
-    // reset deltas
-    STAT_KEYS.forEach(k => { statDeltas[k] = 0; });
-    RESOURCE_KEYS.forEach(k => { resourceDeltas[k] = 0; });
-
-    // contributions from active actions
-    State.slots.forEach(slot => {
-        if (!slot.actionId || slot.blocked) return;
-        const action = actions[slot.actionId];
-        const mult = scalingMultiplier(action);
-
-        if (action.baseYield.stats) {
-            for (const s in action.baseYield.stats) {
-                statDeltas[s] = (statDeltas[s] || 0) +
-                    action.baseYield.stats[s] * mult;
-            }
-        }
-
-        if (action.baseYield.resources) {
-            for (const r in action.baseYield.resources) {
-                const rate = action.baseYield.resources[r] * mult;
-                resourceDeltas[r] = (resourceDeltas[r] || 0) + rate;
-            }
-        }
-
-        if (action.resourceConsumption) {
-            for (const r in action.resourceConsumption) {
-                const rate = action.resourceConsumption[r] * mult;
-                resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
-            }
-        }
-    });
-
-    // contributions from active encounters
-    State.adventureSlots.forEach(slot => {
-        if (!slot.active || !slot.encounter) return;
-        const cost = slot.encounter.getResourceCost();
-        for (const r in cost) {
-            const rate = cost[r];
-            resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
-        }
-    });
-}
-
-// Apply the computed per-second deltas to stats and resources based on the
-// elapsed time fraction. Negative resource deltas consume resources using the
-// ResourceSystem so values never drop below zero.
-function applyDeltas(deltaSeconds) {
-    STAT_KEYS.forEach(k => {
-        State.stats[k] = (State.stats[k] || 0) + statDeltas[k] * deltaSeconds;
-    });
-    RESOURCE_KEYS.forEach(k => {
-        const change = resourceDeltas[k] * deltaSeconds;
-        if (change >= 0) {
-            ResourceSystem.add(State.resources[k], change);
-        } else {
-            ResourceSystem.consume(State.resources[k], -change);
-        }
-    });
-}
 
 function retreat(resourceName) {
     const slot = AdventureEngine.activeIndex !== null ?
@@ -556,13 +494,13 @@ const ActionEngine = {
     },
     tick(delta) {
         AgeSystem.tick(delta);
-        updateDeltas();
-        applyDeltas(delta);
+        DeltaEngine.calculate();
+        DeltaEngine.apply(delta, State.time);
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
             const mult = scalingMultiplier(action);
-            gainExp(action, action.baseYield.exp * mult * delta);
+            gainExp(action, action.baseYield.exp * mult * delta * State.time);
             slot.progress = action.exp / action.expToNext;
             updateSlotUI(i);
         });
