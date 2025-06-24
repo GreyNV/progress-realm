@@ -1,5 +1,5 @@
 # progress-realm
-### Game Design Document – v0.6.0
+### Game Design Document – v0.7.0
 
 #### 1. Game Title (Working)
 
@@ -19,6 +19,7 @@ Version 0.3.0 expands the prototype with six starting action slots, an introduct
 Version 0.4.0 adds weighted random encounters with durations and loot chances influenced by your stats.
 Version 0.5.0 redesigns the Adventure tab with a single slot. Encounter level now increases after ten consecutive successes.
 Version 0.6.0 introduces an Inventory tab and item generator to track loot from encounters.
+Version 0.7.0 adds level-gated encounters ranging from common to legendary tiers with new item rewards.
 
 #### 3. Core Gameplay Loop
 

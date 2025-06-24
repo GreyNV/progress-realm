@@ -1,26 +1,122 @@
 [
-    {
-        "id": "herb",
-        "name": "Herb",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {"focus": 1},
-        "image": "assets/items/herb.png"
+  {
+    "id": "herb",
+    "name": "Herb",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "focus": 1
     },
-    {
-        "id": "rabbit_meat",
-        "name": "Rabbit Meat",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {"strength": 1},
-        "image": "assets/items/rabbit.png"
+    "image": "assets/items/herb.png"
+  },
+  {
+    "id": "rabbit_meat",
+    "name": "Rabbit Meat",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 1
     },
-    {
-        "id": "wolf_pelt",
-        "name": "Wolf Pelt",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {"health": 2},
-        "image": "assets/items/wolfpelt.png"
-    }
+    "image": "assets/items/rabbit.png"
+  },
+  {
+    "id": "wolf_pelt",
+    "name": "Wolf Pelt",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 2
+    },
+    "image": "assets/items/wolfpelt.png"
+  },
+  {
+    "id": "wood_log",
+    "name": "Wood Log",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "energy": 1
+    },
+    "image": "assets/items/woodlog.PNG"
+  },
+  {
+    "id": "stone_piece",
+    "name": "Stone Piece",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 0.5
+    },
+    "image": "assets/items/stone.PNG"
+  },
+  {
+    "id": "boar_tusk",
+    "name": "Boar Tusk",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 1
+    },
+    "image": "assets/items/boartusk.PNG"
+  },
+  {
+    "id": "ore_chunk",
+    "name": "Rare Ore",
+    "rarity": "epic",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 2
+    },
+    "image": "assets/items/Ore.PNG"
+  },
+  {
+    "id": "stone_spear",
+    "name": "Stone Spear",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 1.5
+    },
+    "image": "assets/items/spear.PNG"
+  },
+  {
+    "id": "wooden_shield",
+    "name": "Wooden Shield",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 1
+    },
+    "image": "assets/items/woodshield.PNG"
+  },
+  {
+    "id": "leather_armor",
+    "name": "Leather Armor",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 2
+    },
+    "image": "assets/items/leatherarmor.PNG"
+  },
+  {
+    "id": "gem",
+    "name": "Gem",
+    "rarity": "epic",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "focus": 2
+    },
+    "image": "assets/items/gem.PNG"
+  },
+  {
+    "id": "vault_relic",
+    "name": "Vault Relic",
+    "rarity": "legendary",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "focus": 3
+    },
+    "image": "assets/items/relic.png"
+  }
 ]

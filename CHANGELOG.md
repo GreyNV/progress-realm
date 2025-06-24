@@ -9,6 +9,22 @@ All notable changes to this project will be documented in this file.
 - Updated README and docs with inventory details and modularization progress.
 - Added `docs/AGENTS.md` with documentation update rules.
 
+## [0.7.0] - 2025-06-25
+### Added
+- New level-gated encounters from common to legendary tiers with item rewards.
+### Documentation
+- Updated README with encounter tier details.
+
+## [0.8.0] - 2025-06-26
+### Changed
+- Adjusted ancient vault loot table with new rare and epic items.
+- Updated image references for items and encounters.
+- Reduced resource cost of legendary vault encounter.
+
+## [0.8.1] - 2025-06-27
+### Fixed
+- Corrected image paths for woodcutting, stone collecting, boar hunting and ore finding encounters.
+
 ## [0.5.0]
 ### Changed
 - Adventure tab redesigned with a single slot.
