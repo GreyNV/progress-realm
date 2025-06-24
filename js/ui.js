@@ -74,6 +74,7 @@ const InventoryUI = {
                 if (item.image) {
                     slot.style.backgroundImage = `url(${item.image})`;
                 }
+                slot.classList.add(`rarity-${item.rarity}`);
             } else {
                 slot.style.backgroundImage = 'none';
                 label.textContent = '';
@@ -97,7 +98,7 @@ const Log = {
         if (this.el) {
             const div = document.createElement('div');
             div.className = 'log-entry';
-            div.textContent = msg;
+            div.innerHTML = msg;
             this.el.appendChild(div);
             if (this.container) {
                 this.container.scrollTop = this.container.scrollHeight;

@@ -89,6 +89,7 @@ let selectedActionId = null;
 
 const STAT_KEYS = ["strength", "intelligence", "creativity"];
 const RESOURCE_KEYS = ["energy", "focus", "health", "money"];
+const RARITY_CLASSES = ['common', 'rare', 'epic', 'legendary', 'story'];
 
 
 function capitalize(str) {
@@ -689,6 +690,7 @@ function updateAdventureSlotUI(i) {
     if (!slotEl) return;
     const progressEl = slotEl.querySelector('progress');
     const labelEl = slotEl.querySelector('.label');
+    RARITY_CLASSES.forEach(r => slotEl.classList.remove(`rarity-${r}`));
     progressEl.value = slot.progress || 0;
     progressEl.max = 1;
     if (slot.active && slot.encounter) {
@@ -697,6 +699,7 @@ function updateAdventureSlotUI(i) {
             slotEl.style.backgroundImage = `url(${slot.encounter.image})`;
             slotEl.style.backgroundSize = 'cover';
         }
+        slotEl.classList.add(`rarity-${slot.encounter.rarity}`);
     } else {
         labelEl.textContent = slot.text || '';
         slotEl.style.backgroundImage = 'none';
