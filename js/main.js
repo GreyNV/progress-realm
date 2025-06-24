@@ -73,6 +73,7 @@ const State = {
     masteryPoints: 0,
     encounterLevel: 0,
     encounterStreak: 0,
+    autoProgress: true,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -277,6 +278,9 @@ const SaveSystem = {
                 if (State.banditsAmbushSeen === undefined) {
                     State.banditsAmbushSeen = false;
                 }
+                if (State.autoProgress === undefined) {
+                    State.autoProgress = true;
+                }
                 return data.actions || null;
             } else {
                 Object.assign(State, data); // legacy save
@@ -347,8 +351,12 @@ const AdventureEngine = {
             State.encounterStreak += 1;
             updateAdventureSlotUI(this.activeIndex);
             if (State.encounterStreak >= 10) {
-                EncounterGenerator.incrementLevel();
-                State.encounterStreak = 0;
+                if (State.autoProgress) {
+                    EncounterGenerator.incrementLevel();
+                    State.encounterStreak = 0;
+                } else {
+                    State.encounterStreak = 10;
+                }
             }
             this.startSlot(this.activeIndex);
         } else {
@@ -834,6 +842,14 @@ async function init() {
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
+    const autoBox = document.getElementById('autoprogress-toggle');
+    if (autoBox) {
+        autoBox.checked = State.autoProgress;
+        autoBox.addEventListener('change', () => {
+            State.autoProgress = autoBox.checked;
+            SaveSystem.save();
+        });
+    }
     document.getElementById('return-btn').addEventListener('click', () => {
         retreat('resolve');
     });
