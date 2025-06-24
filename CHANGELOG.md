@@ -14,6 +14,10 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Encounter progress is now processed by DeltaEngine so adventure timing respects game speed.
 
+## [0.19.0] - 2025-07-09
+### Added
+- Bonus Engine module applies additive and multiplicative modifiers before deltas update stats and resources.
+
 ## [0.15.0] - 2025-07-04
 ### Added
 - Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.
