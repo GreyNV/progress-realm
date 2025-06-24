@@ -58,6 +58,12 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+#left {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 #task-list {
     list-style: none;
     padding: 0;

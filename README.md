@@ -45,6 +45,7 @@ Version 0.9.0 adds story encounters that trigger once at specific location level
 | Inventory    | Manages player's resource quantities and magical components                |
 | Automation   | Enables actions to loop with or without conditions                         |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots |
+| Character Background | Updates left panel image based on equipped items |
 
 #### 5. Core Stats (Initial Set)
 
