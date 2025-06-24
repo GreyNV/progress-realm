@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.15.0] - 2025-07-04
+### Added
+- Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.
+
+## [0.15.1] - 2025-07-05
+### Changed
+- Updated full gear image reference to `set+sword.png`.
+
 ## [0.14.0] - 2025-07-03
 ### Changed
 - Bandits Ambush now has a very low chance to reoccur after the first guaranteed encounter.

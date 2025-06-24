@@ -1,6 +1,7 @@
 const CharacterBackground = {
     baseImage: 'assets/char/new_char.png',
     equippedImage: 'assets/char/leather+woodshield+spear.png',
+    fullGearImage: 'assets/char/set+sword.png',
     container: null,
     init() {
         this.container = document.getElementById('left');
@@ -8,9 +9,12 @@ const CharacterBackground = {
     },
     update() {
         if (!this.container) return;
-        if (Inventory.hasItem('leather_armor') &&
-            Inventory.hasItem('wooden_shield') &&
-            Inventory.hasItem('stone_spear')) {
+        const fullGear = ['leather_armor', 'wooden_shield', 'iron_sword', 'gem'];
+        const spearSet = ['leather_armor', 'wooden_shield', 'stone_spear'];
+
+        if (fullGear.every(item => Inventory.hasItem(item))) {
+            this.container.style.backgroundImage = `url(${this.fullGearImage})`;
+        } else if (spearSet.every(item => Inventory.hasItem(item))) {
             this.container.style.backgroundImage = `url(${this.equippedImage})`;
         } else {
             this.container.style.backgroundImage = `url(${this.baseImage})`;
