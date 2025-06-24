@@ -2,6 +2,7 @@ const statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
 const resourceDeltas = { energy: 0, focus: 0, health: 0, money: 0 };
 let ageDelta = 0;
 const expDeltas = {};
+const encounterProgressDeltas = [];
 
 const DeltaEngine = {
     calculate() {
@@ -47,13 +48,16 @@ const DeltaEngine = {
         });
 
         // contributions from active encounters
-        State.adventureSlots.forEach(slot => {
+        encounterProgressDeltas.length = State.adventureSlots.length;
+        State.adventureSlots.forEach((slot, i) => {
+            encounterProgressDeltas[i] = 0;
             if (!slot.active || !slot.encounter) return;
             const cost = slot.encounter.getResourceCost();
             for (const r in cost) {
                 const rate = cost[r];
                 resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
             }
+            encounterProgressDeltas[i] = 1 / slot.duration;
         });
     },
 
@@ -73,9 +77,13 @@ const DeltaEngine = {
         for (const id in expDeltas) {
             gainExp(actions[id], expDeltas[id] * deltaSeconds * mult);
         }
+        State.adventureSlots.forEach((slot, i) => {
+            if (!slot.active || !slot.encounter) return;
+            slot.progress += encounterProgressDeltas[i] * deltaSeconds * mult;
+        });
     }
 };
 
 if (typeof module !== 'undefined') {
-    module.exports = { DeltaEngine, statDeltas, resourceDeltas };
+    module.exports = { DeltaEngine, statDeltas, resourceDeltas, encounterProgressDeltas };
 }
