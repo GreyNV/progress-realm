@@ -110,13 +110,13 @@
     "image": "assets/items/gem.PNG"
   },
   {
-    "id": "vault_relic",
-    "name": "Vault Relic",
-    "rarity": "legendary",
+    "id": "iron_sword",
+    "name": "Iron Sword",
+    "rarity": "rare",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "focus": 3
+      "strength": 2
     },
-    "image": "assets/items/relic.png"
+    "image": "assets/generated/iron_sword.png"
   }
 ]
