@@ -37,7 +37,7 @@
     "effectValue": {
       "energy": 1
     },
-    "image": "assets/items/wood.png"
+    "image": "assets/items/woodlog.PNG"
   },
   {
     "id": "stone_piece",
@@ -47,7 +47,7 @@
     "effectValue": {
       "strength": 0.5
     },
-    "image": "assets/items/stone.png"
+    "image": "assets/items/stone.PNG"
   },
   {
     "id": "boar_tusk",
@@ -57,7 +57,7 @@
     "effectValue": {
       "health": 1
     },
-    "image": "assets/items/boar.png"
+    "image": "assets/items/boartusk.PNG"
   },
   {
     "id": "ore_chunk",
@@ -67,7 +67,47 @@
     "effectValue": {
       "strength": 2
     },
-    "image": "assets/items/ore.png"
+    "image": "assets/items/Ore.PNG"
+  },
+  {
+    "id": "stone_spear",
+    "name": "Stone Spear",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 1.5
+    },
+    "image": "assets/items/spear.PNG"
+  },
+  {
+    "id": "wooden_shield",
+    "name": "Wooden Shield",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 1
+    },
+    "image": "assets/items/woodshield.PNG"
+  },
+  {
+    "id": "leather_armor",
+    "name": "Leather Armor",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 2
+    },
+    "image": "assets/items/leatherarmor.PNG"
+  },
+  {
+    "id": "gem",
+    "name": "Gem",
+    "rarity": "epic",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "focus": 2
+    },
+    "image": "assets/items/gem.PNG"
   },
   {
     "id": "vault_relic",

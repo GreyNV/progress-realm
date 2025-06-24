@@ -15,6 +15,12 @@ All notable changes to this project will be documented in this file.
 ### Documentation
 - Updated README with encounter tier details.
 
+## [0.8.0] - 2025-06-26
+### Changed
+- Adjusted ancient vault loot table with new rare and epic items.
+- Updated image references for items and encounters.
+- Reduced resource cost of legendary vault encounter.
+
 ## [0.5.0]
 ### Changed
 - Adventure tab redesigned with a single slot.
