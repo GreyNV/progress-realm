@@ -21,6 +21,10 @@ All notable changes to this project will be documented in this file.
 - Updated image references for items and encounters.
 - Reduced resource cost of legendary vault encounter.
 
+## [0.8.1] - 2025-06-27
+### Fixed
+- Corrected image paths for woodcutting, stone collecting, boar hunting and ore finding encounters.
+
 ## [0.5.0]
 ### Changed
 - Adventure tab redesigned with a single slot.
