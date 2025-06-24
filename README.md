@@ -47,7 +47,7 @@ Version 0.14.0 lets Bandits Ambush return with a very low chance and drops items
 | Inventory    | Manages player's resource quantities and magical components                |
 | Automation   | Enables actions to loop with or without conditions                         |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots |
-| Character Background | Updates left panel image based on equipped items |
+| Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |
 
 #### 5. Core Stats (Initial Set)
 
