@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2025-06-29
+### Added
+- Python script `scripts/image_pipeline.py` to auto-generate missing item images
+  via OpenAI's DALL·E API.
+- Documentation section on the new image pipeline.
+### Fixed
+- Updated image pipeline to use `client.images.generate` with API key handling.
+
 ## [0.6.0] - 2025-06-24
 ### Added
 - Inventory tab with item generator. Items now drop from encounters and appear in your inventory.
