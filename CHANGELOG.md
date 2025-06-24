@@ -25,6 +25,11 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Corrected image paths for woodcutting, stone collecting, boar hunting and ore finding encounters.
 
+## [0.9.0] - 2025-06-28
+### Added
+- Story encounter rarity with level-triggered events.
+- New "Bandits Ambush" story encounter grants a gem and an iron sword on first completion.
+
 ## [0.5.0]
 ### Changed
 - Adventure tab redesigned with a single slot.
