@@ -33,6 +33,11 @@ def generate_prompt(item: Dict) -> str:
     if description:
         base_prompt += f" in {description}"
     base_prompt += ", collected state."
+    return base_prompt
+
+
+def generate_image(prompt: str) -> str:
+    """Generate an image using OpenAI's API and return the image URL."""
     if OpenAI is None:
         raise RuntimeError("openai package is not installed")
 
@@ -42,21 +47,14 @@ def generate_prompt(item: Dict) -> str:
 
     client = OpenAI(api_key=api_key)
     response = client.images.generate(
+        prompt=prompt,
         model="dall-e-3",
+        n=1,
         size="1024x1024",
         style="natural",
         response_format="url",
+    )
     return response.data[0].url
-        raise RuntimeError('openai package is not installed')
-    response = model.images.generate(
-        prompt=prompt,
-        model='dall-e-3',
-        n=1,
-        size='1024x1024',
-        style='natural')
-    print("Attempted to generate image")
-    
-    return response['data'][0]['url']
 
 
 def save_image(url: str, item_name: str) -> str:
