@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.16.0] - 2025-07-06
+### Added
+- Extracted `state.js` and `engine.js` modules for global state and game loop.
+- Updated `index.html` to load new modules.
+- Documented next steps for modular refactoring.
+
+
 ## [0.15.0] - 2025-07-04
 ### Added
 - Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.

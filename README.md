@@ -100,7 +100,9 @@ The repository now contains a minimal HTML/CSS/JS setup with data files and stat
 ```
 index.html          - main HTML entry point
 css/styles.css      - page styling
-js/main.js          - core game logic
+js/state.js         - global state management
+js/engine.js        - main game loop and tick handlers
+js/main.js          - application setup and UI helpers
 assets/             - images and static assets
 data/actions.json   - action definitions
 docs/MVP.md         - checklist for the first prototype

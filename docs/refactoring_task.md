@@ -23,4 +23,10 @@ This document outlines the steps required to modularize the JavaScript code for 
 This incremental approach will gradually reduce the size of `main.js` and clarify each subsystem.
 
 ### Progress
-As of version 0.6.0, `items.js` and parts of `ui.js` have been extracted from `main.js` to manage item generation and inventory. The planned `state.js` and `engine.js` modules are still pending.
+As of version 0.6.0, `items.js` and parts of `ui.js` were extracted from `main.js` to manage item generation and inventory. Version 0.16.0 completes the migration by introducing `state.js` for global state and `engine.js` for all tick handlers. `main.js` now focuses on setup and UI helpers.
+
+### Next Steps
+- Move save/load logic into its own module to simplify persistence.
+- Split UI components further so each panel has a dedicated file.
+- Add integration tests for the new engine to ensure stable ticks.
+- Review performance as the data files grow and consider lazy loading for assets.
