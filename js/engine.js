@@ -63,10 +63,15 @@ const DeltaEngine = {
 
     apply(deltaSeconds, mult = 1) {
         STAT_KEYS.forEach(k => {
-            State.stats[k] = (State.stats[k] || 0) + statDeltas[k] * deltaSeconds * mult;
+            const base = statDeltas[k] * deltaSeconds * mult;
+            const delta = typeof BonusEngine !== 'undefined' ?
+                BonusEngine.applyStat(base, k) : base;
+            State.stats[k] = (State.stats[k] || 0) + delta;
         });
         RESOURCE_KEYS.forEach(k => {
-            const change = resourceDeltas[k] * deltaSeconds * mult;
+            const base = resourceDeltas[k] * deltaSeconds * mult;
+            const change = typeof BonusEngine !== 'undefined' ?
+                BonusEngine.applyResource(base, k) : base;
             if (change >= 0) {
                 ResourceSystem.add(State.resources[k], change);
             } else {
