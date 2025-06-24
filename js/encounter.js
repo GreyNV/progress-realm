@@ -46,6 +46,7 @@ const EncounterGenerator = {
         rare: 0.5,
         epic: 0.2,
         legendary: 0.1,
+        story: 0.05,
     },
     lootBaseByCategory: {
         strength: 0.02,
@@ -153,14 +154,16 @@ const EncounterGenerator = {
 
     resolve(encounter) {
         if (encounter.id === 'banditsAmbush') {
-            const gem = ItemGenerator.itemList.find(i => i.id === 'gem');
-            const sword = ItemGenerator.itemList.find(i => i.id === 'iron_sword');
-            if (gem) Inventory.add(gem);
-            if (sword) Inventory.add(sword);
+            for (const [id, chance] of Object.entries(encounter.items || {})) {
+                const item = ItemGenerator.itemList.find(i => i.id === id);
+                if (item && Math.random() < chance) {
+                    Inventory.add(item);
+                }
+            }
             Log.add('You survived the bandits ambush and claimed your reward.');
             if (!State.banditsAmbushSeen) {
                 Story.show(
-                    'Bruised but victorious, you find a glittering gem and a sturdy sword among the fallen bandits.',
+                    'Bruised but victorious, you gather loot from the fallen bandits.',
                     '',
                     () => {
                         State.banditsAmbushSeen = true;

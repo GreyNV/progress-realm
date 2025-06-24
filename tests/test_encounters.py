@@ -28,5 +28,10 @@ def test_story_encounter():
         data = json.load(f)
     story = next(e for e in data if e['id'] == 'banditsAmbush')
     assert story['rarity'] == 'story'
-    assert story['items']['gem'] == 1.0
-    assert story['items']['iron_sword'] == 1.0
+    expected_items = {
+        'gem': 1.0,
+        'iron_sword': 1.0,
+        'wooden_shield': 1.0,
+        'leather_armor': 1.0,
+    }
+    assert story['items'] == expected_items
