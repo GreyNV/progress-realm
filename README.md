@@ -21,6 +21,7 @@ Version 0.5.0 redesigns the Adventure tab with a single slot. Encounter level no
 Version 0.6.0 introduces an Inventory tab and item generator to track loot from encounters.
 Version 0.7.0 adds level-gated encounters ranging from common to legendary tiers with new item rewards.
 Version 0.9.0 adds story encounters that trigger once at specific location levels. The first, Bandits Ambush, grants a gem and an iron sword.
+Version 0.13.0 introduces an Autoprogress checkbox to pause encounter level ups.
 
 #### 3. Core Gameplay Loop
 

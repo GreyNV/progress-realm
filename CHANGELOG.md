@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.0] - 2025-07-02
+### Added
+- Autoprogress checkbox in the Adventure tab to pause encounter level ups.
+
 ## [0.12.0] - 2025-07-01
 ### Added
 - CharacterBackground module updates left panel based on equipment.
