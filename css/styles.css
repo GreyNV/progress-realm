@@ -188,7 +188,7 @@ main {
 
 .slot {
     flex: 1;
-    border: 2px #ccc;
+    border: 4px solid #ccc;
     padding: 0.5rem;
     min-height: 5rem;
     position: relative;
