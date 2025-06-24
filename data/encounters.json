@@ -130,16 +130,17 @@
     "category": "intelligence",
     "baseDuration": 12,
     "minLevel": 30,
-    "image": "assets/enc/foraging.png",
+    "image": "assets/enc/ancientvault.jpg",
     "resourceConsumption": {
-      "energy": 2,
-      "focus": 2,
-      "health": 1
+      "energy": 1,
+      "focus": 1,
+      "health": 0.5
     },
     "items": {
-      "vault_relic": 0.2,
-      "ore_chunk": 0.5,
-      "boar_tusk": 0.3
+      "stone_spear": 0.3,
+      "wooden_shield": 0.3,
+      "leather_armor": 0.2,
+      "gem": 0.2
     }
   }
 ]
