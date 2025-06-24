@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.19.0] - 2025-07-09
 ### Added
-- Bonus Engine module applies additive and multiplicative modifiers before deltas update stats and resources.
+- Bonus Engine module applies additive, multiplicative and exponential modifiers before deltas update stats and resources, and supports cost divisors for consumptions.
 
 ## [0.15.0] - 2025-07-04
 ### Added
