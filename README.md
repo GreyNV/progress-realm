@@ -23,6 +23,8 @@ Version 0.7.0 adds level-gated encounters ranging from common to legendary tiers
 Version 0.9.0 adds story encounters that trigger once at specific location levels. The first, Bandits Ambush, grants a gem and an iron sword.
 Version 0.13.0 introduces an Autoprogress checkbox to pause encounter level ups.
 Version 0.14.0 lets Bandits Ambush return with a very low chance and drops items defined in the data files.
+Version 0.16.0 separates delta calculations into a new engine module with speed multipliers.
+Version 0.17.0 moves aging and experience generation into DeltaEngine so all progression scales with game speed.
 
 #### 3. Core Gameplay Loop
 
@@ -45,7 +47,8 @@ Version 0.14.0 lets Bandits Ambush return with a very low chance and drops items
 | Resources    | Consumables needed to perform actions; includes magical and physical types |
 | Magic System | Simplified crafting and consumption system for magical items               |
 | Inventory    | Manages player's resource quantities and magical components                |
-| Automation   | Enables actions to loop with or without conditions                         |
+| Automation   | Enables actions to loop with or without conditions |
+| Engine       | Calculates deltas with multipliers and drives the main tick loop |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots |
 | Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |
 
