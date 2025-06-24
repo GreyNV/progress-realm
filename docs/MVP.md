@@ -11,3 +11,4 @@ Use this list to verify the first playable prototype of **Progress Realm**:
 - [x] Multiple action slots with drag-and-drop
 - [x] Introductory story modal and log panel
 - [x] Inventory tab with basic item generator
+- [x] Character background art updates when equipped with starter gear

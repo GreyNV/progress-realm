@@ -21,6 +21,8 @@ Version 0.5.0 redesigns the Adventure tab with a single slot. Encounter level no
 Version 0.6.0 introduces an Inventory tab and item generator to track loot from encounters.
 Version 0.7.0 adds level-gated encounters ranging from common to legendary tiers with new item rewards.
 Version 0.9.0 adds story encounters that trigger once at specific location levels. The first, Bandits Ambush, grants a gem and an iron sword.
+Version 0.13.0 introduces an Autoprogress checkbox to pause encounter level ups.
+Version 0.14.0 lets Bandits Ambush return with a very low chance and drops items defined in the data files.
 
 #### 3. Core Gameplay Loop
 
@@ -45,6 +47,7 @@ Version 0.9.0 adds story encounters that trigger once at specific location level
 | Inventory    | Manages player's resource quantities and magical components                |
 | Automation   | Enables actions to loop with or without conditions                         |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots |
+| Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |
 
 #### 5. Core Stats (Initial Set)
 
@@ -110,13 +113,19 @@ A story modal appears once on the first load and another short scene triggers af
 
 See **docs/MVP.md** for the MVP list.
 
-#### Item Image Pipeline
+#### Image Pipeline
 
-The `scripts/image_pipeline.py` tool reads `data/items.json` and generates
-missing item images using OpenAI's DALL·E API. Each new image is stored in
-`assets/generated/` and the item JSON is updated with the file path.
-Run the script only after setting the `OPENAI_API_KEY` environment variable.
-Make sure the `openai` Python package version 1.x is installed.
+The project includes small helper scripts to auto-generate missing images using
+OpenAI's DALL·E API:
+
+- `scripts/image_pipeline.py` for items
+- `scripts/image_pipeline_encounters.py` for encounters
+- `scripts/image_pipeline_actions.py` for actions
+
+Each script reads its respective JSON file, creates a prompt and stores the
+resulting image in `assets/generated/` before updating the JSON entry.
+Run the scripts only after setting the `OPENAI_API_KEY` environment variable and
+ensure the `openai` Python package version 1.x is installed.
 
 #### 12. Future Extensions
 

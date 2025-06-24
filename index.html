@@ -67,7 +67,10 @@
                     <div class="tab-content hidden" data-tab="adventure">
                         <h2>Adventure</h2>
                         <p id="encounter-location"></p>
-                        <button id="return-btn">Return</button>
+                        <div id="adventure-controls">
+                            <button id="return-btn">Return</button>
+                            <label><input type="checkbox" id="autoprogress-toggle" checked> Autoprogress</label>
+                        </div>
                         <div id="adventure-slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="inventory">
@@ -99,6 +102,7 @@
     <script src="js/encounter.js"></script>
     <script src="js/items.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/char_bg.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

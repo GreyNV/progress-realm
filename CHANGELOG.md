@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.15.0] - 2025-07-04
+### Added
+- Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.
+
+## [0.15.1] - 2025-07-05
+### Changed
+- Updated full gear image reference to `set+sword.png`.
+
+## [0.14.0] - 2025-07-03
+### Changed
+- Bandits Ambush now has a very low chance to reoccur after the first guaranteed encounter.
+- Loot from Bandits Ambush is determined by the encounter data file.
+
+## [0.13.0] - 2025-07-02
+### Added
+- Autoprogress checkbox in the Adventure tab to pause encounter level ups.
+
+## [0.12.0] - 2025-07-01
+### Added
+- CharacterBackground module updates left panel based on equipment.
+### Changed
+- Use existing 'leather+woodshield+spear.png' image for equipped character background.
+
 ## [0.10.0] - 2025-06-29
 ### Added
 - Python script `scripts/image_pipeline.py` to auto-generate missing item images
@@ -9,6 +32,12 @@ All notable changes to this project will be documented in this file.
 - Documentation section on the new image pipeline.
 ### Fixed
 - Updated image pipeline to use `client.images.generate` with API key handling.
+
+## [0.11.0] - 2025-06-30
+### Added
+- Scripts `image_pipeline_encounters.py` and `image_pipeline_actions.py` for
+  generating encounter and action images.
+- Updated README with image pipeline details for all asset types.
 
 ## [0.6.0] - 2025-06-24
 ### Added

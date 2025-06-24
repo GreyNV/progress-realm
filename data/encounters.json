@@ -58,7 +58,7 @@
     "description": "Gather firewood from the nearby forest.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 5,
+    "baseDuration": 15,
     "minLevel": 1,
     "image": "assets/enc/chopwood.jpg",
     "resourceConsumption": {
@@ -75,7 +75,7 @@
     "description": "Search the ground for useful stones.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 4,
+    "baseDuration": 15,
     "minLevel": 1,
     "image": "assets/enc/collectstone.jpg",
     "resourceConsumption": {
@@ -92,7 +92,7 @@
     "description": "A wild boar charges through the brush—dangerous but rewarding.",
     "rarity": "rare",
     "category": "strength",
-    "baseDuration": 7,
+    "baseDuration": 10,
     "minLevel": 10,
     "image": "assets/enc/foghtboar.jpg",
     "resourceConsumption": {
@@ -101,7 +101,7 @@
       "health": 1
     },
     "items": {
-      "boar_tusk": 0.6,
+      "boar_tusk": 0.7,
       "herb": 0.3
     }
   },
@@ -111,15 +111,15 @@
     "description": "Deep in the earth lies precious ore waiting to be mined.",
     "rarity": "epic",
     "category": "strength",
-    "baseDuration": 10,
+    "baseDuration": 15,
     "minLevel": 15,
     "image": "assets/enc/mineore.jpg",
     "resourceConsumption": {
-      "energy": 2,
+      "energy": 3,
       "focus": 1.2
     },
     "items": {
-      "ore_chunk": 0.5
+      "ore_chunk": 0.6
     }
   },
   {
@@ -128,18 +128,20 @@
     "description": "Outlaws spring from hiding to surround you with blades drawn.",
     "rarity": "story",
     "category": "strength",
-    "baseDuration": 8,
+    "baseDuration": 20,
     "minLevel": 50,
     "storyLevel": 50,
     "image": "assets/enc/wolf.png",
     "resourceConsumption": {
-      "energy": 2,
-      "focus": 1,
-      "health": 2
+      "energy": 4,
+      "focus": 2,
+      "health": 3
     },
     "items": {
       "gem": 1.0,
-      "iron_sword": 1.0
+      "iron_sword": 1.0,
+      "wooden_shield": 1.0,
+      "leather_armor": 1.0
     }
   },
   {
@@ -148,7 +150,7 @@
     "description": "A mysterious vault opens, promising untold riches.",
     "rarity": "legendary",
     "category": "intelligence",
-    "baseDuration": 12,
+    "baseDuration": 25,
     "minLevel": 30,
     "image": "assets/enc/ancientvault.jpg",
     "resourceConsumption": {
