@@ -116,6 +116,7 @@ The `scripts/image_pipeline.py` tool reads `data/items.json` and generates
 missing item images using OpenAI's DALL·E API. Each new image is stored in
 `assets/generated/` and the item JSON is updated with the file path.
 Run the script only after setting the `OPENAI_API_KEY` environment variable.
+Make sure the `openai` Python package version 1.x is installed.
 
 #### 12. Future Extensions
 

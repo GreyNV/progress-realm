@@ -6,9 +6,9 @@ from typing import List, Dict
 import requests
 
 try:
-    from openai.types import Image, ImageModel as model, ImagesResponse
+    from openai import OpenAI
 except ImportError:  # openai might not be installed
-    openai = None
+    OpenAI = None
 
 
 ITEMS_PATH = os.path.join('data', 'items.json')
@@ -33,13 +33,20 @@ def generate_prompt(item: Dict) -> str:
     if description:
         base_prompt += f" in {description}"
     base_prompt += ", collected state."
-    print(base_prompt)
-    return base_prompt
+    if OpenAI is None:
+        raise RuntimeError("openai package is not installed")
 
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY environment variable not set")
 
-def generate_image(prompt: str) -> str:
-    """Generate an image using OpenAI's API and return the image URL."""
-    if model is None:
+    client = OpenAI(api_key=api_key)
+    response = client.images.generate(
+        model="dall-e-3",
+        size="1024x1024",
+        style="natural",
+        response_format="url",
+    return response.data[0].url
         raise RuntimeError('openai package is not installed')
     response = model.images.generate(
         prompt=prompt,
