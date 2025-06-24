@@ -97,6 +97,9 @@ const Inventory = {
         }
         SoftCapSystem.recalculateCaps(State.inventory);
         InventoryUI.update();
+        if (typeof CharacterBackground !== 'undefined') {
+            CharacterBackground.update();
+        }
     },
     getItems() {
         return Object.entries(State.inventory).map(([id, data]) => {
@@ -108,6 +111,9 @@ const Inventory = {
                 image: itemData.image,
             };
         });
+    },
+    hasItem(id) {
+        return State.inventory[id] && State.inventory[id].quantity > 0;
     },
 };
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.12.0] - 2025-07-01
+### Added
+- CharacterBackground module updates left panel based on equipment.
+### Changed
+- Use existing 'leather+woodshield+spear.png' image for equipped character background.
+
 ## [0.10.0] - 2025-06-29
 ### Added
 - Python script `scripts/image_pipeline.py` to auto-generate missing item images

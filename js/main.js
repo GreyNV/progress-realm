@@ -823,6 +823,9 @@ async function init() {
     ResourcesUI.init();
     MasteryUI.init();
     InventoryUI.init();
+    if (typeof CharacterBackground !== 'undefined') {
+        CharacterBackground.init();
+    }
     updateTaskList();
     setupSlots();
     setupAdventureSlots();
