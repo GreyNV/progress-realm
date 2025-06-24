@@ -24,6 +24,7 @@ Version 0.9.0 adds story encounters that trigger once at specific location level
 Version 0.13.0 introduces an Autoprogress checkbox to pause encounter level ups.
 Version 0.14.0 lets Bandits Ambush return with a very low chance and drops items defined in the data files.
 Version 0.16.0 separates delta calculations into a new engine module with speed multipliers.
+Version 0.17.0 moves aging and experience generation into DeltaEngine so all progression scales with game speed.
 
 #### 3. Core Gameplay Loop
 

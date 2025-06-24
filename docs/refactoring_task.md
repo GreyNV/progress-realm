@@ -23,4 +23,4 @@ This document outlines the steps required to modularize the JavaScript code for 
 This incremental approach will gradually reduce the size of `main.js` and clarify each subsystem.
 
 ### Progress
-As of version 0.16.0, delta calculations were moved to a new `engine.js` module. This module exposes `DeltaEngine` which computes per-second changes and applies them with a multiplier so game speed modifiers can adjust progression. The `state.js` module is still pending.
+As of version 0.17.0, the `engine.js` module also manages aging and experience generation. `DeltaEngine` computes per-second changes for stats, resources, age and action experience, applying them with a multiplier so game speed modifiers can adjust progression. The `state.js` module is still pending.

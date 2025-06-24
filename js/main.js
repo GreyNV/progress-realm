@@ -297,8 +297,8 @@ const SaveSystem = {
 
 const AgeSystem = {
     daysPerYear: 365,
-    tick(delta) {
-        State.age.days += State.time * delta;
+    addDays(days) {
+        State.age.days += days;
         if (State.age.days >= this.daysPerYear) {
             State.age.years += Math.floor(State.age.days / this.daysPerYear);
             State.age.days = State.age.days % this.daysPerYear;
@@ -493,14 +493,11 @@ const ActionEngine = {
         updateSlotUI(slotIndex);
     },
     tick(delta) {
-        AgeSystem.tick(delta);
         DeltaEngine.calculate();
         DeltaEngine.apply(delta, State.time);
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
             const action = actions[slot.actionId];
-            const mult = scalingMultiplier(action);
-            gainExp(action, action.baseYield.exp * mult * delta * State.time);
             slot.progress = action.exp / action.expToNext;
             updateSlotUI(i);
         });

@@ -1,11 +1,17 @@
 const statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
 const resourceDeltas = { energy: 0, focus: 0, health: 0, money: 0 };
+let ageDelta = 0;
+const expDeltas = {};
 
 const DeltaEngine = {
     calculate() {
         // reset deltas
         STAT_KEYS.forEach(k => { statDeltas[k] = 0; });
         RESOURCE_KEYS.forEach(k => { resourceDeltas[k] = 0; });
+        ageDelta = 1;
+        for (const id in expDeltas) {
+            delete expDeltas[id];
+        }
 
         // contributions from active actions
         State.slots.forEach(slot => {
@@ -33,6 +39,11 @@ const DeltaEngine = {
                     resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
                 }
             }
+
+            if (action.baseYield.exp) {
+                expDeltas[action.id] = (expDeltas[action.id] || 0) +
+                    action.baseYield.exp * mult;
+            }
         });
 
         // contributions from active encounters
@@ -58,6 +69,10 @@ const DeltaEngine = {
                 ResourceSystem.consume(State.resources[k], -change);
             }
         });
+        AgeSystem.addDays(ageDelta * deltaSeconds * mult);
+        for (const id in expDeltas) {
+            gainExp(actions[id], expDeltas[id] * deltaSeconds * mult);
+        }
     }
 };
 

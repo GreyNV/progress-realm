@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Delta calculations moved to new engine module and now accept multipliers for game speed.
 
+## [0.17.0] - 2025-07-07
+### Changed
+- DeltaEngine now handles aging and action experience so all progression uses the same speed scaling.
+
 ## [0.15.0] - 2025-07-04
 ### Added
 - Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.
