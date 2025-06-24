@@ -8,6 +8,7 @@ class Encounter {
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
         this.minLevel = data.minLevel || 0;
+        this.storyLevel = data.storyLevel;
         this.resourceConsumption = data.resourceConsumption || {};
         this.items = data.items || null;
     }
@@ -119,6 +120,15 @@ const EncounterGenerator = {
 
     randomEncounter() {
         if (!this.encounters.length) return null;
+        const story = this.encounters.find(e => {
+            if (e.rarity !== 'story') return false;
+            if (e.storyLevel === undefined) return false;
+            if (this.level < e.storyLevel) return false;
+            if (e.id === 'banditsAmbush' && State.banditsAmbushSeen) return false;
+            return true;
+        });
+        if (story) return story;
+
         const pool = this.encounters.filter(e => (e.minLevel || 0) <= this.level);
         if (!pool.length) return null;
         const weights = pool.map(e => this.rarityWeights[e.rarity] || 1);
@@ -142,6 +152,24 @@ const EncounterGenerator = {
     },
 
     resolve(encounter) {
+        if (encounter.id === 'banditsAmbush') {
+            const gem = ItemGenerator.itemList.find(i => i.id === 'gem');
+            const sword = ItemGenerator.itemList.find(i => i.id === 'iron_sword');
+            if (gem) Inventory.add(gem);
+            if (sword) Inventory.add(sword);
+            Log.add('You survived the bandits ambush and claimed your reward.');
+            if (!State.banditsAmbushSeen) {
+                Story.show(
+                    'Bruised but victorious, you find a glittering gem and a sturdy sword among the fallen bandits.',
+                    '',
+                    () => {
+                        State.banditsAmbushSeen = true;
+                        SaveSystem.save();
+                    }
+                );
+            }
+            return;
+        }
         const chance = encounter.getLootChance();
         if (Math.random() < chance) {
             const item = ItemGenerator.generateFromEncounter(encounter);

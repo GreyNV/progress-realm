@@ -20,3 +20,13 @@ def test_encounter_fields():
         for prob in enc['items'].values():
             assert isinstance(prob, (int, float))
             assert 0 <= prob <= 1
+
+
+def test_story_encounter():
+    path = os.path.join('data', 'encounters.json')
+    with open(path) as f:
+        data = json.load(f)
+    story = next(e for e in data if e['id'] == 'banditsAmbush')
+    assert story['rarity'] == 'story'
+    assert story['items']['gem'] == 1.0
+    assert story['items']['iron_sword'] == 1.0

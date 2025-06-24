@@ -123,6 +123,26 @@
     }
   },
   {
+    "id": "banditsAmbush",
+    "name": "Bandits Ambush",
+    "description": "Outlaws spring from hiding to surround you with blades drawn.",
+    "rarity": "story",
+    "category": "strength",
+    "baseDuration": 8,
+    "minLevel": 50,
+    "storyLevel": 50,
+    "image": "assets/enc/wolf.png",
+    "resourceConsumption": {
+      "energy": 2,
+      "focus": 1,
+      "health": 2
+    },
+    "items": {
+      "gem": 1.0,
+      "iron_sword": 1.0
+    }
+  },
+  {
     "id": "ancientVault",
     "name": "Ancient Vault Awakens",
     "description": "A mysterious vault opens, promising untold riches.",

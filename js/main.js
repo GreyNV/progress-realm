@@ -50,6 +50,7 @@ const State = {
     age: { years: 16, days: 0, max: 75 },
     introSeen: false,
     healerGoneSeen: false,
+    banditsAmbushSeen: false,
     stats: {
         strength: 0,
         intelligence: 0,
@@ -272,6 +273,9 @@ const SaveSystem = {
                 }
                 if (!State.inventory) {
                     State.inventory = {};
+                }
+                if (State.banditsAmbushSeen === undefined) {
+                    State.banditsAmbushSeen = false;
                 }
                 return data.actions || null;
             } else {
