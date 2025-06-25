@@ -35,7 +35,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
-| UI           | Interface for selecting tasks, viewing stats/resources, and managing slots |
+| UI           | Interface for selecting tasks, viewing stats/resources, and managing slots. Includes a settings panel with dark mode toggle |
 | Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |
 
 #### 5. Core Stats (Initial Set)
