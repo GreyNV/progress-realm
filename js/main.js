@@ -74,6 +74,7 @@ const State = {
     encounterLevel: 0,
     encounterStreak: 0,
     autoProgress: true,
+    darkMode: true,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -279,6 +280,9 @@ const SaveSystem = {
                 }
                 if (State.autoProgress === undefined) {
                     State.autoProgress = true;
+                }
+                if (State.darkMode === undefined) {
+                    State.darkMode = true;
                 }
                 return data.actions || null;
             } else {
@@ -783,6 +787,22 @@ async function init() {
     if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleLeftPanel);
     }
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', openSettings);
+    }
+    const settingsClose = document.getElementById('settings-close');
+    if (settingsClose) {
+        settingsClose.addEventListener('click', closeSettings);
+    }
+    const darkToggle = document.getElementById('dark-mode-toggle');
+    if (darkToggle) {
+        darkToggle.addEventListener('change', () => {
+            State.darkMode = darkToggle.checked;
+            applyDarkMode();
+            SaveSystem.save();
+        });
+    }
     const autoBox = document.getElementById('autoprogress-toggle');
     if (autoBox) {
         autoBox.checked = State.autoProgress;
@@ -795,6 +815,7 @@ async function init() {
         retreat('resolve');
     });
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
+    applyDarkMode();
     updateUI();
     // Game logic ticked separately from UI updates so resource generation
     // remains consistent regardless of UI refresh rate.
@@ -817,4 +838,18 @@ function toggleLeftPanel() {
     if (btn) {
         btn.textContent = body.classList.contains('left-collapsed') ? 'Show Stats' : 'Hide Stats';
     }
+}
+
+function applyDarkMode() {
+    document.body.classList.toggle('dark', State.darkMode);
+    const chk = document.getElementById('dark-mode-toggle');
+    if (chk) chk.checked = State.darkMode;
+}
+
+function openSettings() {
+    document.getElementById('settings-modal').classList.remove('hidden');
+}
+
+function closeSettings() {
+    document.getElementById('settings-modal').classList.add('hidden');
 }

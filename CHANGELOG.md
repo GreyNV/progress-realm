@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.28.0] - 2025-07-18
+### Added
+- Dark mode enabled by default with toggle in new Settings panel.
+
 ## [0.27.0] - 2025-07-17
 ### Changed
 - Slots now have a dark background so labels remain visible when no image is set.
