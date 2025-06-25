@@ -5,7 +5,7 @@
     "description": "Dewy plants grow in the underbrush, promising useful herbs.",
     "rarity": "common",
     "category": "intelligence",
-    "baseDuration": 5,
+    "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/enc/foraging.png",
     "resourceConsumption": {
@@ -27,7 +27,7 @@
     "description": "A swift rabbit darts between the trees, ripe for the chase.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 6,
+    "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/enc/rabbit.png",
     "resourceConsumption": {
@@ -48,7 +48,7 @@
     "description": "Hungry wolves burst from the shadows with fangs bared.",
     "rarity": "rare",
     "category": "strength",
-    "baseDuration": 10,
+    "baseDuration": 2,
     "minLevel": 0,
     "image": "assets/enc/wolf.png",
     "resourceConsumption": {
@@ -68,7 +68,7 @@
     "description": "Gather firewood from the nearby forest.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 1,
     "minLevel": 1,
     "image": "assets/enc/chopwood.jpg",
     "resourceConsumption": {
@@ -89,7 +89,7 @@
     "description": "Search the ground for useful stones.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 1,
     "minLevel": 1,
     "image": "assets/enc/collectstone.jpg",
     "resourceConsumption": {
@@ -109,7 +109,7 @@
     "description": "Manage workers collecting timber in larger quantities.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 20,
+    "baseDuration": 1,
     "minLevel": 12,
     "image": "assets/generated/oversee_lumber.png",
     "resourceConsumption": {
@@ -130,7 +130,7 @@
     "description": "A wild boar charges through the brush\u2014dangerous but rewarding.",
     "rarity": "rare",
     "category": "strength",
-    "baseDuration": 10,
+    "baseDuration": 2,
     "minLevel": 10,
     "image": "assets/enc/foghtboar.jpg",
     "resourceConsumption": {
@@ -151,7 +151,7 @@
     "description": "Deep in the earth lies precious ore waiting to be mined.",
     "rarity": "epic",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 5,
     "minLevel": 15,
     "image": "assets/enc/mineore.jpg",
     "resourceConsumption": {
@@ -170,7 +170,7 @@
     "description": "Outlaws spring from hiding to surround you with blades drawn.",
     "rarity": "story",
     "category": "strength",
-    "baseDuration": 20,
+    "baseDuration": 15,
     "minLevel": 50,
     "storyLevel": 50,
     "image": "assets/enc/wolf.png",
@@ -194,7 +194,7 @@
     "description": "A mysterious vault opens, promising untold riches.",
     "rarity": "legendary",
     "category": "intelligence",
-    "baseDuration": 25,
+    "baseDuration": 10,
     "minLevel": 30,
     "image": "assets/enc/ancientvault.jpg",
     "resourceConsumption": {
