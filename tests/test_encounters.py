@@ -75,6 +75,28 @@ def test_loot_yield_constant_present():
     assert 'lootYieldBonusPerStat' in text
 
 
+def test_base_duration_scale_present():
+    path = os.path.join('js', 'encounter.js')
+    with open(path) as f:
+        text = f.read()
+    assert 'baseDurationScale' in text
+
+
+def test_base_durations_by_rarity():
+    path = os.path.join('data', 'encounters.json')
+    with open(path) as f:
+        data = json.load(f)
+    expected = {
+        'common': 1,
+        'rare': 2,
+        'epic': 5,
+        'legendary': 10,
+        'story': 15,
+    }
+    for enc in data:
+        assert enc['baseDuration'] == expected[enc['rarity']]
+
+
 def test_oversee_lumber_team_exists():
     path = os.path.join('data', 'encounters.json')
     with open(path) as f:

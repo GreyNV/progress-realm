@@ -38,6 +38,14 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Rebalanced `maxLevel` values so early tasks phase out sooner.
 
+## [0.24.0] - 2025-07-14
+### Changed
+- Encounter duration now derives from level divided by relevant stats and honors `baseDurationScale` as a minimum multiplier.
+
+## [0.25.0] - 2025-07-15
+### Changed
+- Base encounter durations are now set by rarity: 1s for common, 2s for rare, 5s for epic, 10s for legendary and 15s for story.
+
 ## [0.15.0] - 2025-07-04
 ### Added
 - Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.

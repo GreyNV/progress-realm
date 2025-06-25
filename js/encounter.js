@@ -16,9 +16,11 @@ class Encounter {
     }
 
     getDuration() {
-        const stat = State.stats[this.category] || 0;
-        const reduction = stat * EncounterGenerator.durationModPerStat;
-        return Math.max(this.baseDuration * (1 - reduction), 1);
+        const stat = Math.max(State.stats[this.category] || 0, 1);
+        const level = Math.max(EncounterGenerator.level, 1);
+        const minDuration = this.baseDuration * EncounterGenerator.baseDurationScale;
+        const calculated = level / stat;
+        return Math.max(minDuration, calculated);
     }
 
     getLootChance() {
@@ -64,6 +66,7 @@ const EncounterGenerator = {
     lootYieldBonusPerStat: 0.02, // +2% loot amount per stat point
     durationModPerStat: 0.02, // -2% duration per stat point
     costScalePerLevel: 0.1, // +10% cost per encounter level
+    baseDurationScale: 1, // multiplier for encounter minimum duration
 
     async load() {
         try {

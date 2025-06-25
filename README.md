@@ -32,6 +32,10 @@ Version 0.20.0 adds a `maxLevel` property to encounters so early events stop app
 Version 0.21.0 introduces a `loot` dictionary for encounters, defining fixed rewards in addition to probability-based drops.
 Version 0.22.0 scales guaranteed loot amounts with your stats based on the encounter category.
 Version 0.23.0 rebalances encounter `maxLevel` values and introduces rare item drops for common encounters.
+Version 0.24.0 calculates encounter duration from level and stats with a
+`baseDurationScale` for future tuning.
+Version 0.25.0 standardizes base encounter durations by rarity: 1s for
+common, 2s for rare, 5s for epic, 10s for legendary and 15s for story.
 
 
 #### 3. Core Gameplay Loop
