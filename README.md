@@ -11,36 +11,6 @@ A progression and resource management game inspired by Progress Knight and Theor
 
 In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 
-This release (v0.1.0) introduces automatic saving and loading of progress via localStorage.
-It also adds a drag-and-drop task system with tooltips and simple completion animations.
-
-Version 0.2.0 introduced a leveled action system with per-second yields and resource blocking.
-Version 0.3.0 expands the prototype with six starting action slots, an introductory story modal, and a simple log panel.
-Version 0.4.0 adds weighted random encounters with durations and loot chances influenced by your stats.
-Version 0.5.0 redesigns the Adventure tab with a single slot. Encounter level now increases after ten consecutive successes.
-Version 0.6.0 introduces an Inventory tab and item generator to track loot from encounters.
-Version 0.7.0 adds level-gated encounters ranging from common to legendary tiers with new item rewards.
-Version 0.9.0 adds story encounters that trigger once at specific location levels. The first, Bandits Ambush, grants a gem and an iron sword.
-Version 0.13.0 introduces an Autoprogress checkbox to pause encounter level ups.
-Version 0.14.0 lets Bandits Ambush return with a very low chance and drops items defined in the data files.
-Version 0.16.0 separates delta calculations into a new engine module with speed multipliers.
-Version 0.17.0 moves aging and experience generation into DeltaEngine so all progression scales with game speed.
-Version 0.18.0 ties encounter progress to DeltaEngine so adventure speed follows game time.
-Version 0.19.0 adds rarity-based borders for items and encounters and highlights names in the log.
-Version 0.19.1 introduces a Bonus Engine that applies additive and multiplicative modifiers before deltas update stats and resources. It now supports exponent bonuses for stats and cost divisors for resource consumption.
-Version 0.20.0 adds a `maxLevel` property to encounters so early events stop appearing once the adventure level surpasses them.
-Version 0.21.0 introduces a `loot` dictionary for encounters, defining fixed rewards in addition to probability-based drops.
-Version 0.22.0 scales guaranteed loot amounts with your stats based on the encounter category.
-Version 0.23.0 rebalances encounter `maxLevel` values and introduces rare item drops for common encounters.
-Version 0.24.0 calculates encounter duration from level and stats with a
-`baseDurationScale` for future tuning.
-Version 0.25.0 standardizes base encounter durations by rarity: 1s for
-common, 2s for rare, 5s for epic, 10s for legendary and 15s for story.
-Version 0.26.0 introduces a collapsible left panel and updates rarities:
-Ore and Gem are now rare items. The Find Ore and Ancient Vault encounters
-are also rare and use the shorter base duration.
-
-
 #### 3. Core Gameplay Loop
 
 * Player assigns actions to limited slots
