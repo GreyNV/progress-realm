@@ -46,6 +46,13 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Base encounter durations are now set by rarity: 1s for common, 2s for rare, 5s for epic, 10s for legendary and 15s for story.
 
+## [0.26.0] - 2025-07-16
+### Added
+- Left panel can now be collapsed via a button in the header.
+### Changed
+- Ore chunk and gem items are now rare.
+- Find Ore and Ancient Vault encounters are rare with shorter base durations.
+
 ## [0.15.0] - 2025-07-04
 ### Added
 - Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.

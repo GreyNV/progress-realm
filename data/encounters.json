@@ -149,9 +149,9 @@
     "id": "findOre",
     "name": "Find Ore",
     "description": "Deep in the earth lies precious ore waiting to be mined.",
-    "rarity": "epic",
+    "rarity": "rare",
     "category": "strength",
-    "baseDuration": 5,
+    "baseDuration": 2,
     "minLevel": 15,
     "image": "assets/enc/mineore.jpg",
     "resourceConsumption": {
@@ -192,9 +192,9 @@
     "id": "ancientVault",
     "name": "Ancient Vault Awakens",
     "description": "A mysterious vault opens, promising untold riches.",
-    "rarity": "legendary",
+    "rarity": "rare",
     "category": "intelligence",
-    "baseDuration": 10,
+    "baseDuration": 2,
     "minLevel": 30,
     "image": "assets/enc/ancientvault.jpg",
     "resourceConsumption": {
