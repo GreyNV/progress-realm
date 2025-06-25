@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.27.0] - 2025-07-17
+### Changed
+- Slots now have a dark background so labels remain visible when no image is set.
+
 ## [0.26.0] - 2025-07-16
 ### Added
 - Left panel can now be collapsed via a button in the header.
