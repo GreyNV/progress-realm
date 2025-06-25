@@ -8,9 +8,11 @@ class Encounter {
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
         this.minLevel = data.minLevel || 0;
+        this.maxLevel = data.maxLevel;
         this.storyLevel = data.storyLevel;
         this.resourceConsumption = data.resourceConsumption || {};
         this.items = data.items || null;
+        this.loot = data.loot || {};
     }
 
     getDuration() {
@@ -23,6 +25,11 @@ class Encounter {
         const base = EncounterGenerator.lootBaseByCategory[this.category] || 0;
         const stat = State.stats[this.category] || 0;
         return base + stat * EncounterGenerator.lootBonusPerStat;
+    }
+
+    getLootMultiplier() {
+        const stat = State.stats[this.category] || 0;
+        return 1 + stat * EncounterGenerator.lootYieldBonusPerStat;
     }
 
     getResourceCost() {
@@ -54,6 +61,7 @@ const EncounterGenerator = {
         creativity: 0.02,
     },
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
+    lootYieldBonusPerStat: 0.02, // +2% loot amount per stat point
     durationModPerStat: 0.02, // -2% duration per stat point
     costScalePerLevel: 0.1, // +10% cost per encounter level
 
@@ -130,7 +138,11 @@ const EncounterGenerator = {
         });
         if (story) return story;
 
-        const pool = this.encounters.filter(e => (e.minLevel || 0) <= this.level);
+        const pool = this.encounters.filter(e => {
+            if ((e.minLevel || 0) > this.level) return false;
+            if (e.maxLevel !== undefined && this.level > e.maxLevel) return false;
+            return true;
+        });
         if (!pool.length) return null;
         const weights = pool.map(e => this.rarityWeights[e.rarity] || 1);
         const total = weights.reduce((a, b) => a + b, 0);
@@ -153,13 +165,17 @@ const EncounterGenerator = {
     },
 
     resolve(encounter) {
-        if (encounter.id === 'banditsAmbush') {
-            for (const [id, chance] of Object.entries(encounter.items || {})) {
-                const item = ItemGenerator.itemList.find(i => i.id === id);
-                if (item && Math.random() < chance) {
-                    Inventory.add(item);
-                }
+        for (const [id, qty] of Object.entries(encounter.loot || {})) {
+            const item = ItemGenerator.itemList.find(i => i.id === id);
+            if (!item) continue;
+            const mult = encounter.getLootMultiplier();
+            const total = Math.max(0, Math.floor(qty * mult));
+            for (let i = 0; i < total; i++) {
+                Inventory.add(item);
             }
+        }
+
+        if (encounter.id === 'banditsAmbush') {
             Log.add('You survived the bandits ambush and claimed your reward.');
             if (!State.banditsAmbushSeen) {
                 Story.show(

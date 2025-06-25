@@ -13,8 +13,13 @@
       "focus": 1
     },
     "items": {
-      "herb": 1.0
-    }
+      "herb": 1.0,
+      "sturdy_bark": 0.05
+    },
+    "loot": {
+      "herb": 1
+    },
+    "maxLevel": 5
   },
   {
     "id": "rabbitHunt",
@@ -31,8 +36,11 @@
     },
     "items": {
       "rabbit_meat": 0.7,
-      "herb": 0.3
-    }
+      "herb": 0.3,
+      "wolf_pelt": 0.05
+    },
+    "loot": {},
+    "maxLevel": 8
   },
   {
     "id": "wolfAmbush",
@@ -50,7 +58,9 @@
     },
     "items": {
       "wolf_pelt": 0.5
-    }
+    },
+    "loot": {},
+    "maxLevel": 15
   },
   {
     "id": "chopWood",
@@ -66,8 +76,12 @@
       "focus": 0.5
     },
     "items": {
-      "wood_log": 0.8
-    }
+      "sturdy_bark": 0.05
+    },
+    "loot": {
+      "wood_log": 0.1
+    },
+    "maxLevel": 12
   },
   {
     "id": "collectStones",
@@ -83,13 +97,37 @@
       "focus": 0.6
     },
     "items": {
-      "stone_piece": 0.8
-    }
+      "stone_piece": 0.8,
+      "ore_chunk": 0.05
+    },
+    "loot": {},
+    "maxLevel": 18
+  },
+  {
+    "id": "overseeLumberTeam",
+    "name": "Oversee Lumber Team",
+    "description": "Manage workers collecting timber in larger quantities.",
+    "rarity": "common",
+    "category": "strength",
+    "baseDuration": 20,
+    "minLevel": 12,
+    "image": "assets/generated/oversee_lumber.png",
+    "resourceConsumption": {
+      "energy": 1.5,
+      "focus": 1
+    },
+    "items": {
+      "sturdy_bark": 0.25
+    },
+    "loot": {
+      "wood_log": 0.1
+    },
+    "maxLevel": 25
   },
   {
     "id": "boarHunt",
     "name": "Boar Hunt",
-    "description": "A wild boar charges through the brush—dangerous but rewarding.",
+    "description": "A wild boar charges through the brush\u2014dangerous but rewarding.",
     "rarity": "rare",
     "category": "strength",
     "baseDuration": 10,
@@ -103,7 +141,9 @@
     "items": {
       "boar_tusk": 0.7,
       "herb": 0.3
-    }
+    },
+    "loot": {},
+    "maxLevel": 25
   },
   {
     "id": "findOre",
@@ -120,7 +160,9 @@
     },
     "items": {
       "ore_chunk": 0.6
-    }
+    },
+    "loot": {},
+    "maxLevel": 45
   },
   {
     "id": "banditsAmbush",
@@ -137,12 +179,14 @@
       "focus": 2,
       "health": 3
     },
-    "items": {
-      "gem": 1.0,
-      "iron_sword": 1.0,
-      "wooden_shield": 1.0,
-      "leather_armor": 1.0
-    }
+    "items": {},
+    "loot": {
+      "gem": 1,
+      "iron_sword": 1,
+      "wooden_shield": 1,
+      "leather_armor": 1
+    },
+    "maxLevel": 100
   },
   {
     "id": "ancientVault",
@@ -163,6 +207,8 @@
       "wooden_shield": 0.3,
       "leather_armor": 0.2,
       "gem": 0.2
-    }
+    },
+    "loot": {},
+    "maxLevel": 60
   }
 ]

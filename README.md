@@ -28,6 +28,10 @@ Version 0.17.0 moves aging and experience generation into DeltaEngine so all pro
 Version 0.18.0 ties encounter progress to DeltaEngine so adventure speed follows game time.
 Version 0.19.0 adds rarity-based borders for items and encounters and highlights names in the log.
 Version 0.19.1 introduces a Bonus Engine that applies additive and multiplicative modifiers before deltas update stats and resources. It now supports exponent bonuses for stats and cost divisors for resource consumption.
+Version 0.20.0 adds a `maxLevel` property to encounters so early events stop appearing once the adventure level surpasses them.
+Version 0.21.0 introduces a `loot` dictionary for encounters, defining fixed rewards in addition to probability-based drops.
+Version 0.22.0 scales guaranteed loot amounts with your stats based on the encounter category.
+Version 0.23.0 rebalances encounter `maxLevel` values and introduces rare item drops for common encounters.
 
 
 #### 3. Core Gameplay Loop
@@ -142,6 +146,7 @@ ensure the `openai` Python package version 1.x is installed.
 * Dynamic events or time-limited quests
 * Mastery points earned from action tiers
 * Player avatar or magical tower interface (for immersion)
+* Evaluate scripting to automatically generate new encounter JSON entries
 
 ---
 

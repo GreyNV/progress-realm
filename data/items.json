@@ -118,5 +118,15 @@
       "strength": 2
     },
     "image": "assets/generated/iron_sword.png"
+  },
+  {
+    "id": "sturdy_bark",
+    "name": "Sturdy Bark",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 1
+    },
+    "image": "assets/generated/sturdy_bark.png"
   }
 ]

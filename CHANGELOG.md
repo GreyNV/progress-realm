@@ -20,6 +20,24 @@ All notable changes to this project will be documented in this file.
 - Log entries highlight item and encounter names by rarity without showing rarity text.
 - Bonus Engine module applies additive, multiplicative and exponential modifiers before deltas update stats and resources, and supports cost divisors for consumptions.
 
+## [0.20.0] - 2025-07-10
+### Added
+- Encounters now include a `maxLevel` property to remove them from the pool once the adventure level surpasses it.
+
+## [0.21.0] - 2025-07-11
+### Added
+- Encounters can specify guaranteed `loot` amounts alongside probability-based `items` drops.
+
+## [0.22.0] - 2025-07-12
+### Changed
+- Loot yield now scales with your stats based on each encounter's category.
+
+## [0.23.0] - 2025-07-13
+### Added
+- Rare items now occasionally drop from common encounters and wood gathering tasks scale into a new "Oversee Lumber Team" encounter.
+### Changed
+- Rebalanced `maxLevel` values so early tasks phase out sooner.
+
 ## [0.15.0] - 2025-07-04
 ### Added
 - Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.
