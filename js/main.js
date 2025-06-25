@@ -779,6 +779,10 @@ async function init() {
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
+    const toggleBtn = document.getElementById('toggle-left');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleLeftPanel);
+    }
     const autoBox = document.getElementById('autoprogress-toggle');
     if (autoBox) {
         autoBox.checked = State.autoProgress;
@@ -805,3 +809,12 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+function toggleLeftPanel() {
+    const body = document.body;
+    body.classList.toggle('left-collapsed');
+    const btn = document.getElementById('toggle-left');
+    if (btn) {
+        btn.textContent = body.classList.contains('left-collapsed') ? 'Show Stats' : 'Hide Stats';
+    }
+}

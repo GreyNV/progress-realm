@@ -62,7 +62,7 @@
   {
     "id": "ore_chunk",
     "name": "Rare Ore",
-    "rarity": "epic",
+    "rarity": "rare",
     "effectType": "increaseSoftcap",
     "effectValue": {
       "strength": 2
@@ -102,7 +102,7 @@
   {
     "id": "gem",
     "name": "Gem",
-    "rarity": "epic",
+    "rarity": "rare",
     "effectType": "increaseSoftcap",
     "effectValue": {
       "focus": 2

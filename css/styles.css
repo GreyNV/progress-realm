@@ -124,6 +124,14 @@ main {
     align-items: start;
 }
 
+body.left-collapsed main {
+    grid-template-columns: 2fr minmax(180px, 1fr);
+}
+
+body.left-collapsed #left {
+    display: none;
+}
+
 .panel {
     background: #fff;
     padding: 1rem;

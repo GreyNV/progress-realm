@@ -36,6 +36,9 @@ Version 0.24.0 calculates encounter duration from level and stats with a
 `baseDurationScale` for future tuning.
 Version 0.25.0 standardizes base encounter durations by rarity: 1s for
 common, 2s for rare, 5s for epic, 10s for legendary and 15s for story.
+Version 0.26.0 introduces a collapsible left panel and updates rarities:
+Ore and Gem are now rare items. The Find Ore and Ancient Vault encounters
+are also rare and use the shorter base duration.
 
 
 #### 3. Core Gameplay Loop
