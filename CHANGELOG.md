@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.37.0] - 2025-07-26
+### Fixed
+- Guarded UI cap updates when SoftCapSystem values are missing to prevent zero stats.
+
+
 ## [0.36.0] - 2025-07-25
 ### Added
 - Review protocol for sub-agents in `AGENTS.md`.

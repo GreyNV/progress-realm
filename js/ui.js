@@ -24,7 +24,10 @@ const StatsUI = {
         this.list.forEach(key => {
             document.getElementById(`stat-${key}`).textContent = getStatValue(key).toFixed(1);
             const capEl = document.getElementById(`stat-${key}-cap`);
-            if (capEl) capEl.textContent = SoftCapSystem.statCaps[key].toFixed(1);
+            const cap = SoftCapSystem.statCaps[key] !== undefined
+                ? SoftCapSystem.statCaps[key]
+                : getStatMax(key);
+            if (capEl) capEl.textContent = cap.toFixed(1);
             document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
         });
     }
@@ -55,7 +58,10 @@ const ResourcesUI = {
         this.list.forEach(key => {
             document.getElementById(`res-${key}`).textContent = getResourceValue(key).toFixed(1);
             const capEl = document.getElementById(`res-${key}-cap`);
-            if (capEl) capEl.textContent = SoftCapSystem.resourceCaps[key].toFixed(1);
+            const cap = SoftCapSystem.resourceCaps[key] !== undefined
+                ? SoftCapSystem.resourceCaps[key]
+                : getResourceMax(key);
+            if (capEl) capEl.textContent = cap.toFixed(1);
             document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
         });
     }
