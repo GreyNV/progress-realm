@@ -1,0 +1,12 @@
+[
+  {
+    "id": "townHall",
+    "name": "Rebuild Town Hall",
+    "description": "Restores the town center and unlocks new opportunities.",
+    "duration": 30,
+    "resourceConsumption": {"money": 50, "wood_log": 5},
+    "state": "locked",
+    "bonus": {"stats": {"charisma": 5}},
+    "unlocks": {"encounters": ["townMeeting"]}
+  }
+]

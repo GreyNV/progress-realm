@@ -25,9 +25,6 @@ def test_encounter_fields():
         for qty in enc['loot'].values():
             assert isinstance(qty, (int, float))
             assert qty >= 0
-        assert 'maxLevel' in enc
-        assert isinstance(enc['maxLevel'], (int, float))
-        assert enc['maxLevel'] >= enc.get('minLevel', 0)
 
 
 def test_story_encounter():
@@ -46,26 +43,12 @@ def test_story_encounter():
     assert story['loot'] == expected_loot
 
 
-def test_max_level_filtering():
+def test_no_max_level_property():
     path = os.path.join('data', 'encounters.json')
     with open(path) as f:
         data = json.load(f)
 
-    def filter_pool(level):
-        pool = []
-        for e in data:
-            if e.get('minLevel', 0) > level:
-                continue
-            if 'maxLevel' in e and level > e['maxLevel']:
-                continue
-            pool.append(e['id'])
-        return pool
-
-    low_pool = filter_pool(0)
-    high_pool = filter_pool(20)
-
-    assert 'foragingHerbs' in low_pool
-    assert 'foragingHerbs' not in high_pool
+    assert all('maxLevel' not in e for e in data)
 
 
 def test_loot_yield_constant_present():

@@ -32,7 +32,12 @@ const Lang = {
     translateUI() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const text = this.ui(el.dataset.i18n);
-            if (text) el.textContent = text;
+            if (!text) return;
+            if (el.childNodes.length > 1 && el.childNodes[0].nodeType === Node.TEXT_NODE) {
+                el.childNodes[0].textContent = text;
+            } else {
+                el.textContent = text;
+            }
         });
     },
     applyToActions(actions) {

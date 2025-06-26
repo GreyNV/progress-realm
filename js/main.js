@@ -219,7 +219,9 @@ const TabManager = {
         { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
         { id: 'inventory', name: 'Inventory', hidden: false, locked: false },
         { id: 'automation', name: 'Automation', hidden: false, locked: false },
+        { id: 'updates', name: 'Updates', hidden: false, locked: false },
     ],
+    buttons: {},
     init() {
         this.header = document.getElementById('tab-headers');
         if (State.healerGoneSeen) {
@@ -239,10 +241,22 @@ const TabManager = {
     },
     _createButton(tab) {
         const btn = document.createElement('button');
-        btn.textContent = tab.locked ? `${tab.name} (Locked)` : tab.name;
         btn.dataset.tab = tab.id;
+        btn.dataset.i18n = tab.name;
+        this.buttons[tab.id] = btn;
         if (tab.locked) btn.disabled = true;
         this.header.appendChild(btn);
+        this._updateButton(tab);
+    },
+    _updateButton(tab) {
+        const btn = this.buttons[tab.id];
+        if (!btn) return;
+        const name = Lang.ui(tab.name) || tab.name;
+        const locked = Lang.ui('Locked') || 'Locked';
+        btn.textContent = tab.locked ? `${name} (${locked})` : name;
+    },
+    translate() {
+        this.tabs.forEach(tab => this._updateButton(tab));
     },
     unlockTab(id) {
         const tab = this.tabs.find(t => t.id === id);
@@ -832,6 +846,7 @@ async function init() {
     });
     await EncounterGenerator.load();
     await ItemGenerator.load();
+    await UpdateSystem.load();
     Lang.applyToActions(actions);
     Lang.applyToItems(ItemGenerator.itemList);
     Lang.applyToEncounters(EncounterGenerator.encounters);
@@ -841,6 +856,7 @@ async function init() {
     ResourcesUI.init();
     MasteryUI.init();
     InventoryUI.init();
+    UpdateSystem.init();
     if (typeof CharacterBackground !== 'undefined') {
         CharacterBackground.init();
     }
@@ -853,6 +869,7 @@ async function init() {
     setupTooltips();
     TabManager.init();
     Lang.translateUI();
+    TabManager.translate();
     const toggleBtn = document.getElementById('toggle-left');
     if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleLeftPanel);
@@ -884,6 +901,7 @@ async function init() {
             Lang.applyToEncounters(EncounterGenerator.encounters);
             Lang.applyToLocations(EncounterGenerator.milestones);
             Lang.translateUI();
+            TabManager.translate();
             StatsUI.translate();
             ResourcesUI.translate();
             updateTaskList();
@@ -913,6 +931,7 @@ async function init() {
     setInterval(() => {
         ActionEngine.tick(LOGIC_TICK_MS / 1000);
         AdventureEngine.tick(LOGIC_TICK_MS / 1000);
+        UpdateSystem.tick(LOGIC_TICK_MS / 1000);
     }, LOGIC_TICK_MS);
     setInterval(() => {
         updateTaskList();
