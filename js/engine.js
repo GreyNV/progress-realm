@@ -66,7 +66,7 @@ const DeltaEngine = {
             const base = statDeltas[k] * deltaSeconds * mult;
             const delta = typeof BonusEngine !== 'undefined' ?
                 BonusEngine.applyStat(base, k) : base;
-            State.stats[k] = (State.stats[k] || 0) + delta;
+            StatSystem.add(State.stats[k], delta);
         });
         RESOURCE_KEYS.forEach(k => {
             const base = resourceDeltas[k] * deltaSeconds * mult;

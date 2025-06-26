@@ -5,13 +5,24 @@ const StatsUI = {
         const listEl = document.getElementById('stats-list');
         this.list.forEach(key => {
             const li = document.createElement('li');
-            li.innerHTML = `${capitalize(key)}: <span id="stat-${key}">0</span>/<span id="stat-${key}-cap">0</span> (<span id="stat-${key}-delta" class="delta">0</span>/s)`;
+            const label = document.createElement('span');
+            label.className = 'stat-label';
+            label.dataset.key = key;
+            label.textContent = Lang.stat(key) || capitalize(key);
+            li.appendChild(label);
+            li.insertAdjacentHTML('beforeend', `: <span id="stat-${key}">0</span>/<span id="stat-${key}-cap">0</span> (<span id="stat-${key}-delta" class="delta">0</span>/s)`);
             listEl.appendChild(li);
+        });
+    },
+    translate() {
+        document.querySelectorAll('#stats-list .stat-label').forEach(el => {
+            const key = el.dataset.key;
+            el.textContent = Lang.stat(key) || capitalize(key);
         });
     },
     update() {
         this.list.forEach(key => {
-            document.getElementById(`stat-${key}`).textContent = State.stats[key].toFixed(1);
+            document.getElementById(`stat-${key}`).textContent = getStatValue(key).toFixed(1);
             const capEl = document.getElementById(`stat-${key}-cap`);
             if (capEl) capEl.textContent = SoftCapSystem.statCaps[key].toFixed(1);
             document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
@@ -25,8 +36,19 @@ const ResourcesUI = {
         const listEl = document.getElementById("resources-list");
         this.list.forEach(key => {
             const li = document.createElement("li");
-            li.innerHTML = `${capitalize(key)}: <span id="res-${key}">0</span>/<span id="res-${key}-cap">0</span> (<span id="res-${key}-delta" class="delta">0</span>/s)`;
+            const label = document.createElement('span');
+            label.className = 'resource-label';
+            label.dataset.key = key;
+            label.textContent = Lang.resource(key) || capitalize(key);
+            li.appendChild(label);
+            li.insertAdjacentHTML('beforeend', `: <span id="res-${key}">0</span>/<span id="res-${key}-cap">0</span> (<span id="res-${key}-delta" class="delta">0</span>/s)`);
             listEl.appendChild(li);
+        });
+    },
+    translate() {
+        document.querySelectorAll('#resources-list .resource-label').forEach(el => {
+            const key = el.dataset.key;
+            el.textContent = Lang.resource(key) || capitalize(key);
         });
     },
     update() {

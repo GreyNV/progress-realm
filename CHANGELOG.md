@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.34.0] - 2025-07-23
+### Added
+- Translations for stat names, resource names, and story events.
+
+## [0.33.0] - 2025-07-22
+### Changed
+- Introduced `StatSystem` so stats and resources are handled separately.
+
+## [0.32.0] - 2025-07-21
+### Added
+- Ukrainian language support with a settings switch to change game language.
+
 ## [0.31.0] - 2025-07-20
 ### Changed
 - Removed numeric amounts from item tooltips.
