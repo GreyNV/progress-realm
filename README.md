@@ -7,7 +7,7 @@
 
 #### 2. High-Level Concept
 
-A progression and resource management game inspired by Progress Knight and Theory of Magic: Arcanum. Players assign limited action slots to repeatable tasks that consume resources and grant stat growth or magical benefits. The core loop involves efficiency optimization, task automation, and progression toward mastery. The interface now supports an in-game switch between English and Ukrainian, translating stats, resources, and story text.
+A progression and resource management game inspired by Progress Knight and Theory of Magic: Arcanum. Players assign limited action slots to repeatable tasks that consume resources and grant stat growth or magical benefits. The core loop involves efficiency optimization, task automation, and progression toward mastery. The interface now supports an in-game switch between English and Ukrainian, translating stats, resources, story text, log entries, and the latest items and encounters.
 
 In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 

@@ -434,7 +434,9 @@ function retreat(resourceName) {
     const slot = AdventureEngine.activeIndex !== null ?
         State.adventureSlots[AdventureEngine.activeIndex] : null;
     const enc = slot && slot.encounter ? slot.encounter.name : 'an encounter';
-    Log.add(`You had to retreat after ${enc} because you ran out of ${resourceName}.`);
+    const msg = Lang.log('retreat', { encounter: enc, resource: resourceName }) ||
+        `You had to retreat after ${enc} because you ran out of ${resourceName}.`;
+    Log.add(msg);
     AdventureEngine.waitResource = resourceName;
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();

@@ -171,7 +171,9 @@ const EncounterGenerator = {
         }
 
         if (encounter.id === 'banditsAmbush') {
-            Log.add('You survived the bandits ambush and claimed your reward.');
+            const msg = Lang.log('banditsAmbushWin') ||
+                'You survived the bandits ambush and claimed your reward.';
+            Log.add(msg);
             if (!State.banditsAmbushSeen) {
                 Story.show(
                     Lang.story('banditsAmbushVictory') || 'Bruised but victorious, you gather loot from the fallen bandits.',
@@ -190,7 +192,9 @@ const EncounterGenerator = {
             if (item) {
                 const itemHTML = `<span class="rarity-${item.rarity}"><b>${item.name}</b></span>`;
                 const encHTML = `<span class="rarity-${encounter.rarity}"><b>${encounter.name}</b></span>`;
-                Log.add(`You found ${itemHTML} during ${encHTML}!`);
+                const msg = Lang.log('foundItem', { item: itemHTML, encounter: encHTML }) ||
+                    `You found ${itemHTML} during ${encHTML}!`;
+                Log.add(msg);
                 Inventory.add(item);
             }
         }

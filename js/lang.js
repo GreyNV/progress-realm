@@ -29,6 +29,12 @@ const Lang = {
     story(key) {
         return this.data.story && this.data.story[key] || null;
     },
+    log(key, params = {}) {
+        if (!this.data.log) return null;
+        let text = this.data.log[key];
+        if (!text) return null;
+        return text.replace(/\{(\w+)\}/g, (m, p) => params[p] !== undefined ? params[p] : m);
+    },
     translateUI() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const text = this.ui(el.dataset.i18n);
