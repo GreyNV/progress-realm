@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.38.0] - 2025-07-27
+### Fixed
+- Game initialization now runs correctly when scripts load at the end of the page
+  so stats and resources update as expected.
+
 ## [0.37.0] - 2025-07-26
 ### Fixed
 - Guarded UI cap updates when SoftCapSystem values are missing to prevent zero stats.
