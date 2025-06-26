@@ -75,6 +75,7 @@ const State = {
     encounterStreak: 0,
     autoProgress: true,
     darkMode: true,
+    language: 'en',
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -283,6 +284,9 @@ const SaveSystem = {
                 }
                 if (State.darkMode === undefined) {
                     State.darkMode = true;
+                }
+                if (!State.language) {
+                    State.language = 'en';
                 }
                 return data.actions || null;
             } else {
@@ -739,6 +743,7 @@ function updateUI() {
 
 async function init() {
     const loadedActions = SaveSystem.load();
+    await Lang.load(State.language);
     Log.init();
     if (!State.introSeen) {
         Story.show(
@@ -784,6 +789,10 @@ async function init() {
     });
     await EncounterGenerator.load();
     await ItemGenerator.load();
+    Lang.applyToActions(actions);
+    Lang.applyToItems(ItemGenerator.itemList);
+    Lang.applyToEncounters(EncounterGenerator.encounters);
+    Lang.applyToLocations(EncounterGenerator.milestones);
     SoftCapSystem.recalculateCaps(State.inventory);
     StatsUI.init();
     ResourcesUI.init();
@@ -800,6 +809,7 @@ async function init() {
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
+    Lang.translateUI();
     const toggleBtn = document.getElementById('toggle-left');
     if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleLeftPanel);
@@ -817,6 +827,25 @@ async function init() {
         darkToggle.addEventListener('change', () => {
             State.darkMode = darkToggle.checked;
             applyDarkMode();
+            SaveSystem.save();
+        });
+    }
+    const langSelect = document.getElementById('language-select');
+    if (langSelect) {
+        langSelect.value = State.language;
+        langSelect.addEventListener('change', async () => {
+            State.language = langSelect.value;
+            await Lang.load(State.language);
+            Lang.applyToActions(actions);
+            Lang.applyToItems(ItemGenerator.itemList);
+            Lang.applyToEncounters(EncounterGenerator.encounters);
+            Lang.applyToLocations(EncounterGenerator.milestones);
+            Lang.translateUI();
+            updateTaskList();
+            for (let i = 0; i < State.slotCount; i++) updateSlotUI(i);
+            for (let i = 0; i < State.adventureSlotCount; i++) updateAdventureSlotUI(i);
+            EncounterGenerator.updateName();
+            InventoryUI.update();
             SaveSystem.save();
         });
     }
@@ -853,7 +882,9 @@ function toggleLeftPanel() {
     body.classList.toggle('left-collapsed');
     const btn = document.getElementById('toggle-left');
     if (btn) {
-        btn.textContent = body.classList.contains('left-collapsed') ? 'Show Stats' : 'Hide Stats';
+        btn.textContent = body.classList.contains('left-collapsed') ?
+            (Lang.ui('Show Stats') || 'Show Stats') :
+            (Lang.ui('Hide Stats') || 'Hide Stats');
     }
 }
 
