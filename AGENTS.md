@@ -38,3 +38,11 @@
 - Provide a clear PR title and summary of the changes
 - Update `CHANGELOG.md` with a short note describing each change
 - Add new entries to the **top** of the changelog so the latest changes appear first
+
+## Review Protocol
+
+- Spawn sub-agents to gather context about the codebase before making changes.
+- Each sub-agent should identify dependencies, imported libraries, and function calls for the files being modified.
+- After gathering context, analyze the logic for readability, efficiency, and optimization opportunities.
+- Add or update comments to clarify the purpose of the code sections you touch.
+- Follow these steps on every run.
