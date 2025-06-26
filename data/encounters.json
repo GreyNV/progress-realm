@@ -5,7 +5,7 @@
     "description": "Dewy plants grow in the underbrush, promising useful herbs.",
     "rarity": "common",
     "category": "intelligence",
-    "baseDuration": 5,
+    "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/enc/foraging.png",
     "resourceConsumption": {
@@ -13,8 +13,13 @@
       "focus": 1
     },
     "items": {
-      "herb": 1.0
-    }
+      "herb": 1.0,
+      "sturdy_bark": 0.05
+    },
+    "loot": {
+      "herb": 1
+    },
+    "maxLevel": 5
   },
   {
     "id": "rabbitHunt",
@@ -22,7 +27,7 @@
     "description": "A swift rabbit darts between the trees, ripe for the chase.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 6,
+    "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/enc/rabbit.png",
     "resourceConsumption": {
@@ -31,8 +36,11 @@
     },
     "items": {
       "rabbit_meat": 0.7,
-      "herb": 0.3
-    }
+      "herb": 0.3,
+      "wolf_pelt": 0.05
+    },
+    "loot": {},
+    "maxLevel": 8
   },
   {
     "id": "wolfAmbush",
@@ -40,7 +48,7 @@
     "description": "Hungry wolves burst from the shadows with fangs bared.",
     "rarity": "rare",
     "category": "strength",
-    "baseDuration": 10,
+    "baseDuration": 2,
     "minLevel": 0,
     "image": "assets/enc/wolf.png",
     "resourceConsumption": {
@@ -50,7 +58,9 @@
     },
     "items": {
       "wolf_pelt": 0.5
-    }
+    },
+    "loot": {},
+    "maxLevel": 15
   },
   {
     "id": "chopWood",
@@ -58,7 +68,7 @@
     "description": "Gather firewood from the nearby forest.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 1,
     "minLevel": 1,
     "image": "assets/enc/chopwood.jpg",
     "resourceConsumption": {
@@ -66,8 +76,12 @@
       "focus": 0.5
     },
     "items": {
-      "wood_log": 0.8
-    }
+      "sturdy_bark": 0.05
+    },
+    "loot": {
+      "wood_log": 0.1
+    },
+    "maxLevel": 12
   },
   {
     "id": "collectStones",
@@ -75,7 +89,7 @@
     "description": "Search the ground for useful stones.",
     "rarity": "common",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 1,
     "minLevel": 1,
     "image": "assets/enc/collectstone.jpg",
     "resourceConsumption": {
@@ -83,16 +97,40 @@
       "focus": 0.6
     },
     "items": {
-      "stone_piece": 0.8
-    }
+      "stone_piece": 0.8,
+      "ore_chunk": 0.05
+    },
+    "loot": {},
+    "maxLevel": 18
+  },
+  {
+    "id": "overseeLumberTeam",
+    "name": "Oversee Lumber Team",
+    "description": "Manage workers collecting timber in larger quantities.",
+    "rarity": "common",
+    "category": "strength",
+    "baseDuration": 1,
+    "minLevel": 12,
+    "image": "assets/generated/oversee_lumber.png",
+    "resourceConsumption": {
+      "energy": 1.5,
+      "focus": 1
+    },
+    "items": {
+      "sturdy_bark": 0.25
+    },
+    "loot": {
+      "wood_log": 0.1
+    },
+    "maxLevel": 25
   },
   {
     "id": "boarHunt",
     "name": "Boar Hunt",
-    "description": "A wild boar charges through the brush—dangerous but rewarding.",
+    "description": "A wild boar charges through the brush\u2014dangerous but rewarding.",
     "rarity": "rare",
     "category": "strength",
-    "baseDuration": 10,
+    "baseDuration": 2,
     "minLevel": 10,
     "image": "assets/enc/foghtboar.jpg",
     "resourceConsumption": {
@@ -103,15 +141,17 @@
     "items": {
       "boar_tusk": 0.7,
       "herb": 0.3
-    }
+    },
+    "loot": {},
+    "maxLevel": 25
   },
   {
     "id": "findOre",
     "name": "Find Ore",
     "description": "Deep in the earth lies precious ore waiting to be mined.",
-    "rarity": "epic",
+    "rarity": "rare",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 2,
     "minLevel": 15,
     "image": "assets/enc/mineore.jpg",
     "resourceConsumption": {
@@ -120,7 +160,9 @@
     },
     "items": {
       "ore_chunk": 0.6
-    }
+    },
+    "loot": {},
+    "maxLevel": 45
   },
   {
     "id": "banditsAmbush",
@@ -128,7 +170,7 @@
     "description": "Outlaws spring from hiding to surround you with blades drawn.",
     "rarity": "story",
     "category": "strength",
-    "baseDuration": 20,
+    "baseDuration": 15,
     "minLevel": 50,
     "storyLevel": 50,
     "image": "assets/enc/wolf.png",
@@ -137,20 +179,22 @@
       "focus": 2,
       "health": 3
     },
-    "items": {
-      "gem": 1.0,
-      "iron_sword": 1.0,
-      "wooden_shield": 1.0,
-      "leather_armor": 1.0
-    }
+    "items": {},
+    "loot": {
+      "gem": 1,
+      "iron_sword": 1,
+      "wooden_shield": 1,
+      "leather_armor": 1
+    },
+    "maxLevel": 100
   },
   {
     "id": "ancientVault",
     "name": "Ancient Vault Awakens",
     "description": "A mysterious vault opens, promising untold riches.",
-    "rarity": "legendary",
+    "rarity": "rare",
     "category": "intelligence",
-    "baseDuration": 25,
+    "baseDuration": 2,
     "minLevel": 30,
     "image": "assets/enc/ancientvault.jpg",
     "resourceConsumption": {
@@ -163,6 +207,8 @@
       "wooden_shield": 0.3,
       "leather_armor": 0.2,
       "gem": 0.2
-    }
+    },
+    "loot": {},
+    "maxLevel": 60
   }
 ]

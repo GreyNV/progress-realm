@@ -1,7 +1,18 @@
+:root {
+    --bg-color: #f5f5f5;
+    --panel-bg: #fff;
+    --text-color: #000;
+    --header-bg: #333;
+    --header-text: #fff;
+    --task-bg: #eee;
+    --slot-bg: #333;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f5f5f5;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: grid;
     grid-template-rows: auto auto 1fr auto;
     height: 100vh;
@@ -12,8 +23,8 @@ header h1 {
 }
 
 header, footer {
-    background: #333;
-    color: #fff;
+    background: var(--header-bg);
+    color: var(--header-text);
     padding: 0.5rem 1rem;
 }
 
@@ -109,7 +120,8 @@ header, footer {
 }
 
 .modal-content {
-    background: #fff;
+    background: var(--panel-bg);
+    color: var(--text-color);
     padding: 1rem;
     border-radius: 4px;
     max-width: 400px;
@@ -124,8 +136,16 @@ main {
     align-items: start;
 }
 
+body.left-collapsed main {
+    grid-template-columns: 2fr minmax(180px, 1fr);
+}
+
+body.left-collapsed #left {
+    display: none;
+}
+
 .panel {
-    background: #fff;
+    background: var(--panel-bg);
     padding: 1rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -142,7 +162,7 @@ main {
 }
 
 #task-list li {
-    background: #eee;
+    background: var(--task-bg);
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     cursor: grab;
@@ -195,6 +215,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    background-color: var(--slot-bg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -248,7 +269,7 @@ main {
     font-size: 0.75rem;
     pointer-events: none;
     z-index: 10;
-    white-space: nowrap;
+    white-space: pre-line;
 }
 
 @keyframes completeFlash {
@@ -366,3 +387,13 @@ main {
 .log-entry .rarity-epic { color: #a335ee; font-weight: bold; }
 .log-entry .rarity-legendary { color: #e69138; font-weight: bold; }
 .log-entry .rarity-story { color: #f1c40f; font-weight: bold; }
+
+body.dark {
+    --bg-color: #222;
+    --panel-bg: #333;
+    --text-color: #eee;
+    --header-bg: #111;
+    --header-text: #eee;
+    --task-bg: #444;
+    --slot-bg: #555;
+}

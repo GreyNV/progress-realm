@@ -75,10 +75,14 @@ const InventoryUI = {
                     slot.style.backgroundImage = `url(${item.image})`;
                 }
                 slot.classList.add(`rarity-${item.rarity}`);
+                const lines = [item.description];
+                if (item.effect) lines.push(item.effect);
+                slot.dataset.tooltip = lines.join('\n');
             } else {
                 slot.style.backgroundImage = 'none';
                 label.textContent = '';
                 countEl.textContent = '';
+                slot.dataset.tooltip = '';
             }
             slot.appendChild(label);
             slot.appendChild(countEl);

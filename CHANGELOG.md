@@ -2,17 +2,60 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.16.0] - 2025-07-06
+## [0.31.0] - 2025-07-20
 ### Changed
-- Delta calculations moved to new engine module and now accept multipliers for game speed.
+- Removed numeric amounts from item tooltips.
 
-## [0.17.0] - 2025-07-07
-### Changed
-- DeltaEngine now handles aging and action experience so all progression uses the same speed scaling.
+## [0.30.0] - 2025-07-20
+### Added
+- Tooltips now appear on all slots.
+- Inventory slots display item descriptions and effects.
+- Adventure slots show encounter descriptions and loot chances.
 
-## [0.18.0] - 2025-07-08
+## [0.29.0] - 2025-07-19
 ### Changed
-- Encounter progress is now processed by DeltaEngine so adventure timing respects game speed.
+- Modals now follow dark mode theme.
+
+## [0.28.0] - 2025-07-18
+### Added
+- Dark mode enabled by default with toggle in new Settings panel.
+
+## [0.27.0] - 2025-07-17
+### Changed
+- Slots now have a dark background so labels remain visible when no image is set.
+
+## [0.26.0] - 2025-07-16
+### Added
+- Left panel can now be collapsed via a button in the header.
+### Changed
+- Ore chunk and gem items are now rare.
+- Find Ore and Ancient Vault encounters are rare with shorter base durations.
+
+## [0.25.0] - 2025-07-15
+### Changed
+- Base encounter durations are now set by rarity: 1s for common, 2s for rare, 5s for epic, 10s for legendary and 15s for story.
+
+## [0.24.0] - 2025-07-14
+### Changed
+- Encounter duration now derives from level divided by relevant stats and honors `baseDurationScale` as a minimum multiplier.
+
+## [0.23.0] - 2025-07-13
+### Added
+- Rare items now occasionally drop from common encounters and wood gathering tasks scale into a new "Oversee Lumber Team" encounter.
+### Changed
+- Rebalanced `maxLevel` values so early tasks phase out sooner.
+
+## [0.22.0] - 2025-07-12
+### Changed
+- Loot yield now scales with your stats based on each encounter's category.
+
+## [0.21.0] - 2025-07-11
+### Added
+- Encounters can specify guaranteed `loot` amounts alongside probability-based `items` drops.
+
+## [0.20.0] - 2025-07-10
+### Added
+- Encounters now include a `maxLevel` property to remove them from the pool once the adventure level surpasses it.
 
 ## [0.19.0] - 2025-07-09
 ### Added
@@ -20,13 +63,25 @@ All notable changes to this project will be documented in this file.
 - Log entries highlight item and encounter names by rarity without showing rarity text.
 - Bonus Engine module applies additive, multiplicative and exponential modifiers before deltas update stats and resources, and supports cost divisors for consumptions.
 
-## [0.15.0] - 2025-07-04
-### Added
-- Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.
+## [0.18.0] - 2025-07-08
+### Changed
+- Encounter progress is now processed by DeltaEngine so adventure timing respects game speed.
+
+## [0.17.0] - 2025-07-07
+### Changed
+- DeltaEngine now handles aging and action experience so all progression uses the same speed scaling.
+
+## [0.16.0] - 2025-07-06
+### Changed
+- Delta calculations moved to new engine module and now accept multipliers for game speed.
 
 ## [0.15.1] - 2025-07-05
 ### Changed
 - Updated full gear image reference to `set+sword.png`.
+
+## [0.15.0] - 2025-07-04
+### Added
+- Character background now shows a special image when leather armor, a wooden shield, an iron sword and a gem are equipped.
 
 ## [0.14.0] - 2025-07-03
 ### Changed
@@ -43,32 +98,27 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Use existing 'leather+woodshield+spear.png' image for equipped character background.
 
-## [0.10.0] - 2025-06-29
-### Added
-- Python script `scripts/image_pipeline.py` to auto-generate missing item images
-  via OpenAI's DALL·E API.
-- Documentation section on the new image pipeline.
-### Fixed
-- Updated image pipeline to use `client.images.generate` with API key handling.
-
 ## [0.11.0] - 2025-06-30
 ### Added
 - Scripts `image_pipeline_encounters.py` and `image_pipeline_actions.py` for
   generating encounter and action images.
 - Updated README with image pipeline details for all asset types.
 
-## [0.6.0] - 2025-06-24
+## [0.10.0] - 2025-06-29
 ### Added
-- Inventory tab with item generator. Items now drop from encounters and appear in your inventory.
-### Documentation
-- Updated README and docs with inventory details and modularization progress.
-- Added `docs/AGENTS.md` with documentation update rules.
+- Python script `scripts/image_pipeline.py` to auto-generate missing item images  via OpenAI's DALL·E API.
+- Documentation section on the new image pipeline.
+### Fixed
+- Updated image pipeline to use `client.images.generate` with API key handling.
 
-## [0.7.0] - 2025-06-25
+## [0.9.0] - 2025-06-28
 ### Added
-- New level-gated encounters from common to legendary tiers with item rewards.
-### Documentation
-- Updated README with encounter tier details.
+- Story encounter rarity with level-triggered events.
+- New "Bandits Ambush" story encounter grants a gem and an iron sword on first completion.
+
+## [0.8.1] - 2025-06-27
+### Fixed
+- Corrected image paths for woodcutting, stone collecting, boar hunting and ore finding encounters.
 
 ## [0.8.0] - 2025-06-26
 ### Changed
@@ -76,14 +126,18 @@ All notable changes to this project will be documented in this file.
 - Updated image references for items and encounters.
 - Reduced resource cost of legendary vault encounter.
 
-## [0.8.1] - 2025-06-27
-### Fixed
-- Corrected image paths for woodcutting, stone collecting, boar hunting and ore finding encounters.
-
-## [0.9.0] - 2025-06-28
+## [0.7.0] - 2025-06-25
 ### Added
-- Story encounter rarity with level-triggered events.
-- New "Bandits Ambush" story encounter grants a gem and an iron sword on first completion.
+- New level-gated encounters from common to legendary tiers with item rewards.
+### Documentation
+- Updated README with encounter tier details.
+
+## [0.6.0] - 2025-06-24
+### Added
+- Inventory tab with item generator. Items now drop from encounters and appear in your inventory.
+### Documentation
+- Updated README and docs with inventory details and modularization progress.
+- Added `docs/AGENTS.md` with documentation update rules.
 
 ## [0.5.0]
 ### Changed

@@ -2,10 +2,19 @@ class Item {
     constructor(data) {
         this.id = data.id;
         this.name = data.name;
+        this.description = data.description || '';
         this.rarity = data.rarity || 'common';
         this.effectType = data.effectType;
         this.effectValue = data.effectValue;
         this.image = data.image || null;
+    }
+
+    getEffectDescription() {
+        if (this.effectType === 'increaseSoftcap' && this.effectValue) {
+            const key = Object.keys(this.effectValue)[0];
+            return `Improves ${key} cap`;
+        }
+        return '';
     }
 
     applyEffect() {
@@ -110,6 +119,8 @@ const Inventory = {
                 rarity: itemData.rarity || 'common',
                 quantity: data.quantity,
                 image: itemData.image,
+                description: itemData.description || '',
+                effect: itemData.getEffectDescription ? itemData.getEffectDescription() : ''
             };
         });
     },

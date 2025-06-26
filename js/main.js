@@ -74,6 +74,7 @@ const State = {
     encounterLevel: 0,
     encounterStreak: 0,
     autoProgress: true,
+    darkMode: true,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
@@ -279,6 +280,9 @@ const SaveSystem = {
                 }
                 if (State.autoProgress === undefined) {
                     State.autoProgress = true;
+                }
+                if (State.darkMode === undefined) {
+                    State.darkMode = true;
                 }
                 return data.actions || null;
             } else {
@@ -671,6 +675,7 @@ function updateSlotUI(i) {
         progressEl.max = 1;
         labelEl.textContent = slot.text || '';
         slotEl.style.backgroundImage = 'none';
+        slotEl.dataset.tooltip = 'Drag an action here';
         return;
     }
     const action = actions[slot.actionId];
@@ -682,6 +687,7 @@ function updateSlotUI(i) {
     } else {
         slotEl.style.backgroundImage = 'none';
     }
+    slotEl.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
 }
 
 function updateAdventureSlotUI(i) {
@@ -700,9 +706,24 @@ function updateAdventureSlotUI(i) {
             slotEl.style.backgroundSize = 'cover';
         }
         slotEl.classList.add(`rarity-${slot.encounter.rarity}`);
+        const parts = [slot.encounter.description];
+        if (slot.encounter.items) {
+            const lines = Object.entries(slot.encounter.items)
+                .map(([id, chance]) => {
+                    const item = ItemGenerator.itemList.find(i => i.id === id);
+                    const name = item ? item.name : id;
+                    return `${name}: ${Math.round(chance * 100)}%`;
+                });
+            if (lines.length) {
+                parts.push('Loot chances:');
+                parts.push(...lines);
+            }
+        }
+        slotEl.dataset.tooltip = parts.join('\n');
     } else {
         labelEl.textContent = slot.text || '';
         slotEl.style.backgroundImage = 'none';
+        slotEl.dataset.tooltip = '';
     }
 }
 
@@ -779,6 +800,26 @@ async function init() {
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();
+    const toggleBtn = document.getElementById('toggle-left');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleLeftPanel);
+    }
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', openSettings);
+    }
+    const settingsClose = document.getElementById('settings-close');
+    if (settingsClose) {
+        settingsClose.addEventListener('click', closeSettings);
+    }
+    const darkToggle = document.getElementById('dark-mode-toggle');
+    if (darkToggle) {
+        darkToggle.addEventListener('change', () => {
+            State.darkMode = darkToggle.checked;
+            applyDarkMode();
+            SaveSystem.save();
+        });
+    }
     const autoBox = document.getElementById('autoprogress-toggle');
     if (autoBox) {
         autoBox.checked = State.autoProgress;
@@ -791,6 +832,7 @@ async function init() {
         retreat('resolve');
     });
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
+    applyDarkMode();
     updateUI();
     // Game logic ticked separately from UI updates so resource generation
     // remains consistent regardless of UI refresh rate.
@@ -805,3 +847,26 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+function toggleLeftPanel() {
+    const body = document.body;
+    body.classList.toggle('left-collapsed');
+    const btn = document.getElementById('toggle-left');
+    if (btn) {
+        btn.textContent = body.classList.contains('left-collapsed') ? 'Show Stats' : 'Hide Stats';
+    }
+}
+
+function applyDarkMode() {
+    document.body.classList.toggle('dark', State.darkMode);
+    const chk = document.getElementById('dark-mode-toggle');
+    if (chk) chk.checked = State.darkMode;
+}
+
+function openSettings() {
+    document.getElementById('settings-modal').classList.remove('hidden');
+}
+
+function closeSettings() {
+    document.getElementById('settings-modal').classList.add('hidden');
+}

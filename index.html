@@ -6,7 +6,7 @@
     <title>Progress Realm Prototype</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="dark">
     <header>
         <h1>Progress Realm</h1>
         <div id="header-info">
@@ -17,6 +17,7 @@
                 <button data-speed="2">2x</button>
                 <button data-speed="10">10x</button>
             </span>
+            <button id="toggle-left">Hide Stats</button>
         </div>
     </header>
 
@@ -25,6 +26,13 @@
             <div id="story-image" class="story-image"></div>
             <p id="story-text"></p>
             <button id="story-close">Continue</button>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <label><input type="checkbox" id="dark-mode-toggle" checked> Dark Mode</label>
+            <button id="settings-close">Close</button>
         </div>
     </div>
 
