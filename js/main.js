@@ -27,6 +27,21 @@ const ResourceSystem = {
     }
 };
 
+const StatSystem = {
+    create(value, baseMax) {
+        return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [] };
+    },
+    max(stat) {
+        let m = stat.baseMax;
+        stat.maxAdditions.forEach(a => { m += a; });
+        stat.maxMultipliers.forEach(x => { m *= x; });
+        return m;
+    },
+    add(stat, amt) {
+        stat.value = Math.min(stat.value + amt, this.max(stat));
+    }
+};
+
 function getResourceValue(name) {
     return State.resources[name].value;
 }
@@ -45,6 +60,25 @@ function ensureResource(name, value, max) {
     }
 }
 
+function getStatValue(name) {
+    return State.stats[name].value;
+}
+
+function getStatMax(name) {
+    return StatSystem.max(State.stats[name]);
+}
+
+function setStatValue(name, val) {
+    const s = State.stats[name];
+    s.value = Math.min(val, getStatMax(name));
+}
+
+function ensureStat(name, value, max) {
+    if (!State.stats[name] || typeof State.stats[name].value !== "number") {
+        State.stats[name] = StatSystem.create(value, max);
+    }
+}
+
 const State = {
     version: VERSION,
     age: { years: 16, days: 0, max: 75 },
@@ -52,9 +86,9 @@ const State = {
     healerGoneSeen: false,
     banditsAmbushSeen: false,
     stats: {
-        strength: 0,
-        intelligence: 0,
-        creativity: 0,
+        strength: StatSystem.create(0, 50),
+        intelligence: StatSystem.create(0, 50),
+        creativity: StatSystem.create(0, 50),
     },
     resources: {
         energy: ResourceSystem.create(10, 10),
@@ -155,12 +189,18 @@ const SoftCapSystem = {
                 State.resources[r].baseMax = this.resourceCaps[r];
             }
         }
+        for (const s in this.statCaps) {
+            if (State.stats[s]) {
+                State.stats[s].baseMax = this.statCaps[s];
+            }
+        }
     },
     apply() {
         for (const s in this.statCaps) {
             const cap = this.statCaps[s];
-            if (State.stats[s] > cap) {
-                State.stats[s] = cap + (State.stats[s] - cap) * this.falloff;
+            const val = getStatValue(s);
+            if (val > cap) {
+                setStatValue(s, cap + (val - cap) * this.falloff);
             }
         }
         for (const r in this.resourceCaps) {
@@ -433,7 +473,7 @@ function checkStoryEvents() {
     const triggerDays = 16 * AgeSystem.daysPerYear + 30;
     if (currentDays > triggerDays) {
         Story.show(
-            "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
+            Lang.story('healerGone') || "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
             'assets/HealerGone.png',
             () => {
                 State.healerGoneSeen = true;
@@ -466,7 +506,7 @@ function canAfford(cost, delta, mult = 1) {
 function applyYield(base, mult, delta) {
     if (base.stats) {
         for (const s in base.stats) {
-            State.stats[s] = (State.stats[s] || 0) + base.stats[s] * mult * State.time * delta;
+            StatSystem.add(State.stats[s], base.stats[s] * mult * State.time * delta);
         }
     }
     if (base.resources) {
@@ -747,7 +787,7 @@ async function init() {
     Log.init();
     if (!State.introSeen) {
         Story.show(
-            "You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins. The healer, an old woman with eyes like weathered stone, presses a worn pendant into your hand — the only item found with you. Its unfamiliar symbol stirs something deep and cold in your chest, but no memory surfaces.",
+            Lang.story('intro') || "You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins. The healer, an old woman with eyes like weathered stone, presses a worn pendant into your hand — the only item found with you. Its unfamiliar symbol stirs something deep and cold in your chest, but no memory surfaces.",
             'assets/Intro.png',
             () => {
                 State.introSeen = true;
@@ -841,6 +881,8 @@ async function init() {
             Lang.applyToEncounters(EncounterGenerator.encounters);
             Lang.applyToLocations(EncounterGenerator.milestones);
             Lang.translateUI();
+            StatsUI.translate();
+            ResourcesUI.translate();
             updateTaskList();
             for (let i = 0; i < State.slotCount; i++) updateSlotUI(i);
             for (let i = 0; i < State.adventureSlotCount; i++) updateAdventureSlotUI(i);

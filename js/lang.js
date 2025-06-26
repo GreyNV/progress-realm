@@ -20,6 +20,15 @@ const Lang = {
     ui(key) {
         return this.data.ui && this.data.ui[key] || null;
     },
+    stat(key) {
+        return this.data.stats && this.data.stats[key] || null;
+    },
+    resource(key) {
+        return this.data.resources && this.data.resources[key] || null;
+    },
+    story(key) {
+        return this.data.story && this.data.story[key] || null;
+    },
     translateUI() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const text = this.ui(el.dataset.i18n);
