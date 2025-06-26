@@ -16,7 +16,7 @@ class Encounter {
     }
 
     getDuration() {
-        const stat = Math.max(State.stats[this.category] || 0, 1);
+        const stat = Math.max(getStatValue(this.category) || 0, 1);
         const level = Math.max(EncounterGenerator.level, 1);
         const minDuration = this.baseDuration * EncounterGenerator.baseDurationScale;
         const calculated = level / stat;
@@ -25,12 +25,12 @@ class Encounter {
 
     getLootChance() {
         const base = EncounterGenerator.lootBaseByCategory[this.category] || 0;
-        const stat = State.stats[this.category] || 0;
+        const stat = getStatValue(this.category) || 0;
         return base + stat * EncounterGenerator.lootBonusPerStat;
     }
 
     getLootMultiplier() {
-        const stat = State.stats[this.category] || 0;
+        const stat = getStatValue(this.category) || 0;
         return 1 + stat * EncounterGenerator.lootYieldBonusPerStat;
     }
 

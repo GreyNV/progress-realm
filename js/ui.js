@@ -11,7 +11,7 @@ const StatsUI = {
     },
     update() {
         this.list.forEach(key => {
-            document.getElementById(`stat-${key}`).textContent = State.stats[key].toFixed(1);
+            document.getElementById(`stat-${key}`).textContent = getStatValue(key).toFixed(1);
             const capEl = document.getElementById(`stat-${key}-cap`);
             if (capEl) capEl.textContent = SoftCapSystem.statCaps[key].toFixed(1);
             document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);

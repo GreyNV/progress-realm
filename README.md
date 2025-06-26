@@ -7,7 +7,7 @@
 
 #### 2. High-Level Concept
 
-A progression and resource management game inspired by Progress Knight and Theory of Magic: Arcanum. Players assign limited action slots to repeatable tasks that consume resources and grant stat growth or magical benefits. The core loop involves efficiency optimization, task automation, and progression toward mastery.
+A progression and resource management game inspired by Progress Knight and Theory of Magic: Arcanum. Players assign limited action slots to repeatable tasks that consume resources and grant stat growth or magical benefits. The core loop involves efficiency optimization, task automation, and progression toward mastery. The interface now supports an in-game switch between English and Ukrainian.
 
 In this prototype you awaken in the body of a 16‑year‑old after bandits ambush your family's caravan. A stranger rescues you from the wreckage and brings you to a small town to recover. With everyone else lost, your early routines involve rebuilding strength and earning coin in this medieval setting.
 
@@ -25,17 +25,17 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 
 | Module       | Description                                                                |
 | ------------ | -------------------------------------------------------------------------- |
-| Stats        | Tracks numeric values like Strength, Intelligence, Charisma, etc.          |
+| Stats        | Tracks numeric values like Strength, Intelligence, Creativity via `StatSystem` |
 | Tasks        | Defines repeatable actions, their costs, outputs, and execution logic      |
 | Time System  | Governs tick-based or interval-based progression                           |
 | Task Slots   | Limited number of concurrent tasks; unlockable and upgradable              |
-| Resources    | Consumables needed to perform actions; includes magical and physical types |
+| Resources    | Consumables needed to perform actions; managed separately by `ResourceSystem` |
 | Magic System | Simplified crafting and consumption system for magical items               |
 | Inventory    | Manages player's resource quantities and magical components                |
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
-| UI           | Interface for selecting tasks, viewing stats/resources, and managing slots. Includes a settings panel with dark mode toggle |
+| UI           | Interface for selecting tasks, viewing stats/resources, and managing slots. Includes a settings panel with dark mode and language options |
 | Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |
 
 #### 5. Core Stats (Initial Set)

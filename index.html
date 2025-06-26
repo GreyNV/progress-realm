@@ -17,7 +17,7 @@
                 <button data-speed="2">2x</button>
                 <button data-speed="10">10x</button>
             </span>
-            <button id="toggle-left">Hide Stats</button>
+            <button id="toggle-left" data-i18n="Hide Stats">Hide Stats</button>
         </div>
     </header>
 
@@ -25,25 +25,31 @@
         <div class="modal-content">
             <div id="story-image" class="story-image"></div>
             <p id="story-text"></p>
-            <button id="story-close">Continue</button>
+            <button id="story-close" data-i18n="Continue">Continue</button>
         </div>
     </div>
 
     <div id="settings-modal" class="modal hidden">
         <div class="modal-content">
-            <label><input type="checkbox" id="dark-mode-toggle" checked> Dark Mode</label>
-            <button id="settings-close">Close</button>
+            <label><input type="checkbox" id="dark-mode-toggle" checked> <span data-i18n="Dark Mode">Dark Mode</span></label>
+            <label data-i18n="Language">Language:
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="uk">Українська</option>
+                </select>
+            </label>
+            <button id="settings-close" data-i18n="Close">Close</button>
         </div>
     </div>
 
     <main id="app">
         <div id="left" class="panel">
             <section id="stats">
-                <h2>Stats</h2>
+                <h2 data-i18n="Stats">Stats</h2>
                 <ul id="stats-list"></ul>
 
                 <section id="prestige-block">
-                    <h3>Prestige</h3>
+                    <h3 data-i18n="Prestige">Prestige</h3>
                     <ul>
                         <li>Strength: <span id="prestige-strength">0</span></li>
                         <li>Intelligence: <span id="prestige-intelligence">0</span></li>
@@ -53,11 +59,11 @@
             </section>
 
             <section id="mastery">
-                <h2>Mastery Points: <span id="mastery-points">0</span></h2>
+                <h2><span data-i18n="Mastery Points">Mastery Points</span>: <span id="mastery-points">0</span></h2>
             </section>
 
             <section id="resources">
-                <h2>Resources</h2>
+                <h2 data-i18n="Resources">Resources</h2>
                 <ul id="resources-list"></ul>
             </section>
         </div>
@@ -67,26 +73,26 @@
                 <div id="tab-headers" class="tab-headers"></div>
                 <div id="tab-contents">
                     <div class="tab-content" data-tab="routines">
-                        <h2>Available Actions</h2>
+                        <h2 data-i18n="Available Actions">Available Actions</h2>
                         <ul id="task-list"></ul>
-                        <h2>Action Slots</h2>
+                        <h2 data-i18n="Action Slots">Action Slots</h2>
                         <div id="slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="adventure">
-                        <h2>Adventure</h2>
+                        <h2 data-i18n="Adventure">Adventure</h2>
                         <p id="encounter-location"></p>
                         <div id="adventure-controls">
-                            <button id="return-btn">Return</button>
-                            <label><input type="checkbox" id="autoprogress-toggle" checked> Autoprogress</label>
+                            <button id="return-btn" data-i18n="Return">Return</button>
+                            <label><input type="checkbox" id="autoprogress-toggle" checked> <span data-i18n="Autoprogress">Autoprogress</span></label>
                         </div>
                         <div id="adventure-slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="inventory">
-                        <h2>Inventory</h2>
+                        <h2 data-i18n="Inventory">Inventory</h2>
                         <div id="inventory-slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="automation">
-                        <h2>Control</h2>
+                        <h2 data-i18n="Control">Control</h2>
                         <p>Crafting and Automation go here.</p>
                     </div>
                 </div>
@@ -94,7 +100,7 @@
         </div>
 
         <div id="right" class="panel log-panel">
-            <h2>Log</h2>
+            <h2 data-i18n="Log">Log</h2>
             <div id="log-container" class="log-container">
                 <div id="log" class="log-view"></div>
             </div>
@@ -102,16 +108,17 @@
     </main>
 
     <footer>
-        <button id="save-btn">Save</button>
-        <button id="load-btn">Load</button>
-        <button id="settings-btn">Settings</button>
-        <button id="reset-btn">Reset</button>
+        <button id="save-btn" data-i18n="Save">Save</button>
+        <button id="load-btn" data-i18n="Load">Load</button>
+        <button id="settings-btn" data-i18n="Settings">Settings</button>
+        <button id="reset-btn" data-i18n="Reset">Reset</button>
     </footer>
     <script src="js/encounter.js"></script>
     <script src="js/items.js"></script>
     <script src="js/bonus.js"></script>
     <script src="js/engine.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/lang.js"></script>
     <script src="js/char_bg.js"></script>
     <script src="js/main.js"></script>
 </body>
