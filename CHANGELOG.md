@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.39.0] - 2025-07-28
+### Fixed
+- Ensured stats exist when loading saves to prevent UI errors.
+
 ## [0.38.0] - 2025-07-27
 ### Fixed
 - Game initialization now runs correctly when scripts load at the end of the page
