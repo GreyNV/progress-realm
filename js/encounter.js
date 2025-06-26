@@ -182,7 +182,7 @@ const EncounterGenerator = {
             Log.add('You survived the bandits ambush and claimed your reward.');
             if (!State.banditsAmbushSeen) {
                 Story.show(
-                    'Bruised but victorious, you gather loot from the fallen bandits.',
+                    Lang.story('banditsAmbushVictory') || 'Bruised but victorious, you gather loot from the fallen bandits.',
                     '',
                     () => {
                         State.banditsAmbushSeen = true;

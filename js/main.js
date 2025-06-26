@@ -473,7 +473,7 @@ function checkStoryEvents() {
     const triggerDays = 16 * AgeSystem.daysPerYear + 30;
     if (currentDays > triggerDays) {
         Story.show(
-            "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
+            Lang.story('healerGone') || "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
             'assets/HealerGone.png',
             () => {
                 State.healerGoneSeen = true;
@@ -787,7 +787,7 @@ async function init() {
     Log.init();
     if (!State.introSeen) {
         Story.show(
-            "You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins. The healer, an old woman with eyes like weathered stone, presses a worn pendant into your hand — the only item found with you. Its unfamiliar symbol stirs something deep and cold in your chest, but no memory surfaces.",
+            Lang.story('intro') || "You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins. The healer, an old woman with eyes like weathered stone, presses a worn pendant into your hand — the only item found with you. Its unfamiliar symbol stirs something deep and cold in your chest, but no memory surfaces.",
             'assets/Intro.png',
             () => {
                 State.introSeen = true;
@@ -881,6 +881,8 @@ async function init() {
             Lang.applyToEncounters(EncounterGenerator.encounters);
             Lang.applyToLocations(EncounterGenerator.milestones);
             Lang.translateUI();
+            StatsUI.translate();
+            ResourcesUI.translate();
             updateTaskList();
             for (let i = 0; i < State.slotCount; i++) updateSlotUI(i);
             for (let i = 0; i < State.adventureSlotCount; i++) updateAdventureSlotUI(i);
