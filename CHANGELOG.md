@@ -2,6 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
+
 ## [0.34.0] - 2025-07-23
 ### Added
 - Translations for stat names, resource names, and story events.
