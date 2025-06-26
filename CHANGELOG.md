@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.29.0] - 2025-07-19
+### Changed
+- Modals now follow dark mode theme.
+
 ## [0.28.0] - 2025-07-18
 ### Added
 - Dark mode enabled by default with toggle in new Settings panel.

@@ -120,7 +120,8 @@ header, footer {
 }
 
 .modal-content {
-    background: #fff;
+    background: var(--panel-bg);
+    color: var(--text-color);
     padding: 1rem;
     border-radius: 4px;
     max-width: 400px;
