@@ -917,7 +917,9 @@ async function init() {
     }, UI_UPDATE_MS);
 }
 
-document.addEventListener('DOMContentLoaded', init);
+// Directly invoke init because scripts load at the end of the page,
+// meaning the DOMContentLoaded event has already fired
+init();
 
 function toggleLeftPanel() {
     const body = document.body;
