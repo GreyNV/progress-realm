@@ -115,9 +115,6 @@ Each script reads its respective JSON file, creates a prompt and stores the
 resulting image in `assets/generated/` before updating the JSON entry.
 Run the scripts only after setting the `OPENAI_API_KEY` environment variable and
 ensure the `openai` Python package version 1.x is installed.
-#### Data Export & Analytics
-
-Run `python3 scripts/export_excel.py` to generate `docs/analytics/game_data.xlsx` and graph images summarizing your game data. These outputs are ignored by Git and can be recreated at any time.
 
 #### 12. Future Extensions
 

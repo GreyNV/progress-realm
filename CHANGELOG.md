@@ -1,15 +1,5 @@
 # Changelog
 
-## [0.40.1] - 2025-07-29
-### Removed
-- Generated analytics images and workbook are no longer tracked in version control.
-### Changed
-- Added `docs/analytics/` to `.gitignore`.
-
-## [0.40.0] - 2025-07-29
-### Added
-- Data export script `scripts/export_excel.py` to generate an Excel workbook and graphs.
-
 ## [0.39.0] - 2025-07-28
 ### Fixed
 - Ensured stats exist when loading saves to prevent UI errors.
