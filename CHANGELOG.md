@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.41.2] - 2025-07-30
+### Added
+- Translation support for log messages.
+- Ukrainian strings for new items and encounters.
+
+
+## [0.41.1] - 2025-07-30
+### Fixed
+- Tab names now translate based on selected language and language selector no longer disappears.
+
 ## [0.41.0] - 2025-07-30
 ### Added
 - New "Updates" tab with draggable one-time unlockables.

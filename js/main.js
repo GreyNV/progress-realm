@@ -221,6 +221,7 @@ const TabManager = {
         { id: 'automation', name: 'Automation', hidden: false, locked: false },
         { id: 'updates', name: 'Updates', hidden: false, locked: false },
     ],
+    buttons: {},
     init() {
         this.header = document.getElementById('tab-headers');
         if (State.healerGoneSeen) {
@@ -240,10 +241,22 @@ const TabManager = {
     },
     _createButton(tab) {
         const btn = document.createElement('button');
-        btn.textContent = tab.locked ? `${tab.name} (Locked)` : tab.name;
         btn.dataset.tab = tab.id;
+        btn.dataset.i18n = tab.name;
+        this.buttons[tab.id] = btn;
         if (tab.locked) btn.disabled = true;
         this.header.appendChild(btn);
+        this._updateButton(tab);
+    },
+    _updateButton(tab) {
+        const btn = this.buttons[tab.id];
+        if (!btn) return;
+        const name = Lang.ui(tab.name) || tab.name;
+        const locked = Lang.ui('Locked') || 'Locked';
+        btn.textContent = tab.locked ? `${name} (${locked})` : name;
+    },
+    translate() {
+        this.tabs.forEach(tab => this._updateButton(tab));
     },
     unlockTab(id) {
         const tab = this.tabs.find(t => t.id === id);
@@ -421,7 +434,9 @@ function retreat(resourceName) {
     const slot = AdventureEngine.activeIndex !== null ?
         State.adventureSlots[AdventureEngine.activeIndex] : null;
     const enc = slot && slot.encounter ? slot.encounter.name : 'an encounter';
-    Log.add(`You had to retreat after ${enc} because you ran out of ${resourceName}.`);
+    const msg = Lang.log('retreat', { encounter: enc, resource: resourceName }) ||
+        `You had to retreat after ${enc} because you ran out of ${resourceName}.`;
+    Log.add(msg);
     AdventureEngine.waitResource = resourceName;
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
@@ -856,6 +871,7 @@ async function init() {
     setupTooltips();
     TabManager.init();
     Lang.translateUI();
+    TabManager.translate();
     const toggleBtn = document.getElementById('toggle-left');
     if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleLeftPanel);
@@ -887,6 +903,7 @@ async function init() {
             Lang.applyToEncounters(EncounterGenerator.encounters);
             Lang.applyToLocations(EncounterGenerator.milestones);
             Lang.translateUI();
+            TabManager.translate();
             StatsUI.translate();
             ResourcesUI.translate();
             updateTaskList();
