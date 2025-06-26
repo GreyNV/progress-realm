@@ -219,6 +219,7 @@ const TabManager = {
         { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
         { id: 'inventory', name: 'Inventory', hidden: false, locked: false },
         { id: 'automation', name: 'Automation', hidden: false, locked: false },
+        { id: 'updates', name: 'Updates', hidden: false, locked: false },
     ],
     init() {
         this.header = document.getElementById('tab-headers');
@@ -832,6 +833,7 @@ async function init() {
     });
     await EncounterGenerator.load();
     await ItemGenerator.load();
+    await UpdateSystem.load();
     Lang.applyToActions(actions);
     Lang.applyToItems(ItemGenerator.itemList);
     Lang.applyToEncounters(EncounterGenerator.encounters);
@@ -841,6 +843,7 @@ async function init() {
     ResourcesUI.init();
     MasteryUI.init();
     InventoryUI.init();
+    UpdateSystem.init();
     if (typeof CharacterBackground !== 'undefined') {
         CharacterBackground.init();
     }
@@ -913,6 +916,7 @@ async function init() {
     setInterval(() => {
         ActionEngine.tick(LOGIC_TICK_MS / 1000);
         AdventureEngine.tick(LOGIC_TICK_MS / 1000);
+        UpdateSystem.tick(LOGIC_TICK_MS / 1000);
     }, LOGIC_TICK_MS);
     setInterval(() => {
         updateTaskList();

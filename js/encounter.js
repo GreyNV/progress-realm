@@ -8,7 +8,6 @@ class Encounter {
         this.category = data.category || 'strength';
         this.baseDuration = data.baseDuration || 5;
         this.minLevel = data.minLevel || 0;
-        this.maxLevel = data.maxLevel;
         this.storyLevel = data.storyLevel;
         this.resourceConsumption = data.resourceConsumption || {};
         this.items = data.items || null;
@@ -143,7 +142,6 @@ const EncounterGenerator = {
 
         const pool = this.encounters.filter(e => {
             if ((e.minLevel || 0) > this.level) return false;
-            if (e.maxLevel !== undefined && this.level > e.maxLevel) return false;
             return true;
         });
         if (!pool.length) return null;

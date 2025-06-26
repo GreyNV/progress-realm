@@ -32,6 +32,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Resources    | Consumables needed to perform actions; managed separately by `ResourceSystem` |
 | Magic System | Simplified crafting and consumption system for magical items               |
 | Inventory    | Manages player's resource quantities and magical components                |
+| Updates      | One-time unlockables that grant bonuses or new content |
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
