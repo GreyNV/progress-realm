@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.40.0] - 2025-07-29
+### Added
+- New common items from analytics data including water flasks, iron ore and more.
+- Five common encounters to gather these resources.
+- Existing encounters updated with additional item drops.
+
 ## [0.39.0] - 2025-07-28
 ### Fixed
 - Ensured stats exist when loading saves to prevent UI errors.
