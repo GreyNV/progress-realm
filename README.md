@@ -1,7 +1,7 @@
 # progress-realm
 ### Game Design Document – v0.7.0
 
-#### 1. Game Title (Working)
+#### 1. Game Title
 
 > Progress Realm
 
