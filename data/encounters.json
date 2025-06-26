@@ -14,7 +14,8 @@
     },
     "items": {
       "herb": 1.0,
-      "sturdy_bark": 0.05
+      "sturdy_bark": 0.05,
+      "berries": 0.3
     },
     "loot": {
       "herb": 1
@@ -37,7 +38,8 @@
     "items": {
       "rabbit_meat": 0.7,
       "herb": 0.3,
-      "wolf_pelt": 0.05
+      "wolf_pelt": 0.05,
+      "feather": 0.2
     },
     "loot": {},
     "maxLevel": 8
@@ -98,7 +100,8 @@
     },
     "items": {
       "stone_piece": 0.8,
-      "ore_chunk": 0.05
+      "ore_chunk": 0.05,
+      "iron_ore": 0.2
     },
     "loot": {},
     "maxLevel": 18
@@ -123,6 +126,113 @@
       "wood_log": 0.1
     },
     "maxLevel": 25
+  },
+  {
+    "id": "gatherWater",
+    "name": "Gather Water",
+    "description": "Collect fresh water from a nearby spring.",
+    "rarity": "common",
+    "category": "strength",
+    "baseDuration": 1,
+    "minLevel": 0,
+    "image": "assets/generated/gather_water.png",
+    "resourceConsumption": {
+      "energy": 0.5,
+      "focus": 0.5
+    },
+    "items": {
+      "water_flask": 1.0
+    },
+    "loot": {
+      "water_flask": 1
+    },
+    "maxLevel": 5
+  },
+  {
+    "id": "digClay",
+    "name": "Dig for Clay",
+    "description": "Wet soil along the river may yield workable clay.",
+    "rarity": "common",
+    "category": "strength",
+    "baseDuration": 1,
+    "minLevel": 2,
+    "image": "assets/generated/dig_clay.png",
+    "resourceConsumption": {
+      "energy": 1,
+      "focus": 0.5
+    },
+    "items": {
+      "clay": 1.0
+    },
+    "loot": {
+      "clay": 1
+    },
+    "maxLevel": 12
+  },
+  {
+    "id": "berryPicking",
+    "name": "Berry Picking",
+    "description": "Small bushes offer sweet berries if you search carefully.",
+    "rarity": "common",
+    "category": "intelligence",
+    "baseDuration": 1,
+    "minLevel": 0,
+    "image": "assets/generated/berry_picking.png",
+    "resourceConsumption": {
+      "energy": 0.5,
+      "focus": 1
+    },
+    "items": {
+      "berries": 1.0
+    },
+    "loot": {
+      "berries": 1
+    },
+    "maxLevel": 5
+  },
+  {
+    "id": "fishingTrip",
+    "name": "Fishing Trip",
+    "description": "Cast a line in the lake for a quick meal.",
+    "rarity": "common",
+    "category": "intelligence",
+    "baseDuration": 1,
+    "minLevel": 1,
+    "image": "assets/generated/fishing_trip.png",
+    "resourceConsumption": {
+      "energy": 1,
+      "focus": 0.5
+    },
+    "items": {
+      "cooked_fish": 1.0
+    },
+    "loot": {
+      "cooked_fish": 1
+    },
+    "maxLevel": 10
+  },
+  {
+    "id": "abandonedCamp",
+    "name": "Search Abandoned Camp",
+    "description": "An old campsite may still hold valuable supplies.",
+    "rarity": "common",
+    "category": "intelligence",
+    "baseDuration": 1,
+    "minLevel": 5,
+    "image": "assets/generated/abandoned_camp.png",
+    "resourceConsumption": {
+      "energy": 0.5,
+      "focus": 1
+    },
+    "items": {
+      "torch": 0.5,
+      "money": 0.3,
+      "water_flask": 0.2
+    },
+    "loot": {
+      "money": 1
+    },
+    "maxLevel": 15
   },
   {
     "id": "boarHunt",
@@ -159,7 +269,8 @@
       "focus": 1.2
     },
     "items": {
-      "ore_chunk": 0.6
+      "ore_chunk": 0.6,
+      "iron_ore": 0.3
     },
     "loot": {},
     "maxLevel": 45

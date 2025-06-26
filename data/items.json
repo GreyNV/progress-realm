@@ -141,5 +141,89 @@
         },
         "image": "assets/generated/sturdy_bark.png",
         "description": "Thick bark that can reinforce armor."
+    },
+    {
+        "id": "water_flask",
+        "name": "Water Flask",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {
+            "energy": 1
+        },
+        "image": "assets/generated/water_flask.png",
+        "description": "A simple container filled with fresh water."
+    },
+    {
+        "id": "iron_ore",
+        "name": "Iron Ore",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {
+            "strength": 1
+        },
+        "image": "assets/generated/iron_ore.png",
+        "description": "Unrefined iron waiting to be smelted."
+    },
+    {
+        "id": "feather",
+        "name": "Feather",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {
+            "focus": 1
+        },
+        "image": "assets/generated/feather.png",
+        "description": "Soft plumage useful for fletching arrows."
+    },
+    {
+        "id": "clay",
+        "name": "Clay",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {},
+        "image": "assets/generated/clay.png",
+        "description": "Moist earth that can be shaped and fired." 
+    },
+    {
+        "id": "berries",
+        "name": "Berries",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {
+            "energy": 1
+        },
+        "image": "assets/generated/berries.png",
+        "description": "A handful of ripe forest berries." 
+    },
+    {
+        "id": "money",
+        "name": "Money",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {},
+        "image": "assets/generated/money.png",
+        "description": "A few coins of questionable value." 
+    },
+    {
+        "id": "torch",
+        "name": "Torch",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {
+            "intelligence": 1
+        },
+        "image": "assets/generated/torch.png",
+        "description": "Provides light when exploring dark places." 
+    },
+    {
+        "id": "cooked_fish",
+        "name": "Cooked Fish",
+        "rarity": "common",
+        "effectType": "increaseSoftcap",
+        "effectValue": {
+            "intelligence": 1
+        },
+        "image": "assets/generated/cooked_fish.png",
+        "description": "Freshly cooked fish that restores vigor." 
     }
 ]
