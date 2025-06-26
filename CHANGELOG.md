@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.36.0] - 2025-07-25
+### Added
+- Review protocol for sub-agents in `AGENTS.md`.
+
 All notable changes to this project will be documented in this file.
 
 ## [0.35.0] - 2025-07-24
