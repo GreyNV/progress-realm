@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.41.0] - 2025-07-30
+### Added
+- New "Updates" tab with draggable one-time unlockables.
+### Changed
+- Removed `maxLevel` filtering from encounters to support the new progression system.
+
 ## [0.40.0] - 2025-07-29
 ### Added
 - New common items from analytics data including water flasks, iron ore and more.

@@ -19,8 +19,7 @@
     },
     "loot": {
       "herb": 1
-    },
-    "maxLevel": 5
+    }
   },
   {
     "id": "rabbitHunt",
@@ -41,8 +40,7 @@
       "wolf_pelt": 0.05,
       "feather": 0.2
     },
-    "loot": {},
-    "maxLevel": 8
+    "loot": {}
   },
   {
     "id": "wolfAmbush",
@@ -61,8 +59,7 @@
     "items": {
       "wolf_pelt": 0.5
     },
-    "loot": {},
-    "maxLevel": 15
+    "loot": {}
   },
   {
     "id": "chopWood",
@@ -82,8 +79,7 @@
     },
     "loot": {
       "wood_log": 0.1
-    },
-    "maxLevel": 12
+    }
   },
   {
     "id": "collectStones",
@@ -103,8 +99,7 @@
       "ore_chunk": 0.05,
       "iron_ore": 0.2
     },
-    "loot": {},
-    "maxLevel": 18
+    "loot": {}
   },
   {
     "id": "overseeLumberTeam",
@@ -124,8 +119,7 @@
     },
     "loot": {
       "wood_log": 0.1
-    },
-    "maxLevel": 25
+    }
   },
   {
     "id": "gatherWater",
@@ -145,8 +139,7 @@
     },
     "loot": {
       "water_flask": 1
-    },
-    "maxLevel": 5
+    }
   },
   {
     "id": "digClay",
@@ -166,8 +159,7 @@
     },
     "loot": {
       "clay": 1
-    },
-    "maxLevel": 12
+    }
   },
   {
     "id": "berryPicking",
@@ -187,8 +179,7 @@
     },
     "loot": {
       "berries": 1
-    },
-    "maxLevel": 5
+    }
   },
   {
     "id": "fishingTrip",
@@ -208,8 +199,7 @@
     },
     "loot": {
       "cooked_fish": 1
-    },
-    "maxLevel": 10
+    }
   },
   {
     "id": "abandonedCamp",
@@ -231,8 +221,7 @@
     },
     "loot": {
       "money": 1
-    },
-    "maxLevel": 15
+    }
   },
   {
     "id": "boarHunt",
@@ -252,8 +241,7 @@
       "boar_tusk": 0.7,
       "herb": 0.3
     },
-    "loot": {},
-    "maxLevel": 25
+    "loot": {}
   },
   {
     "id": "findOre",
@@ -272,8 +260,7 @@
       "ore_chunk": 0.6,
       "iron_ore": 0.3
     },
-    "loot": {},
-    "maxLevel": 45
+    "loot": {}
   },
   {
     "id": "banditsAmbush",
@@ -296,8 +283,7 @@
       "iron_sword": 1,
       "wooden_shield": 1,
       "leather_armor": 1
-    },
-    "maxLevel": 100
+    }
   },
   {
     "id": "ancientVault",
@@ -319,7 +305,6 @@
       "leather_armor": 0.2,
       "gem": 0.2
     },
-    "loot": {},
-    "maxLevel": 60
+    "loot": {}
   }
 ]
