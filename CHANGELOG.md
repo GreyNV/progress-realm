@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.30.0] - 2025-07-20
+### Added
+- Tooltips now appear on all slots.
+- Inventory slots display item descriptions and effects.
+- Adventure slots show encounter descriptions and loot chances.
+
 ## [0.29.0] - 2025-07-19
 ### Changed
 - Modals now follow dark mode theme.

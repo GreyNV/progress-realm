@@ -269,7 +269,7 @@ body.left-collapsed #left {
     font-size: 0.75rem;
     pointer-events: none;
     z-index: 10;
-    white-space: nowrap;
+    white-space: pre-line;
 }
 
 @keyframes completeFlash {
