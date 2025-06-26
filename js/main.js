@@ -286,6 +286,9 @@ const SaveSystem = {
                 ensureResource("focus", 10, 10);
                 ensureResource("health", 1, 10);
                 ensureResource("money", 0, 100);
+                ensureStat("strength", 0, 50);
+                ensureStat("intelligence", 0, 50);
+                ensureStat("creativity", 0, 50);
                 if (Array.isArray(State.slots)) {
                     State.slots.forEach(s => {
                         if (s.text === undefined) s.text = '';
