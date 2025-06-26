@@ -59,13 +59,7 @@ const ItemGenerator = {
         });
         if (!pool.length) return null;
         const weights = pool.map((i) => this.rarityTable[i.rarity] || 1);
-        const total = weights.reduce((a, b) => a + b, 0);
-        let r = Math.random() * total;
-        for (let i = 0; i < pool.length; i++) {
-            r -= weights[i];
-            if (r <= 0) return pool[i];
-        }
-        return pool[pool.length - 1];
+        return Utils.weightedRandomChoice(pool, weights);
     },
 
     adjustDropRates(progress) {
@@ -86,13 +80,7 @@ const ItemGenerator = {
             weights.push(weight);
         }
         if (!pool.length) return null;
-        const total = weights.reduce((a, b) => a + b, 0);
-        let r = Math.random() * total;
-        for (let i = 0; i < pool.length; i++) {
-            r -= weights[i];
-            if (r <= 0) return pool[i];
-        }
-        return pool[pool.length - 1];
+        return Utils.weightedRandomChoice(pool, weights);
     },
 };
 

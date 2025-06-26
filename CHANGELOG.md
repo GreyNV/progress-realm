@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.35.0] - 2025-07-24
+### Added
+- `robots.txt` to block indexing of game data.
+### Changed
+- Introduced `Utils.weightedRandomChoice` and refactored item and encounter selection to use it.
 
 ## [0.34.0] - 2025-07-23
 ### Added
