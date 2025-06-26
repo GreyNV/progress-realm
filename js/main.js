@@ -675,6 +675,7 @@ function updateSlotUI(i) {
         progressEl.max = 1;
         labelEl.textContent = slot.text || '';
         slotEl.style.backgroundImage = 'none';
+        slotEl.dataset.tooltip = 'Drag an action here';
         return;
     }
     const action = actions[slot.actionId];
@@ -686,6 +687,7 @@ function updateSlotUI(i) {
     } else {
         slotEl.style.backgroundImage = 'none';
     }
+    slotEl.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
 }
 
 function updateAdventureSlotUI(i) {
@@ -704,9 +706,24 @@ function updateAdventureSlotUI(i) {
             slotEl.style.backgroundSize = 'cover';
         }
         slotEl.classList.add(`rarity-${slot.encounter.rarity}`);
+        const parts = [slot.encounter.description];
+        if (slot.encounter.items) {
+            const lines = Object.entries(slot.encounter.items)
+                .map(([id, chance]) => {
+                    const item = ItemGenerator.itemList.find(i => i.id === id);
+                    const name = item ? item.name : id;
+                    return `${name}: ${Math.round(chance * 100)}%`;
+                });
+            if (lines.length) {
+                parts.push('Loot chances:');
+                parts.push(...lines);
+            }
+        }
+        slotEl.dataset.tooltip = parts.join('\n');
     } else {
         labelEl.textContent = slot.text || '';
         slotEl.style.backgroundImage = 'none';
+        slotEl.dataset.tooltip = '';
     }
 }
 
