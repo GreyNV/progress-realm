@@ -26,6 +26,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Module       | Description                                                                |
 | ------------ | -------------------------------------------------------------------------- |
 | Stats        | Tracks numeric values like Strength, Intelligence, Creativity via `StatSystem` |
+| State        | Holds persistent game data and initialization helpers |
 | Tasks        | Defines repeatable actions, their costs, outputs, and execution logic      |
 | Time System  | Governs tick-based or interval-based progression                           |
 | Task Slots   | Limited number of concurrent tasks; unlockable and upgradable              |
@@ -91,6 +92,7 @@ The repository now contains a minimal HTML/CSS/JS setup with data files and stat
 index.html          - main HTML entry point
 css/styles.css      - page styling
 js/main.js          - core game logic
+js/state.js         - global state and helper functions
 assets/             - images and static assets
 data/actions.json   - action definitions
 docs/MVP.md         - checklist for the first prototype
