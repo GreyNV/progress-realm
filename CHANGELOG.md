@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.41.6] - 2025-06-27
+### Added
+- Lightweight `Logger` module for optional debug output
+- Logging statements in `state.js` and image pipeline script
+- README updated with new logger info
+
 ## [0.41.5] - 2025-07-30
 ### Fixed
 - Moved `VERSION` constant into `state.js` so initialization succeeds when scripts load in `index.html`.

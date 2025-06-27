@@ -3,12 +3,17 @@ import os
 import re
 from typing import List, Dict
 
+import logging
+
 import requests
 
 try:
     from openai import OpenAI
 except ImportError:  # openai might not be installed
     OpenAI = None
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 ITEMS_PATH = os.path.join('data', 'items.json')
@@ -35,7 +40,7 @@ def generate_prompt(item: Dict) -> str:
     if description:
         base_prompt += f". Some item background: {description}"
     base_prompt += ""
-    print(base_prompt)
+    logger.debug("Prompt: %s", base_prompt)
     return base_prompt
 
 
@@ -49,6 +54,7 @@ def generate_image(prompt: str) -> str:
         raise RuntimeError("OPENAI_API_KEY environment variable not set")
 
     client = OpenAI(api_key=api_key)
+    logger.info("Requesting image from OpenAI")
     response = client.images.generate(
         model="dall-e-3",
         prompt=prompt,
@@ -65,10 +71,12 @@ def save_image(url: str, item_name: str) -> str:
         os.makedirs(IMAGES_DIR)
     sanitized = re.sub(r'[^a-z0-9]+', '_', item_name.lower()).strip('_')
     path = os.path.join(IMAGES_DIR, f"{sanitized}.png")
+    logger.debug("Downloading %s", url)
     response = requests.get(url, timeout=30)
     response.raise_for_status()
     with open(path, 'wb') as f:
         f.write(response.content)
+    logger.info("Saved image to %s", path)
     return path
 
 
@@ -84,6 +92,7 @@ def save_items(items: List[Dict]) -> None:
 
 
 def main() -> None:
+    logger.info("Loading items from %s", ITEMS_PATH)
     items = load_items()
     for item in items:
         img_field = item.get('image')
@@ -93,6 +102,7 @@ def main() -> None:
             path = save_image(url, item['name'])
             update_item_image(item, path)
     save_items(items)
+    logger.info("Updated %d items", len(items))
 
 
 if __name__ == '__main__':
