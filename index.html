@@ -42,6 +42,20 @@
         </div>
     </div>
 
+    <div id="inventory-filter-modal" class="modal hidden">
+        <div class="modal-content">
+            <label><input type="checkbox" id="hide-rarity-toggle"> Hide items</label>
+            <label>below rarity:
+                <select id="hide-rarity-select">
+                    <option value="rare">rare</option>
+                    <option value="epic">epic</option>
+                    <option value="legendary">legendary</option>
+                </select>
+            </label>
+            <button id="inventory-filter-close">Close</button>
+        </div>
+    </div>
+
     <main id="app">
         <div id="left" class="panel">
             <section id="stats">
@@ -90,6 +104,7 @@
                     </div>
                     <div class="tab-content hidden" data-tab="inventory">
                         <h2 data-i18n="Inventory">Inventory</h2>
+                        <button id="inventory-filter-btn">Hide Items</button>
                         <div id="inventory-slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="automation">

@@ -117,6 +117,8 @@ const State = {
     autoProgress: true,
     darkMode: true,
     language: 'en',
+    hideRarityEnabled: false,
+    hideBelowRarity: 'rare',
 };
 
 for (let i = 0; i < State.slotCount; i++) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.10] - 2025-08-18
+### Added
+- Optional rarity filter in the inventory tab.
+
 ## [0.41.9] - 2025-08-17
 ### Added
 - Recover encounter triggers after automatic retreats and appears once the hero's resources return to full.

@@ -122,8 +122,13 @@ const Inventory = {
             if (ra !== rb) return ra - rb;
             return a.name.localeCompare(b.name);
         });
+        let result = items;
+        if (State.hideRarityEnabled) {
+            const threshold = RARITY_CLASSES.indexOf(State.hideBelowRarity);
+            result = items.filter(it => RARITY_CLASSES.indexOf(it.rarity) >= threshold);
+        }
 
-        return items;
+        return result;
     },
     hasItem(id) {
         return State.inventory[id] && State.inventory[id].quantity > 0;
