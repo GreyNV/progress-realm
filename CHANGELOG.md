@@ -3,6 +3,7 @@
 ## [0.41.3] - 2025-07-30
 ### Added
 - Introduced `state.js` module and updated dependencies.
+- Progress bar under encounter location shows streak toward next level.
 
 ## [0.41.2] - 2025-07-30
 ### Added
