@@ -83,6 +83,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 * HTML, CSS, JavaScript
 * Optional: Vue or Svelte for structure
 * Save system via localStorage (later: IndexedDB)
+* Simple client-side Logger toggled through `Logger.enabled`
 
 #### 11. Project Structure
 

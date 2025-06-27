@@ -1,4 +1,15 @@
 // Global state and helper systems
+//
+// Dependencies:
+//  - bonus.js: uses BonusEngine for multipliers
+//  - utils.js: helper methods (e.g. weighted random)
+//
+// Exports:
+//  - State: persistent game data
+//  - ResourceSystem / StatSystem: resource helpers
+//  - loadBaseData(): fetches data/resources.json
+//
+// AI Agents: inspect State object when modifying progression logic.
 
 // Game save version. Shared with main.js for compatibility checks
 const VERSION = 2;
@@ -130,8 +141,9 @@ async function loadBaseData() {
         if (typeof BonusEngine !== 'undefined' && BonusEngine.initialize) {
             BonusEngine.initialize(STAT_KEYS, RESOURCE_KEYS);
         }
+        Logger.info('Base resource data loaded');
     } catch (e) {
-        console.error('Failed to load resource data', e);
+        Logger.error('Failed to load resource data', e);
     }
 }
 
