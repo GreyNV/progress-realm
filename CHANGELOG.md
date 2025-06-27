@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.8] - 2025-08-16
+### Changed
+- Inventory grid now caps at six columns and falls back to three on small screens.
+- Items are sorted by rarity in the inventory tab.
+
 ## [0.41.7] - 2025-08-15
 ### Added
 - Inline comments across JS modules explaining game flow and module chain.

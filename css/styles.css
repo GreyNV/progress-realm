@@ -183,6 +183,11 @@ body.left-collapsed #left {
     display: flex;
 }
 
+#inventory-slots {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
 
 #encounter-location {
     font-style: italic;
@@ -343,6 +348,9 @@ body.left-collapsed #left {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
+    }
+    #inventory-slots {
+        grid-template-columns: repeat(3, 1fr);
     }
     #adventure-slots {
         display: flex;
