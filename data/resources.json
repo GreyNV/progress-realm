@@ -1,0 +1,6 @@
+[
+  { "id": "energy", "baseValue": 10, "baseMax": 10 },
+  { "id": "focus", "baseValue": 10, "baseMax": 10 },
+  { "id": "health", "baseValue": 1, "baseMax": 10 },
+  { "id": "money", "baseValue": 0, "baseMax": 100 }
+]

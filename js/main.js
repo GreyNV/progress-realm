@@ -85,17 +85,8 @@ const State = {
     introSeen: false,
     healerGoneSeen: false,
     banditsAmbushSeen: false,
-    stats: {
-        strength: StatSystem.create(0, 50),
-        intelligence: StatSystem.create(0, 50),
-        creativity: StatSystem.create(0, 50),
-    },
-    resources: {
-        energy: ResourceSystem.create(10, 10),
-        focus: ResourceSystem.create(10, 10),
-        health: ResourceSystem.create(1, 10),
-        money: ResourceSystem.create(0, 100)
-    },
+    stats: {},
+    resources: {},
     // number of available action slots
     slotCount: 6,
     slots: [],
@@ -123,13 +114,51 @@ for (let i = 0; i < State.adventureSlotCount; i++) {
 let actions = {};
 let selectedActionId = null;
 
-const STAT_KEYS = ["strength", "intelligence", "creativity"];
-const RESOURCE_KEYS = ["energy", "focus", "health", "money"];
+let STAT_KEYS = [];
+let RESOURCE_KEYS = [];
+let STAT_DATA = [];
+let RESOURCE_DATA = [];
 const RARITY_CLASSES = ['common', 'rare', 'epic', 'legendary', 'story'];
 
 
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+async function loadStats() {
+    try {
+        const res = await fetch('data/stats.json');
+        const json = await res.json();
+        STAT_KEYS = [];
+        STAT_DATA = json;
+        State.stats = {};
+        json.forEach(s => {
+            STAT_KEYS.push(s.id);
+            State.stats[s.id] = StatSystem.create(s.baseValue, s.baseMax);
+            statDeltas[s.id] = 0;
+            SoftCapSystem.baseStatCaps[s.id] = s.baseMax;
+        });
+    } catch (e) {
+        console.error('Failed to load stats', e);
+    }
+}
+
+async function loadResources() {
+    try {
+        const res = await fetch('data/resources.json');
+        const json = await res.json();
+        RESOURCE_KEYS = [];
+        RESOURCE_DATA = json;
+        State.resources = {};
+        json.forEach(r => {
+            RESOURCE_KEYS.push(r.id);
+            State.resources[r.id] = ResourceSystem.create(r.baseValue, r.baseMax);
+            resourceDeltas[r.id] = 0;
+            SoftCapSystem.baseResourceCaps[r.id] = r.baseMax;
+        });
+    } catch (e) {
+        console.error('Failed to load resources', e);
+    }
 }
 
 
@@ -162,8 +191,8 @@ const Story = {
 };
 
 const SoftCapSystem = {
-    baseStatCaps: { strength: 50, intelligence: 50, creativity: 50 },
-    baseResourceCaps: { energy: 20, focus: 20, health: 10, money: 100 },
+    baseStatCaps: {},
+    baseResourceCaps: {},
     statCaps: {},
     resourceCaps: {},
     falloff: 0.5,
@@ -296,13 +325,12 @@ const SaveSystem = {
             if (data.version !== VERSION) return null;
             if (data.state) {
                 Object.assign(State, data.state);
-                ensureResource("energy", 10, 10);
-                ensureResource("focus", 10, 10);
-                ensureResource("health", 1, 10);
-                ensureResource("money", 0, 100);
-                ensureStat("strength", 0, 50);
-                ensureStat("intelligence", 0, 50);
-                ensureStat("creativity", 0, 50);
+                RESOURCE_DATA.forEach(r => {
+                    ensureResource(r.id, r.baseValue, r.baseMax);
+                });
+                STAT_DATA.forEach(s => {
+                    ensureStat(s.id, s.baseValue, s.baseMax);
+                });
                 if (Array.isArray(State.slots)) {
                     State.slots.forEach(s => {
                         if (s.text === undefined) s.text = '';
@@ -801,6 +829,8 @@ function updateUI() {
 }
 
 async function init() {
+    await loadStats();
+    await loadResources();
     const loadedActions = SaveSystem.load();
     await Lang.load(State.language);
     Log.init();

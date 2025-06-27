@@ -1,6 +1,6 @@
 
 const StatsUI = {
-    list: ['strength', 'intelligence', 'creativity'],
+    list: STAT_KEYS,
     init() {
         const listEl = document.getElementById('stats-list');
         this.list.forEach(key => {
@@ -34,7 +34,7 @@ const StatsUI = {
 };
 
 const ResourcesUI = {
-    list: ["energy", "focus", "health", "money"],
+    list: RESOURCE_KEYS,
     init() {
         const listEl = document.getElementById("resources-list");
         this.list.forEach(key => {

@@ -1,0 +1,5 @@
+[
+  { "id": "strength", "baseValue": 0, "baseMax": 50 },
+  { "id": "intelligence", "baseValue": 0, "baseMax": 50 },
+  { "id": "creativity", "baseValue": 0, "baseMax": 50 }
+]

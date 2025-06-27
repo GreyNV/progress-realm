@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.42.0] - 2025-07-30
+### Added
+- Separated stats and resources into `data/stats.json` and `data/resources.json`.
+- Game now loads base values from these files at startup.
+
 ## [0.41.2] - 2025-07-30
 ### Added
 - Translation support for log messages.

@@ -93,6 +93,8 @@ css/styles.css      - page styling
 js/main.js          - core game logic
 assets/             - images and static assets
 data/actions.json   - action definitions
+data/stats.json     - base stat values
+data/resources.json - base resource values
 docs/MVP.md         - checklist for the first prototype
 ```
 
