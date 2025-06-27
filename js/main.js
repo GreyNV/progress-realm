@@ -232,6 +232,12 @@ const SaveSystem = {
                 if (State.darkMode === undefined) {
                     State.darkMode = true;
                 }
+                if (State.hideRarityEnabled === undefined) {
+                    State.hideRarityEnabled = false;
+                }
+                if (!State.hideBelowRarity) {
+                    State.hideBelowRarity = 'rare';
+                }
                 if (!State.language) {
                     State.language = 'en';
                 }
@@ -794,6 +800,30 @@ async function init() {
     if (settingsClose) {
         settingsClose.addEventListener('click', closeSettings);
     }
+    const filterBtn = document.getElementById('inventory-filter-btn');
+    if (filterBtn) {
+        filterBtn.addEventListener('click', openInventoryFilter);
+    }
+    const filterClose = document.getElementById('inventory-filter-close');
+    if (filterClose) {
+        filterClose.addEventListener('click', closeInventoryFilter);
+    }
+    const hideToggle = document.getElementById('hide-rarity-toggle');
+    if (hideToggle) {
+        hideToggle.addEventListener('change', () => {
+            State.hideRarityEnabled = hideToggle.checked;
+            InventoryUI.update();
+            SaveSystem.save();
+        });
+    }
+    const raritySelect = document.getElementById('hide-rarity-select');
+    if (raritySelect) {
+        raritySelect.addEventListener('change', () => {
+            State.hideBelowRarity = raritySelect.value;
+            InventoryUI.update();
+            SaveSystem.save();
+        });
+    }
     const darkToggle = document.getElementById('dark-mode-toggle');
     if (darkToggle) {
         darkToggle.addEventListener('change', () => {
@@ -878,4 +908,16 @@ function openSettings() {
 
 function closeSettings() {
     document.getElementById('settings-modal').classList.add('hidden');
+}
+
+function openInventoryFilter() {
+    document.getElementById('inventory-filter-modal').classList.remove('hidden');
+    const chk = document.getElementById('hide-rarity-toggle');
+    const sel = document.getElementById('hide-rarity-select');
+    if (chk) chk.checked = State.hideRarityEnabled;
+    if (sel) sel.value = State.hideBelowRarity;
+}
+
+function closeInventoryFilter() {
+    document.getElementById('inventory-filter-modal').classList.add('hidden');
 }
