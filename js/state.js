@@ -1,5 +1,8 @@
 // Global state and helper systems
 
+// Game save version. Shared with main.js for compatibility checks
+const VERSION = 2;
+
 const ResourceSystem = {
     create(value, baseMax) {
         return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [] };

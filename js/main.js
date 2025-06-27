@@ -1,5 +1,4 @@
 // Progress Realm prototype with leveled actions and resource consumption
-const VERSION = 2;
 // Game logic runs independently from UI updates. Logic ticks occur at a fixed
 // rate defined here and resources scale per real-time second regardless of the
 // UI refresh rate.
