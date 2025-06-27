@@ -180,13 +180,14 @@ const SaveSystem = {
             if (data.version !== VERSION) return null;
             if (data.state) {
                 Object.assign(State, data.state);
-                ensureResource("energy", 10, 10);
-                ensureResource("focus", 10, 10);
-                ensureResource("health", 1, 10);
-                ensureResource("money", 0, 100);
-                ensureStat("strength", 0, 50);
-                ensureStat("intelligence", 0, 50);
-                ensureStat("creativity", 0, 50);
+                RESOURCE_KEYS.forEach(k => {
+                    const def = State.resources[k] || { value: 0, baseMax: 0 };
+                    ensureResource(k, def.value, def.baseMax);
+                });
+                STAT_KEYS.forEach(k => {
+                    const def = State.stats[k] || { value: 0, baseMax: 0 };
+                    ensureStat(k, def.value, def.baseMax);
+                });
                 if (Array.isArray(State.slots)) {
                     State.slots.forEach(s => {
                         if (s.text === undefined) s.text = '';
@@ -688,6 +689,7 @@ function updateUI() {
 }
 
 async function init() {
+    await loadBaseData();
     const loadedActions = SaveSystem.load();
     await Lang.load(State.language);
     Log.init();

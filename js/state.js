@@ -72,8 +72,8 @@ function ensureStat(name, value, max) {
     }
 }
 
-const STAT_KEYS = ["strength", "intelligence", "creativity"];
-const RESOURCE_KEYS = ["energy", "focus", "health", "money"];
+let STAT_KEYS = [];
+let RESOURCE_KEYS = [];
 const RARITY_CLASSES = ['common', 'rare', 'epic', 'legendary', 'story'];
 
 const State = {
@@ -82,17 +82,9 @@ const State = {
     introSeen: false,
     healerGoneSeen: false,
     banditsAmbushSeen: false,
-    stats: {
-        strength: StatSystem.create(0, 50),
-        intelligence: StatSystem.create(0, 50),
-        creativity: StatSystem.create(0, 50),
-    },
-    resources: {
-        energy: ResourceSystem.create(10, 10),
-        focus: ResourceSystem.create(10, 10),
-        health: ResourceSystem.create(1, 10),
-        money: ResourceSystem.create(0, 100)
-    },
+    stats: {},
+    resources: {},
+    prestige: {},
     // number of available action slots
     slotCount: 6,
     slots: [],
@@ -115,5 +107,39 @@ for (let i = 0; i < State.slotCount; i++) {
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
     State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null, active: false });
+}
+
+async function loadBaseData() {
+    try {
+        const res = await fetch('data/resources.json');
+        const json = await res.json();
+        STAT_KEYS = Object.keys(json.stats || {});
+        RESOURCE_KEYS = Object.keys(json.resources || {});
+        STAT_KEYS.forEach(k => {
+            const def = json.stats[k];
+            State.stats[k] = StatSystem.create(def.value, def.baseMax);
+        });
+        RESOURCE_KEYS.forEach(k => {
+            const def = json.resources[k];
+            State.resources[k] = ResourceSystem.create(def.value, def.baseMax);
+        });
+        State.prestige = { ...json.prestige };
+        if (typeof BonusEngine !== 'undefined' && BonusEngine.initialize) {
+            BonusEngine.initialize(STAT_KEYS, RESOURCE_KEYS);
+        }
+    } catch (e) {
+        console.error('Failed to load resource data', e);
+    }
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        State,
+        ResourceSystem,
+        StatSystem,
+        loadBaseData,
+        STAT_KEYS,
+        RESOURCE_KEYS,
+    };
 }
 

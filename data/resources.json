@@ -1,0 +1,18 @@
+{
+    "stats": {
+        "strength": {"value": 0, "baseMax": 50},
+        "intelligence": {"value": 0, "baseMax": 50},
+        "creativity": {"value": 0, "baseMax": 50}
+    },
+    "resources": {
+        "energy": {"value": 10, "baseMax": 10},
+        "focus": {"value": 10, "baseMax": 10},
+        "health": {"value": 1, "baseMax": 10},
+        "money": {"value": 0, "baseMax": 100}
+    },
+    "prestige": {
+        "strength": 0,
+        "intelligence": 0,
+        "creativity": 0
+    }
+}
