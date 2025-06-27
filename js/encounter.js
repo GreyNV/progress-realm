@@ -145,6 +145,10 @@ const EncounterGenerator = {
         this.populateSlots();
     },
 
+    getRecoverEncounter() {
+        return this.encounters.find(e => e.id === 'recover') || null;
+    },
+
     randomEncounter() {
         if (!this.encounters.length) return null;
         const story = this.encounters.find(e => {

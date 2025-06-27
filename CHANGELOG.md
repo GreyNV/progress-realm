@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.9] - 2025-08-17
+### Added
+- Recover encounter triggers after automatic retreats and appears once the hero's resources return to full.
+
 ## [0.41.8] - 2025-08-16
 ### Changed
 - Inventory grid now caps at six columns and falls back to three on small screens.

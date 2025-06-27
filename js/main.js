@@ -265,6 +265,7 @@ const AgeSystem = {
 const AdventureEngine = {
     activeIndex: null,
     waitResource: null,
+    recovering: false,
     startSlot(i = 0) {
         if (this.waitResource) {
             const res = State.resources[this.waitResource];
@@ -273,6 +274,20 @@ const AdventureEngine = {
                 return;
             }
             this.waitResource = null;
+            if (this.recovering) {
+                const rec = EncounterGenerator.getRecoverEncounter();
+                if (rec) {
+                    const slot = State.adventureSlots[i];
+                    slot.encounter = rec;
+                    slot.duration = rec.getDuration();
+                    slot.progress = 0;
+                    slot.active = true;
+                    this.activeIndex = i;
+                    this.recovering = false;
+                    updateAdventureSlotUI(i);
+                    return;
+                }
+            }
         }
         const encounter = EncounterGenerator.randomEncounter();
         const slot = State.adventureSlots[i];
@@ -323,7 +338,7 @@ const AdventureEngine = {
 };
 
 
-function retreat(resourceName) {
+function retreat(resourceName, manual = false) {
     const slot = AdventureEngine.activeIndex !== null ?
         State.adventureSlots[AdventureEngine.activeIndex] : null;
     const enc = slot && slot.encounter ? slot.encounter.name : 'an encounter';
@@ -331,6 +346,7 @@ function retreat(resourceName) {
         `You had to retreat after ${enc} because you ran out of ${resourceName}.`;
     Log.add(msg);
     AdventureEngine.waitResource = resourceName;
+    if (!manual) AdventureEngine.recovering = true;
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
 }
@@ -817,7 +833,7 @@ async function init() {
         });
     }
     document.getElementById('return-btn').addEventListener('click', () => {
-        retreat('resolve');
+        retreat('resolve', true);
     });
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     applyDarkMode();
