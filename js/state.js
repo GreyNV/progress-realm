@@ -10,6 +10,10 @@
 //  - loadBaseData(): fetches data/resources.json
 //
 // AI Agents: inspect State object when modifying progression logic.
+// Game flow touches this module constantly. Most systems read or modify
+// properties here through helper functions (see ResourceSystem/StatSystem).
+// Initialization chain: loadBaseData() -> init in main.js -> per tick updates
+// via DeltaEngine and others.
 
 // Game save version. Shared with main.js for compatibility checks
 const VERSION = 2;

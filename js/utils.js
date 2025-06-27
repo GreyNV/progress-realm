@@ -1,3 +1,5 @@
+// Agents: Utility methods shared across systems. Keep this lightweight and
+// free of game state so it can be safely imported anywhere.
 const Utils = {
     /**
      * Select an item using weighted random choice.

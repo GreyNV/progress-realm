@@ -1,3 +1,6 @@
+// Agents: UpdateSystem handles long term upgrades. The flow is
+// UpdateSystem.load -> UpdateSystem.init -> UpdateSystem.start -> tick/apply.
+// Completed updates can unlock actions and alter bonuses.
 class Update {
     constructor(data) {
         this.id = data.id;

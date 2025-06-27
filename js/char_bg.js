@@ -1,3 +1,6 @@
+// Agents: UI helper for the left panel background image. Called from init() in
+// main.js whenever the inventory changes so the character reflects equipped
+// gear. Purely cosmetic and not tied into game mechanics.
 const CharacterBackground = {
     baseImage: 'assets/char/new_char.png',
     equippedImage: 'assets/char/leather+woodshield+spear.png',

@@ -1,3 +1,6 @@
+// Agents: BonusEngine modifies stat and resource deltas before they are applied
+// each tick. Update these multipliers when adding new bonuses so that
+// DeltaEngine.apply() automatically incorporates them.
 const BonusEngine = {
     statAdditions: {},
     statMultipliers: {},

@@ -1,3 +1,6 @@
+// Agents: DOM manipulation layer. Each UI object mirrors part of `State` and
+// should be updated by calling its `update()` method every UI tick. No game
+// logic should live here.
 
 const StatsUI = {
     list: [],
