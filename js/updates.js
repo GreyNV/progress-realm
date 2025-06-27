@@ -31,8 +31,8 @@ const UpdateSystem = {
         }
     },
     init() {
-        this.listEl = document.getElementById('update-list');
-        this.slotContainer = document.getElementById('update-slots');
+        this.listEl = document.getElementById('chip-list');
+        this.slotContainer = document.getElementById('chip-slots');
         if (!this.listEl || !this.slotContainer) return;
         this.updates.forEach(u => {
             const li = document.createElement('li');

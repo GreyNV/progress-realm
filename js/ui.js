@@ -5,7 +5,8 @@
 const StatsUI = {
     list: [],
     init() {
-        this.list = STAT_KEYS.slice();
+        // Exclude hidden stats such as charisma from the UI
+        this.list = STAT_KEYS.filter(k => k !== 'charisma');
         const listEl = document.getElementById('stats-list');
         this.list.forEach(key => {
             const li = document.createElement('li');

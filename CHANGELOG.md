@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.41.11] - 2025-06-27
+### Changed
+- Automation tab is hidden.
+- Updates tab renamed to Chip with a blue theme color.
+- Prestige block and charisma stat are no longer displayed.
+
 ## [0.41.10]
 ### Added
 - Optional rarity filter in the inventory tab.

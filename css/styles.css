@@ -6,6 +6,7 @@
     --header-text: #fff;
     --task-bg: #eee;
     --slot-bg: #333;
+    --chip-color: #0066ff;
 }
 
 body {
@@ -51,6 +52,10 @@ header, footer {
 #stats-list li,
 #prestige-block li {
     margin: 0.3em 0;
+}
+
+#prestige-block {
+    display: none;
 }
 
 #stats-list li span,
@@ -411,4 +416,9 @@ body.dark {
     --header-text: #eee;
     --task-bg: #444;
     --slot-bg: #555;
+    --chip-color: #3f8cff;
+}
+
+.tab-headers button[data-tab="chip"] {
+    color: var(--chip-color);
 }
