@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.4] - 2025-07-30
+### Added
+- Base stats and resources now loaded from `data/resources.json`.
+- BonusEngine initializes dynamically for new resource keys.
+
 ## [0.41.3] - 2025-07-30
 ### Added
 - Introduced `state.js` module and updated dependencies.

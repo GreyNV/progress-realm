@@ -1,10 +1,29 @@
 const BonusEngine = {
-    statAdditions: { strength: 0, intelligence: 0, creativity: 0 },
-    statMultipliers: { strength: 1, intelligence: 1, creativity: 1 },
-    statPowers: { strength: 1, intelligence: 1, creativity: 1 },
-    resourceAdditions: { energy: 0, focus: 0, health: 0, money: 0 },
-    resourceMultipliers: { energy: 1, focus: 1, health: 1, money: 1 },
-    resourceDividers: { energy: 1, focus: 1, health: 1, money: 1 },
+    statAdditions: {},
+    statMultipliers: {},
+    statPowers: {},
+    resourceAdditions: {},
+    resourceMultipliers: {},
+    resourceDividers: {},
+
+    initialize(statKeys = [], resourceKeys = []) {
+        this.statAdditions = {};
+        this.statMultipliers = {};
+        this.statPowers = {};
+        statKeys.forEach(k => {
+            this.statAdditions[k] = 0;
+            this.statMultipliers[k] = 1;
+            this.statPowers[k] = 1;
+        });
+        this.resourceAdditions = {};
+        this.resourceMultipliers = {};
+        this.resourceDividers = {};
+        resourceKeys.forEach(k => {
+            this.resourceAdditions[k] = 0;
+            this.resourceMultipliers[k] = 1;
+            this.resourceDividers[k] = 1;
+        });
+    },
 
     applyStat(delta, key) {
         const add = this.statAdditions[key] || 0;

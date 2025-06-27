@@ -95,6 +95,7 @@ js/main.js          - core game logic
 js/state.js         - global state and helper functions
 assets/             - images and static assets
 data/actions.json   - action definitions
+data/resources.json - base stats and resources
 docs/MVP.md         - checklist for the first prototype
 ```
 
