@@ -2,6 +2,12 @@
 // Game logic runs independently from UI updates. Logic ticks occur at a fixed
 // rate defined here and resources scale per real-time second regardless of the
 // UI refresh rate.
+//
+// Agents: `init()` wires together all subsystems. After initialization the
+// following loop runs:
+//   setInterval -> ActionEngine.tick -> DeltaEngine.calculate/apply -> save
+// UI updates run separately in another interval. Refer to this file when tracing
+// the start of the game flow.
 const LOGIC_TICK_MS = 100; // milliseconds between logic updates
 const UI_UPDATE_MS = 200;  // milliseconds between UI refreshes
 const TICKS_PER_SECOND = 1000 / LOGIC_TICK_MS;

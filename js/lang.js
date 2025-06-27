@@ -1,3 +1,6 @@
+// Agents: Localization helper. UI text and descriptions funnel through this
+// object so translations can be swapped at runtime. Game logic should remain
+// language agnostic and pull strings via `Lang.*` methods.
 const Lang = {
     current: 'en',
     data: {},

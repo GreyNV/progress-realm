@@ -1,3 +1,6 @@
+// Agents: ItemGenerator and Inventory work together to manage loot. Encounters
+// call `Inventory.add()` with items produced here. Effects like softcap boosts
+// are handled by SoftCapSystem after items are acquired.
 class Item {
     constructor(data) {
         this.id = data.id;

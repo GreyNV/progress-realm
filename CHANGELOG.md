@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.7] - 2025-08-15
+### Added
+- Inline comments across JS modules explaining game flow and module chain.
+
 ## [0.41.6] - 2025-06-27
 ### Added
 - Lightweight `Logger` module for optional debug output
