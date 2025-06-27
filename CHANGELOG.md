@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.5] - 2025-07-30
+### Fixed
+- Moved `VERSION` constant into `state.js` so initialization succeeds when scripts load in `index.html`.
+
 ## [0.41.4] - 2025-07-30
 ### Added
 - Base stats and resources now loaded from `data/resources.json`.
