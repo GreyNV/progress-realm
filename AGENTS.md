@@ -38,6 +38,7 @@
 - Provide a clear PR title and summary of the changes
 - Update `CHANGELOG.md` with a short note describing each change
 - Add new entries to the **top** of the changelog so the latest changes appear first
+- Use the current date in `YYYY-MM-DD` format when creating new changelog entries
 
 ## Review Protocol
 
