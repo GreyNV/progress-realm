@@ -102,7 +102,7 @@ const Inventory = {
         }
     },
     getItems() {
-        return Object.entries(State.inventory).map(([id, data]) => {
+        const items = Object.entries(State.inventory).map(([id, data]) => {
             const itemData = ItemGenerator.itemList.find(i => i.id === id) || {};
             return {
                 id,
@@ -114,6 +114,16 @@ const Inventory = {
                 effect: itemData.getEffectDescription ? itemData.getEffectDescription() : ''
             };
         });
+
+        const rarityOrder = RARITY_CLASSES.slice().reverse();
+        items.sort((a, b) => {
+            const ra = rarityOrder.indexOf(a.rarity);
+            const rb = rarityOrder.indexOf(b.rarity);
+            if (ra !== rb) return ra - rb;
+            return a.name.localeCompare(b.name);
+        });
+
+        return items;
     },
     hasItem(id) {
         return State.inventory[id] && State.inventory[id].quantity > 0;
