@@ -412,13 +412,16 @@ const AdventureEngine = {
             slot.encounter = null;
             slot.progress = 0;
             State.encounterStreak += 1;
+            EncounterGenerator.updateProgressBar();
             updateAdventureSlotUI(this.activeIndex);
             if (State.encounterStreak >= 10) {
                 if (State.autoProgress) {
                     EncounterGenerator.incrementLevel();
                     State.encounterStreak = 0;
+                    EncounterGenerator.updateProgressBar();
                 } else {
                     State.encounterStreak = 10;
+                    EncounterGenerator.updateProgressBar();
                 }
             }
             this.startSlot(this.activeIndex);
