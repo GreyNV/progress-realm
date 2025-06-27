@@ -107,8 +107,8 @@ const TabManager = {
         { id: 'routines', name: 'Routines', hidden: false, locked: false },
         { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
         { id: 'inventory', name: 'Inventory', hidden: false, locked: false },
-        { id: 'automation', name: 'Automation', hidden: false, locked: false },
-        { id: 'updates', name: 'Updates', hidden: false, locked: false },
+        { id: 'automation', name: 'Automation', hidden: true, locked: false },
+        { id: 'chip', name: 'Chip', hidden: false, locked: false },
     ],
     buttons: {},
     init() {
