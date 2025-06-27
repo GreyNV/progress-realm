@@ -97,12 +97,22 @@ const EncounterGenerator = {
         if (el) {
             el.textContent = `${name} (Level ${this.level})`;
         }
+        this.updateProgressBar();
+    },
+
+    updateProgressBar() {
+        const bar = document.getElementById('encounter-level-progress');
+        if (bar) {
+            bar.max = 10;
+            bar.value = Math.min(State.encounterStreak || 0, 10);
+        }
     },
 
     incrementLevel() {
         this.level += 1;
         State.encounterLevel = this.level;
         this.updateName();
+        this.updateProgressBar();
     },
 
     decrementLevel() {
@@ -110,12 +120,14 @@ const EncounterGenerator = {
             this.level -= 1;
             State.encounterLevel = this.level;
             this.updateName();
+            this.updateProgressBar();
         }
     },
 
     resetProgress() {
         this.populateSlots();
         State.encounterStreak = 0;
+        this.updateProgressBar();
         if (typeof AdventureEngine !== 'undefined') {
             AdventureEngine.startSlot(0);
         }
@@ -126,6 +138,7 @@ const EncounterGenerator = {
         if (!this.container) return;
         this.level = State.encounterLevel || 0;
         this.updateName();
+        this.updateProgressBar();
         this.populateSlots();
     },
 

@@ -189,6 +189,13 @@ body.left-collapsed #left {
     margin-top: 0.5rem;
 }
 
+#encounter-level-progress {
+    width: 100%;
+    height: 0.5rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
 #adventure-controls {
     display: flex;
     align-items: center;
