@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.41.19] - 2025-06-28
+### Added
+- Prestige now triggers automatically at max age converting stats to prestige
+  points that enhance future growth.
+
+## [0.41.18] - 2025-06-28
+### Added
+- Prestige reset preserves action levels while clearing stats and resources.
+
 ## [0.41.17] - 2025-06-28
 ### Changed
 - Story images now load lazily to reduce initial load time.

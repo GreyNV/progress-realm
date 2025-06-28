@@ -103,6 +103,7 @@ const State = {
     stats: {},
     resources: {},
     prestige: {},
+    prestiging: false,
     // number of available action slots
     slotCount: 6,
     slots: [],

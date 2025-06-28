@@ -255,6 +255,49 @@ const SaveSystem = {
     reset() {
         localStorage.removeItem('progressRealmSave');
         window.location.reload();
+    },
+    async prestige() {
+        const preserved = {};
+        Object.values(actions).forEach(a => {
+            preserved[a.id] = {
+                level: a.level,
+                exp: 0,
+                expToNext: a.expToNext,
+                currentTier: a.currentTier
+            };
+        });
+
+        const prestigeGain = {};
+        STAT_KEYS.forEach(k => {
+            const val = State.stats[k] ? State.stats[k].value : 0;
+            prestigeGain[k] = Math.floor(Math.log10(val + 1));
+        });
+
+        await loadBaseData();
+        STAT_KEYS.forEach(k => {
+            State.prestige[k] = (State.prestige[k] || 0) + (prestigeGain[k] || 0);
+        });
+
+        applyPrestigeBonuses();
+
+        State.age.years = 16;
+        State.age.days = 0;
+
+        State.inventory = {};
+        State.adventureSlots = State.adventureSlots.map(() => ({
+            text: '', progress: 0, duration: 1, encounter: null, active: false
+        }));
+        State.slots.forEach(s => {
+            s.actionId = null;
+            s.progress = 0;
+            s.blocked = false;
+            s.text = '';
+        });
+        Object.entries(preserved).forEach(([id, data]) => {
+            if (actions[id]) Object.assign(actions[id], data);
+        });
+        SaveSystem.save();
+        window.location.reload();
     }
 };
 
@@ -266,8 +309,24 @@ const AgeSystem = {
             State.age.years += Math.floor(State.age.days / this.daysPerYear);
             State.age.days = State.age.days % this.daysPerYear;
         }
+        if (!State.prestiging && State.age.years >= State.age.max) {
+            State.prestiging = true;
+            SaveSystem.prestige();
+        }
     }
 };
+
+function applyPrestigeBonuses() {
+    STAT_KEYS.forEach(k => {
+        const p = State.prestige[k] || 0;
+        if (State.stats[k]) {
+            State.stats[k].maxMultipliers.push(1 + p * 0.02);
+        }
+        if (typeof BonusEngine !== 'undefined') {
+            BonusEngine.statMultipliers[k] = (BonusEngine.statMultipliers[k] || 1) * (1 + p * 0.05);
+        }
+    });
+}
 
 const AdventureEngine = {
     activeIndex: null,
@@ -720,6 +779,7 @@ function updateUI() {
 async function init() {
     await loadBaseData();
     const loadedActions = SaveSystem.load();
+    applyPrestigeBonuses();
     await Lang.load(State.language);
     Log.init();
     if (!State.introSeen) {
@@ -868,6 +928,10 @@ async function init() {
         retreat('resolve', true);
     });
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
+    const prestigeBtn = document.getElementById('prestige-btn');
+    if (prestigeBtn) {
+        prestigeBtn.addEventListener('click', () => SaveSystem.prestige());
+    }
     applyDarkMode();
     updateUI();
     // Game logic ticked separately from UI updates so resource generation
