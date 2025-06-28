@@ -205,7 +205,7 @@ const SaveSystem = {
                     State.slotCount = Array.isArray(State.slots) ? State.slots.length : 0;
                 }
                 if (State.encounterLevel === undefined) {
-                    State.encounterLevel = 0;
+                    State.encounterLevel = 1;
                 }
                 if (State.encounterStreak === undefined) {
                     State.encounterStreak = 0;
@@ -770,6 +770,7 @@ function updateUI() {
     StatsUI.update();
     ResourcesUI.update();
     MasteryUI.update();
+    PrestigeUI.update();
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
@@ -835,6 +836,7 @@ async function init() {
     StatsUI.init();
     ResourcesUI.init();
     MasteryUI.init();
+    PrestigeUI.init();
     InventoryUI.init();
     UpdateSystem.init();
     if (typeof CharacterBackground !== 'undefined') {

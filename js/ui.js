@@ -39,6 +39,26 @@ const StatsUI = {
     }
 };
 
+const PrestigeUI = {
+    list: [],
+    init() {
+        this.list = STAT_KEYS.filter(k => k !== 'charisma' && k !== 'creativity');
+        this.container = document.getElementById('prestige-block');
+        this.update();
+    },
+    update() {
+        if (!this.container) return;
+        let show = false;
+        this.list.forEach(key => {
+            const val = State.prestige[key] || 0;
+            const el = document.getElementById(`prestige-${key}`);
+            if (el) el.textContent = val;
+            if (val > 0) show = true;
+        });
+        this.container.style.display = show ? 'block' : 'none';
+    }
+};
+
 const ResourcesUI = {
     list: [],
     init() {

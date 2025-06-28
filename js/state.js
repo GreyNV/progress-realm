@@ -113,7 +113,7 @@ const State = {
     inventory: {},
     time: 1,
     masteryPoints: 0,
-    encounterLevel: 0,
+    encounterLevel: 1,
     encounterStreak: 0,
     autoProgress: true,
     darkMode: true,
