@@ -273,6 +273,21 @@ const AdventureEngine = {
     waitResource: null,
     recovering: false,
     startSlot(i = 0) {
+        if (this.recovering) {
+            const rec = EncounterGenerator.getRecoverEncounter();
+            if (rec) {
+                const slot = State.adventureSlots[i];
+                slot.encounter = rec;
+                slot.duration = rec.getDuration();
+                slot.progress = 0;
+                slot.active = true;
+                this.activeIndex = i;
+                this.recovering = false;
+                updateAdventureSlotUI(i);
+                return;
+            }
+        }
+
         if (this.waitResource) {
             const res = State.resources[this.waitResource];
             if (res && res.value < ResourceSystem.max(res)) {
@@ -280,20 +295,6 @@ const AdventureEngine = {
                 return;
             }
             this.waitResource = null;
-            if (this.recovering) {
-                const rec = EncounterGenerator.getRecoverEncounter();
-                if (rec) {
-                    const slot = State.adventureSlots[i];
-                    slot.encounter = rec;
-                    slot.duration = rec.getDuration();
-                    slot.progress = 0;
-                    slot.active = true;
-                    this.activeIndex = i;
-                    this.recovering = false;
-                    updateAdventureSlotUI(i);
-                    return;
-                }
-            }
         }
         const encounter = EncounterGenerator.randomEncounter();
         const slot = State.adventureSlots[i];

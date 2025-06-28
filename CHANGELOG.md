@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.14] - 2025-06-28
+### Fixed
+- Recover encounter triggers instantly on retreat instead of after waiting for resources.
+
 ## [0.41.13] - 2025-06-28
 ### Fixed
 - Recover encounter now automatically starts after retreats and is removed from the random pool.
