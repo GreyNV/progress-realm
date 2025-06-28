@@ -28,6 +28,10 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 * Prestige currencies **Constitution** and **Wisdom** replace Strength and
   Intelligence in the prestige layer. Potential prestige gains are displayed in
   the UI before resetting
+* Prestige points can now be spent to upgrade their bonuses. The first level
+  costs 50 points and each subsequent level costs double plus an additional
+  5% per existing level.
+* Prestige points and purchased upgrades persist through multiple prestiges.
 
 #### 4. Key Modules
 
