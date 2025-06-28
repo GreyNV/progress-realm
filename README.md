@@ -25,7 +25,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 
 | Module       | Description                                                                |
 | ------------ | -------------------------------------------------------------------------- |
-| Stats        | Tracks numeric values like Strength, Intelligence, Creativity via `StatSystem` |
+| Stats        | Tracks numeric values like Strength and Intelligence via `StatSystem` (additional stats unlock later) |
 | State        | Holds persistent game data and initialization helpers |
 | Tasks        | Defines repeatable actions, their costs, outputs, and execution logic      |
 | Time System  | Governs tick-based or interval-based progression                           |
