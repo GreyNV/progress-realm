@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.22] - 2025-06-28
+### Added
+- Potential prestige gain display with Constitution and Wisdom prestige
+  currencies replacing Strength and Intelligence
+
 ## [0.41.21] - 2025-06-28
 ### Changed
 - Encounter level now resets to 1 when prestiging
