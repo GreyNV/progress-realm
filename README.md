@@ -20,6 +20,10 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 * New slots and actions unlock over time
 * Resources can be replenished or crafted
 * Optional prestige/reset layer for long-term scaling
+* Prestige triggers when age exceeds the max and converts current stats into
+  prestige points
+* Prestige points boost future stat gains and raise stat caps while preserving
+  action levels
 
 #### 4. Key Modules
 
