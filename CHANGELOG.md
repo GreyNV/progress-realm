@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.12] - 2025-06-27
+### Changed
+- Money resource removed.
+- Resources show as colored bars.
+
 ## [0.41.11] - 2025-06-27
 ### Changed
 - Automation tab is hidden.
