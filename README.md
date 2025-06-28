@@ -23,7 +23,8 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 * Prestige triggers when age exceeds the max and converts current stats into
   prestige points
 * Prestige points boost future stat gains and raise stat caps while preserving
-  action levels
+  action levels. Encounter progress resets to level 1 while your action slots
+  remain filled
 
 #### 4. Key Modules
 

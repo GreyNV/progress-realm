@@ -287,12 +287,8 @@ const SaveSystem = {
         State.adventureSlots = State.adventureSlots.map(() => ({
             text: '', progress: 0, duration: 1, encounter: null, active: false
         }));
-        State.slots.forEach(s => {
-            s.actionId = null;
-            s.progress = 0;
-            s.blocked = false;
-            s.text = '';
-        });
+        State.encounterLevel = 1;
+        State.encounterStreak = 0;
         Object.entries(preserved).forEach(([id, data]) => {
             if (actions[id]) Object.assign(actions[id], data);
         });
