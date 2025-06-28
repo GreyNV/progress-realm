@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.41.24] - 2025-06-29
+### Fixed
+- Prestige resources and upgrades now persist correctly between prestiges.
+
+## [0.41.23] - 2025-06-29
+### Added
+- Prestige upgrade system with scaling costs and bonuses
+
 ## [0.41.22] - 2025-06-28
 ### Added
 - Potential prestige gain display with Constitution and Wisdom prestige
