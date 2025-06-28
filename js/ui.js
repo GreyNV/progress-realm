@@ -50,7 +50,14 @@ const ResourcesUI = {
             label.dataset.key = key;
             label.textContent = Lang.resource(key) || capitalize(key);
             li.appendChild(label);
-            li.insertAdjacentHTML('beforeend', `: <span id="res-${key}">0</span>/<span id="res-${key}-cap">0</span> (<span id="res-${key}-delta" class="delta">0</span>/s)`);
+            const bar = document.createElement('div');
+            bar.className = `resource-bar ${key}-bar`;
+            const fill = document.createElement('div');
+            fill.className = 'resource-bar-fill';
+            fill.id = `res-${key}-fill`;
+            bar.appendChild(fill);
+            li.appendChild(bar);
+            li.insertAdjacentHTML('beforeend', ` (<span id="res-${key}-delta" class="delta">0</span>/s)`);
             listEl.appendChild(li);
         });
     },
@@ -62,12 +69,15 @@ const ResourcesUI = {
     },
     update() {
         this.list.forEach(key => {
-            document.getElementById(`res-${key}`).textContent = getResourceValue(key).toFixed(1);
-            const capEl = document.getElementById(`res-${key}-cap`);
+            const value = getResourceValue(key);
             const cap = SoftCapSystem.resourceCaps[key] !== undefined
                 ? SoftCapSystem.resourceCaps[key]
                 : getResourceMax(key);
-            if (capEl) capEl.textContent = cap.toFixed(1);
+            const fill = document.getElementById(`res-${key}-fill`);
+            if (fill) {
+                const percent = cap > 0 ? Math.min(value / cap, 1) * 100 : 0;
+                fill.style.width = `${percent}%`;
+            }
             document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
         });
     }

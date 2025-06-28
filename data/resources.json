@@ -7,8 +7,7 @@
     "resources": {
         "energy": {"value": 10, "baseMax": 10},
         "focus": {"value": 10, "baseMax": 10},
-        "health": {"value": 1, "baseMax": 10},
-        "money": {"value": 0, "baseMax": 100}
+        "health": {"value": 1, "baseMax": 10}
     },
     "prestige": {
         "strength": 0,
