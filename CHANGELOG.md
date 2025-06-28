@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.15] - 2025-06-28
+### Changed
+- Creativity stat hidden from the UI pending future unlock.
+- Updated documentation to note the temporary removal.
+
 ## [0.41.14] - 2025-06-28
 ### Fixed
 - Recover encounter triggers instantly on retreat instead of after waiting for resources.

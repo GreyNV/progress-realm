@@ -5,8 +5,9 @@
 const StatsUI = {
     list: [],
     init() {
-        // Exclude hidden stats such as charisma from the UI
-        this.list = STAT_KEYS.filter(k => k !== 'charisma');
+        // Exclude hidden stats such as charisma and creativity from the UI.
+        // Creativity will be unlocked in a later update.
+        this.list = STAT_KEYS.filter(k => k !== 'charisma' && k !== 'creativity');
         const listEl = document.getElementById('stats-list');
         this.list.forEach(key => {
             const li = document.createElement('li');
