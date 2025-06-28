@@ -123,6 +123,11 @@ resulting image in `assets/generated/` before updating the JSON entry.
 Run the scripts only after setting the `OPENAI_API_KEY` environment variable and
 ensure the `openai` Python package version 1.x is installed.
 
+Future updates will extend these scripts to automatically resize and compress
+generated images so existing assets do not require manual replacements. Images
+will also be loaded lazily in the UI to reduce initial page weight. See
+`docs/image_optimization.md` for details.
+
 #### 12. Future Extensions
 
 * Prestige system with meta-upgrades
