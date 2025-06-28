@@ -26,3 +26,20 @@ def test_prestige_bonus_applied():
     with open(path) as f:
         text = f.read()
     assert 'applyPrestigeBonuses()' in text
+
+
+def test_prestige_ui_defined():
+    path = os.path.join('js', 'ui.js')
+    with open(path) as f:
+        text = f.read()
+    assert 'PrestigeUI' in text
+    assert 'prestige-block' in text
+
+
+def test_encounter_level_default_one():
+    with open(os.path.join('js', 'state.js')) as f:
+        text = f.read()
+    assert 'encounterLevel: 1' in text
+    with open(os.path.join('js', 'main.js')) as f:
+        mtext = f.read()
+    assert 'State.encounterLevel = 1' in mtext

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.20] - 2025-06-28
+### Changed
+- Prestige block now appears once any prestige points are earned.
+- Encounter generator starts at level 1.
+
 ## [0.41.19] - 2025-06-28
 ### Added
 - Prestige now triggers automatically at max age converting stats to prestige

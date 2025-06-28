@@ -50,7 +50,7 @@ class Encounter {
 const EncounterGenerator = {
     encounters: [],
     container: null,
-    level: 0,
+    level: 1,
     milestones: [],
     rarityWeights: {
         common: 1,
@@ -119,12 +119,12 @@ const EncounterGenerator = {
     },
 
     decrementLevel() {
-        if (this.level > 0) {
+        if (this.level > 1) {
             this.level -= 1;
-            State.encounterLevel = this.level;
-            this.updateName();
-            this.updateProgressBar();
         }
+        State.encounterLevel = this.level;
+        this.updateName();
+        this.updateProgressBar();
     },
 
     resetProgress() {
@@ -139,7 +139,7 @@ const EncounterGenerator = {
     init() {
         this.container = document.getElementById('adventure-slots');
         if (!this.container) return;
-        this.level = State.encounterLevel || 0;
+        this.level = State.encounterLevel || 1;
         this.updateName();
         this.updateProgressBar();
         this.populateSlots();
