@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.41.17] - 2025-06-28
+### Changed
+- Story images now load lazily to reduce initial load time.
+
+## [0.41.16] - 2025-06-28
+### Added
+- Documented planned lazy loading and automatic image compression.
+
 ## [0.41.15] - 2025-06-28
 ### Changed
 - Creativity stat hidden from the UI pending future unlock.

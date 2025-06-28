@@ -123,6 +123,11 @@ resulting image in `assets/generated/` before updating the JSON entry.
 Run the scripts only after setting the `OPENAI_API_KEY` environment variable and
 ensure the `openai` Python package version 1.x is installed.
 
+Images used in story events are now loaded lazily in the UI to reduce initial
+page weight. Future updates will extend the scripts to automatically resize and
+compress generated images so existing assets do not require manual replacement.
+See `docs/image_optimization.md` for details.
+
 #### 12. Future Extensions
 
 * Prestige system with meta-upgrades

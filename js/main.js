@@ -36,6 +36,7 @@ const Story = {
             const img = document.createElement('img');
             img.src = image;
             img.alt = '';
+            img.loading = 'lazy';
             imageEl.appendChild(img);
         }
         modal.classList.remove('hidden');
