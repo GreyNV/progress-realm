@@ -42,7 +42,7 @@ const StatsUI = {
 const PrestigeUI = {
     list: [],
     init() {
-        this.list = STAT_KEYS.filter(k => k !== 'charisma' && k !== 'creativity');
+        this.list = PRESTIGE_KEYS.filter(k => k !== 'creativity');
         this.container = document.getElementById('prestige-block');
         this.update();
     },
@@ -51,8 +51,12 @@ const PrestigeUI = {
         let show = false;
         this.list.forEach(key => {
             const val = State.prestige[key] || 0;
+            const stat = Object.keys(PRESTIGE_MAP).find(k => PRESTIGE_MAP[k] === key);
+            const gain = stat ? Math.floor(Math.log10(State.stats[stat].value + 1)) : 0;
             const el = document.getElementById(`prestige-${key}`);
+            const gainEl = document.getElementById(`prestige-${key}-gain`);
             if (el) el.textContent = val;
+            if (gainEl) gainEl.textContent = `(+${gain})`;
             if (val > 0) show = true;
         });
         this.container.style.display = show ? 'block' : 'none';

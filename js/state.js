@@ -92,6 +92,13 @@ function ensureStat(name, value, max) {
 
 let STAT_KEYS = [];
 let RESOURCE_KEYS = [];
+// Mapping from base stats to their prestige equivalents
+const PRESTIGE_MAP = {
+    strength: 'constitution',
+    intelligence: 'wisdom',
+    creativity: 'creativity'
+};
+const PRESTIGE_KEYS = Object.values(PRESTIGE_MAP);
 const RARITY_CLASSES = ['common', 'rare', 'epic', 'legendary', 'story'];
 
 const State = {
@@ -162,6 +169,8 @@ if (typeof module !== 'undefined') {
         loadBaseData,
         STAT_KEYS,
         RESOURCE_KEYS,
+        PRESTIGE_MAP,
+        PRESTIGE_KEYS,
     };
 }
 

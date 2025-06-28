@@ -270,11 +270,12 @@ const SaveSystem = {
         const prestigeGain = {};
         STAT_KEYS.forEach(k => {
             const val = State.stats[k] ? State.stats[k].value : 0;
-            prestigeGain[k] = Math.floor(Math.log10(val + 1));
+            const pKey = PRESTIGE_MAP[k];
+            prestigeGain[pKey] = Math.floor(Math.log10(val + 1));
         });
 
         await loadBaseData();
-        STAT_KEYS.forEach(k => {
+        PRESTIGE_KEYS.forEach(k => {
             State.prestige[k] = (State.prestige[k] || 0) + (prestigeGain[k] || 0);
         });
 
@@ -314,7 +315,8 @@ const AgeSystem = {
 
 function applyPrestigeBonuses() {
     STAT_KEYS.forEach(k => {
-        const p = State.prestige[k] || 0;
+        const pKey = PRESTIGE_MAP[k];
+        const p = State.prestige[pKey] || 0;
         if (State.stats[k]) {
             State.stats[k].maxMultipliers.push(1 + p * 0.02);
         }

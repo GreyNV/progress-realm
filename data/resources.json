@@ -10,8 +10,8 @@
         "health": {"value": 1, "baseMax": 10}
     },
     "prestige": {
-        "strength": 0,
-        "intelligence": 0,
+        "constitution": 0,
+        "wisdom": 0,
         "creativity": 0
     }
 }
