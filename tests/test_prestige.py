@@ -43,3 +43,17 @@ def test_encounter_level_default_one():
     with open(os.path.join('js', 'main.js')) as f:
         mtext = f.read()
     assert 'State.encounterLevel = 1' in mtext
+
+
+def test_prestige_resets_encounter_level():
+    path = os.path.join('js', 'main.js')
+    with open(path) as f:
+        text = f.read()
+    assert text.count('State.encounterLevel = 1') >= 2
+
+
+def test_prestige_keeps_action_slots():
+    path = os.path.join('js', 'main.js')
+    with open(path) as f:
+        text = f.read()
+    assert 's.actionId = null' not in text

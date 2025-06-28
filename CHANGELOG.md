@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.21] - 2025-06-28
+### Changed
+- Encounter level now resets to 1 when prestiging
+- Action slots remain filled after prestige
+
 ## [0.41.20] - 2025-06-28
 ### Changed
 - Prestige block now appears once any prestige points are earned.
