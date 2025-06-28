@@ -8,7 +8,9 @@
     "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/enc/recover.png",
-    "resourceConsumption": {},
+    "resourceConsumption": {
+      "energy": -1
+    },
     "items": {},
     "loot": {}
   },

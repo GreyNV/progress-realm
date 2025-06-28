@@ -14,7 +14,7 @@ def test_encounter_fields():
         assert isinstance(enc['resourceConsumption'], dict)
         for val in enc['resourceConsumption'].values():
             assert isinstance(val, (int, float))
-            assert val > 0
+            assert val != 0
         assert 'items' in enc
         assert isinstance(enc['items'], dict)
         for prob in enc['items'].values():

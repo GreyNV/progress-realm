@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.13] - 2025-06-28
+### Fixed
+- Recover encounter now automatically starts after retreats and is removed from the random pool.
+- Recover encounter restores energy using negative consumption values.
+
 ## [0.41.12] - 2025-06-27
 ### Changed
 - Money resource removed.
