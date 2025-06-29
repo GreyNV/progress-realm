@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.27] - 2025-06-29
+### Fixed
+- Prestige stat caps now account for bonuses and display the correct values in the UI.
+
 ## [0.41.26] - 2025-06-29
 ### Fixed
 - Automatic prestige now triggers when reaching maximum age.
