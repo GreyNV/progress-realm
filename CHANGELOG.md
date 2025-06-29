@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.26] - 2025-06-29
+### Fixed
+- Automatic prestige now triggers when reaching maximum age.
+- Prestige resource totals increment correctly after each reset.
+
 ## [0.41.25] - 2025-06-29
 ### Removed
 - Plus buttons and prestige cost labels from the UI.

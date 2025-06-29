@@ -274,9 +274,10 @@ const SaveSystem = {
             prestigeGain[pKey] = Math.floor(Math.log10(val + 1));
         });
 
+        const previousPrestige = { ...State.prestige };
         await loadBaseData();
         PRESTIGE_KEYS.forEach(k => {
-            State.prestige[k] = (State.prestige[k] || 0) + (prestigeGain[k] || 0);
+            State.prestige[k] = (previousPrestige[k] || 0) + (prestigeGain[k] || 0);
         });
 
         applyPrestigeBonuses();
@@ -293,6 +294,7 @@ const SaveSystem = {
         Object.entries(preserved).forEach(([id, data]) => {
             if (actions[id]) Object.assign(actions[id], data);
         });
+        State.prestiging = false;
         SaveSystem.save();
         window.location.reload();
     }
