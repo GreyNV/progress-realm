@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.41.30] - 2025-06-30
+### Added
+- Furniture section under Home with slots tied to each dwelling
+- Homes now include cost and furniture slot count in `homes.json`
+- Ukrainian translation updated for Belongings
+
 ## [0.41.29] - 2025-06-29
 ### Added
 - Selectable home objects with a dedicated slot.

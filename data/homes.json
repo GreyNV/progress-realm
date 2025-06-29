@@ -1,23 +1,29 @@
 [
   {
-    "id": "camp",
-    "name": "Camp",
+    "id": "hut",
+    "name": "Hut in the Woods",
     "rarity": "common",
     "image": "assets/homes/camp.png",
-    "description": "A simple camp in the wilderness."
+    "description": "A simple hut hidden among the trees.",
+    "furnitureSlots": 1,
+    "cost": 0
   },
   {
     "id": "cottage",
     "name": "Cottage",
     "rarity": "rare",
     "image": "assets/homes/cottage.png",
-    "description": "A cozy cottage with a thatched roof."
+    "description": "A cozy cottage with a thatched roof.",
+    "furnitureSlots": 3,
+    "cost": 1000
   },
   {
     "id": "manor",
     "name": "Manor",
     "rarity": "epic",
     "image": "assets/homes/manor.png",
-    "description": "An impressive manor with many rooms."
+    "description": "An impressive manor with many rooms.",
+    "furnitureSlots": 6,
+    "cost": 10000
   }
 ]

@@ -232,6 +232,10 @@ body.left-collapsed #left {
     display: flex;
 }
 
+#furniture-slots {
+    display: flex;
+}
+
 #inventory-slots {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
