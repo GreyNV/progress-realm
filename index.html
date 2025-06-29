@@ -102,9 +102,16 @@
                         <div id="adventure-slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="inventory">
-                        <h2 data-i18n="Inventory">Inventory</h2>
-                        <button id="inventory-filter-btn">Hide Items</button>
-                        <div id="inventory-slots" class="slots"></div>
+                        <div class="section-headers" data-parent="inventory"></div>
+                        <div class="tab-section" data-section="home">
+                            <h2 data-i18n="Home">Home</h2>
+                            <p>Welcome home.</p>
+                        </div>
+                        <div class="tab-section" data-section="belongings">
+                            <h2 data-i18n="Belongings">Belongings</h2>
+                            <button id="inventory-filter-btn">Hide Items</button>
+                            <div id="inventory-slots" class="slots"></div>
+                        </div>
                     </div>
                     <div class="tab-content hidden" data-tab="automation">
                         <h2 data-i18n="Control">Control</h2>
