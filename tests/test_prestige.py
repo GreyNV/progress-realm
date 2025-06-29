@@ -59,24 +59,3 @@ def test_prestige_keeps_action_slots():
     assert 's.actionId = null' not in text
 
 
-def test_prestige_upgrade_buttons():
-    with open('index.html') as f:
-        html = f.read()
-    assert 'prestige-constitution-cost' in html
-    assert 'class="prestige-up"' in html
-
-
-def test_prestige_system_defined():
-    path = os.path.join('js', 'main.js')
-    with open(path) as f:
-        text = f.read()
-    assert 'PrestigeSystem' in text
-    assert 'upgrade(key)' in text
-
-
-def test_prestige_preserves_points():
-    path = os.path.join('js', 'main.js')
-    with open(path) as f:
-        text = f.read()
-    assert 'prevPrestige' in text
-    assert 'prevUpgrades' in text

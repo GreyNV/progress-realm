@@ -110,7 +110,6 @@ const State = {
     stats: {},
     resources: {},
     prestige: {},
-    prestigeUpgrades: {},
     prestiging: false,
     // number of available action slots
     slotCount: 6,
@@ -153,10 +152,6 @@ async function loadBaseData() {
             State.resources[k] = ResourceSystem.create(def.value, def.baseMax);
         });
         State.prestige = { ...json.prestige };
-        State.prestigeUpgrades = {};
-        PRESTIGE_KEYS.forEach(k => {
-            State.prestigeUpgrades[k] = 0;
-        });
         if (typeof BonusEngine !== 'undefined' && BonusEngine.initialize) {
             BonusEngine.initialize(STAT_KEYS, RESOURCE_KEYS);
         }
@@ -176,7 +171,6 @@ if (typeof module !== 'undefined') {
         RESOURCE_KEYS,
         PRESTIGE_MAP,
         PRESTIGE_KEYS,
-        prestigeUpgrades: State.prestigeUpgrades,
     };
 }
 
