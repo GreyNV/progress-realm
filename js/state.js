@@ -118,6 +118,7 @@ const State = {
     adventureSlots: [],
     inventorySlotCount: 8,
     inventory: {},
+    homeId: null,
     time: 1,
     masteryPoints: 0,
     encounterLevel: 1,

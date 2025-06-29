@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.29] - 2025-06-29
+### Added
+- Selectable home objects with a dedicated slot.
+
 ## [0.41.28] - 2025-06-29
 ### Added
 - Renamed Inventory tab to Belongings and added a Home section inside it.
