@@ -5,6 +5,8 @@ class Home {
         this.description = data.description || '';
         this.image = data.image || null;
         this.rarity = data.rarity || 'common';
+        this.furnitureSlots = data.furnitureSlots || 0;
+        this.cost = data.cost || 0;
     }
 }
 
@@ -12,6 +14,7 @@ const HomeSystem = {
     homes: [],
     listEl: null,
     slotContainer: null,
+    furnitureContainer: null,
     async load() {
         try {
             const res = await fetch('data/homes.json');
@@ -25,13 +28,14 @@ const HomeSystem = {
     init() {
         this.listEl = document.getElementById('home-list');
         this.slotContainer = document.getElementById('home-slot');
+        this.furnitureContainer = document.getElementById('furniture-slots');
         if (!this.listEl || !this.slotContainer) return;
         this.listEl.innerHTML = '';
         this.homes.forEach(h => {
             const li = document.createElement('li');
             li.textContent = h.name;
             li.dataset.homeId = h.id;
-            li.dataset.tooltip = h.description;
+            li.dataset.tooltip = `${h.description}\nCost: ${h.cost}`;
             li.setAttribute('draggable', 'true');
             li.addEventListener('dragstart', e => {
                 li.classList.add('dragging');
@@ -44,6 +48,7 @@ const HomeSystem = {
         this.slotContainer.innerHTML = '';
         const slotEl = document.createElement('div');
         slotEl.className = 'slot';
+        slotEl.dataset.slot = 0;
         const label = document.createElement('span');
         label.className = 'label';
         slotEl.appendChild(label);
@@ -80,15 +85,40 @@ const HomeSystem = {
             labelEl.textContent = '';
             slotEl.style.backgroundImage = 'none';
             slotEl.dataset.tooltip = '';
+            RARITY_CLASSES.forEach(r => slotEl.classList.remove(`rarity-${r}`));
+            if (this.furnitureContainer) this.furnitureContainer.innerHTML = '';
             return;
         }
         labelEl.textContent = home.name;
         if (home.image) {
             slotEl.style.backgroundImage = `url(${home.image})`;
+            slotEl.style.backgroundSize = 'cover';
         } else {
             slotEl.style.backgroundImage = 'none';
         }
-        slotEl.dataset.tooltip = home.description;
+        slotEl.dataset.tooltip = `${home.description}\nCost: ${home.cost}`;
+        RARITY_CLASSES.forEach(r => slotEl.classList.remove(`rarity-${r}`));
+        slotEl.classList.add(`rarity-${home.rarity}`);
+        this.updateFurnitureSlots(home.furnitureSlots);
+    },
+    updateFurnitureSlots(count = 0) {
+        if (!this.furnitureContainer) return;
+        this.furnitureContainer.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            const slotEl = document.createElement('div');
+            slotEl.className = 'slot';
+            const label = document.createElement('span');
+            label.className = 'label';
+            slotEl.appendChild(label);
+            const wrapper = document.createElement('div');
+            wrapper.className = 'progress-wrapper';
+            const prog = document.createElement('progress');
+            prog.value = 0;
+            prog.max = 1;
+            wrapper.appendChild(prog);
+            slotEl.appendChild(wrapper);
+            this.furnitureContainer.appendChild(slotEl);
+        }
     }
 };
 
