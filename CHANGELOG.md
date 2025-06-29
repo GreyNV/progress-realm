@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.25] - 2025-06-29
+### Removed
+- Plus buttons and prestige cost labels from the UI.
+
 ## [0.41.24] - 2025-06-29
 ### Fixed
 - Prestige resources and upgrades now persist correctly between prestiges.

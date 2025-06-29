@@ -227,12 +227,6 @@ const SaveSystem = {
                 if (State.banditsAmbushSeen === undefined) {
                     State.banditsAmbushSeen = false;
                 }
-                if (!State.prestigeUpgrades) {
-                    State.prestigeUpgrades = {};
-                    PRESTIGE_KEYS.forEach(k => {
-                        State.prestigeUpgrades[k] = 0;
-                    });
-                }
                 if (State.autoProgress === undefined) {
                     State.autoProgress = true;
                 }
@@ -273,9 +267,6 @@ const SaveSystem = {
             };
         });
 
-        const prevPrestige = { ...State.prestige };
-        const prevUpgrades = { ...State.prestigeUpgrades };
-
         const prestigeGain = {};
         STAT_KEYS.forEach(k => {
             const val = State.stats[k] ? State.stats[k].value : 0;
@@ -285,9 +276,7 @@ const SaveSystem = {
 
         await loadBaseData();
         PRESTIGE_KEYS.forEach(k => {
-            const gained = prestigeGain[k] || 0;
-            State.prestige[k] = (prevPrestige[k] || 0) + gained;
-            State.prestigeUpgrades[k] = prevUpgrades[k] || 0;
+            State.prestige[k] = (State.prestige[k] || 0) + (prestigeGain[k] || 0);
         });
 
         applyPrestigeBonuses();
@@ -324,43 +313,15 @@ const AgeSystem = {
     }
 };
 
-const PrestigeSystem = {
-    baseCost: 50,
-    getCost(key) {
-        const level = State.prestigeUpgrades[key] || 0;
-        let cost = this.baseCost;
-        for (let i = 1; i <= level; i++) {
-            cost *= 2 + i * 0.05;
-        }
-        return Math.ceil(cost);
-    },
-    upgrade(key) {
-        const cost = this.getCost(key);
-        if ((State.prestige[key] || 0) >= cost) {
-            State.prestige[key] -= cost;
-            State.prestigeUpgrades[key] = (State.prestigeUpgrades[key] || 0) + 1;
-            applyPrestigeBonuses();
-            SaveSystem.save();
-            return true;
-        }
-        return false;
-    }
-};
-
-function prestigeBonus(base, level) {
-    if (level <= 0) return 0;
-    return base * (level + 0.05 * level * (level - 1) / 2);
-}
-
 function applyPrestigeBonuses() {
     STAT_KEYS.forEach(k => {
         const pKey = PRESTIGE_MAP[k];
-        const lvl = State.prestigeUpgrades[pKey] || 0;
+        const p = State.prestige[pKey] || 0;
         if (State.stats[k]) {
-            State.stats[k].maxMultipliers = [1 + prestigeBonus(0.02, lvl)];
+            State.stats[k].maxMultipliers.push(1 + p * 0.02);
         }
         if (typeof BonusEngine !== 'undefined') {
-            BonusEngine.statMultipliers[k] = 1 + prestigeBonus(0.05, lvl);
+            BonusEngine.statMultipliers[k] = (BonusEngine.statMultipliers[k] || 1) * (1 + p * 0.05);
         }
     });
 }
@@ -971,14 +932,6 @@ async function init() {
     if (prestigeBtn) {
         prestigeBtn.addEventListener('click', () => SaveSystem.prestige());
     }
-    document.querySelectorAll('.prestige-up').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const type = btn.dataset.type;
-            PrestigeSystem.upgrade(type);
-            PrestigeUI.update();
-            updateUI();
-        });
-    });
     applyDarkMode();
     updateUI();
     // Game logic ticked separately from UI updates so resource generation
