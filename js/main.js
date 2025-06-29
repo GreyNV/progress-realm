@@ -291,6 +291,9 @@ const SaveSystem = {
                 if (!State.hideBelowRarity) {
                     State.hideBelowRarity = 'rare';
                 }
+                if (State.homeId === undefined) {
+                    State.homeId = null;
+                }
                 if (!State.language) {
                     State.language = 'en';
                 }
@@ -338,6 +341,7 @@ const SaveSystem = {
         State.age.days = 0;
 
         State.inventory = {};
+        State.homeId = null;
         State.adventureSlots = State.adventureSlots.map(() => ({
             text: '', progress: 0, duration: 1, encounter: null, active: false
         }));
@@ -879,6 +883,7 @@ async function init() {
     });
     await EncounterGenerator.load();
     await ItemGenerator.load();
+    await HomeSystem.load();
     await UpdateSystem.load();
     Lang.applyToActions(actions);
     Lang.applyToItems(ItemGenerator.itemList);
@@ -890,6 +895,7 @@ async function init() {
     MasteryUI.init();
     PrestigeUI.init();
     InventoryUI.init();
+    HomeSystem.init();
     UpdateSystem.init();
     if (typeof CharacterBackground !== 'undefined') {
         CharacterBackground.init();

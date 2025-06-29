@@ -193,6 +193,11 @@ body.left-collapsed #left {
     padding: 0;
 }
 
+#home-list {
+    list-style: none;
+    padding: 0;
+}
+
 #task-list li {
     background: var(--task-bg);
     margin-bottom: 0.5rem;
@@ -201,7 +206,19 @@ body.left-collapsed #left {
     border-radius: 4px;
 }
 
+#home-list li {
+    background: var(--task-bg);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    cursor: grab;
+    border-radius: 4px;
+}
+
 #task-list li.dragging {
+    opacity: 0.5;
+}
+
+#home-list li.dragging {
     opacity: 0.5;
 }
 

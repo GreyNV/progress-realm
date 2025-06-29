@@ -1,0 +1,23 @@
+[
+  {
+    "id": "camp",
+    "name": "Camp",
+    "rarity": "common",
+    "image": "assets/homes/camp.png",
+    "description": "A simple camp in the wilderness."
+  },
+  {
+    "id": "cottage",
+    "name": "Cottage",
+    "rarity": "rare",
+    "image": "assets/homes/cottage.png",
+    "description": "A cozy cottage with a thatched roof."
+  },
+  {
+    "id": "manor",
+    "name": "Manor",
+    "rarity": "epic",
+    "image": "assets/homes/manor.png",
+    "description": "An impressive manor with many rooms."
+  }
+]

@@ -40,7 +40,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Task Slots   | Limited number of concurrent tasks; unlockable and upgradable              |
 | Resources    | Consumables needed to perform actions; managed separately by `ResourceSystem` |
 | Magic System | Simplified crafting and consumption system for magical items               |
-| Belongings   | Manages player's resource quantities and magical components                |
+| Belongings   | Manages player's resource quantities, home selection, and magical components                |
 | Chips        | One-time unlockables that grant bonuses or new content |
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
@@ -113,7 +113,7 @@ The page uses a simple header/main/footer structure. Stats and resources are kep
 
 Resources appear as horizontal bars whose colors match each type (red for health, yellow for energy, blue for focus).
 
- A story modal appears once on the first load and another short scene triggers after thirty days pass in game time. Both modals only appear during the first life and all log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now appears inside the Belongings tab above the item list.
+ A story modal appears once on the first load and another short scene triggers after thirty days pass in game time. Both modals only appear during the first life and all log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list.
 
 See **docs/MVP.md** for the MVP list.
 
