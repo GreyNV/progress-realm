@@ -366,6 +366,21 @@ body.left-collapsed #left {
     display: none;
 }
 
+.tab-section.hidden {
+    display: none;
+}
+
+.section-headers {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-headers button.active {
+    background: #333;
+    color: #fff;
+}
+
 .delta {
     color: #666;
     font-size: 0.8rem;

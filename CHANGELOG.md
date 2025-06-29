@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.28] - 2025-06-29
+### Added
+- Renamed Inventory tab to Belongings and added a Home section inside it.
+
 ## [0.41.27] - 2025-06-29
 ### Fixed
 - Prestige stat caps now account for bonuses and display the correct values in the UI.
