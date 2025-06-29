@@ -82,6 +82,9 @@ const SoftCapSystem = {
         for (const s in this.statCaps) {
             if (State.stats[s]) {
                 State.stats[s].baseMax = this.statCaps[s];
+                // statCaps should reflect prestige multipliers for UI and
+                // softcap calculations
+                this.statCaps[s] = StatSystem.max(State.stats[s]);
             }
         }
     },
