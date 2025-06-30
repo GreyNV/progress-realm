@@ -236,6 +236,14 @@ body.left-collapsed #left {
     display: flex;
 }
 
+#home-slot {
+    display: flex;
+}
+
+#home-slot .slot {
+    min-height: 10rem;
+}
+
 #inventory-slots {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
