@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.31] - 2025-06-30
+### Changed
+- Home slot now uses encounter slot layout for a larger display.
+- Documented furniture slots as action-style placeholders for future unlockable furniture.
+
 ## [0.41.30] - 2025-06-30
 ### Added
 - Furniture section under Home with slots tied to each dwelling
