@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.32] - 2025-06-30
+### Added
+- Telegram upload bot script and documentation.
+
 ## [0.41.31] - 2025-06-30
 ### Changed
 - Home slot now uses encounter slot layout for a larger display.
