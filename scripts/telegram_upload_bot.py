@@ -144,9 +144,9 @@ def commit_and_pr(image_path: str, data_file: str, entry_id: str) -> None:
 
 
 def main() -> None:
-    token = os.environ.get('TELEGRAM_TOKEN')
+    token = os.environ.get('TELEGRAM_API_KEY')
     if not token:
-        raise RuntimeError('TELEGRAM_TOKEN not set')
+        raise RuntimeError('TELEGRAM_API_KEY not set')
     app = ApplicationBuilder().token(token).build()
     conv = ConversationHandler(
         entry_points=[CommandHandler('upload_image', upload_image)],
