@@ -8,10 +8,10 @@ from typing import List, Tuple
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder,
-    CallbackContext,
     CallbackQueryHandler,
     CommandHandler,
     ConversationHandler,
+    ContextTypes,
     MessageHandler,
     filters,
 )
@@ -49,69 +49,70 @@ def find_unresolved() -> List[Tuple[str, str, str]]:
     return unresolved
 
 
-def start(update: Update, context: CallbackContext) -> None:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send basic help message."""
-    update.message.reply_text(
+    await update.message.reply_text(
         'Send /upload_image to add an asset or /list_unresolved to view pending items.'
     )
 
 
-def list_unresolved(update: Update, context: CallbackContext) -> None:
+async def list_unresolved(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """List entries without images."""
     success, msg = git_pull()
     if not success:
-        update.message.reply_text(f'Git pull failed: {msg}')
+        await update.message.reply_text(f'Git pull failed: {msg}')
         return
     unresolved = find_unresolved()
     if not unresolved:
-        update.message.reply_text('All items have images!')
+        await update.message.reply_text('All items have images!')
         return
     text_lines = [f"{u[1]}: {u[2]}" for u in unresolved[:10]]
     reply = '\n'.join(text_lines)
     if len(unresolved) > 10:
         reply += f"\n...and {len(unresolved) - 10} more"
-    update.message.reply_text(reply)
+    await update.message.reply_text(reply)
 
 
-def upload_image(update: Update, context: CallbackContext) -> int:
+async def upload_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Begin upload flow by presenting unresolved entries."""
     unresolved = find_unresolved()
     if not unresolved:
-        update.message.reply_text('Nothing to upload.')
+        await update.message.reply_text('Nothing to upload.')
         return ConversationHandler.END
     buttons = [InlineKeyboardButton(u[2], callback_data=str(idx)) for idx, u in enumerate(unresolved[:10])]
     markup = InlineKeyboardMarkup.from_column(buttons)
     context.user_data['unresolved'] = unresolved
-    update.message.reply_text('Select item to upload image for:', reply_markup=markup)
+    await update.message.reply_text('Select item to upload image for:', reply_markup=markup)
     return SELECT_ITEM
 
 
-def select_item(update: Update, context: CallbackContext) -> int:
+async def select_item(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Handle selected entry and ask for image."""
     query = update.callback_query
-    query.answer()
+    await query.answer()
     index = int(query.data)
     unresolved = context.user_data.get('unresolved', [])
     if index >= len(unresolved):
-        query.edit_message_text('Invalid selection.')
+        await query.edit_message_text('Invalid selection.')
         return ConversationHandler.END
     context.user_data['selected'] = unresolved[index]
-    query.edit_message_text(f'Send image for {unresolved[index][2]}')
+    await query.edit_message_text(f'Send image for {unresolved[index][2]}')
     return RECEIVE_IMAGE
 
 
-def receive_image(update: Update, context: CallbackContext) -> int:
+async def receive_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Receive file, validate and commit."""
     tg_file = update.message.document or update.message.photo[-1]
     if not tg_file:
-        update.message.reply_text('Please send a valid image file.')
+        await update.message.reply_text('Please send a valid image file.')
         return RECEIVE_IMAGE
     if not os.path.isdir(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
     file_path = os.path.join(IMAGES_DIR, tg_file.file_name)
-    tg_file.get_file().download(custom_path=file_path)
+    file = await tg_file.get_file()
+    await file.download_to_drive(custom_path=file_path)
     if os.path.getsize(file_path) > 5 * 1024 * 1024:
-        update.message.reply_text('File too large. 5MB max.')
+        await update.message.reply_text('File too large. 5MB max.')
         os.remove(file_path)
         return RECEIVE_IMAGE
     data_file, entry_id, _ = context.user_data.get('selected')
@@ -124,7 +125,7 @@ def receive_image(update: Update, context: CallbackContext) -> int:
     with open(data_file, 'w', encoding='utf-8') as f:
         json.dump(entries, f, indent=2)
     commit_and_pr(file_path, data_file, entry_id)
-    update.message.reply_text(f'✅ Image for {entry_id} added!')
+    await update.message.reply_text(f'✅ Image for {entry_id} added!')
     return ConversationHandler.END
 
 
