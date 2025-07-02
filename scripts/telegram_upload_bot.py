@@ -102,13 +102,25 @@ async def select_item(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
 
 async def receive_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Receive file, validate and commit."""
-    tg_file = update.message.document or update.message.photo[-1]
-    if not tg_file:
+    document = update.message.document
+    photos = update.message.photo or []
+    tg_file = None
+    filename = ''
+
+    if document:
+        tg_file = document
+        filename = document.file_name
+    elif photos:
+        tg_file = photos[-1]
+        filename = f"{tg_file.file_unique_id}.jpg"
+    else:
         await update.message.reply_text('Please send a valid image file.')
         return RECEIVE_IMAGE
+
     if not os.path.isdir(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
-    file_path = os.path.join(IMAGES_DIR, tg_file.file_name)
+
+    file_path = os.path.join(IMAGES_DIR, filename)
     file = await tg_file.get_file()
     await file.download_to_drive(custom_path=file_path)
     if os.path.getsize(file_path) > 5 * 1024 * 1024:

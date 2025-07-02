@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.34] - 2025-07-03
+### Fixed
+- Improved validation for Telegram upload bot image handling.
+
 ## [0.41.33] - 2025-07-02
 ### Changed
 - Updated Telegram upload bot to use async API calls.
