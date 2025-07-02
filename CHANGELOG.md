@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.33] - 2025-07-02
+### Changed
+- Updated Telegram upload bot to use async API calls.
+
 ## [0.41.32] - 2025-06-30
 ### Added
 - Telegram upload bot script and documentation.
