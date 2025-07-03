@@ -3,8 +3,12 @@
 import json
 import os
 import subprocess
+import shutil
+import logging
 from typing import List, Tuple
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder,
@@ -148,6 +152,9 @@ def commit_and_pr(image_path: str, data_file: str, entry_id: str) -> None:
     subprocess.run(['git', 'add', image_path, data_file], check=True)
     subprocess.run(['git', 'commit', '-m', f'Add image for {entry_id}'], check=True)
     subprocess.run(['git', 'push', 'origin', BRANCH_NAME], check=True)
+    if shutil.which('gh') is None:
+        logger.info('gh CLI not found; skipping pull request creation.')
+        return
     result = subprocess.run(
         ['gh', 'pr', 'list', '--head', BRANCH_NAME, '--state', 'open'],
         capture_output=True,

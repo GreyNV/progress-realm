@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.36] - 2025-07-03
+### Changed
+- Telegram bot skips pull request creation when the `gh` CLI is unavailable.
+
 ## [0.41.35] - 2025-07-03
 ### Fixed
 - Normalized uploaded file paths in the Telegram bot to use forward slashes.
