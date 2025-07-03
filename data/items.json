@@ -150,7 +150,7 @@
     "effectValue": {
       "energy": 1
     },
-    "image": "assets/generated/water_flask.png",
+    "image": "assets/user_uploaded/water_flask.jpg",
     "description": "A simple container filled with fresh water."
   },
   {
@@ -161,7 +161,7 @@
     "effectValue": {
       "strength": 1
     },
-    "image": "assets/generated/iron_ore.png",
+    "image": "assets/user_uploaded/iron_ore.jpg",
     "description": "Unrefined iron waiting to be smelted."
   },
   {
@@ -172,7 +172,7 @@
     "effectValue": {
       "focus": 1
     },
-    "image": "assets/generated/feather.png",
+    "image": "assets/user_uploaded/feather.jpg",
     "description": "Soft plumage useful for fletching arrows."
   },
   {
@@ -181,7 +181,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {},
-    "image": "assets/generated/clay.png",
+    "image": "assets/user_uploaded/clay.jpg",
     "description": "Moist earth that can be shaped and fired."
   },
   {
@@ -192,7 +192,7 @@
     "effectValue": {
       "energy": 1
     },
-    "image": "assets/generated/berries.png",
+    "image": "assets/user_uploaded/berries.jpg",
     "description": "A handful of ripe forest berries."
   },
   {
@@ -201,7 +201,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {},
-    "image": "assets/generated/money.png",
+    "image": "assets/user_uploaded/money.jpg",
     "description": "A few coins of questionable value."
   },
   {
@@ -212,7 +212,7 @@
     "effectValue": {
       "intelligence": 1
     },
-    "image": "assets/generated/torch.png",
+    "image": "assets/user_uploaded/torch.jpg",
     "description": "Provides light when exploring dark places."
   },
   {
@@ -223,7 +223,7 @@
     "effectValue": {
       "intelligence": 1
     },
-    "image": "assets/generated/cooked_fish.png",
+    "image": "assets/user_uploaded/cooked_fish.jpg",
     "description": "Freshly cooked fish that restores vigor."
   }
 ]
