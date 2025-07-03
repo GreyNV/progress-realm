@@ -13,9 +13,12 @@ these steps:
    consistent across platforms.
 5. **Commit & PR** – updates the relevant JSON entry, commits the change and
    pushes to a dedicated branch. If no open PR exists the bot creates one using
-   the GitHub CLI.
+   the GitHub CLI. If the `gh` command isn't available the bot logs a message
+   and skips creating the pull request.
 6. **Confirmation** – replies with a success or error message linking to the PR.
 
 The bot exposes `/start`, `/upload_image` and `/list_unresolved` commands.
 Ensure the environment variables `TELEGRAM_TOKEN` and `GITHUB_TOKEN` (for the
 `gh` CLI) are configured before running `scripts/telegram_upload_bot.py`.
+If `gh` is not installed the commit is still made but pull request creation is
+skipped.
