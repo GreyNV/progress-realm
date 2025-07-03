@@ -10,7 +10,8 @@ these steps:
 4. **Receive Upload** – validates the uploaded file size and type before saving
    to `assets/user_uploaded/`.
    The saved path is normalized to use forward slashes so JSON entries remain
-   consistent across platforms.
+   consistent across platforms. Uploaded files are renamed using the entry ID so
+   new assets follow a readable, consistent naming scheme.
 5. **Commit & PR** – updates the relevant JSON entry, commits the change and
    pushes to a dedicated branch. If no open PR exists the bot creates one using
    the GitHub CLI. If the `gh` command isn't available the bot logs a message
