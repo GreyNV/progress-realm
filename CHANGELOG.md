@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.41.36] - 2025-07-03
+### Changed
+- Telegram bot skips pull request creation when the `gh` CLI is unavailable.
+
+## [0.41.35] - 2025-07-03
+### Fixed
+- Normalized uploaded file paths in the Telegram bot to use forward slashes.
+
+## [0.41.34] - 2025-07-03
+### Fixed
+- Improved validation for Telegram upload bot image handling.
+
+## [0.41.33] - 2025-07-02
+### Changed
+- Updated Telegram upload bot to use async API calls.
+
+## [0.41.32] - 2025-06-30
+### Added
+- Telegram upload bot script and documentation.
+
 ## [0.41.31] - 2025-06-30
 ### Changed
 - Home slot now uses encounter slot layout for a larger display.
