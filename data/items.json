@@ -223,7 +223,7 @@
     "effectValue": {
       "intelligence": 1
     },
-    "image": "assets/generated/cooked_fish.png",
+    "image": "assets/user_uploaded/cooked_fish.jpg",
     "description": "Freshly cooked fish that restores vigor."
   }
 ]
