@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.37] - 2025-07-03
+### Changed
+- Uploaded images via Telegram bot are renamed using the entry ID for consistent filenames.
+
 ## [0.41.36] - 2025-07-03
 ### Changed
 - Telegram bot skips pull request creation when the `gh` CLI is unavailable.
