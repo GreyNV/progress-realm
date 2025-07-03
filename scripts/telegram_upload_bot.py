@@ -121,6 +121,7 @@ async def receive_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         os.makedirs(IMAGES_DIR)
 
     file_path = os.path.join(IMAGES_DIR, filename)
+    file_path = file_path.replace(os.sep, "/")
     file = await tg_file.get_file()
     await file.download_to_drive(custom_path=file_path)
     if os.path.getsize(file_path) > 5 * 1024 * 1024:

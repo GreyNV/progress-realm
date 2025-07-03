@@ -8,7 +8,8 @@ these steps:
    verifies the image files are present.
 3. **Present Options** – shows unresolved items in batches of ten for selection.
 4. **Receive Upload** – validates the uploaded file size and type before saving
-   to `assets/user_uploaded/`.
+   to `assets/user_uploaded/`. Saved paths are converted to use forward
+   slashes so commits look the same on all platforms.
 5. **Commit & PR** – updates the relevant JSON entry, commits the change and
    pushes to a dedicated branch. If no open PR exists the bot creates one using
    the GitHub CLI.
