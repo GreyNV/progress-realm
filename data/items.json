@@ -1,229 +1,229 @@
 [
-    {
-        "id": "herb",
-        "name": "Herb",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "focus": 1
-        },
-        "image": "assets/items/herb.png",
-        "description": "A collection of useful medicinal plants."
+  {
+    "id": "herb",
+    "name": "Herb",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "focus": 1
     },
-    {
-        "id": "rabbit_meat",
-        "name": "Rabbit Meat",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "strength": 1
-        },
-        "image": "assets/items/rabbit.png",
-        "description": "Fresh meat from a hunted rabbit."
+    "image": "assets/items/herb.png",
+    "description": "A collection of useful medicinal plants."
+  },
+  {
+    "id": "rabbit_meat",
+    "name": "Rabbit Meat",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 1
     },
-    {
-        "id": "wolf_pelt",
-        "name": "Wolf Pelt",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "health": 2
-        },
-        "image": "assets/items/wolfpelt.png",
-        "description": "Thick hide taken from a wolf."
+    "image": "assets/items/rabbit.png",
+    "description": "Fresh meat from a hunted rabbit."
+  },
+  {
+    "id": "wolf_pelt",
+    "name": "Wolf Pelt",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 2
     },
-    {
-        "id": "wood_log",
-        "name": "Wood Log",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "energy": 1
-        },
-        "image": "assets/items/woodlog.PNG",
-        "description": "Sturdy timber cut from local trees."
+    "image": "assets/items/wolfpelt.png",
+    "description": "Thick hide taken from a wolf."
+  },
+  {
+    "id": "wood_log",
+    "name": "Wood Log",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "energy": 1
     },
-    {
-        "id": "stone_piece",
-        "name": "Stone Piece",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "strength": 0.5
-        },
-        "image": "assets/items/stone.PNG",
-        "description": "A chunk of stone useful for building."
+    "image": "assets/items/woodlog.PNG",
+    "description": "Sturdy timber cut from local trees."
+  },
+  {
+    "id": "stone_piece",
+    "name": "Stone Piece",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 0.5
     },
-    {
-        "id": "boar_tusk",
-        "name": "Boar Tusk",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "health": 1
-        },
-        "image": "assets/items/boartusk.PNG",
-        "description": "A sharp tusk prized by craftsmen."
+    "image": "assets/items/stone.PNG",
+    "description": "A chunk of stone useful for building."
+  },
+  {
+    "id": "boar_tusk",
+    "name": "Boar Tusk",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 1
     },
-    {
-        "id": "ore_chunk",
-        "name": "Rare Ore",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "strength": 2
-        },
-        "image": "assets/items/Ore.PNG",
-        "description": "Raw ore ready for smelting."
+    "image": "assets/items/boartusk.PNG",
+    "description": "A sharp tusk prized by craftsmen."
+  },
+  {
+    "id": "ore_chunk",
+    "name": "Rare Ore",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 2
     },
-    {
-        "id": "stone_spear",
-        "name": "Stone Spear",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "strength": 1.5
-        },
-        "image": "assets/items/spear.PNG",
-        "description": "Crude spear tipped with sharpened stone."
+    "image": "assets/items/Ore.PNG",
+    "description": "Raw ore ready for smelting."
+  },
+  {
+    "id": "stone_spear",
+    "name": "Stone Spear",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 1.5
     },
-    {
-        "id": "wooden_shield",
-        "name": "Wooden Shield",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "health": 1
-        },
-        "image": "assets/items/woodshield.PNG",
-        "description": "Simple shield offering basic protection."
+    "image": "assets/items/spear.PNG",
+    "description": "Crude spear tipped with sharpened stone."
+  },
+  {
+    "id": "wooden_shield",
+    "name": "Wooden Shield",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 1
     },
-    {
-        "id": "leather_armor",
-        "name": "Leather Armor",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "health": 2
-        },
-        "image": "assets/items/leatherarmor.PNG",
-        "description": "Light armor made from treated hides."
+    "image": "assets/items/woodshield.PNG",
+    "description": "Simple shield offering basic protection."
+  },
+  {
+    "id": "leather_armor",
+    "name": "Leather Armor",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 2
     },
-    {
-        "id": "gem",
-        "name": "Gem",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "focus": 2
-        },
-        "image": "assets/items/gem.PNG",
-        "description": "A shimmering gemstone of unknown origin."
+    "image": "assets/items/leatherarmor.PNG",
+    "description": "Light armor made from treated hides."
+  },
+  {
+    "id": "gem",
+    "name": "Gem",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "focus": 2
     },
-    {
-        "id": "iron_sword",
-        "name": "Iron Sword",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "strength": 2
-        },
-        "image": "assets/generated/iron_sword.png",
-        "description": "A sturdy blade forged from iron."
+    "image": "assets/items/gem.PNG",
+    "description": "A shimmering gemstone of unknown origin."
+  },
+  {
+    "id": "iron_sword",
+    "name": "Iron Sword",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 2
     },
-    {
-        "id": "sturdy_bark",
-        "name": "Sturdy Bark",
-        "rarity": "rare",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "health": 1
-        },
-        "image": "assets/generated/sturdy_bark.png",
-        "description": "Thick bark that can reinforce armor."
+    "image": "assets/generated/iron_sword.png",
+    "description": "A sturdy blade forged from iron."
+  },
+  {
+    "id": "sturdy_bark",
+    "name": "Sturdy Bark",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "health": 1
     },
-    {
-        "id": "water_flask",
-        "name": "Water Flask",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "energy": 1
-        },
-        "image": "assets/generated/water_flask.png",
-        "description": "A simple container filled with fresh water."
+    "image": "assets/user_uploaded/AQADB_gxG_UwMUt-.jpg",
+    "description": "Thick bark that can reinforce armor."
+  },
+  {
+    "id": "water_flask",
+    "name": "Water Flask",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "energy": 1
     },
-    {
-        "id": "iron_ore",
-        "name": "Iron Ore",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "strength": 1
-        },
-        "image": "assets/generated/iron_ore.png",
-        "description": "Unrefined iron waiting to be smelted."
+    "image": "assets/generated/water_flask.png",
+    "description": "A simple container filled with fresh water."
+  },
+  {
+    "id": "iron_ore",
+    "name": "Iron Ore",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 1
     },
-    {
-        "id": "feather",
-        "name": "Feather",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "focus": 1
-        },
-        "image": "assets/generated/feather.png",
-        "description": "Soft plumage useful for fletching arrows."
+    "image": "assets/generated/iron_ore.png",
+    "description": "Unrefined iron waiting to be smelted."
+  },
+  {
+    "id": "feather",
+    "name": "Feather",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "focus": 1
     },
-    {
-        "id": "clay",
-        "name": "Clay",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {},
-        "image": "assets/generated/clay.png",
-        "description": "Moist earth that can be shaped and fired." 
+    "image": "assets/generated/feather.png",
+    "description": "Soft plumage useful for fletching arrows."
+  },
+  {
+    "id": "clay",
+    "name": "Clay",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {},
+    "image": "assets/generated/clay.png",
+    "description": "Moist earth that can be shaped and fired."
+  },
+  {
+    "id": "berries",
+    "name": "Berries",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "energy": 1
     },
-    {
-        "id": "berries",
-        "name": "Berries",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "energy": 1
-        },
-        "image": "assets/generated/berries.png",
-        "description": "A handful of ripe forest berries." 
+    "image": "assets/generated/berries.png",
+    "description": "A handful of ripe forest berries."
+  },
+  {
+    "id": "money",
+    "name": "Money",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {},
+    "image": "assets/generated/money.png",
+    "description": "A few coins of questionable value."
+  },
+  {
+    "id": "torch",
+    "name": "Torch",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "intelligence": 1
     },
-    {
-        "id": "money",
-        "name": "Money",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {},
-        "image": "assets/generated/money.png",
-        "description": "A few coins of questionable value." 
+    "image": "assets/generated/torch.png",
+    "description": "Provides light when exploring dark places."
+  },
+  {
+    "id": "cooked_fish",
+    "name": "Cooked Fish",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "intelligence": 1
     },
-    {
-        "id": "torch",
-        "name": "Torch",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "intelligence": 1
-        },
-        "image": "assets/generated/torch.png",
-        "description": "Provides light when exploring dark places." 
-    },
-    {
-        "id": "cooked_fish",
-        "name": "Cooked Fish",
-        "rarity": "common",
-        "effectType": "increaseSoftcap",
-        "effectValue": {
-            "intelligence": 1
-        },
-        "image": "assets/generated/cooked_fish.png",
-        "description": "Freshly cooked fish that restores vigor." 
-    }
+    "image": "assets/generated/cooked_fish.png",
+    "description": "Freshly cooked fish that restores vigor."
+  }
 ]
