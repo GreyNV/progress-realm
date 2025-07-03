@@ -5,6 +5,7 @@ import os
 import subprocess
 import shutil
 import logging
+import re
 from typing import List, Tuple
 
 logging.basicConfig(level=logging.INFO)
@@ -29,6 +30,13 @@ IMAGES_DIR = os.path.join('assets', 'user_uploaded')
 BRANCH_NAME = 'bot/assets-upload'
 
 SELECT_ITEM, RECEIVE_IMAGE = range(2)
+
+
+def sanitize_filename(entry_id: str, original_name: str) -> str:
+    """Return a lowercase filename based on the entry id."""
+    name = re.sub(r"[^a-z0-9]+", "_", entry_id.lower()).strip("_")
+    ext = os.path.splitext(original_name)[1].lower() or ".png"
+    return f"{name}{ext}"
 
 
 def git_pull() -> Tuple[bool, str]:
@@ -124,6 +132,8 @@ async def receive_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     if not os.path.isdir(IMAGES_DIR):
         os.makedirs(IMAGES_DIR)
 
+    data_file, entry_id, entry_name = context.user_data.get('selected')
+    filename = sanitize_filename(entry_id or entry_name, filename)
     file_path = os.path.join(IMAGES_DIR, filename)
     file_path = file_path.replace(os.sep, "/")
     file = await tg_file.get_file()
