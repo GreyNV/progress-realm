@@ -9,6 +9,8 @@ these steps:
 3. **Present Options** – shows unresolved items in batches of ten for selection.
 4. **Receive Upload** – validates the uploaded file size and type before saving
    to `assets/user_uploaded/`.
+   The saved path is normalized to use forward slashes so JSON entries remain
+   consistent across platforms.
 5. **Commit & PR** – updates the relevant JSON entry, commits the change and
    pushes to a dedicated branch. If no open PR exists the bot creates one using
    the GitHub CLI.

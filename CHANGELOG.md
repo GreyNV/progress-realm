@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.35] - 2025-07-03
+### Fixed
+- Normalized uploaded file paths in the Telegram bot to use forward slashes.
+
 ## [0.41.34] - 2025-07-03
 ### Fixed
 - Improved validation for Telegram upload bot image handling.
