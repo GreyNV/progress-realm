@@ -376,10 +376,10 @@ function applyPrestigeBonuses() {
         const pKey = PRESTIGE_MAP[k];
         const p = State.prestige[pKey] || 0;
         if (State.stats[k]) {
-            State.stats[k].maxMultipliers.push(1 + p * 0.02);
+            State.stats[k].maxMultipliers = [1 + p * 0.02];
         }
         if (typeof BonusEngine !== 'undefined') {
-            BonusEngine.statMultipliers[k] = (BonusEngine.statMultipliers[k] || 1) * (1 + p * 0.05);
+            BonusEngine.statMultipliers[k] = 1 + p * 0.05;
         }
     });
 }
