@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.41.38] - 2025-07-05
+### Fixed
+- Resource cap multipliers no longer stack each reload.
+
+
+
 ## [0.41.37] - 2025-07-03
 ### Changed
 - Uploaded images via Telegram bot are renamed using the entry ID for consistent filenames.
