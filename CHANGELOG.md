@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.39] - 2025-07-05
+### Fixed
+- English UI now defaults to the base text when no translation exists.
+
 ## [0.41.38] - 2025-07-05
 ### Fixed
 - Resource cap multipliers no longer stack each reload.
