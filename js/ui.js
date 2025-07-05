@@ -8,17 +8,6 @@ const StatsUI = {
         // Exclude hidden stats such as charisma and creativity from the UI.
         // Creativity will be unlocked in a later update.
         this.list = STAT_KEYS.filter(k => k !== 'charisma' && k !== 'creativity');
-        const listEl = document.getElementById('stats-list');
-        this.list.forEach(key => {
-            const li = document.createElement('li');
-            const label = document.createElement('span');
-            label.className = 'stat-label';
-            label.dataset.key = key;
-            label.textContent = Lang.stat(key) || capitalize(key);
-            li.appendChild(label);
-            li.insertAdjacentHTML('beforeend', `: <span id="stat-${key}">0</span>/<span id="stat-${key}-cap">0</span> (<span id="stat-${key}-delta" class="delta">0</span>/s)`);
-            listEl.appendChild(li);
-        });
     },
     translate() {
         document.querySelectorAll('#stats-list .stat-label').forEach(el => {
@@ -67,24 +56,6 @@ const ResourcesUI = {
     list: [],
     init() {
         this.list = RESOURCE_KEYS.slice();
-        const listEl = document.getElementById("resources-list");
-        this.list.forEach(key => {
-            const li = document.createElement("li");
-            const label = document.createElement('span');
-            label.className = 'resource-label';
-            label.dataset.key = key;
-            label.textContent = Lang.resource(key) || capitalize(key);
-            li.appendChild(label);
-            const bar = document.createElement('div');
-            bar.className = `resource-bar ${key}-bar`;
-            const fill = document.createElement('div');
-            fill.className = 'resource-bar-fill';
-            fill.id = `res-${key}-fill`;
-            bar.appendChild(fill);
-            li.appendChild(bar);
-            li.insertAdjacentHTML('beforeend', ` (<span id="res-${key}-delta" class="delta">0</span>/s)`);
-            listEl.appendChild(li);
-        });
     },
     translate() {
         document.querySelectorAll('#resources-list .resource-label').forEach(el => {

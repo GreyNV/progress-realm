@@ -107,24 +107,12 @@ const SoftCapSystem = {
 };
 
 const TabManager = {
-    tabs: [
-        { id: 'routines', name: 'Routines', hidden: false, locked: false },
-        { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
-        {
-            id: 'inventory',
-            name: 'Belongings',
-            hidden: false,
-            locked: false,
-            sections: [
-                { id: 'home', name: 'Home' },
-                { id: 'belongings', name: 'Belongings' }
-            ]
-        },
-        { id: 'automation', name: 'Automation', hidden: true, locked: false },
-        { id: 'chip', name: 'Chip', hidden: false, locked: false },
-    ],
+    tabs: [],
     buttons: {},
     activeSections: {},
+    load(tabData) {
+        this.tabs = Array.isArray(tabData) ? tabData : [];
+    },
     init() {
         this.header = document.getElementById('tab-headers');
         if (State.healerGoneSeen) {
@@ -890,8 +878,7 @@ async function init() {
     Lang.applyToEncounters(EncounterGenerator.encounters);
     Lang.applyToLocations(EncounterGenerator.milestones);
     SoftCapSystem.recalculateCaps(State.inventory);
-    StatsUI.init();
-    ResourcesUI.init();
+    await UIHandler.init();
     MasteryUI.init();
     PrestigeUI.init();
     InventoryUI.init();

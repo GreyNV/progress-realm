@@ -10,9 +10,10 @@ This document outlines the steps required to modularize the JavaScript code for 
 ## Planned Modules
 1. **state.js** – defines the `State` object and initialization helpers.
 2. **ui.js** – handles `StatsUI`, `ResourcesUI`, `MasteryUI`, and logging.
-3. **actions.js** – manages action loading and experience scaling.
-4. **engine.js** – contains the main game loop and tick handlers.
-5. **encounter.js** – remains as the adventure/encounter system.
+3. **ui_handler.js** – builds stat, resource, and tab sections from JSON before handing control to the UI modules.
+4. **actions.js** – manages action loading and experience scaling.
+5. **engine.js** – contains the main game loop and tick handlers.
+6. **encounter.js** – remains as the adventure/encounter system.
 
 ## Migration Steps
 1. Create the new module files and move corresponding objects from `main.js`.

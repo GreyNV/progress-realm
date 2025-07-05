@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.41.41] - 2025-07-05
+### Added
+- Tabs and sections now load from `data/ui.json` via `UIHandler`.
+
+## [0.41.40] - 2025-07-05
+### Added
+- Introduced `UIHandler` module for dynamic UI creation.
+- Updated documentation and guidelines.
+
 ## [0.41.39] - 2025-07-05
 ### Fixed
 - English UI now defaults to the base text when no translation exists.

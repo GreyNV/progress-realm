@@ -5,7 +5,8 @@
 - `assets/` – images and static assets used by the site
 - `css/` – stylesheets
 - `js/` – JavaScript for game logic and UI
-- `data/` – JSON files for tasks and actions
+- `js/ui_handler.js` – builds stat, resource, and tab elements from JSON and coordinates UI modules
+- `data/` – JSON files for tasks, actions, and UI layout
 - `docs/` – design documents and other project notes
 - `index.html` – main HTML entry point
 - `README.md` – high‑level overview and design goals
@@ -17,6 +18,7 @@
 - Prefer descriptive variable and function names
 - Keep code modular and comment important sections
 - When creatimg new keys in json files do not reuse existing image sources
+- Prefer using `UIHandler` for new UI sections instead of manual DOM creation
 
 ## Testing Protocols
 

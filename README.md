@@ -46,6 +46,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots. Includes a settings panel with dark mode and language options |
+| UI Handler   | Dynamically builds stat/resource lists and tab layout from JSON definitions |
 | Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |
 
 #### 5. Core Stats (Initial Set)
@@ -104,6 +105,7 @@ js/state.js         - global state and helper functions
 assets/             - images and static assets
 data/actions.json   - action definitions
 data/resources.json - base stats and resources
+data/ui.json        - tab and section layout
 docs/MVP.md         - checklist for the first prototype
 ```
 
