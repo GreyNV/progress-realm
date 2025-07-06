@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.42] - 2025-07-06
+### Added
+- Sections now support `hidden` and `locked` flags in `data/ui.json`.
+- Ukrainian translations for prestige stats.
+
 ## [0.41.41] - 2025-07-05
 ### Added
 - Tabs and sections now load from `data/ui.json` via `UIHandler`.

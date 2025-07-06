@@ -105,7 +105,7 @@ js/state.js         - global state and helper functions
 assets/             - images and static assets
 data/actions.json   - action definitions
 data/resources.json - base stats and resources
-data/ui.json        - tab and section layout
+data/ui.json        - tab and section layout (sections can be hidden or locked)
 docs/MVP.md         - checklist for the first prototype
 ```
 

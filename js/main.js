@@ -110,6 +110,7 @@ const TabManager = {
     tabs: [],
     buttons: {},
     activeSections: {},
+    _sectionButtons: {},
     load(tabData) {
         this.tabs = Array.isArray(tabData) ? tabData : [];
     },
@@ -147,8 +148,21 @@ const TabManager = {
         const locked = Lang.ui('Locked') || 'Locked';
         btn.textContent = tab.locked ? `${name} (${locked})` : name;
     },
+    _updateSectionButton(section, btn) {
+        const name = Lang.ui(section.name) || section.name;
+        const locked = Lang.ui('Locked') || 'Locked';
+        btn.textContent = section.locked ? `${name} (${locked})` : name;
+    },
     translate() {
-        this.tabs.forEach(tab => this._updateButton(tab));
+        this.tabs.forEach(tab => {
+            this._updateButton(tab);
+            if (tab.sections) {
+                Object.entries(this._sectionButtons[tab.id] || {}).forEach(([id, btn]) => {
+                    const sec = tab.sections.find(s => s.id === id);
+                    if (sec) this._updateSectionButton(sec, btn);
+                });
+            }
+        });
     },
     unlockTab(id) {
         const tab = this.tabs.find(t => t.id === id);
@@ -162,19 +176,25 @@ const TabManager = {
         if (!content) return;
         const header = content.querySelector('.section-headers');
         if (!header) return;
+        this._sectionButtons[tab.id] = {};
         header.innerHTML = '';
         tab.sections.forEach(sec => {
+            if (sec.hidden) return;
             const btn = document.createElement('button');
             btn.dataset.tab = tab.id;
             btn.dataset.section = sec.id;
             btn.dataset.i18n = sec.name;
+            if (sec.locked) btn.disabled = true;
             header.appendChild(btn);
+            this._sectionButtons[tab.id][sec.id] = btn;
+            this._updateSectionButton(sec, btn);
         });
         header.addEventListener('click', e => {
             if (!e.target.dataset.section) return;
             this.showSection(tab.id, e.target.dataset.section);
         });
-        this.showSection(tab.id, tab.sections[0].id);
+        const first = tab.sections.find(s => !s.hidden);
+        if (first) this.showSection(tab.id, first.id);
     },
     showTab(id) {
         document.querySelectorAll('.tab-content').forEach(el => {
@@ -185,14 +205,20 @@ const TabManager = {
         });
         const tab = this.tabs.find(t => t.id === id);
         if (tab && tab.sections) {
-            const current = this.activeSections[id] || tab.sections[0].id;
-            this.showSection(id, current);
+            let current = this.activeSections[id];
+            if (!current || tab.sections.find(s => s.id === current && !s.hidden) === undefined) {
+                const first = tab.sections.find(s => !s.hidden);
+                if (first) current = first.id;
+            }
+            if (current) this.showSection(id, current);
         }
     }
     ,showSection(tabId, sectionId) {
         this.activeSections[tabId] = sectionId;
         const content = document.querySelector(`.tab-content[data-tab="${tabId}"]`);
         if (!content) return;
+        const sectionEl = content.querySelector(`.tab-section[data-section="${sectionId}"]`);
+        if (!sectionEl) return;
         content.querySelectorAll('.tab-section').forEach(sec => {
             sec.classList.toggle('hidden', sec.dataset.section !== sectionId);
         });
