@@ -1,4 +1,9 @@
 # Changelog
+## [0.41.43] - 2025-07-06
+### Added
+- Story events load from `data/story_events.json` via new `StorySystem`.
+- Chip upgrades can unlock tabs and trigger story events.
+
 
 ## [0.41.42] - 2025-07-06
 ### Added

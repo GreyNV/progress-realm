@@ -158,6 +158,12 @@ const UpdateSystem = {
                 if (actions[id]) actions[id].locked = false;
             });
         }
+        if (update.unlocks && update.unlocks.tabs) {
+            update.unlocks.tabs.forEach(id => TabManager.unlockTab(id));
+        }
+        if (update.unlocks && update.unlocks.storyEvents) {
+            update.unlocks.storyEvents.forEach(id => StorySystem.trigger(id));
+        }
     }
 };
 

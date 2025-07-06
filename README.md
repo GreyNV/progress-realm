@@ -42,6 +42,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Magic System | Simplified crafting and consumption system for magical items               |
 | Belongings   | Manages player's resource quantities, home selection, and magical components                |
 | Chips        | One-time unlockables that grant bonuses or new content |
+| Story System | Loads narrative events from `data/story_events.json` and triggers modals with unlocks |
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
@@ -115,7 +116,7 @@ The page uses a simple header/main/footer structure. Stats and resources are kep
 
 Resources appear as horizontal bars whose colors match each type (red for health, yellow for energy, blue for focus).
 
- A story modal appears once on the first load and another short scene triggers after thirty days pass in game time. Both modals only appear during the first life and all log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects.
+ Story modals are defined in `data/story_events.json` and triggered by the `StorySystem`. The intro plays once on first load while another short scene fires after thirty days pass in game time. All modals only appear during the first life and log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects.
 
 See **docs/MVP.md** for the MVP list.
 

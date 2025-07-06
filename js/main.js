@@ -22,34 +22,6 @@ function capitalize(str) {
 }
 
 
-const Story = {
-    active: false,
-    show(text, image, onClose) {
-        if (this.active) return;
-        this.active = true;
-        const modal = document.getElementById('story-modal');
-        const textEl = document.getElementById('story-text');
-        const imageEl = document.getElementById('story-image');
-        textEl.textContent = text;
-        imageEl.innerHTML = '';
-        if (image) {
-            const img = document.createElement('img');
-            img.src = image;
-            img.alt = '';
-            img.loading = 'lazy';
-            imageEl.appendChild(img);
-        }
-        modal.classList.remove('hidden');
-        const close = () => {
-            modal.classList.add('hidden');
-            document.getElementById('story-close').removeEventListener('click', close);
-            this.active = false;
-            Log.add(text);
-            if (onClose) onClose();
-        };
-        document.getElementById('story-close').addEventListener('click', close);
-    }
-};
 
 const SoftCapSystem = {
     baseStatCaps: { strength: 50, intelligence: 50, creativity: 50 },
@@ -531,24 +503,6 @@ function getActionTier(level) {
     return TierSystem.getTier(level);
 }
 
-function checkStoryEvents() {
-    // Trigger when the hero recovers and notices the healer is gone
-    if (!State.introSeen || State.healerGoneSeen) return;
-    const currentDays = State.age.years * AgeSystem.daysPerYear + State.age.days;
-    const triggerDays = 16 * AgeSystem.daysPerYear + 30;
-    if (currentDays > triggerDays) {
-        Story.show(
-            Lang.story('healerGone') || "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
-            'assets/HealerGone.png',
-            () => {
-                State.healerGoneSeen = true;
-                TabManager.unlockTab('adventure');
-                TabManager.showTab('adventure');
-                SaveSystem.save();
-            }
-        );
-    }
-}
 
 function scalingMultiplier(action) {
     const f = action.scaling;
@@ -614,7 +568,7 @@ const ActionEngine = {
             slot.progress = action.exp / action.expToNext;
             updateSlotUI(i);
         });
-        checkStoryEvents();
+        StorySystem.check();
         SoftCapSystem.apply();
         checkHealth();
         SaveSystem.save();
@@ -850,19 +804,11 @@ function updateUI() {
 async function init() {
     await loadBaseData();
     const loadedActions = SaveSystem.load();
+    await StorySystem.load();
     applyPrestigeBonuses();
     await Lang.load(State.language);
     Log.init();
-    if (!State.introSeen) {
-        Story.show(
-            Lang.story('intro') || "You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins. The healer, an old woman with eyes like weathered stone, presses a worn pendant into your hand — the only item found with you. Its unfamiliar symbol stirs something deep and cold in your chest, but no memory surfaces.",
-            'assets/Intro.png',
-            () => {
-                State.introSeen = true;
-                SaveSystem.save();
-            }
-        );
-    }
+    StorySystem.trigger("intro");
     document.getElementById('speed-controls').addEventListener('click', e => {
         const s = e.target.dataset.speed;
         if (!s) return;
@@ -924,6 +870,7 @@ async function init() {
     Lang.translateUI();
     TabManager.translate();
     const toggleBtn = document.getElementById('toggle-left');
+    StorySystem.init();
     if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleLeftPanel);
     }
