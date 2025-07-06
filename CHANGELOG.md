@@ -1,4 +1,8 @@
 # Changelog
+## [0.41.44] - 2025-07-06
+### Added
+- Basic `PubSub` module enables publish/subscribe messaging between systems.
+
 ## [0.41.43] - 2025-07-06
 ### Added
 - Story events load from `data/story_events.json` via new `StorySystem`.
