@@ -100,6 +100,26 @@ const Inventory = {
         if (typeof CharacterBackground !== 'undefined') {
             CharacterBackground.update();
         }
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('item:added', item.id);
+            PubSub.publish('inventory:changed', State.inventory);
+        }
+    },
+    consume(id, qty = 1) {
+        const record = State.inventory[id];
+        if (!record || record.quantity < qty) return false;
+        record.quantity -= qty;
+        if (record.quantity <= 0) delete State.inventory[id];
+        SoftCapSystem.recalculateCaps(State.inventory);
+        InventoryUI.update();
+        if (typeof CharacterBackground !== 'undefined') {
+            CharacterBackground.update();
+        }
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('item:consumed', { id, quantity: qty });
+            PubSub.publish('inventory:changed', State.inventory);
+        }
+        return true;
     },
     getItems() {
         const items = Object.entries(State.inventory).map(([id, data]) => {

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "intro",
+    "textKey": "intro",
+    "image": "assets/Intro.png",
+    "flag": "introSeen",
+    "trigger": {"type": "startup"},
+    "unlocks": {}
+  },
+  {
+    "id": "healerGone",
+    "textKey": "healerGone",
+    "image": "assets/HealerGone.png",
+    "flag": "healerGoneSeen",
+    "trigger": {"type": "age", "days": 5870},
+    "unlocks": {"tabs": ["adventure"]}
+  },
+  {
+    "id": "banditsAmbushVictory",
+    "textKey": "banditsAmbushVictory",
+    "image": "",
+    "flag": "banditsAmbushSeen",
+    "trigger": {"type": "encounterWin", "encounterId": "banditsAmbush"},
+    "unlocks": {}
+  }
+]
