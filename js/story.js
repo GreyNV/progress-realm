@@ -29,8 +29,14 @@ const Story = {
             imageEl.appendChild(img);
         }
         modal.classList.remove('hidden');
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('modal:open', 'story-modal');
+        }
         const close = () => {
             modal.classList.add('hidden');
+            if (typeof PubSub !== 'undefined') {
+                PubSub.publish('modal:close', 'story-modal');
+            }
             document.getElementById('story-close').removeEventListener('click', close);
             this.active = false;
             Log.add(text);
@@ -72,17 +78,32 @@ const StorySystem = {
     applyUnlocks(unlocks) {
         if (!unlocks) return;
         if (unlocks.tabs) {
-            unlocks.tabs.forEach(id => TabManager.unlockTab(id));
+            unlocks.tabs.forEach(id => {
+                TabManager.unlockTab(id);
+                if (typeof PubSub !== 'undefined') {
+                    PubSub.publish('unlock:tab', id);
+                }
+            });
         }
         if (unlocks.actions) {
             unlocks.actions.forEach(id => {
-                if (actions[id]) actions[id].locked = false;
+                if (actions[id]) {
+                    actions[id].locked = false;
+                    if (typeof PubSub !== 'undefined') {
+                        PubSub.publish('unlock:action', id);
+                    }
+                }
             });
         }
         if (unlocks.encounters) {
             unlocks.encounters.forEach(id => {
                 const enc = EncounterGenerator.encounters.find(e => e.id === id);
-                if (enc) enc.locked = false;
+                if (enc) {
+                    enc.locked = false;
+                    if (typeof PubSub !== 'undefined') {
+                        PubSub.publish('unlock:encounter', id);
+                    }
+                }
             });
         }
     },

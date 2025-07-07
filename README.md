@@ -45,7 +45,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Story System | Loads narrative events from `data/story_events.json` and triggers modals with unlocks |
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
-| PubSub       | Lightweight event bus so modules can publish and subscribe to messages |
+| PubSub       | Lightweight event bus so modules can publish and subscribe to messages. Unlockables and modals broadcast events via `unlock:*` and `modal:*` channels. Items notify `item:added` and `item:consumed` when inventory changes |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots. Includes a settings panel with dark mode and language options |
 | UI Handler   | Dynamically builds stat/resource lists and tab layout from JSON definitions |
@@ -140,10 +140,22 @@ page weight. Future updates will extend the scripts to automatically resize and
 compress generated images so existing assets do not require manual replacement.
 See `docs/image_optimization.md` for details.
 
+#### Local Server
+
+Run `scripts/simple_server.py` to launch a small HTTP server for testing the
+game locally:
+
+```bash
+python scripts/simple_server.py --port 8000
+```
+
+Open `http://localhost:8000` in your browser to play without deploying.
+
 #### Telegram Upload Bot
 
 For manual asset contributions a small Telegram bot can collect images and
 automate pull requests. The bot lists unresolved entries from the data files,
+including story events,
 accepts an uploaded image, commits the change and opens (or updates) a PR. See
 `docs/telegram_upload_bot.md` for a full overview.
 
