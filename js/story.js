@@ -4,6 +4,8 @@ class StoryEvent {
     constructor(data) {
         this.id = data.id;
         this.textKey = data.textKey;
+        // Fallback English text if no translation is available
+        this.text = data.text || null;
         this.image = data.image || '';
         this.flag = data.flag || null;
         this.trigger = data.trigger || { type: 'manual' };
@@ -68,7 +70,7 @@ const StorySystem = {
         this._show(event);
     },
     _show(event) {
-        const text = Lang.story(event.textKey) || event.textKey;
+        const text = Lang.story(event.textKey) || event.text || event.textKey;
         Story.show(text, event.image, () => {
             if (event.flag) State[event.flag] = true;
             this.applyUnlocks(event.unlocks);
