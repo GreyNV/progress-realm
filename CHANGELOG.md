@@ -1,4 +1,7 @@
 # Changelog
+## [0.41.48] - 2025-07-07
+### Fixed
+- `scripts/simple_server.py` resolves the repository path using `os.path.abspath`.
 ## [0.41.47] - 2025-07-07
 ### Added
 - Story events are now included when the Telegram upload bot scans for missing images.

@@ -7,7 +7,8 @@ import os
 
 
 def run(port: int = 8000) -> None:
-    os.chdir(os.path.dirname(os.path.dirname(__file__)))
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    os.chdir(repo_root)
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
         print(f"Serving at http://localhost:{port}")
