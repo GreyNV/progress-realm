@@ -1,4 +1,7 @@
 # Changelog
+## [0.41.49] - 2025-07-07
+### Fixed
+- Story modal now shows English descriptions when translations are missing.
 ## [0.41.48] - 2025-07-07
 ### Fixed
 - `scripts/simple_server.py` resolves the repository path using `os.path.abspath`.
