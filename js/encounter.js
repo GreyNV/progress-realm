@@ -197,14 +197,7 @@ const EncounterGenerator = {
                 'You survived the bandits ambush and claimed your reward.';
             Log.add(msg);
             if (!State.banditsAmbushSeen) {
-                Story.show(
-                    Lang.story('banditsAmbushVictory') || 'Bruised but victorious, you gather loot from the fallen bandits.',
-                    '',
-                    () => {
-                        State.banditsAmbushSeen = true;
-                        SaveSystem.save();
-                    }
-                );
+                StorySystem.trigger('banditsAmbushVictory');
             }
             return;
         }
