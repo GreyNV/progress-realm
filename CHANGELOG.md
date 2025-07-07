@@ -1,4 +1,7 @@
 # Changelog
+## [0.41.45] - 2025-07-06
+### Added
+- PubSub events for unlockables and modal visibility.
 ## [0.41.44] - 2025-07-06
 ### Added
 - Basic `PubSub` module enables publish/subscribe messaging between systems.

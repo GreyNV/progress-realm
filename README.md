@@ -45,7 +45,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Story System | Loads narrative events from `data/story_events.json` and triggers modals with unlocks |
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
-| PubSub       | Lightweight event bus so modules can publish and subscribe to messages |
+| PubSub       | Lightweight event bus so modules can publish and subscribe to messages. Unlockables and modals broadcast events via `unlock:*` and `modal:*` channels |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots. Includes a settings panel with dark mode and language options |
 | UI Handler   | Dynamically builds stat/resource lists and tab layout from JSON definitions |
