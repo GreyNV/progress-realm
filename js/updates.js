@@ -155,8 +155,24 @@ const UpdateSystem = {
         }
         if (update.unlocks && update.unlocks.actions) {
             update.unlocks.actions.forEach(id => {
-                if (actions[id]) actions[id].locked = false;
+                if (actions[id]) {
+                    actions[id].locked = false;
+                    if (typeof PubSub !== 'undefined') {
+                        PubSub.publish('unlock:action', id);
+                    }
+                }
             });
+        }
+        if (update.unlocks && update.unlocks.tabs) {
+            update.unlocks.tabs.forEach(id => {
+                TabManager.unlockTab(id);
+                if (typeof PubSub !== 'undefined') {
+                    PubSub.publish('unlock:tab', id);
+                }
+            });
+        }
+        if (update.unlocks && update.unlocks.storyEvents) {
+            update.unlocks.storyEvents.forEach(id => StorySystem.trigger(id));
         }
     }
 };

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "intro",
+    "textKey": "intro",
+    "text": "You awaken in the healer's hut—the sole survivor of the caravan attack. Months pass as your strength slowly returns. The old woman with stone-cut eyes presses a worn pendant into your hand. The unfamiliar symbol troubles your spirit, but your past is blank.",
+    "image": "assets/Intro.png",
+    "flag": "introSeen",
+    "trigger": {"type": "startup"},
+    "unlocks": {}
+  },
+  {
+    "id": "healerGone",
+    "textKey": "healerGone",
+    "text": "The bed is cold and the fire has died. The healer is gone—no note, only the lingering scent of herbs. You rise stronger than before. The shelf is bare and outside the road winds through the forest. Far off, a plume of smoke rises. The pendant on your chest feels heavier, urging you forward.",
+    "image": "assets/HealerGone.png",
+    "flag": "healerGoneSeen",
+    "trigger": {"type": "age", "days": 5870},
+    "unlocks": {"tabs": ["adventure"]}
+  },
+  {
+    "id": "banditsAmbushVictory",
+    "textKey": "banditsAmbushVictory",
+    "text": "Battered but victorious, you claim loot from the bandits' corpses.",
+    "image": "",
+    "flag": "banditsAmbushSeen",
+    "trigger": {"type": "encounterWin", "encounterId": "banditsAmbush"},
+    "unlocks": {}
+  }
+]

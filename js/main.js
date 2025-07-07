@@ -21,35 +21,29 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-
-const Story = {
-    active: false,
-    show(text, image, onClose) {
-        if (this.active) return;
-        this.active = true;
-        const modal = document.getElementById('story-modal');
-        const textEl = document.getElementById('story-text');
-        const imageEl = document.getElementById('story-image');
-        textEl.textContent = text;
-        imageEl.innerHTML = '';
-        if (image) {
-            const img = document.createElement('img');
-            img.src = image;
-            img.alt = '';
-            img.loading = 'lazy';
-            imageEl.appendChild(img);
+function setupPubSub() {
+    PubSub.subscribe('modal:open', id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('hidden');
+    });
+    PubSub.subscribe('modal:close', id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+    PubSub.subscribe('unlock:tab', id => TabManager.unlockTab(id));
+    PubSub.subscribe('unlock:action', id => {
+        if (actions[id]) {
+            actions[id].locked = false;
+            updateTaskList();
         }
-        modal.classList.remove('hidden');
-        const close = () => {
-            modal.classList.add('hidden');
-            document.getElementById('story-close').removeEventListener('click', close);
-            this.active = false;
-            Log.add(text);
-            if (onClose) onClose();
-        };
-        document.getElementById('story-close').addEventListener('click', close);
-    }
-};
+    });
+    PubSub.subscribe('unlock:encounter', id => {
+        const enc = EncounterGenerator.encounters.find(e => e.id === id);
+        if (enc) enc.locked = false;
+    });
+}
+
+
 
 const SoftCapSystem = {
     baseStatCaps: { strength: 50, intelligence: 50, creativity: 50 },
@@ -107,24 +101,13 @@ const SoftCapSystem = {
 };
 
 const TabManager = {
-    tabs: [
-        { id: 'routines', name: 'Routines', hidden: false, locked: false },
-        { id: 'adventure', name: 'Adventure', hidden: true, locked: false },
-        {
-            id: 'inventory',
-            name: 'Belongings',
-            hidden: false,
-            locked: false,
-            sections: [
-                { id: 'home', name: 'Home' },
-                { id: 'belongings', name: 'Belongings' }
-            ]
-        },
-        { id: 'automation', name: 'Automation', hidden: true, locked: false },
-        { id: 'chip', name: 'Chip', hidden: false, locked: false },
-    ],
+    tabs: [],
     buttons: {},
     activeSections: {},
+    _sectionButtons: {},
+    load(tabData) {
+        this.tabs = Array.isArray(tabData) ? tabData : [];
+    },
     init() {
         this.header = document.getElementById('tab-headers');
         if (State.healerGoneSeen) {
@@ -159,8 +142,21 @@ const TabManager = {
         const locked = Lang.ui('Locked') || 'Locked';
         btn.textContent = tab.locked ? `${name} (${locked})` : name;
     },
+    _updateSectionButton(section, btn) {
+        const name = Lang.ui(section.name) || section.name;
+        const locked = Lang.ui('Locked') || 'Locked';
+        btn.textContent = section.locked ? `${name} (${locked})` : name;
+    },
     translate() {
-        this.tabs.forEach(tab => this._updateButton(tab));
+        this.tabs.forEach(tab => {
+            this._updateButton(tab);
+            if (tab.sections) {
+                Object.entries(this._sectionButtons[tab.id] || {}).forEach(([id, btn]) => {
+                    const sec = tab.sections.find(s => s.id === id);
+                    if (sec) this._updateSectionButton(sec, btn);
+                });
+            }
+        });
     },
     unlockTab(id) {
         const tab = this.tabs.find(t => t.id === id);
@@ -174,19 +170,25 @@ const TabManager = {
         if (!content) return;
         const header = content.querySelector('.section-headers');
         if (!header) return;
+        this._sectionButtons[tab.id] = {};
         header.innerHTML = '';
         tab.sections.forEach(sec => {
+            if (sec.hidden) return;
             const btn = document.createElement('button');
             btn.dataset.tab = tab.id;
             btn.dataset.section = sec.id;
             btn.dataset.i18n = sec.name;
+            if (sec.locked) btn.disabled = true;
             header.appendChild(btn);
+            this._sectionButtons[tab.id][sec.id] = btn;
+            this._updateSectionButton(sec, btn);
         });
         header.addEventListener('click', e => {
             if (!e.target.dataset.section) return;
             this.showSection(tab.id, e.target.dataset.section);
         });
-        this.showSection(tab.id, tab.sections[0].id);
+        const first = tab.sections.find(s => !s.hidden);
+        if (first) this.showSection(tab.id, first.id);
     },
     showTab(id) {
         document.querySelectorAll('.tab-content').forEach(el => {
@@ -197,14 +199,20 @@ const TabManager = {
         });
         const tab = this.tabs.find(t => t.id === id);
         if (tab && tab.sections) {
-            const current = this.activeSections[id] || tab.sections[0].id;
-            this.showSection(id, current);
+            let current = this.activeSections[id];
+            if (!current || tab.sections.find(s => s.id === current && !s.hidden) === undefined) {
+                const first = tab.sections.find(s => !s.hidden);
+                if (first) current = first.id;
+            }
+            if (current) this.showSection(id, current);
         }
     }
     ,showSection(tabId, sectionId) {
         this.activeSections[tabId] = sectionId;
         const content = document.querySelector(`.tab-content[data-tab="${tabId}"]`);
         if (!content) return;
+        const sectionEl = content.querySelector(`.tab-section[data-section="${sectionId}"]`);
+        if (!sectionEl) return;
         content.querySelectorAll('.tab-section').forEach(sec => {
             sec.classList.toggle('hidden', sec.dataset.section !== sectionId);
         });
@@ -465,8 +473,9 @@ function retreat(resourceName, manual = false) {
     const slot = AdventureEngine.activeIndex !== null ?
         State.adventureSlots[AdventureEngine.activeIndex] : null;
     const enc = slot && slot.encounter ? slot.encounter.name : 'an encounter';
-    const msg = Lang.log('retreat', { encounter: enc, resource: resourceName }) ||
-        `You had to retreat after ${enc} because you ran out of ${resourceName}.`;
+    const resLabel = Lang.resource(resourceName) || resourceName;
+    const msg = Lang.log('retreat', { encounter: enc, resource: resLabel }) ||
+        `You had to retreat after ${enc} because you ran out of ${resLabel}.`;
     Log.add(msg);
     AdventureEngine.waitResource = resourceName;
     if (!manual) AdventureEngine.recovering = true;
@@ -517,24 +526,6 @@ function getActionTier(level) {
     return TierSystem.getTier(level);
 }
 
-function checkStoryEvents() {
-    // Trigger when the hero recovers and notices the healer is gone
-    if (!State.introSeen || State.healerGoneSeen) return;
-    const currentDays = State.age.years * AgeSystem.daysPerYear + State.age.days;
-    const triggerDays = 16 * AgeSystem.daysPerYear + 30;
-    if (currentDays > triggerDays) {
-        Story.show(
-            Lang.story('healerGone') || "The cot is cold. The fire long dead. The healer is gone — no note, no trace, just the fading scent of herbs. You rise, steadier now. The shelves are bare. Outside, a narrow road cuts through the trees. In the distance, a thin plume of smoke rises. The pendant at your neck feels heavier — as if urging you forward.",
-            'assets/HealerGone.png',
-            () => {
-                State.healerGoneSeen = true;
-                TabManager.unlockTab('adventure');
-                TabManager.showTab('adventure');
-                SaveSystem.save();
-            }
-        );
-    }
-}
 
 function scalingMultiplier(action) {
     const f = action.scaling;
@@ -600,7 +591,7 @@ const ActionEngine = {
             slot.progress = action.exp / action.expToNext;
             updateSlotUI(i);
         });
-        checkStoryEvents();
+        StorySystem.check();
         SoftCapSystem.apply();
         checkHealth();
         SaveSystem.save();
@@ -834,21 +825,14 @@ function updateUI() {
 }
 
 async function init() {
+    setupPubSub();
     await loadBaseData();
     const loadedActions = SaveSystem.load();
+    await StorySystem.load();
     applyPrestigeBonuses();
     await Lang.load(State.language);
     Log.init();
-    if (!State.introSeen) {
-        Story.show(
-            Lang.story('intro') || "You awaken in a healer's hut, the sole survivor of a caravan ambush. Months have passed in recovery and now, with strength slowly returning, your true journey begins. The healer, an old woman with eyes like weathered stone, presses a worn pendant into your hand — the only item found with you. Its unfamiliar symbol stirs something deep and cold in your chest, but no memory surfaces.",
-            'assets/Intro.png',
-            () => {
-                State.introSeen = true;
-                SaveSystem.save();
-            }
-        );
-    }
+    StorySystem.trigger("intro");
     document.getElementById('speed-controls').addEventListener('click', e => {
         const s = e.target.dataset.speed;
         if (!s) return;
@@ -890,8 +874,7 @@ async function init() {
     Lang.applyToEncounters(EncounterGenerator.encounters);
     Lang.applyToLocations(EncounterGenerator.milestones);
     SoftCapSystem.recalculateCaps(State.inventory);
-    StatsUI.init();
-    ResourcesUI.init();
+    await UIHandler.init();
     MasteryUI.init();
     PrestigeUI.init();
     InventoryUI.init();
@@ -911,6 +894,7 @@ async function init() {
     Lang.translateUI();
     TabManager.translate();
     const toggleBtn = document.getElementById('toggle-left');
+    StorySystem.init();
     if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleLeftPanel);
     }
@@ -1029,15 +1013,15 @@ function applyDarkMode() {
 }
 
 function openSettings() {
-    document.getElementById('settings-modal').classList.remove('hidden');
+    PubSub.publish('modal:open', 'settings-modal');
 }
 
 function closeSettings() {
-    document.getElementById('settings-modal').classList.add('hidden');
+    PubSub.publish('modal:close', 'settings-modal');
 }
 
 function openInventoryFilter() {
-    document.getElementById('inventory-filter-modal').classList.remove('hidden');
+    PubSub.publish('modal:open', 'inventory-filter-modal');
     const chk = document.getElementById('hide-rarity-toggle');
     const sel = document.getElementById('hide-rarity-select');
     if (chk) chk.checked = State.hideRarityEnabled;
@@ -1045,5 +1029,5 @@ function openInventoryFilter() {
 }
 
 function closeInventoryFilter() {
-    document.getElementById('inventory-filter-modal').classList.add('hidden');
+    PubSub.publish('modal:close', 'inventory-filter-modal');
 }

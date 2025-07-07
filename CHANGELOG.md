@@ -1,4 +1,46 @@
 # Changelog
+## [0.41.50] - 2025-07-07
+### Added
+- Resource names in retreat logs now respect language translations.
+## [0.41.49] - 2025-07-07
+### Fixed
+- Story modal now shows English descriptions when translations are missing.
+## [0.41.48] - 2025-07-07
+### Fixed
+- `scripts/simple_server.py` resolves the repository path using `os.path.abspath`.
+## [0.41.47] - 2025-07-07
+### Added
+- Story events are now included when the Telegram upload bot scans for missing images.
+- `scripts/simple_server.py` starts a local HTTP server for testing the game.
+## [0.41.46] - 2025-07-07
+### Added
+- Inventory publishes `item:added` and `item:consumed` events for game systems.
+## [0.41.45] - 2025-07-06
+### Added
+- PubSub events for unlockables and modal visibility.
+## [0.41.44] - 2025-07-06
+### Added
+- Basic `PubSub` module enables publish/subscribe messaging between systems.
+
+## [0.41.43] - 2025-07-06
+### Added
+- Story events load from `data/story_events.json` via new `StorySystem`.
+- Chip upgrades can unlock tabs and trigger story events.
+
+
+## [0.41.42] - 2025-07-06
+### Added
+- Sections now support `hidden` and `locked` flags in `data/ui.json`.
+- Ukrainian translations for prestige stats.
+
+## [0.41.41] - 2025-07-05
+### Added
+- Tabs and sections now load from `data/ui.json` via `UIHandler`.
+
+## [0.41.40] - 2025-07-05
+### Added
+- Introduced `UIHandler` module for dynamic UI creation.
+- Updated documentation and guidelines.
 
 ## [0.41.39] - 2025-07-05
 ### Fixed

@@ -42,10 +42,13 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 | Magic System | Simplified crafting and consumption system for magical items               |
 | Belongings   | Manages player's resource quantities, home selection, and magical components                |
 | Chips        | One-time unlockables that grant bonuses or new content |
+| Story System | Loads narrative events from `data/story_events.json` and triggers modals with unlocks |
 | Automation   | Enables actions to loop with or without conditions |
 | Bonus Engine | Centralizes additive, multiplicative, and exponential bonuses for stats and resources, including cost divisors |
+| PubSub       | Lightweight event bus so modules can publish and subscribe to messages. Unlockables and modals broadcast events via `unlock:*` and `modal:*` channels. Items notify `item:added` and `item:consumed` when inventory changes |
 | Engine       | Calculates deltas with multipliers and drives the main tick loop |
 | UI           | Interface for selecting tasks, viewing stats/resources, and managing slots. Includes a settings panel with dark mode and language options |
+| UI Handler   | Dynamically builds stat/resource lists and tab layout from JSON definitions |
 | Character Background | Updates left panel image based on equipped items, including a pose for full gear (leather armor, wooden shield, iron sword, gem) |
 
 #### 5. Core Stats (Initial Set)
@@ -104,6 +107,7 @@ js/state.js         - global state and helper functions
 assets/             - images and static assets
 data/actions.json   - action definitions
 data/resources.json - base stats and resources
+data/ui.json        - tab and section layout (sections can be hidden or locked)
 docs/MVP.md         - checklist for the first prototype
 ```
 
@@ -113,7 +117,8 @@ The page uses a simple header/main/footer structure. Stats and resources are kep
 
 Resources appear as horizontal bars whose colors match each type (red for health, yellow for energy, blue for focus).
 
- A story modal appears once on the first load and another short scene triggers after thirty days pass in game time. Both modals only appear during the first life and all log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects.
+Story modals are defined in `data/story_events.json` and triggered by the `StorySystem`. The intro plays once on first load while another short scene fires after thirty days pass in game time. All modals only appear during the first life and log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects.
+Each event now includes a `text` field with English narrative used when no translation is available.
 
 See **docs/MVP.md** for the MVP list.
 
@@ -136,10 +141,22 @@ page weight. Future updates will extend the scripts to automatically resize and
 compress generated images so existing assets do not require manual replacement.
 See `docs/image_optimization.md` for details.
 
+#### Local Server
+
+Run `scripts/simple_server.py` to launch a small HTTP server for testing the
+game locally:
+
+```bash
+python scripts/simple_server.py --port 8000
+```
+
+Open `http://localhost:8000` in your browser to play without deploying.
+
 #### Telegram Upload Bot
 
 For manual asset contributions a small Telegram bot can collect images and
 automate pull requests. The bot lists unresolved entries from the data files,
+including story events,
 accepts an uploaded image, commits the change and opens (or updates) a PR. See
 `docs/telegram_upload_bot.md` for a full overview.
 
