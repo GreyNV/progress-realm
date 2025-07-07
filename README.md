@@ -140,10 +140,22 @@ page weight. Future updates will extend the scripts to automatically resize and
 compress generated images so existing assets do not require manual replacement.
 See `docs/image_optimization.md` for details.
 
+#### Local Server
+
+Run `scripts/simple_server.py` to launch a small HTTP server for testing the
+game locally:
+
+```bash
+python scripts/simple_server.py --port 8000
+```
+
+Open `http://localhost:8000` in your browser to play without deploying.
+
 #### Telegram Upload Bot
 
 For manual asset contributions a small Telegram bot can collect images and
 automate pull requests. The bot lists unresolved entries from the data files,
+including story events,
 accepts an uploaded image, commits the change and opens (or updates) a PR. See
 `docs/telegram_upload_bot.md` for a full overview.
 

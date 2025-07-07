@@ -1,4 +1,8 @@
 # Changelog
+## [0.41.47] - 2025-07-07
+### Added
+- Story events are now included when the Telegram upload bot scans for missing images.
+- `scripts/simple_server.py` starts a local HTTP server for testing the game.
 ## [0.41.46] - 2025-07-07
 ### Added
 - Inventory publishes `item:added` and `item:consumed` events for game systems.
