@@ -1,4 +1,7 @@
 # Changelog
+## [0.41.50] - 2025-07-07
+### Added
+- Resource names in retreat logs now respect language translations.
 ## [0.41.49] - 2025-07-07
 ### Fixed
 - Story modal now shows English descriptions when translations are missing.
