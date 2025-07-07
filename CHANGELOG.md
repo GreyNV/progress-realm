@@ -1,4 +1,7 @@
 # Changelog
+## [0.41.46] - 2025-07-07
+### Added
+- Inventory publishes `item:added` and `item:consumed` events for game systems.
 ## [0.41.45] - 2025-07-06
 ### Added
 - PubSub events for unlockables and modal visibility.
