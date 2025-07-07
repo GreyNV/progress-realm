@@ -21,6 +21,28 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function setupPubSub() {
+    PubSub.subscribe('modal:open', id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('hidden');
+    });
+    PubSub.subscribe('modal:close', id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+    PubSub.subscribe('unlock:tab', id => TabManager.unlockTab(id));
+    PubSub.subscribe('unlock:action', id => {
+        if (actions[id]) {
+            actions[id].locked = false;
+            updateTaskList();
+        }
+    });
+    PubSub.subscribe('unlock:encounter', id => {
+        const enc = EncounterGenerator.encounters.find(e => e.id === id);
+        if (enc) enc.locked = false;
+    });
+}
+
 
 
 const SoftCapSystem = {
@@ -802,6 +824,7 @@ function updateUI() {
 }
 
 async function init() {
+    setupPubSub();
     await loadBaseData();
     const loadedActions = SaveSystem.load();
     await StorySystem.load();
@@ -989,15 +1012,15 @@ function applyDarkMode() {
 }
 
 function openSettings() {
-    document.getElementById('settings-modal').classList.remove('hidden');
+    PubSub.publish('modal:open', 'settings-modal');
 }
 
 function closeSettings() {
-    document.getElementById('settings-modal').classList.add('hidden');
+    PubSub.publish('modal:close', 'settings-modal');
 }
 
 function openInventoryFilter() {
-    document.getElementById('inventory-filter-modal').classList.remove('hidden');
+    PubSub.publish('modal:open', 'inventory-filter-modal');
     const chk = document.getElementById('hide-rarity-toggle');
     const sel = document.getElementById('hide-rarity-select');
     if (chk) chk.checked = State.hideRarityEnabled;
@@ -1005,5 +1028,5 @@ function openInventoryFilter() {
 }
 
 function closeInventoryFilter() {
-    document.getElementById('inventory-filter-modal').classList.add('hidden');
+    PubSub.publish('modal:close', 'inventory-filter-modal');
 }
