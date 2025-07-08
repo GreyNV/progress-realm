@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.58] - 2025-07-08
+### Fixed
+- Saved adventure encounters are now restored as `Encounter` objects when loading the game.
+
 ## [0.41.57] - 2025-07-08
 ### Fixed
 - Alert now appears whenever resource data fails to load, not just from the `file:` protocol.
