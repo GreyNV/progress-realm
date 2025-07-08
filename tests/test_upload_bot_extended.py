@@ -78,3 +78,23 @@ def test_find_unresolved_includes_homes(tmp_path, monkeypatch):
     monkeypatch.setattr(module, "DATA_FILES", [str(homes)])
     unresolved = module.find_unresolved()
     assert (str(homes), "h1", "Home") in unresolved
+
+
+def test_find_unresolved_includes_furniture(tmp_path, monkeypatch):
+    furniture = tmp_path / "furniture.json"
+    json.dump([
+        {"id": "f1", "name": "Chair", "image": ""}
+    ], furniture.open("w"))
+    monkeypatch.setattr(module, "DATA_FILES", [str(furniture)])
+    unresolved = module.find_unresolved()
+    assert (str(furniture), "f1", "Chair") in unresolved
+
+
+def test_find_unresolved_includes_research(tmp_path, monkeypatch):
+    research = tmp_path / "research.json"
+    json.dump([
+        {"id": "r1", "name": "Research", "image": ""}
+    ], research.open("w"))
+    monkeypatch.setattr(module, "DATA_FILES", [str(research)])
+    unresolved = module.find_unresolved()
+    assert (str(research), "r1", "Research") in unresolved

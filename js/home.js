@@ -46,19 +46,9 @@ const HomeSystem = {
             this.listEl.appendChild(li);
         });
         this.slotContainer.innerHTML = '';
-        const slotEl = document.createElement('div');
-        slotEl.className = 'slot';
+        const slot = new BaseSlot(false);
+        const slotEl = slot.el;
         slotEl.dataset.slot = 0;
-        const label = document.createElement('span');
-        label.className = 'label';
-        slotEl.appendChild(label);
-        const wrapper = document.createElement('div');
-        wrapper.className = 'progress-wrapper';
-        const prog = document.createElement('progress');
-        prog.value = 0;
-        prog.max = 1;
-        wrapper.appendChild(prog);
-        slotEl.appendChild(wrapper);
         slotEl.addEventListener('dragover', e => e.preventDefault());
         slotEl.addEventListener('drop', e => {
             e.preventDefault();
@@ -105,19 +95,8 @@ const HomeSystem = {
         if (!this.furnitureContainer) return;
         this.furnitureContainer.innerHTML = '';
         for (let i = 0; i < count; i++) {
-            const slotEl = document.createElement('div');
-            slotEl.className = 'slot';
-            const label = document.createElement('span');
-            label.className = 'label';
-            slotEl.appendChild(label);
-            const wrapper = document.createElement('div');
-            wrapper.className = 'progress-wrapper';
-            const prog = document.createElement('progress');
-            prog.value = 0;
-            prog.max = 1;
-            wrapper.appendChild(prog);
-            slotEl.appendChild(wrapper);
-            this.furnitureContainer.appendChild(slotEl);
+            const slot = new BaseSlot();
+            this.furnitureContainer.appendChild(slot.el);
         }
     }
 };

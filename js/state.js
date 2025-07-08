@@ -119,6 +119,8 @@ const State = {
     inventorySlotCount: 8,
     inventory: {},
     homeId: null,
+    furniture: [],
+    researchCompleted: [],
     time: 1,
     masteryPoints: 0,
     encounterLevel: 1,
