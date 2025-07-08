@@ -276,6 +276,9 @@ const SaveSystem = {
                 if (Array.isArray(State.adventureSlots)) {
                     State.adventureSlots.forEach(s => {
                         if (s.active === undefined) s.active = false;
+                        if (s.encounter && typeof s.encounter.getLootChance !== 'function') {
+                            s.encounter = new Encounter(s.encounter);
+                        }
                     });
                 }
                 if (State.inventorySlotCount === undefined) {
