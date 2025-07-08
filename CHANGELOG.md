@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.41.59] - 2025-07-09
+### Added
+- BaseSlot module for reusable slot UI
+- Furniture and Research systems with JSON data
+- Translation updates for new UI labels
+
 ## [0.41.58] - 2025-07-08
 ### Fixed
 - Saved adventure encounters are now restored as `Encounter` objects when loading the game.

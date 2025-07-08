@@ -305,6 +305,12 @@ const SaveSystem = {
                 if (State.homeId === undefined) {
                     State.homeId = null;
                 }
+                if (!Array.isArray(State.furniture)) {
+                    State.furniture = [];
+                }
+                if (!Array.isArray(State.researchCompleted)) {
+                    State.researchCompleted = [];
+                }
                 if (!State.language) {
                     State.language = 'en';
                 }
@@ -353,6 +359,8 @@ const SaveSystem = {
 
         State.inventory = {};
         State.homeId = null;
+        State.furniture = [];
+        State.researchCompleted = [];
         State.adventureSlots = State.adventureSlots.map(() => ({
             text: '', progress: 0, duration: 1, encounter: null, active: false
         }));
@@ -887,6 +895,8 @@ async function init() {
     await EncounterGenerator.load();
     await ItemGenerator.load();
     await HomeSystem.load();
+    await FurnitureSystem.load();
+    await ResearchSystem.load();
     await UpdateSystem.load();
     Lang.applyToActions(actions);
     Lang.applyToItems(ItemGenerator.itemList);
@@ -898,6 +908,8 @@ async function init() {
     PrestigeUI.init();
     InventoryUI.init();
     HomeSystem.init();
+    FurnitureSystem.init();
+    ResearchSystem.init();
     UpdateSystem.init();
     if (typeof CharacterBackground !== 'undefined') {
         CharacterBackground.init();

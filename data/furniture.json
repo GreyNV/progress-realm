@@ -1,0 +1,18 @@
+[
+  {
+    "id": "wooden_table",
+    "name": "Wooden Table",
+    "image": "assets/furniture/wooden_table.png",
+    "description": "A sturdy table for daily chores.",
+    "cost": 100,
+    "unlocks": ["woodworking"]
+  },
+  {
+    "id": "comfy_bed",
+    "name": "Comfy Bed",
+    "image": "assets/furniture/comfy_bed.png",
+    "description": "Rest well to recover faster.",
+    "cost": 200,
+    "unlocks": ["sleep"]
+  }
+]

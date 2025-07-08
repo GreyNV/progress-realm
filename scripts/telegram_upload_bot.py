@@ -25,6 +25,8 @@ DATA_FILES = [
     os.path.join('data', 'items.json'),
     os.path.join('data', 'encounters.json'),
     os.path.join('data', 'homes.json'),
+    os.path.join('data', 'furniture.json'),
+    os.path.join('data', 'research.json'),
     os.path.join('data', 'story_events.json'),
 ]
 IMAGES_DIR = os.path.join('assets', 'user_uploaded')

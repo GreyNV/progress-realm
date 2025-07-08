@@ -1,0 +1,18 @@
+[
+  {
+    "id": "basic_cooking",
+    "name": "Basic Cooking",
+    "image": "assets/research/basic_cooking.png",
+    "description": "Learn simple recipes.",
+    "cost": 500,
+    "unlocks": ["cooking"]
+  },
+  {
+    "id": "advanced_tools",
+    "name": "Advanced Tools",
+    "image": "assets/research/advanced_tools.png",
+    "description": "Unlock better crafting equipment.",
+    "cost": 800,
+    "unlocks": ["blacksmithing"]
+  }
+]
