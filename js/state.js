@@ -140,7 +140,10 @@ for (let i = 0; i < State.adventureSlotCount; i++) {
 
 async function loadBaseData() {
     try {
-        const res = await fetch('data/resources.json');
+        let res = await fetch('data/resources.json');
+        if (!res.ok) {
+            res = await fetch('../data/resources.json');
+        }
         const json = await res.json();
         STAT_KEYS = Object.keys(json.stats || {});
         RESOURCE_KEYS = Object.keys(json.resources || {});
