@@ -1,4 +1,8 @@
 # Changelog
+## [0.41.51] - 2025-07-07
+### Added
+- Telegram upload bot displays story event IDs when listing unresolved entries and
+  supports adding images for homes.
 ## [0.41.50] - 2025-07-07
 ### Added
 - Resource names in retreat logs now respect language translations.

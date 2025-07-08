@@ -58,3 +58,23 @@ def test_commit_and_pr_runs_gh(monkeypatch):
     monkeypatch.setattr(shutil, 'which', lambda x: '/usr/bin/gh')
     module.commit_and_pr('img.png', 'data.json', 'id1')
     assert any(cmd[0] == 'gh' for cmd in calls)
+
+
+def test_find_unresolved_story_uses_fallback(tmp_path, monkeypatch):
+    story = tmp_path / "story_events.json"
+    json.dump([
+        {"id": "s2", "textKey": "storyKey", "image": ""}
+    ], story.open("w"))
+    monkeypatch.setattr(module, "DATA_FILES", [str(story)])
+    unresolved = module.find_unresolved()
+    assert (str(story), "s2", "storyKey") in unresolved
+
+
+def test_find_unresolved_includes_homes(tmp_path, monkeypatch):
+    homes = tmp_path / "homes.json"
+    json.dump([
+        {"id": "h1", "name": "Home", "image": ""}
+    ], homes.open("w"))
+    monkeypatch.setattr(module, "DATA_FILES", [str(homes)])
+    unresolved = module.find_unresolved()
+    assert (str(homes), "h1", "Home") in unresolved

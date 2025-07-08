@@ -58,7 +58,13 @@ def find_unresolved() -> List[Tuple[str, str, str]]:
         for entry in entries:
             img = entry.get('image')
             if not img or not os.path.exists(img):
-                unresolved.append((path, entry.get('id', ''), entry.get('name', 'Unnamed')))
+                name = (
+                    entry.get('name')
+                    or entry.get('textKey')
+                    or entry.get('text')
+                    or entry.get('id', 'Unnamed')
+                )
+                unresolved.append((path, entry.get('id', ''), name))
     return unresolved
 
 
