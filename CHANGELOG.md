@@ -1,4 +1,5 @@
 # Changelog
+
 ## [0.41.55] - 2025-07-08
 ### Fixed
 - Added fallback path for `resources.json` to avoid 404 errors when served from subdirectories.
