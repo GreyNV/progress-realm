@@ -1,4 +1,8 @@
 # Changelog
+
+## [0.41.55] - 2025-07-08
+### Fixed
+- Added fallback path for `resources.json` to avoid 404 errors when served from subdirectories.
 ## [0.41.54] - 2025-07-08
 ### Fixed
 - Updated Ukrainian translation for constitution to "Комплекція".
