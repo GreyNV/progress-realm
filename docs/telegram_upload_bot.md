@@ -6,7 +6,8 @@ these steps:
 1. **Repository Pull** – executes `git pull origin main` and reports failures.
 2. **Parse & Filter** – scans item, encounter, home and story event JSON files
    for entries with missing image paths and verifies the image files are present.
-3. **Present Options** – shows unresolved items in batches of ten for selection.
+3. **Present Options** – shows unresolved items in batches of ten for selection,
+   using the entry name or ID so story events without a name remain identifiable.
 4. **Receive Upload** – validates the uploaded file size and type before saving
    to `assets/user_uploaded/`.
    The saved path is normalized to use forward slashes so JSON entries remain
