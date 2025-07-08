@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.41.57] - 2025-07-08
+### Fixed
+- Alert now appears whenever resource data fails to load, not just from the `file:` protocol.
+- Added troubleshooting note in README.
+## [0.41.56] - 2025-07-08
+### Fixed
+- Alert when resource data fails to load if page is opened directly from disk.
+- Documented server requirement in README.
+
 ## [0.41.55] - 2025-07-08
 ### Fixed
 - Added fallback path for `resources.json` to avoid 404 errors when served from subdirectories.

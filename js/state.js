@@ -162,6 +162,9 @@ async function loadBaseData() {
         Logger.info('Base resource data loaded');
     } catch (e) {
         Logger.error('Failed to load resource data', e);
+        if (typeof window !== 'undefined') {
+            alert('Resource data could not be loaded. Ensure the server is serving the /data directory correctly.');
+        }
     }
 }
 

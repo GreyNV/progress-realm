@@ -151,6 +151,10 @@ python scripts/simple_server.py --port 8000
 ```
 
 Open `http://localhost:8000` in your browser to play without deploying.
+Opening `index.html` directly from the filesystem can cause the UI to break
+because the game fetches JSON files via AJAX. Always use the server so these
+requests succeed. If an alert appears saying resource data could not be loaded,
+check that the `/data` folder is accessible on your server.
 
 #### Telegram Upload Bot
 
