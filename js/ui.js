@@ -33,7 +33,15 @@ const PrestigeUI = {
     init() {
         this.list = PRESTIGE_KEYS.filter(k => k !== 'creativity');
         this.container = document.getElementById('prestige-block');
+        this.translate();
         this.update();
+    },
+    translate() {
+        document.querySelectorAll('#prestige-block .prestige-label').forEach(el => {
+            const key = el.dataset.key;
+            // Try resource translation first, then stat translation
+            el.textContent = Lang.resource(key) || Lang.stat(key) || capitalize(key);
+        });
     },
     update() {
         if (!this.container) return;

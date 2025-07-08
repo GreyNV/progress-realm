@@ -29,6 +29,10 @@ const Lang = {
     resource(key) {
         return this.data.resources && this.data.resources[key] || null;
     },
+    effect(key) {
+        if (!this.data.effects) return null;
+        return this.data.effects[key] || null;
+    },
     story(key) {
         return this.data.story && this.data.story[key] || null;
     },

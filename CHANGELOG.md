@@ -1,4 +1,14 @@
 # Changelog
+## [0.41.54] - 2025-07-08
+### Fixed
+- Updated Ukrainian translation for constitution to "Комплекція".
+## [0.41.53] - 2025-07-08
+### Added
+- Translated item effect descriptions and added Ukrainian strings.
+- Encounter tooltips now show modified drop chances and guaranteed loot.
+## [0.41.52] - 2025-07-08
+### Added
+- Ukrainian translations for prestige resources.
 ## [0.41.51] - 2025-07-07
 ### Added
 - Telegram upload bot displays story event IDs when listing unresolved entries and

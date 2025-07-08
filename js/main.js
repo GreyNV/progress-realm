@@ -792,16 +792,32 @@ function updateAdventureSlotUI(i) {
             slotEl.style.backgroundSize = 'cover';
         }
         slotEl.classList.add(`rarity-${slot.encounter.rarity}`);
+        // Build tooltip with encounter description, drop chances, and loot info
         const parts = [slot.encounter.description];
-        if (slot.encounter.items) {
-            const lines = Object.entries(slot.encounter.items)
-                .map(([id, chance]) => {
-                    const item = ItemGenerator.itemList.find(i => i.id === id);
-                    const name = item ? item.name : id;
-                    return `${name}: ${Math.round(chance * 100)}%`;
-                });
+        if (slot.encounter.items && Object.keys(slot.encounter.items).length) {
+            const chance = slot.encounter.getLootChance();
+            const total = Object.values(slot.encounter.items).reduce((a, b) => a + b, 0) || 1;
+            const lines = Object.entries(slot.encounter.items).map(([id, weight]) => {
+                const item = ItemGenerator.itemList.find(i => i.id === id);
+                const name = item ? item.name : id;
+                const pct = chance * (weight / total) * 100;
+                return `${name}: ${pct.toFixed(1)}%`;
+            });
             if (lines.length) {
-                parts.push('Loot chances:');
+                parts.push((Lang.ui('Drop Chances') || 'Drop chances') + ':');
+                parts.push(...lines);
+            }
+        }
+        if (slot.encounter.loot && Object.keys(slot.encounter.loot).length) {
+            const mult = slot.encounter.getLootMultiplier();
+            const lines = Object.entries(slot.encounter.loot).map(([id, qty]) => {
+                const item = ItemGenerator.itemList.find(i => i.id === id);
+                const name = item ? item.name : id;
+                const total = Math.floor(qty * mult);
+                return `${name} x${total}`;
+            });
+            if (lines.length) {
+                parts.push((Lang.ui('Guaranteed Loot') || 'Guaranteed loot') + ':');
                 parts.push(...lines);
             }
         }
@@ -951,6 +967,7 @@ async function init() {
             Lang.translateUI();
             TabManager.translate();
             StatsUI.translate();
+            PrestigeUI.translate();
             ResourcesUI.translate();
             updateTaskList();
             for (let i = 0; i < State.slotCount; i++) updateSlotUI(i);

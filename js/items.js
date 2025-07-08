@@ -15,7 +15,9 @@ class Item {
     getEffectDescription() {
         if (this.effectType === 'increaseSoftcap' && this.effectValue) {
             const key = Object.keys(this.effectValue)[0];
-            return `Improves ${key} cap`;
+            const resName = Lang.resource(key) || key;
+            const tpl = Lang.effect('increaseSoftcap') || 'Improves {resource} cap';
+            return tpl.replace('{resource}', resName);
         }
         return '';
     }
