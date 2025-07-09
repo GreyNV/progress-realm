@@ -66,6 +66,9 @@ const HomeSystem = {
         State.homeId = id;
         this.updateSlot();
         SaveSystem.save();
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('home:changed', id);
+        }
     },
     updateSlot() {
         if (!this.slotContainer) return;

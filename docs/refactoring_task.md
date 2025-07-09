@@ -25,3 +25,4 @@ This incremental approach will gradually reduce the size of `main.js` and clarif
 
 ### Progress
 As of version 0.17.0, the `engine.js` module also manages aging and experience generation. `DeltaEngine` computes per-second changes for stats, resources, age and action experience, applying them with a multiplier so game speed modifiers can adjust progression. Version 0.18.0 extends this system to encounter progress so all time based systems share a single timing engine. Version 0.20.0 introduces a dedicated `state.js` module that defines the global `State` object and helper functions. Version 0.19.0 introduces a `bonus.js` module that centralizes additive, multiplicative and exponential modifiers for stats and resources and allows cost divisors for consumptions.
+Version 0.41.64 switches action and adventure slot creation to the reusable `BaseSlot` class and emits a `home:changed` event when selecting a dwelling.

@@ -322,23 +322,10 @@ function setupSlots() {
         State.slots = State.slots.slice(0, State.slotCount);
     }
     for (let i = 0; i < State.slotCount; i++) {
-        const slotEl = document.createElement('div');
-        slotEl.className = 'slot';
+        const slot = new BaseSlot();
+        const slotEl = slot.el;
         slotEl.dataset.slot = i;
         slotEl.dataset.tooltip = 'Drag an action here';
-
-        const label = document.createElement('span');
-        label.className = 'label';
-        slotEl.appendChild(label);
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'progress-wrapper';
-        const prog = document.createElement('progress');
-        prog.value = 0;
-        prog.max = 100;
-        wrapper.appendChild(prog);
-        slotEl.appendChild(wrapper);
-
         container.appendChild(slotEl);
         updateSlotUI(i);
     }
@@ -358,22 +345,9 @@ function setupAdventureSlots() {
     }
     for (let i = 0; i < State.adventureSlotCount; i++) {
         if (State.adventureSlots[i].active === undefined) State.adventureSlots[i].active = false;
-        const slotEl = document.createElement('div');
-        slotEl.className = 'slot';
+        const slot = new BaseSlot();
+        const slotEl = slot.el;
         slotEl.dataset.slot = i;
-
-        const label = document.createElement('span');
-        label.className = 'label';
-        slotEl.appendChild(label);
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'progress-wrapper';
-        const prog = document.createElement('progress');
-        prog.value = 0;
-        prog.max = 1;
-        wrapper.appendChild(prog);
-        slotEl.appendChild(wrapper);
-
         container.appendChild(slotEl);
         updateAdventureSlotUI(i);
     }

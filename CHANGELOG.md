@@ -1,4 +1,9 @@
 # Changelog
+## [0.41.64] - 2025-07-09
+### Changed
+- Action and adventure slot creation now uses the `BaseSlot` class.
+- Selecting a home publishes a `home:changed` event.
+
 ## [0.41.63] - 2025-07-09
 ### Added
 - Dedicated age system module with pub/sub events.
