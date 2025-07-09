@@ -12,16 +12,6 @@ class Furniture {
     }
 }
 
-function formatCost(cost = {}) {
-    return Object.entries(cost)
-        .map(([id, qty]) => {
-            const item = ItemGenerator.itemList.find(i => i.id === id);
-            const name = item ? item.name : id;
-            return `${qty}x ${name}`;
-        })
-        .join(', ');
-}
-
 const FurnitureSystem = {
     furniture: [],
     listEl: null,
@@ -46,7 +36,7 @@ const FurnitureSystem = {
         this.furniture.forEach(f => {
             const li = document.createElement('li');
             li.textContent = f.name;
-            li.dataset.tooltip = `${f.description}\nCost: ${formatCost(f.cost)}`;
+            li.dataset.tooltip = `${f.description}\nCost: ${Utils.formatCost(f.cost)}`;
             li.addEventListener('click', () => this.purchase(f.id));
             this.listEl.appendChild(li);
         });

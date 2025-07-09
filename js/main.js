@@ -41,30 +41,23 @@ function setupPubSub() {
         const enc = EncounterGenerator.encounters.find(e => e.id === id);
         if (enc) enc.locked = false;
     });
+    PubSub.subscribe('age:advanced', days => {
+        if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.decay) {
+            FurnitureSystem.decay(days);
+        }
+    });
+    PubSub.subscribe('age:maxReached', () => {
+        if (!State.prestiging) {
+            State.prestiging = true;
+            SaveSystem.prestige();
+        }
+    });
 }
 
 
 
 
 
-
-const AgeSystem = {
-    daysPerYear: 365,
-    addDays(days) {
-        State.age.days += days;
-        if (State.age.days >= this.daysPerYear) {
-            State.age.years += Math.floor(State.age.days / this.daysPerYear);
-            State.age.days = State.age.days % this.daysPerYear;
-        }
-        if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.decay) {
-            FurnitureSystem.decay(days);
-        }
-        if (!State.prestiging && State.age.years >= State.age.max) {
-            State.prestiging = true;
-            SaveSystem.prestige();
-        }
-    }
-};
 
 function applyPrestigeBonuses() {
     STAT_KEYS.forEach(k => {

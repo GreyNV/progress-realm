@@ -10,16 +10,6 @@ class Home {
     }
 }
 
-function formatCost(cost = {}) {
-    return Object.entries(cost)
-        .map(([id, qty]) => {
-            const item = ItemGenerator.itemList.find(i => i.id === id);
-            const name = item ? item.name : id;
-            return `${qty}x ${name}`;
-        })
-        .join(', ');
-}
-
 const HomeSystem = {
     homes: [],
     listEl: null,
@@ -45,7 +35,7 @@ const HomeSystem = {
             const li = document.createElement('li');
             li.textContent = h.name;
             li.dataset.homeId = h.id;
-            li.dataset.tooltip = `${h.description}\nCost: ${formatCost(h.cost)}`;
+            li.dataset.tooltip = `${h.description}\nCost: ${Utils.formatCost(h.cost)}`;
             li.setAttribute('draggable', 'true');
             li.addEventListener('dragstart', e => {
                 li.classList.add('dragging');
@@ -98,7 +88,7 @@ const HomeSystem = {
         } else {
             slotEl.style.backgroundImage = 'none';
         }
-        slotEl.dataset.tooltip = `${home.description}\nCost: ${formatCost(home.cost)}`;
+        slotEl.dataset.tooltip = `${home.description}\nCost: ${Utils.formatCost(home.cost)}`;
         RARITY_CLASSES.forEach(r => slotEl.classList.remove(`rarity-${r}`));
         slotEl.classList.add(`rarity-${home.rarity}`);
         this.updateFurnitureSlots(home.furnitureSlots);

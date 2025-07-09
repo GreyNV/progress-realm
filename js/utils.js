@@ -15,6 +15,23 @@ const Utils = {
             if (r <= 0) return items[i];
         }
         return items[items.length - 1];
+    },
+
+    /**
+     * Format a cost object into a readable string.
+     * @param {Object} cost
+     * @returns {string}
+     */
+    formatCost(cost = {}) {
+        return Object.entries(cost)
+            .map(([id, qty]) => {
+                const item = typeof ItemGenerator !== 'undefined' && ItemGenerator.itemList
+                    ? ItemGenerator.itemList.find(i => i.id === id)
+                    : null;
+                const name = item ? item.name : id;
+                return `${qty}x ${name}`;
+            })
+            .join(', ');
     }
 };
 

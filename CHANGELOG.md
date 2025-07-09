@@ -1,4 +1,11 @@
 # Changelog
+## [0.41.63] - 2025-07-09
+### Added
+- Dedicated age system module with pub/sub events.
+### Changed
+- Furniture decay and prestige triggers listen to age events.
+- formatCost moved to Utils and used by home and furniture modules.
+
 ## [0.41.62] - 2025-07-09
 ### Changed
 - Split major systems into separate scripts.
