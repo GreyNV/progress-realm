@@ -174,6 +174,14 @@ uploaded image, commits the change and opens (or updates) a PR. See
 * Player avatar or magical tower interface (for immersion)
 * Evaluate scripting to automatically generate new encounter JSON entries
 
+#### 13. Changelog Updates
+
+All code and documentation changes must be reflected in `CHANGELOG.md`. When
+adding notes, update the bullet list under the latest version at the top of the
+file rather than creating a new version header. Only introduce a new version
+section when an issue or task specifically calls for it. Use dates in
+`YYYY-MM-DD` format.
+
 ---
 
 Next step: expand automation and prestige mechanics.
