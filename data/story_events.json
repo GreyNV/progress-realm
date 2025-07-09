@@ -24,6 +24,6 @@
     "image": "",
     "flag": "banditsAmbushSeen",
     "trigger": {"type": "encounterWin", "encounterId": "banditsAmbush"},
-    "unlocks": {}
+    "unlocks": {"tabs": ["chip"]}
   }
 ]

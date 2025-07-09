@@ -5,6 +5,7 @@
 - Selecting a home publishes a `home:changed` event.
 - Documented changelog update policy in `AGENTS.md` and added a section to
   `README.md` describing the process.
+- Chip tab remains locked until the bandits ambush is completed once.
 
 ## [0.41.63] - 2025-07-09
 ### Added
