@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.41.61] - 2025-07-09
+### Changed
+- Furniture durability now decays more slowly.
+
 ## [0.41.60] - 2025-07-09
 ### Added
 - Homes and furniture now require item costs instead of numeric prices.
