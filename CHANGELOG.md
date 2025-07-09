@@ -1,4 +1,8 @@
 # Changelog
+## [0.41.62] - 2025-07-09
+### Changed
+- Split major systems into separate scripts.
+
 
 ## [0.41.61] - 2025-07-09
 ### Changed
