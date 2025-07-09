@@ -41,6 +41,8 @@
 - Update `CHANGELOG.md` with a short note describing each change
 - Add new entries to the **top** of the changelog so the latest changes appear first
 - Use the current date in `YYYY-MM-DD` format when creating new changelog entries
+- Unless a task explicitly requires a version bump, update the notes under the
+  latest version header instead of adding a new one
 
 ## Review Protocol
 
