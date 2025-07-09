@@ -1,3 +1,5 @@
+const DURABILITY_DECAY_RATE = 0.1; // proportion of durability lost per day
+
 class Furniture {
     constructor(data) {
         this.id = data.id;
@@ -63,7 +65,7 @@ const FurnitureSystem = {
     decay(days = 1) {
         let changed = false;
         State.furniture = State.furniture.filter(f => {
-            f.durability -= days;
+            f.durability -= days * DURABILITY_DECAY_RATE;
             if (f.durability > 0) return true;
             changed = true;
             return false;
