@@ -6,7 +6,7 @@
     "image": "assets/homes/camp.png",
     "description": "A simple hut hidden among the trees.",
     "furnitureSlots": 1,
-    "cost": 0
+    "cost": {}
   },
   {
     "id": "cottage",
@@ -15,7 +15,7 @@
     "image": "assets/homes/cottage.png",
     "description": "A cozy cottage with a thatched roof.",
     "furnitureSlots": 3,
-    "cost": 1000
+    "cost": {"money": 1000}
   },
   {
     "id": "manor",
@@ -24,6 +24,6 @@
     "image": "assets/homes/manor.png",
     "description": "An impressive manor with many rooms.",
     "furnitureSlots": 6,
-    "cost": 10000
+    "cost": {"money": 10000}
   }
 ]

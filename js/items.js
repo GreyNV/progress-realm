@@ -155,6 +155,20 @@ const Inventory = {
     hasItem(id) {
         return State.inventory[id] && State.inventory[id].quantity > 0;
     },
+    hasQuantity(id, qty = 1) {
+        return State.inventory[id] && State.inventory[id].quantity >= qty;
+    },
+    canAfford(cost) {
+        for (const id in cost) {
+            if (!this.hasQuantity(id, cost[id])) return false;
+        }
+        return true;
+    },
+    consumeCost(cost) {
+        for (const id in cost) {
+            this.consume(id, cost[id]);
+        }
+    }
 };
 
 if (typeof module !== 'undefined') {

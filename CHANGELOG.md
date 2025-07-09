@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.41.60] - 2025-07-09
+### Added
+- Homes and furniture now require item costs instead of numeric prices.
+- Furniture gains durability that decays each day and items vanish when it reaches zero.
+
 ## [0.41.59] - 2025-07-09
 ### Added
 - BaseSlot module for reusable slot UI

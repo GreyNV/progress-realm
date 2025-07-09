@@ -4,9 +4,20 @@ class Furniture {
         this.name = data.name;
         this.description = data.description || '';
         this.image = data.image || null;
-        this.cost = data.cost || 0;
+        this.cost = data.cost || {};
+        this.durability = data.durability || 1;
         this.unlocks = data.unlocks || [];
     }
+}
+
+function formatCost(cost = {}) {
+    return Object.entries(cost)
+        .map(([id, qty]) => {
+            const item = ItemGenerator.itemList.find(i => i.id === id);
+            const name = item ? item.name : id;
+            return `${qty}x ${name}`;
+        })
+        .join(', ');
 }
 
 const FurnitureSystem = {
@@ -33,7 +44,7 @@ const FurnitureSystem = {
         this.furniture.forEach(f => {
             const li = document.createElement('li');
             li.textContent = f.name;
-            li.dataset.tooltip = `${f.description}\nCost: ${f.cost}`;
+            li.dataset.tooltip = `${f.description}\nCost: ${formatCost(f.cost)}`;
             li.addEventListener('click', () => this.purchase(f.id));
             this.listEl.appendChild(li);
         });
@@ -41,10 +52,23 @@ const FurnitureSystem = {
     purchase(id) {
         const item = this.furniture.find(f => f.id === id);
         if (!item) return;
-        State.furniture.push(id);
+        if (!Inventory.canAfford(item.cost)) return;
+        Inventory.consumeCost(item.cost);
+        State.furniture.push({ id: item.id, durability: item.durability });
+        HomeSystem.updateSlot();
         item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
         this.render();
         SaveSystem.save();
+    },
+    decay(days = 1) {
+        let changed = false;
+        State.furniture = State.furniture.filter(f => {
+            f.durability -= days;
+            if (f.durability > 0) return true;
+            changed = true;
+            return false;
+        });
+        if (changed) HomeSystem.updateSlot();
     }
 };
 

@@ -10,6 +10,8 @@ def test_furniture_fields():
         assert 'id' in item
         assert 'name' in item
         assert 'cost' in item
+        assert isinstance(item['cost'], dict)
+        assert 'durability' in item
         assert 'unlocks' in item
         assert isinstance(item['unlocks'], list)
         assert 'image' in item

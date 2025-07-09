@@ -383,6 +383,9 @@ const AgeSystem = {
             State.age.years += Math.floor(State.age.days / this.daysPerYear);
             State.age.days = State.age.days % this.daysPerYear;
         }
+        if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.decay) {
+            FurnitureSystem.decay(days);
+        }
         if (!State.prestiging && State.age.years >= State.age.max) {
             State.prestiging = true;
             SaveSystem.prestige();
