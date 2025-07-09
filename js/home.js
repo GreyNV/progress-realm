@@ -6,8 +6,18 @@ class Home {
         this.image = data.image || null;
         this.rarity = data.rarity || 'common';
         this.furnitureSlots = data.furnitureSlots || 0;
-        this.cost = data.cost || 0;
+        this.cost = data.cost || {};
     }
+}
+
+function formatCost(cost = {}) {
+    return Object.entries(cost)
+        .map(([id, qty]) => {
+            const item = ItemGenerator.itemList.find(i => i.id === id);
+            const name = item ? item.name : id;
+            return `${qty}x ${name}`;
+        })
+        .join(', ');
 }
 
 const HomeSystem = {
@@ -35,7 +45,7 @@ const HomeSystem = {
             const li = document.createElement('li');
             li.textContent = h.name;
             li.dataset.homeId = h.id;
-            li.dataset.tooltip = `${h.description}\nCost: ${h.cost}`;
+            li.dataset.tooltip = `${h.description}\nCost: ${formatCost(h.cost)}`;
             li.setAttribute('draggable', 'true');
             li.addEventListener('dragstart', e => {
                 li.classList.add('dragging');
@@ -61,6 +71,8 @@ const HomeSystem = {
     setHome(id) {
         const home = this.homes.find(h => h.id === id);
         if (!home) return;
+        if (!Inventory.canAfford(home.cost)) return;
+        Inventory.consumeCost(home.cost);
         State.homeId = id;
         this.updateSlot();
         SaveSystem.save();
@@ -86,7 +98,7 @@ const HomeSystem = {
         } else {
             slotEl.style.backgroundImage = 'none';
         }
-        slotEl.dataset.tooltip = `${home.description}\nCost: ${home.cost}`;
+        slotEl.dataset.tooltip = `${home.description}\nCost: ${formatCost(home.cost)}`;
         RARITY_CLASSES.forEach(r => slotEl.classList.remove(`rarity-${r}`));
         slotEl.classList.add(`rarity-${home.rarity}`);
         this.updateFurnitureSlots(home.furnitureSlots);
@@ -96,6 +108,15 @@ const HomeSystem = {
         this.furnitureContainer.innerHTML = '';
         for (let i = 0; i < count; i++) {
             const slot = new BaseSlot();
+            const data = State.furniture[i];
+            if (data) {
+                const furn = FurnitureSystem.furniture.find(f => f.id === data.id);
+                if (furn) {
+                    slot.setLabel(furn.name);
+                    slot.setImage(furn.image);
+                    slot.setTooltip(`${furn.description}\nDurability: ${data.durability}/${furn.durability}`);
+                }
+            }
             this.furnitureContainer.appendChild(slot.el);
         }
     }
