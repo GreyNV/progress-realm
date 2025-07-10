@@ -111,6 +111,13 @@ data/ui.json        - tab and section layout (sections can be hidden or locked)
 docs/MVP.md         - checklist for the first prototype
 ```
 
+#### Recent Structural Improvements (v0.41.64)
+
+* Core managers (`age_system`, `save_system`, `soft_cap`, `tab_manager` and `story_core`) moved out of `main.js` into standalone modules.
+* Home, Furniture and Research systems now expose separate `*UI` objects, isolating display logic from data handling.
+* InventoryUI lives in `js/ui/inventory.js` and UI guidelines are documented in `AGENTS.md`.
+* `requirements.txt` lists Python packages used by helper scripts and tests.
+
 #### Prototype Layout
 
 The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and a log panel occupies the right side. The header shows the current age and provides buttons to adjust the game speed.

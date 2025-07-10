@@ -9,6 +9,7 @@
 - Added `requirements.txt` and updated documentation on installing Python dependencies.
 - Split home, furniture and research modules into data and UI components.
 - Moved `InventoryUI` to its own script under `js/ui/` and added UI guidelines.
+- Documented recent modularization in `README.md` and `docs/refactoring_task.md`.
 
 ## [0.41.63] - 2025-07-09
 ### Added
