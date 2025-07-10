@@ -30,6 +30,11 @@
 - Load gameplay values from JSON files under `data/` instead of hardcoding them.
 - Add unit tests in `tests/` when introducing or changing modules to keep coverage above 80%.
 
+## Dependency Guidelines
+- Track Python packages in `requirements.txt` and keep them up to date.
+- Install dependencies with `pip install -r requirements.txt` before running scripts or tests.
+- Primary packages include `openai`, `requests`, and `python-telegram-bot`.
+
 
 ## Testing Protocols
 
