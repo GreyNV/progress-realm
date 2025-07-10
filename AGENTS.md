@@ -18,7 +18,18 @@
 - Prefer descriptive variable and function names
 - Keep code modular and comment important sections
 - When creatimg new keys in json files do not reuse existing image sources
+
 - Prefer using `UIHandler` for new UI sections instead of manual DOM creation
+
+## Architecture Guidelines
+- Separate game logic, UI, and data into dedicated modules.
+- Place game logic modules in `js/` as single-purpose files and export them for testing.
+- Communicate across modules using the `PubSub` event bus rather than direct references.
+- Modify the global `State` object only through helper functions in `state.js` or system APIs.
+- UI modules should read state and publish events but avoid altering `State` directly.
+- Load gameplay values from JSON files under `data/` instead of hardcoding them.
+- Add unit tests in `tests/` when introducing or changing modules to keep coverage above 80%.
+
 
 ## Testing Protocols
 
