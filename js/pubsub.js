@@ -43,6 +43,43 @@ const PubSub = {
     }
 };
 
+/**
+ * Wire up common UI event subscriptions.
+ * Separated from main.js for easier maintenance.
+ */
+function initPubSub() {
+    PubSub.subscribe('modal:open', id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('hidden');
+    });
+    PubSub.subscribe('modal:close', id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+    PubSub.subscribe('unlock:tab', id => TabManager.unlockTab(id));
+    PubSub.subscribe('unlock:action', id => {
+        if (actions[id]) {
+            actions[id].locked = false;
+            updateTaskList();
+        }
+    });
+    PubSub.subscribe('unlock:encounter', id => {
+        const enc = EncounterGenerator.encounters.find(e => e.id === id);
+        if (enc) enc.locked = false;
+    });
+    PubSub.subscribe('age:advanced', days => {
+        if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.decay) {
+            FurnitureSystem.decay(days);
+        }
+    });
+    PubSub.subscribe('age:maxReached', () => {
+        if (!State.prestiging) {
+            State.prestiging = true;
+            SaveSystem.prestige();
+        }
+    });
+}
+
 if (typeof module !== 'undefined') {
-    module.exports = { PubSub };
+    module.exports = { PubSub, initPubSub };
 }

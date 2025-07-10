@@ -35,6 +35,25 @@ const Utils = {
     }
 };
 
+/**
+ * Capitalize the first letter of a string.
+ * @param {string} str
+ * @returns {string}
+ */
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+ * Format a delta value with sign and one decimal place.
+ * @param {number} v
+ * @returns {string}
+ */
+function formatDelta(v) {
+    const sign = v > 0 ? '+' : '';
+    return sign + v.toFixed(1);
+}
+
 if (typeof module !== 'undefined') {
-    module.exports = { Utils };
+    module.exports = { Utils, capitalize, formatDelta };
 }
