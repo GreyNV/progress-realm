@@ -18,7 +18,23 @@
 - Prefer descriptive variable and function names
 - Keep code modular and comment important sections
 - When creatimg new keys in json files do not reuse existing image sources
+
 - Prefer using `UIHandler` for new UI sections instead of manual DOM creation
+
+## Architecture Guidelines
+- Separate game logic, UI, and data into dedicated modules.
+- Place game logic modules in `js/` as single-purpose files and export them for testing.
+- Communicate across modules using the `PubSub` event bus rather than direct references.
+- Modify the global `State` object only through helper functions in `state.js` or system APIs.
+- UI modules should read state and publish events but avoid altering `State` directly.
+- Load gameplay values from JSON files under `data/` instead of hardcoding them.
+- Add unit tests in `tests/` when introducing or changing modules to keep coverage above 80%.
+
+## Dependency Guidelines
+- Track Python packages in `requirements.txt` and keep them up to date.
+- Install dependencies with `pip install -r requirements.txt` before running scripts or tests.
+- Primary packages include `openai`, `requests`, and `python-telegram-bot`.
+
 
 ## Testing Protocols
 
@@ -41,6 +57,8 @@
 - Update `CHANGELOG.md` with a short note describing each change
 - Add new entries to the **top** of the changelog so the latest changes appear first
 - Use the current date in `YYYY-MM-DD` format when creating new changelog entries
+- Unless a task explicitly requires a version bump, update the notes under the
+  latest version header instead of adding a new one
 
 ## Review Protocol
 

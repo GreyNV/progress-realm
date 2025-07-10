@@ -12,19 +12,8 @@ class Furniture {
     }
 }
 
-function formatCost(cost = {}) {
-    return Object.entries(cost)
-        .map(([id, qty]) => {
-            const item = ItemGenerator.itemList.find(i => i.id === id);
-            const name = item ? item.name : id;
-            return `${qty}x ${name}`;
-        })
-        .join(', ');
-}
-
 const FurnitureSystem = {
     furniture: [],
-    listEl: null,
     async load() {
         try {
             const res = await fetch('data/furniture.json');
@@ -35,31 +24,15 @@ const FurnitureSystem = {
             this.furniture = [];
         }
     },
-    init() {
-        this.listEl = document.getElementById('furniture-list');
-        if (!this.listEl) return;
-        this.render();
-    },
-    render() {
-        if (!this.listEl) return;
-        this.listEl.innerHTML = '';
-        this.furniture.forEach(f => {
-            const li = document.createElement('li');
-            li.textContent = f.name;
-            li.dataset.tooltip = `${f.description}\nCost: ${formatCost(f.cost)}`;
-            li.addEventListener('click', () => this.purchase(f.id));
-            this.listEl.appendChild(li);
-        });
-    },
     purchase(id) {
         const item = this.furniture.find(f => f.id === id);
         if (!item) return;
         if (!Inventory.canAfford(item.cost)) return;
         Inventory.consumeCost(item.cost);
         State.furniture.push({ id: item.id, durability: item.durability });
-        HomeSystem.updateSlot();
+        HomeUI.updateSlot();
         item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
-        this.render();
+        FurnitureUI.render();
         SaveSystem.save();
     },
     decay(days = 1) {
@@ -70,10 +43,30 @@ const FurnitureSystem = {
             changed = true;
             return false;
         });
-        if (changed) HomeSystem.updateSlot();
+        if (changed) HomeUI.updateSlot();
+    }
+};
+
+const FurnitureUI = {
+    listEl: null,
+    init() {
+        this.listEl = document.getElementById('furniture-list');
+        if (!this.listEl) return;
+        this.render();
+    },
+    render() {
+        if (!this.listEl) return;
+        this.listEl.innerHTML = '';
+        FurnitureSystem.furniture.forEach(f => {
+            const li = document.createElement('li');
+            li.textContent = f.name;
+            li.dataset.tooltip = `${f.description}\nCost: ${Utils.formatCost(f.cost)}`;
+            li.addEventListener('click', () => FurnitureSystem.purchase(f.id));
+            this.listEl.appendChild(li);
+        });
     }
 };
 
 if (typeof module !== 'undefined') {
-    module.exports = { FurnitureSystem, Furniture };
+    module.exports = { FurnitureSystem, FurnitureUI, Furniture };
 }

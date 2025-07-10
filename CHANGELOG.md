@@ -1,4 +1,26 @@
 # Changelog
+## [0.41.64] - 2025-07-09
+### Changed
+- Action and adventure slot creation now uses the `BaseSlot` class.
+- Selecting a home publishes a `home:changed` event.
+- Documented changelog update policy in `AGENTS.md` and added a section to
+  `README.md` describing the process.
+- Chip tab remains locked until the bandits ambush is completed once.
+- Added `requirements.txt` and updated documentation on installing Python dependencies.
+- Split home, furniture and research modules into data and UI components.
+- Moved `InventoryUI` to its own script under `js/ui/` and added UI guidelines.
+
+## [0.41.63] - 2025-07-09
+### Added
+- Dedicated age system module with pub/sub events.
+### Changed
+- Furniture decay and prestige triggers listen to age events.
+- formatCost moved to Utils and used by home and furniture modules.
+
+## [0.41.62] - 2025-07-09
+### Changed
+- Split major systems into separate scripts.
+
 
 ## [0.41.61] - 2025-07-09
 ### Changed

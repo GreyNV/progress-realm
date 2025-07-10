@@ -117,7 +117,7 @@ The page uses a simple header/main/footer structure. Stats and resources are kep
 
 Resources appear as horizontal bars whose colors match each type (red for health, yellow for energy, blue for focus).
 
-Story modals are defined in `data/story_events.json` and triggered by the `StorySystem`. The intro plays once on first load while another short scene fires after thirty days pass in game time. All modals only appear during the first life and log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects. Homes and furniture now cost items from your inventory instead of generic currency. Purchased furniture has durability that decreases slowly over time; once it reaches zero the slot empties and you must buy the item again. The Chip tab includes a Research section with one-time upgrades unlocking additional actions.
+Story modals are defined in `data/story_events.json` and triggered by the `StorySystem`. The intro plays once on first load while another short scene fires after thirty days pass in game time. All modals only appear during the first life and log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects. Homes and furniture now cost items from your inventory instead of generic currency. Purchased furniture has durability that decreases slowly over time; once it reaches zero the slot empties and you must buy the item again. The Chip tab unlocks after you survive the bandits ambush and includes a Research section with one-time upgrades unlocking additional actions.
 Each event now includes a `text` field with English narrative used when no translation is available.
 
 See **docs/MVP.md** for the MVP list.
@@ -133,8 +133,9 @@ OpenAI's DALL·E API:
 
 Each script reads its respective JSON file, creates a prompt and stores the
 resulting image in `assets/generated/` before updating the JSON entry.
-Run the scripts only after setting the `OPENAI_API_KEY` environment variable and
-ensure the `openai` Python package version 1.x is installed.
+Install the required Python packages using `pip install -r requirements.txt`
+and set the `OPENAI_API_KEY` environment variable before running the scripts.
+Dependencies include `openai`, `requests`, and `python-telegram-bot`.
 
 Images used in story events are now loaded lazily in the UI to reduce initial
 page weight. Future updates will extend the scripts to automatically resize and
@@ -173,6 +174,14 @@ uploaded image, commits the change and opens (or updates) a PR. See
 * Mastery points earned from action tiers
 * Player avatar or magical tower interface (for immersion)
 * Evaluate scripting to automatically generate new encounter JSON entries
+
+#### 13. Changelog Updates
+
+All code and documentation changes must be reflected in `CHANGELOG.md`. When
+adding notes, update the bullet list under the latest version at the top of the
+file rather than creating a new version header. Only introduce a new version
+section when an issue or task specifically calls for it. Use dates in
+`YYYY-MM-DD` format.
 
 ---
 

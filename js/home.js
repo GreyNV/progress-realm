@@ -10,21 +10,8 @@ class Home {
     }
 }
 
-function formatCost(cost = {}) {
-    return Object.entries(cost)
-        .map(([id, qty]) => {
-            const item = ItemGenerator.itemList.find(i => i.id === id);
-            const name = item ? item.name : id;
-            return `${qty}x ${name}`;
-        })
-        .join(', ');
-}
-
 const HomeSystem = {
     homes: [],
-    listEl: null,
-    slotContainer: null,
-    furnitureContainer: null,
     async load() {
         try {
             const res = await fetch('data/homes.json');
@@ -35,26 +22,51 @@ const HomeSystem = {
             this.homes = [];
         }
     },
+    setHome(id) {
+        const home = this.homes.find(h => h.id === id);
+        if (!home) return;
+        if (!Inventory.canAfford(home.cost)) return;
+        Inventory.consumeCost(home.cost);
+        State.homeId = id;
+        HomeUI.updateSlot();
+        SaveSystem.save();
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('home:changed', id);
+        }
+    }
+};
+
+const HomeUI = {
+    listEl: null,
+    slotContainer: null,
+    furnitureContainer: null,
     init() {
         this.listEl = document.getElementById('home-list');
         this.slotContainer = document.getElementById('home-slot');
         this.furnitureContainer = document.getElementById('furniture-slots');
         if (!this.listEl || !this.slotContainer) return;
+        this.renderList();
+        this.createSlot();
+        this.updateSlot();
+    },
+    renderList() {
         this.listEl.innerHTML = '';
-        this.homes.forEach(h => {
+        HomeSystem.homes.forEach(h => {
             const li = document.createElement('li');
             li.textContent = h.name;
             li.dataset.homeId = h.id;
-            li.dataset.tooltip = `${h.description}\nCost: ${formatCost(h.cost)}`;
+            li.dataset.tooltip = `${h.description}\nCost: ${Utils.formatCost(h.cost)}`;
             li.setAttribute('draggable', 'true');
             li.addEventListener('dragstart', e => {
                 li.classList.add('dragging');
                 e.dataTransfer.setData('text/plain', h.id);
             });
             li.addEventListener('dragend', () => li.classList.remove('dragging'));
-            li.addEventListener('click', () => this.setHome(h.id));
+            li.addEventListener('click', () => HomeSystem.setHome(h.id));
             this.listEl.appendChild(li);
         });
+    },
+    createSlot() {
         this.slotContainer.innerHTML = '';
         const slot = new BaseSlot(false);
         const slotEl = slot.el;
@@ -63,26 +75,16 @@ const HomeSystem = {
         slotEl.addEventListener('drop', e => {
             e.preventDefault();
             const id = e.dataTransfer.getData('text/plain');
-            this.setHome(id);
+            HomeSystem.setHome(id);
         });
         this.slotContainer.appendChild(slotEl);
-        this.updateSlot();
-    },
-    setHome(id) {
-        const home = this.homes.find(h => h.id === id);
-        if (!home) return;
-        if (!Inventory.canAfford(home.cost)) return;
-        Inventory.consumeCost(home.cost);
-        State.homeId = id;
-        this.updateSlot();
-        SaveSystem.save();
     },
     updateSlot() {
         if (!this.slotContainer) return;
         const slotEl = this.slotContainer.querySelector('.slot');
         if (!slotEl) return;
         const labelEl = slotEl.querySelector('.label');
-        const home = this.homes.find(h => h.id === State.homeId);
+        const home = HomeSystem.homes.find(h => h.id === State.homeId);
         if (!home) {
             labelEl.textContent = '';
             slotEl.style.backgroundImage = 'none';
@@ -98,7 +100,7 @@ const HomeSystem = {
         } else {
             slotEl.style.backgroundImage = 'none';
         }
-        slotEl.dataset.tooltip = `${home.description}\nCost: ${formatCost(home.cost)}`;
+        slotEl.dataset.tooltip = `${home.description}\nCost: ${Utils.formatCost(home.cost)}`;
         RARITY_CLASSES.forEach(r => slotEl.classList.remove(`rarity-${r}`));
         slotEl.classList.add(`rarity-${home.rarity}`);
         this.updateFurnitureSlots(home.furnitureSlots);
@@ -123,5 +125,5 @@ const HomeSystem = {
 };
 
 if (typeof module !== 'undefined') {
-    module.exports = { HomeSystem, Home };
+    module.exports = { HomeSystem, HomeUI, Home };
 }
