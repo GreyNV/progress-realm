@@ -76,7 +76,7 @@ async function init() {
     HomeUI.init();
     FurnitureUI.init();
     ResearchUI.init();
-    UpdateSystem.init();
+    UpdateUI.init();
     if (typeof CharacterBackground !== 'undefined') {
         CharacterBackground.init();
     }
@@ -85,6 +85,9 @@ async function init() {
     setupAdventureSlots();
     setupInventorySlots();
     EncounterGenerator.init();
+    EncounterUI.init();
+    StoryUI.init();
+    ModalUI.init();
     setupDragAndDrop();
     setupTooltips();
     TabManager.init();

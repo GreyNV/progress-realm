@@ -197,6 +197,12 @@ file rather than creating a new version header. Only introduce a new version
 section when an issue or task specifically calls for it. Use dates in
 `YYYY-MM-DD` format.
 
+#### 14. DOM Manipulation Rule
+
+Only files within `js/ui/` or the main UI modules (`ui.js`, `ui_handler.js`)
+may directly interact with the browser DOM. Game logic modules must publish
+events or call UI handlers instead of touching elements themselves.
+
 ---
 
 Next step: expand automation and prestige mechanics.
