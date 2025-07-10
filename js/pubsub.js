@@ -49,12 +49,10 @@ const PubSub = {
  */
 function initPubSub() {
     PubSub.subscribe('modal:open', id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('hidden');
+        PubSub.publish('ui:modalOpen', id);
     });
     PubSub.subscribe('modal:close', id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
+        PubSub.publish('ui:modalClose', id);
     });
     PubSub.subscribe('unlock:tab', id => TabManager.unlockTab(id));
     PubSub.subscribe('unlock:action', id => {

@@ -91,23 +91,14 @@ const EncounterGenerator = {
     },
 
     updateName() {
-        const milestone = this.milestones
-            .slice()
-            .reverse()
-            .find(m => this.level >= m.level);
-        const name = milestone ? milestone.name : this.milestones[0].name;
-        const el = document.getElementById('encounter-location');
-        if (el) {
-            el.textContent = `${name} (Level ${this.level})`;
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('encounter:update');
         }
-        this.updateProgressBar();
     },
 
     updateProgressBar() {
-        const bar = document.getElementById('encounter-level-progress');
-        if (bar) {
-            bar.max = 10;
-            bar.value = Math.min(State.encounterStreak || 0, 10);
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('encounter:update');
         }
     },
 
@@ -137,8 +128,7 @@ const EncounterGenerator = {
     },
 
     init() {
-        this.container = document.getElementById('adventure-slots');
-        if (!this.container) return;
+        this.container = null;
         this.level = State.encounterLevel || 1;
         this.updateName();
         this.updateProgressBar();

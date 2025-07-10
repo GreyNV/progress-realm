@@ -13,6 +13,8 @@
 - Remaining game logic moved out of `main.js` into dedicated modules.
 - Enforced single source of truth for `State`: all mutations now go through
   helpers in `state.js`.
+- Removed direct DOM access from logic modules. UI updates now occur only in
+  `ui.js`, `ui_handler.js` or `js/ui/` components.
 
 ## [0.41.63] - 2025-07-09
 ### Added
