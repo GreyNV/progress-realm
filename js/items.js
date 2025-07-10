@@ -92,10 +92,10 @@ const ItemGenerator = {
 const Inventory = {
     add(item) {
         if (!State.inventory[item.id]) {
-            State.inventory[item.id] = { quantity: 1 };
+            setState(['inventory', item.id], { quantity: 1 });
         } else {
             item.handleDuplicate(State.inventory);
-            State.inventory[item.id].quantity += 1;
+            updateState(['inventory', item.id, 'quantity'], q => q + 1);
         }
         SoftCapSystem.recalculateCaps(State.inventory);
         InventoryUI.update();
@@ -110,8 +110,8 @@ const Inventory = {
     consume(id, qty = 1) {
         const record = State.inventory[id];
         if (!record || record.quantity < qty) return false;
-        record.quantity -= qty;
-        if (record.quantity <= 0) delete State.inventory[id];
+        updateState(['inventory', id, 'quantity'], q => q - qty);
+        if (State.inventory[id].quantity <= 0) deleteState(['inventory', id]);
         SoftCapSystem.recalculateCaps(State.inventory);
         InventoryUI.update();
         if (typeof CharacterBackground !== 'undefined') {

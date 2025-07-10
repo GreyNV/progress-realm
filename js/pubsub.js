@@ -74,7 +74,7 @@ function initPubSub() {
     });
     PubSub.subscribe('age:maxReached', () => {
         if (!State.prestiging) {
-            State.prestiging = true;
+            setState('prestiging', true);
             SaveSystem.prestige();
         }
     });

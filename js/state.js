@@ -90,6 +90,43 @@ function ensureStat(name, value, max) {
     }
 }
 
+function _pathParts(path) {
+    return Array.isArray(path) ? path : path.split('.');
+}
+
+function _resolve(path) {
+    const parts = _pathParts(path);
+    let obj = State;
+    for (let i = 0; i < parts.length - 1; i++) {
+        obj = obj[parts[i]];
+    }
+    return [obj, parts[parts.length - 1]];
+}
+
+function setState(path, value) {
+    const [obj, key] = _resolve(path);
+    obj[key] = value;
+}
+
+function updateState(path, fn) {
+    const [obj, key] = _resolve(path);
+    obj[key] = fn(obj[key]);
+}
+
+function pushState(path, value) {
+    const [obj, key] = _resolve(path);
+    obj[key].push(value);
+}
+
+function deleteState(path) {
+    const [obj, key] = _resolve(path);
+    delete obj[key];
+}
+
+function mergeState(obj) {
+    Object.assign(State, obj);
+}
+
 let STAT_KEYS = [];
 let RESOURCE_KEYS = [];
 // Mapping from base stats to their prestige equivalents
@@ -175,6 +212,11 @@ if (typeof module !== 'undefined') {
         State,
         ResourceSystem,
         StatSystem,
+        setState,
+        updateState,
+        pushState,
+        deleteState,
+        mergeState,
         loadBaseData,
         STAT_KEYS,
         RESOURCE_KEYS,

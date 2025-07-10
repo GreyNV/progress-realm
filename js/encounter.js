@@ -113,7 +113,7 @@ const EncounterGenerator = {
 
     incrementLevel() {
         this.level += 1;
-        State.encounterLevel = this.level;
+        setState('encounterLevel', this.level);
         this.updateName();
         this.updateProgressBar();
     },
@@ -122,14 +122,14 @@ const EncounterGenerator = {
         if (this.level > 1) {
             this.level -= 1;
         }
-        State.encounterLevel = this.level;
+        setState('encounterLevel', this.level);
         this.updateName();
         this.updateProgressBar();
     },
 
     resetProgress() {
         this.populateSlots();
-        State.encounterStreak = 0;
+        setState('encounterStreak', 0);
         this.updateProgressBar();
         if (typeof AdventureEngine !== 'undefined') {
             AdventureEngine.startSlot(0);

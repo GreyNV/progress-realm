@@ -27,7 +27,7 @@ const HomeSystem = {
         if (!home) return;
         if (!Inventory.canAfford(home.cost)) return;
         Inventory.consumeCost(home.cost);
-        State.homeId = id;
+        setState('homeId', id);
         HomeUI.updateSlot();
         SaveSystem.save();
         if (typeof PubSub !== 'undefined') {

@@ -29,7 +29,7 @@ const FurnitureSystem = {
         if (!item) return;
         if (!Inventory.canAfford(item.cost)) return;
         Inventory.consumeCost(item.cost);
-        State.furniture.push({ id: item.id, durability: item.durability });
+        pushState(['furniture'], { id: item.id, durability: item.durability });
         HomeUI.updateSlot();
         item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
         FurnitureUI.render();
@@ -37,12 +37,13 @@ const FurnitureSystem = {
     },
     decay(days = 1) {
         let changed = false;
-        State.furniture = State.furniture.filter(f => {
+        const updated = State.furniture.filter(f => {
             f.durability -= days * DURABILITY_DECAY_RATE;
             if (f.durability > 0) return true;
             changed = true;
             return false;
         });
+        setState('furniture', updated);
         if (changed) HomeUI.updateSlot();
     }
 };
