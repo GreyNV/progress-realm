@@ -7,6 +7,8 @@
   `README.md` describing the process.
 - Chip tab remains locked until the bandits ambush is completed once.
 - Added `requirements.txt` and updated documentation on installing Python dependencies.
+- Split home, furniture and research modules into data and UI components.
+- Moved `InventoryUI` to its own script under `js/ui/` and added UI guidelines.
 
 ## [0.41.63] - 2025-07-09
 ### Added
