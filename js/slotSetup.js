@@ -35,13 +35,13 @@ function setupSlots() {
     const container = document.getElementById('slots');
     if (!container) return;
     container.innerHTML = '';
-    if (!Array.isArray(State.slots)) State.slots = [];
-    if (State.slotCount === undefined) State.slotCount = State.slots.length;
+    if (!Array.isArray(State.slots)) setState('slots', []);
+    if (State.slotCount === undefined) setState('slotCount', State.slots.length);
     while (State.slots.length < State.slotCount) {
-        State.slots.push({ actionId: null, progress: 0, blocked: false, text: '' });
+        pushState(['slots'], { actionId: null, progress: 0, blocked: false, text: '' });
     }
     if (State.slots.length > State.slotCount) {
-        State.slots = State.slots.slice(0, State.slotCount);
+        setState('slots', State.slots.slice(0, State.slotCount));
     }
     for (let i = 0; i < State.slotCount; i++) {
         const slot = new BaseSlot();
@@ -57,13 +57,13 @@ function setupAdventureSlots() {
     const container = document.getElementById('adventure-slots');
     if (!container) return;
     container.innerHTML = '';
-    if (!Array.isArray(State.adventureSlots)) State.adventureSlots = [];
-    if (State.adventureSlotCount === undefined) State.adventureSlotCount = State.adventureSlots.length;
+    if (!Array.isArray(State.adventureSlots)) setState('adventureSlots', []);
+    if (State.adventureSlotCount === undefined) setState('adventureSlotCount', State.adventureSlots.length);
     while (State.adventureSlots.length < State.adventureSlotCount) {
-        State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null, active: false });
+        pushState(['adventureSlots'], { text: '', progress: 0, duration: 1, encounter: null, active: false });
     }
     if (State.adventureSlots.length > State.adventureSlotCount) {
-        State.adventureSlots = State.adventureSlots.slice(0, State.adventureSlotCount);
+        setState('adventureSlots', State.adventureSlots.slice(0, State.adventureSlotCount));
     }
     for (let i = 0; i < State.adventureSlotCount; i++) {
         if (State.adventureSlots[i].active === undefined) State.adventureSlots[i].active = false;

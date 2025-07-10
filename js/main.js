@@ -29,7 +29,7 @@ async function init() {
     document.getElementById('speed-controls').addEventListener('click', e => {
         const s = e.target.dataset.speed;
         if (!s) return;
-        State.time = parseInt(s, 10);
+        setState('time', parseInt(s, 10));
         updateUI();
     });
     try {
@@ -114,7 +114,7 @@ async function init() {
     const hideToggle = document.getElementById('hide-rarity-toggle');
     if (hideToggle) {
         hideToggle.addEventListener('change', () => {
-            State.hideRarityEnabled = hideToggle.checked;
+            setState('hideRarityEnabled', hideToggle.checked);
             InventoryUI.update();
             SaveSystem.save();
         });
@@ -122,7 +122,7 @@ async function init() {
     const raritySelect = document.getElementById('hide-rarity-select');
     if (raritySelect) {
         raritySelect.addEventListener('change', () => {
-            State.hideBelowRarity = raritySelect.value;
+            setState('hideBelowRarity', raritySelect.value);
             InventoryUI.update();
             SaveSystem.save();
         });
@@ -130,7 +130,7 @@ async function init() {
     const darkToggle = document.getElementById('dark-mode-toggle');
     if (darkToggle) {
         darkToggle.addEventListener('change', () => {
-            State.darkMode = darkToggle.checked;
+            setState('darkMode', darkToggle.checked);
             applyDarkMode();
             SaveSystem.save();
         });
@@ -139,7 +139,7 @@ async function init() {
     if (langSelect) {
         langSelect.value = State.language;
         langSelect.addEventListener('change', async () => {
-            State.language = langSelect.value;
+            setState('language', langSelect.value);
             await Lang.load(State.language);
             Lang.applyToActions(actions);
             Lang.applyToItems(ItemGenerator.itemList);
@@ -162,7 +162,7 @@ async function init() {
     if (autoBox) {
         autoBox.checked = State.autoProgress;
         autoBox.addEventListener('change', () => {
-            State.autoProgress = autoBox.checked;
+            setState('autoProgress', autoBox.checked);
             SaveSystem.save();
         });
     }

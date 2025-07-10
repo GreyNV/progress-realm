@@ -26,7 +26,7 @@ const ResearchSystem = {
         const item = this.research.find(r => r.id === id);
         if (!item) return;
         if (!State.researchCompleted.includes(id)) {
-            State.researchCompleted.push(id);
+            pushState('researchCompleted', id);
         }
         item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
         ResearchUI.render();

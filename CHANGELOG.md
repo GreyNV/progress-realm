@@ -11,6 +11,8 @@
 - Moved `InventoryUI` to its own script under `js/ui/` and added UI guidelines.
 - Documented recent modularization in `README.md` and `docs/refactoring_task.md`.
 - Remaining game logic moved out of `main.js` into dedicated modules.
+- Enforced single source of truth for `State`: all mutations now go through
+  helpers in `state.js`.
 
 ## [0.41.63] - 2025-07-09
 ### Added

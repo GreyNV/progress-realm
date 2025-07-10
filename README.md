@@ -173,6 +173,13 @@ missing assets are easy to find. After selecting an entry the bot accepts an
 uploaded image, commits the change and opens (or updates) a PR. See
 `docs/telegram_upload_bot.md` for a full overview.
 
+#### State Management
+
+All game data lives in the global `State` object. Mutations must go through
+helper functions exported from `js/state.js` such as `setState()`,
+`updateState()`, and `pushState()`. This ensures a single source of truth and
+makes state changes easy to audit.
+
 #### 12. Future Extensions
 
 * Prestige system with meta-upgrades

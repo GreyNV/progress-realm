@@ -24,12 +24,12 @@ const SoftCapSystem = {
         }
         for (const r in this.resourceCaps) {
             if (State.resources[r]) {
-                State.resources[r].baseMax = this.resourceCaps[r];
+                setState(['resources', r, 'baseMax'], this.resourceCaps[r]);
             }
         }
         for (const s in this.statCaps) {
             if (State.stats[s]) {
-                State.stats[s].baseMax = this.statCaps[s];
+                setState(['stats', s, 'baseMax'], this.statCaps[s]);
                 // statCaps should reflect prestige multipliers for UI and
                 // softcap calculations
                 this.statCaps[s] = StatSystem.max(State.stats[s]);
