@@ -133,8 +133,9 @@ OpenAI's DALL·E API:
 
 Each script reads its respective JSON file, creates a prompt and stores the
 resulting image in `assets/generated/` before updating the JSON entry.
-Run the scripts only after setting the `OPENAI_API_KEY` environment variable and
-ensure the `openai` Python package version 1.x is installed.
+Install the required Python packages using `pip install -r requirements.txt`
+and set the `OPENAI_API_KEY` environment variable before running the scripts.
+Dependencies include `openai`, `requests`, and `python-telegram-bot`.
 
 Images used in story events are now loaded lazily in the UI to reduce initial
 page weight. Future updates will extend the scripts to automatically resize and
