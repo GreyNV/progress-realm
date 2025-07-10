@@ -12,7 +12,6 @@ class ResearchItem {
 
 const ResearchSystem = {
     research: [],
-    listEl: null,
     async load() {
         try {
             const res = await fetch('data/research.json');
@@ -23,6 +22,20 @@ const ResearchSystem = {
             this.research = [];
         }
     },
+    purchase(id) {
+        const item = this.research.find(r => r.id === id);
+        if (!item) return;
+        if (!State.researchCompleted.includes(id)) {
+            State.researchCompleted.push(id);
+        }
+        item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
+        ResearchUI.render();
+        SaveSystem.save();
+    }
+};
+
+const ResearchUI = {
+    listEl: null,
     init() {
         this.listEl = document.getElementById('research-list');
         if (!this.listEl) return;
@@ -31,30 +44,20 @@ const ResearchSystem = {
     render() {
         if (!this.listEl) return;
         this.listEl.innerHTML = '';
-        this.research.forEach(r => {
+        ResearchSystem.research.forEach(r => {
             const li = document.createElement('li');
             li.textContent = r.name;
             li.dataset.tooltip = `${r.description}\nCost: ${r.cost}`;
             if (State.researchCompleted.includes(r.id) || r.done) {
                 li.classList.add('locked');
             } else {
-                li.addEventListener('click', () => this.purchase(r.id));
+                li.addEventListener('click', () => ResearchSystem.purchase(r.id));
             }
             this.listEl.appendChild(li);
         });
-    },
-    purchase(id) {
-        const item = this.research.find(r => r.id === id);
-        if (!item) return;
-        if (!State.researchCompleted.includes(id)) {
-            State.researchCompleted.push(id);
-        }
-        item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
-        this.render();
-        SaveSystem.save();
     }
 };
 
 if (typeof module !== 'undefined') {
-    module.exports = { ResearchSystem, ResearchItem };
+    module.exports = { ResearchSystem, ResearchUI, ResearchItem };
 }

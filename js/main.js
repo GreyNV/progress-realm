@@ -550,9 +550,9 @@ async function init() {
     MasteryUI.init();
     PrestigeUI.init();
     InventoryUI.init();
-    HomeSystem.init();
-    FurnitureSystem.init();
-    ResearchSystem.init();
+    HomeUI.init();
+    FurnitureUI.init();
+    ResearchUI.init();
     UpdateSystem.init();
     if (typeof CharacterBackground !== 'undefined') {
         CharacterBackground.init();
