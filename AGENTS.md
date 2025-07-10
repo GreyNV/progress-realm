@@ -8,6 +8,7 @@
 - `js/ui_handler.js` – builds stat, resource, and tab elements from JSON and coordinates UI modules
 - `data/` – JSON files for tasks, actions, and UI layout
 - `docs/` – design documents and other project notes
+- `vue-ui/` – Vue source code and build output for the UI
 - `index.html` – main HTML entry point
 - `README.md` – high‑level overview and design goals
 
@@ -19,7 +20,8 @@
 - Keep code modular and comment important sections
 - When creatimg new keys in json files do not reuse existing image sources
 
-- Prefer using `UIHandler` for new UI sections instead of manual DOM creation
+- Use Vue components for all UI features. Place source files in `vue-ui/src` and
+  build with `npm run build`.
 
 ## Architecture Guidelines
 - Separate game logic, UI, and data into dedicated modules.

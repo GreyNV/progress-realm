@@ -66,3 +66,23 @@ Version 0.41.64 switches action and adventure slot creation to the reusable `Bas
 - `tests/test_age_system.py` – validates age event names.
 - `tests/test_format_cost.py` – ensures use of the new `Utils.formatCost`.
 - `tests/test_prestige.py` – references `save_system.js` for prestige logic.
+
+## Vue Migration Plan
+
+The next major refactoring step is migrating all UI logic to Vue.
+
+1. **Setup** – Add a Vite-powered Vue project under `vue-ui/`.
+   - Configure stable build output (`index.js` and `assets/index.css`).
+   - Build files referenced from `index.html`.
+2. **State Store** – Wrap the existing `State` object with a simple store so
+   components react to changes. Pinia can replace this later.
+3. **Component Conversion** – Rewrite UI modules starting with the inventory
+   grid. Each legacy section will become a Vue component.
+4. **Event Wiring** – Replace manual DOM updates with Vue reactivity and
+   `PubSub` events where appropriate.
+5. **Removal Phase** – After all screens are ported, delete the old DOM
+   manipulation scripts.
+
+The repository now includes the base Vue setup and an `InventoryGrid` component
+mounted in the inventory tab. Future tasks should continue converting remaining
+UI sections following this approach.

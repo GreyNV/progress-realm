@@ -1,6 +1,7 @@
 # Ignore node modules and build artifacts
 node_modules/
 dist/
+!vue-ui/dist/
 *.log
 __pycache__/
 .coverage

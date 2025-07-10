@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.64] - 2025-07-09
 ### Changed
+- Began migration to Vue with a Vite project and an InventoryGrid component.
 - Action and adventure slot creation now uses the `BaseSlot` class.
 - Selecting a home publishes a `home:changed` event.
 - Documented changelog update policy in `AGENTS.md` and added a section to

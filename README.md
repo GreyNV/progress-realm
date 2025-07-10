@@ -91,7 +91,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 #### 10. Tech Stack
 
 * HTML, CSS, JavaScript
-* Optional: Vue or Svelte for structure
+* Vue used for modular UI components
 * Save system via localStorage (later: IndexedDB)
 * Simple client-side Logger toggled through `Logger.enabled`
 
@@ -163,6 +163,20 @@ Opening `index.html` directly from the filesystem can cause the UI to break
 because the game fetches JSON files via AJAX. Always use the server so these
 requests succeed. If an alert appears saying resource data could not be loaded,
 check that the `/data` folder is accessible on your server.
+
+#### Vue Build
+
+Vue components live under `vue-ui/`. Run the following commands to build the UI
+bundle:
+
+```bash
+cd vue-ui
+npm install
+npm run build
+```
+
+The generated files (`vue-ui/dist/index.js` and `vue-ui/dist/assets/index.css`)
+are loaded by `index.html`.
 
 #### Telegram Upload Bot
 
