@@ -8,7 +8,7 @@
 - Selecting a home publishes a `home:changed` event.
 - Documented changelog update policy in `AGENTS.md` and added a section to
   `README.md` describing the process.
-- Chip tab remains locked until the bandits ambush is completed once.
+- Chip tab remains hidden until the Bandits Ambush story event is cleared.
 - Added `requirements.txt` and updated documentation on installing Python dependencies.
 - Split home, furniture and research modules into data and UI components.
 - Moved `InventoryUI` to its own script under `js/ui/` and added UI guidelines.
