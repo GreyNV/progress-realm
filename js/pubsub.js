@@ -65,11 +65,6 @@ function initPubSub() {
         const enc = EncounterGenerator.encounters.find(e => e.id === id);
         if (enc) enc.locked = false;
     });
-    PubSub.subscribe('age:advanced', days => {
-        if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.decay) {
-            FurnitureSystem.decay(days);
-        }
-    });
     PubSub.subscribe('age:maxReached', () => {
         if (!State.prestiging) {
             setState('prestiging', true);

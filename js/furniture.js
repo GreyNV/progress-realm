@@ -1,4 +1,5 @@
-const DURABILITY_DECAY_RATE = 0.1; // proportion of durability lost per day
+// Durability lost per second while the furniture's action is active
+const DURABILITY_USE_RATE = 0.1;
 
 class Furniture {
     constructor(data) {
@@ -36,10 +37,14 @@ const FurnitureSystem = {
         }
         SaveSystem.save();
     },
-    decay(days = 1) {
+    use(actionId, seconds = 1) {
         let changed = false;
         const updated = State.furniture.filter(f => {
-            f.durability -= days * DURABILITY_DECAY_RATE;
+            const def = this.furniture.find(x => x.id === f.id);
+            if (!def) return false;
+            if (def.unlocks.includes(actionId)) {
+                f.durability -= seconds * DURABILITY_USE_RATE;
+            }
             if (f.durability > 0) return true;
             changed = true;
             return false;

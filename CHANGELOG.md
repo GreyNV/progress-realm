@@ -18,6 +18,8 @@
   helpers in `state.js`.
 - Removed direct DOM access from logic modules. UI updates now occur only in
   `ui.js`, `ui_handler.js` or `js/ui/` components.
+- Added woodworking and sleep actions tied to furniture purchases.
+- Furniture durability now decreases while related actions run.
 
 ## [0.41.63] - 2025-07-09
 ### Added
