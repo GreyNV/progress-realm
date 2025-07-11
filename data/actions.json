@@ -7,12 +7,22 @@
     "exp": 0,
     "expToNext": 10,
     "baseYield": {
-      "stats": {"intelligence": 0.01},
+      "stats": {
+        "intelligence": 0.01
+      },
       "resources": {},
       "exp": 1
     },
-    "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
-    "resourceConsumption": {"focus": 0.5}
+    "scaling": {
+      "type": "softcap",
+      "base": 1,
+      "multiplier": 0.1,
+      "softcapLevel": 5,
+      "falloff": 0.5
+    },
+    "resourceConsumption": {
+      "focus": 0.5
+    }
   },
   {
     "id": "training",
@@ -22,12 +32,22 @@
     "exp": 0,
     "expToNext": 10,
     "baseYield": {
-      "stats": {"strength": 0.02},
+      "stats": {
+        "strength": 0.02
+      },
       "resources": {},
       "exp": 1
     },
-    "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
-    "resourceConsumption": {"energy": 0.5}
+    "scaling": {
+      "type": "softcap",
+      "base": 1,
+      "multiplier": 0.1,
+      "softcapLevel": 5,
+      "falloff": 0.5
+    },
+    "resourceConsumption": {
+      "energy": 0.5
+    }
   },
   {
     "id": "rest",
@@ -38,10 +58,69 @@
     "expToNext": 1000,
     "baseYield": {
       "stats": {},
-      "resources": {"focus": 1, "energy": 1, "health": 0.5},
+      "resources": {
+        "focus": 1,
+        "energy": 1,
+        "health": 0.5
+      },
       "exp": 1
     },
-    "scaling": {"type": "softcap", "base": 1, "multiplier": 0.1, "softcapLevel": 5, "falloff": 0.5},
+    "scaling": {
+      "type": "softcap",
+      "base": 1,
+      "multiplier": 0.1,
+      "softcapLevel": 5,
+      "falloff": 0.5
+    },
+    "resourceConsumption": {}
+  },
+  {
+    "id": "woodworking",
+    "name": "Woodworking",
+    "image": "assets/enc/woodworking.png",
+    "level": 1,
+    "exp": 0,
+    "expToNext": 10,
+    "baseYield": {
+      "stats": {
+        "creativity": 0.01
+      },
+      "resources": {},
+      "exp": 1
+    },
+    "scaling": {
+      "type": "softcap",
+      "base": 1,
+      "multiplier": 0.1,
+      "softcapLevel": 5,
+      "falloff": 0.5
+    },
+    "resourceConsumption": {
+      "energy": 0.5
+    }
+  },
+  {
+    "id": "sleep",
+    "name": "Sleep",
+    "image": "assets/enc/sleep.png",
+    "level": 1,
+    "exp": 0,
+    "expToNext": 10,
+    "baseYield": {
+      "stats": {},
+      "resources": {
+        "energy": 2,
+        "health": 1
+      },
+      "exp": 1
+    },
+    "scaling": {
+      "type": "softcap",
+      "base": 1,
+      "multiplier": 0.1,
+      "softcapLevel": 5,
+      "falloff": 0.5
+    },
     "resourceConsumption": {}
   }
 ]
