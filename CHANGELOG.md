@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.64] - 2025-07-09
 ### Changed
+- Docs: update module responsibilities in README.md
 - Added unit tests for `SaveSystem`, `SoftCapSystem` and `TabManager` to keep
   coverage above 80%.
 - Action and adventure slot creation now uses the `BaseSlot` class.

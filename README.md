@@ -118,6 +118,27 @@ docs/MVP.md         - checklist for the first prototype
 * InventoryUI lives in `js/ui/inventory.js` and UI guidelines are documented in `AGENTS.md`.
 * `requirements.txt` lists Python packages used by helper scripts and tests.
 
+
+#### Module Responsibilities
+
+- `logger.js` - toggled console logging for debugging
+- `utils.js` - common helper functions
+- `pubsub.js` - lightweight event bus
+- `bonus.js` - stat and resource multipliers
+- `state.js` - global state and helper methods
+- `save_system.js` - persist and restore game data
+- `age_system.js` - updates age and publishes events
+- `soft_cap.js` - calculates soft caps from items
+- `tab_manager.js` - manages tab navigation
+- `engine.js` - computes per-tick stat/resource changes
+- `action_engine.js` - advances active actions
+- `adventure_engine.js` - resolves encounters
+- `slotSetup.js` - creates task and adventure slots
+- `ui_handler.js` - builds UI layout from JSON
+- `ui.js` - renders stats, resources and other panels
+- `story.js` - loads story events from data
+- `story_core.js` - shared story helpers and settings
+- `tooltipHandler.js` - global tooltip support
 #### Prototype Layout
 
 The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and a log panel occupies the right side. The header shows the current age and provides buttons to adjust the game speed.
