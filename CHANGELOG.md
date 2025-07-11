@@ -20,6 +20,9 @@
   `ui.js`, `ui_handler.js` or `js/ui/` components.
 - Added woodworking and sleep actions tied to furniture purchases.
 - Furniture durability now decreases while related actions run.
+- Actions unlocked by furniture remain hidden until that furniture is present.
+- Destroyed furniture hides its actions again and removes selection.
+- Added new Dexterity stat; stats after Strength and Intelligence stay hidden until they exceed zero.
 
 ## [0.41.63] - 2025-07-09
 ### Added

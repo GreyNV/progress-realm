@@ -5,9 +5,8 @@
 const StatsUI = {
     list: [],
     init() {
-        // Exclude hidden stats such as charisma and creativity from the UI.
-        // Creativity will be unlocked in a later update.
-        this.list = STAT_KEYS.filter(k => k !== 'charisma' && k !== 'creativity');
+        // Exclude hidden stats such as charisma from the UI.
+        this.list = STAT_KEYS.filter(k => k !== 'charisma');
     },
     translate() {
         document.querySelectorAll('#stats-list .stat-label').forEach(el => {
@@ -17,7 +16,12 @@ const StatsUI = {
     },
     update() {
         this.list.forEach(key => {
-            document.getElementById(`stat-${key}`).textContent = getStatValue(key).toFixed(1);
+            const value = getStatValue(key);
+            const li = document.getElementById(`stat-${key}`)?.parentElement;
+            if (li && key !== 'strength' && key !== 'intelligence') {
+                li.style.display = value > 0 ? '' : 'none';
+            }
+            document.getElementById(`stat-${key}`).textContent = value.toFixed(1);
             const capEl = document.getElementById(`stat-${key}-cap`);
             const cap = SoftCapSystem.statCaps[key] !== undefined
                 ? SoftCapSystem.statCaps[key]

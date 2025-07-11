@@ -68,9 +68,10 @@
   "stats": {
     "strength": "Сила",
     "intelligence": "Інтелект",
-  "creativity": "Креативність"
-  ,"constitution": "Комплекція"
-  ,"wisdom": "Мудрість"
+  "creativity": "Креативність",
+  "dexterity": "Спритність",
+  "constitution": "Комплекція",
+  "wisdom": "Мудрість"
   },
   "resources": {
     "energy": "Енергія",

@@ -58,6 +58,15 @@ function initPubSub() {
     PubSub.subscribe('unlock:action', id => {
         if (actions[id]) {
             actions[id].locked = false;
+            actions[id].hidden = false;
+            updateTaskList();
+        }
+    });
+    PubSub.subscribe('lock:action', id => {
+        if (actions[id]) {
+            actions[id].hidden = true;
+            actions[id].locked = true;
+            if (selectedActionId === id) selectedActionId = null;
             updateTaskList();
         }
     });

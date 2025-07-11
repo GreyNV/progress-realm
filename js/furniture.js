@@ -39,6 +39,7 @@ const FurnitureSystem = {
     },
     use(actionId, seconds = 1) {
         let changed = false;
+        const removedUnlocks = [];
         const updated = State.furniture.filter(f => {
             const def = this.furniture.find(x => x.id === f.id);
             if (!def) return false;
@@ -47,10 +48,12 @@ const FurnitureSystem = {
             }
             if (f.durability > 0) return true;
             changed = true;
+            removedUnlocks.push(...def.unlocks);
             return false;
         });
         setState('furniture', updated);
         if (changed && typeof PubSub !== 'undefined') {
+            removedUnlocks.forEach(a => PubSub.publish('lock:action', a));
             PubSub.publish('furniture:updated');
         }
     }
