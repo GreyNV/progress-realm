@@ -13,6 +13,11 @@ const TabManager = {
             const adv = this.tabs.find(t => t.id === 'adventure');
             if (adv) adv.hidden = false;
         }
+        // Show the chip tab if the bandit ambush story event was cleared
+        if (State.banditsAmbushSeen) {
+            const chip = this.tabs.find(t => t.id === 'chip');
+            if (chip) chip.hidden = false;
+        }
         this.tabs.forEach(tab => {
             if (tab.hidden) return;
             this._createButton(tab);
