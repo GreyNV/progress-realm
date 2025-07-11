@@ -77,7 +77,7 @@
   {
     "id": "woodworking",
     "name": "Woodworking",
-    "image": ,
+    "image": "assets/enc/woodworking.png",
     "hidden": true,
     "level": 1,
     "exp": 0,
@@ -104,7 +104,7 @@
   {
     "id": "sleep",
     "name": "Sleep",
-    "image": ,
+    "image": "assets/enc/sleep.png",
     "hidden": true,
     "level": 1,
     "exp": 0,
