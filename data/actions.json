@@ -77,13 +77,13 @@
   {
     "id": "woodworking",
     "name": "Woodworking",
-    "image": "assets/enc/woodworking.png",
+    "image": ,
     "level": 1,
     "exp": 0,
     "expToNext": 10,
     "baseYield": {
       "stats": {
-        "creativity": 0.01
+        "dexterity": 0.01
       },
       "resources": {},
       "exp": 1
@@ -96,19 +96,21 @@
       "falloff": 0.5
     },
     "resourceConsumption": {
-      "energy": 0.5
+      "energy": 0.5,
+      "focus": 0.5
     }
   },
   {
     "id": "sleep",
     "name": "Sleep",
-    "image": "assets/enc/sleep.png",
+    "image": ,
     "level": 1,
     "exp": 0,
     "expToNext": 10,
     "baseYield": {
       "stats": {},
       "resources": {
+        "focus": 2,
         "energy": 2,
         "health": 1
       },
