@@ -1,6 +1,8 @@
 # Changelog
 ## [0.41.64] - 2025-07-09
 ### Changed
+- Added unit tests for `SaveSystem`, `SoftCapSystem` and `TabManager` to keep
+  coverage above 80%.
 - Action and adventure slot creation now uses the `BaseSlot` class.
 - Selecting a home publishes a `home:changed` event.
 - Documented changelog update policy in `AGENTS.md` and added a section to
