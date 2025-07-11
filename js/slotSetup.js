@@ -98,9 +98,19 @@ function setupDragAndDrop() {
 
 
 function updateTaskList() {
+    const list = document.getElementById('task-list');
     Object.values(actions).forEach(action => {
-        const li = document.querySelector(`#task-list li[data-task-id="${action.id}"]`);
-        if (!li) return;
+        const li = list.querySelector(`li[data-task-id="${action.id}"]`);
+        if (action.hidden) {
+            if (li) li.remove();
+            if (selectedActionId === action.id) selectedActionId = null;
+            return;
+        }
+        if (!li) {
+            const el = createActionElement(action);
+            if (el) list.appendChild(el);
+            return;
+        }
         li.textContent = `${action.name} Lv.${action.level}`;
         li.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
         li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');

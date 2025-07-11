@@ -5,7 +5,7 @@
  * these two functions, so follow the chain:
  *   ActionEngine.tick -> DeltaEngine.calculate -> DeltaEngine.apply
  */
-const statDeltas = { strength: 0, intelligence: 0, creativity: 0 };
+const statDeltas = { strength: 0, intelligence: 0, creativity: 0, dexterity: 0 };
 const resourceDeltas = { energy: 0, focus: 0, health: 0 };
 let ageDelta = 0;
 const expDeltas = {};
