@@ -180,6 +180,12 @@ helper functions exported from `js/state.js` such as `setState()`,
 `updateState()`, and `pushState()`. This ensures a single source of truth and
 makes state changes easy to audit.
 
+#### Testing
+
+Run `pytest --cov` to execute the unit tests. Coverage should remain above
+80%. Recent tests cover `SaveSystem`, `SoftCapSystem`, and `TabManager` to
+ensure reliability of the core modules.
+
 #### 12. Future Extensions
 
 * Prestige system with meta-upgrades
