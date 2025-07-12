@@ -68,6 +68,16 @@ function initPubSub() {
             actions[id].locked = true;
             if (selectedActionId === id) selectedActionId = null;
             updateTaskList();
+            State.slots.forEach((slot, i) => {
+                if (slot.actionId === id) {
+                    slot.actionId = null;
+                    slot.progress = 0;
+                    slot.text = '';
+                    if (typeof updateSlotUI === 'function') {
+                        updateSlotUI(i);
+                    }
+                }
+            });
         }
     });
     PubSub.subscribe('unlock:encounter', id => {
