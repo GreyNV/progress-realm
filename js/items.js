@@ -98,10 +98,6 @@ const Inventory = {
             updateState(['inventory', item.id, 'quantity'], q => q + 1);
         }
         SoftCapSystem.recalculateCaps(State.inventory);
-        InventoryUI.update();
-        if (typeof CharacterBackground !== 'undefined') {
-            CharacterBackground.update();
-        }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('item:added', item.id);
             PubSub.publish('inventory:changed', State.inventory);
@@ -113,10 +109,6 @@ const Inventory = {
         updateState(['inventory', id, 'quantity'], q => q - qty);
         if (State.inventory[id].quantity <= 0) deleteState(['inventory', id]);
         SoftCapSystem.recalculateCaps(State.inventory);
-        InventoryUI.update();
-        if (typeof CharacterBackground !== 'undefined') {
-            CharacterBackground.update();
-        }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('item:consumed', { id, quantity: qty });
             PubSub.publish('inventory:changed', State.inventory);

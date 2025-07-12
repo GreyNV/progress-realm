@@ -3,6 +3,9 @@
 const InventoryUI = {
     init() {
         this.container = document.getElementById('inventory-slots');
+        if (typeof PubSub !== 'undefined') {
+            PubSub.subscribe('inventory:changed', () => this.update());
+        }
         this.update();
     },
     update() {
