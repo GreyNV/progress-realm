@@ -45,6 +45,7 @@ const FurnitureSystem = {
             if (!def) return false;
             if (def.unlocks.includes(actionId)) {
                 f.durability -= seconds * DURABILITY_USE_RATE;
+                if (f.durability < 0) f.durability = 0;
             }
             if (f.durability > 0) return true;
             changed = true;
@@ -52,9 +53,12 @@ const FurnitureSystem = {
             return false;
         });
         setState('furniture', updated);
-        if (changed && typeof PubSub !== 'undefined') {
-            removedUnlocks.forEach(a => PubSub.publish('lock:action', a));
-            PubSub.publish('furniture:updated');
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('furniture:durabilityChanged');
+            if (changed) {
+                removedUnlocks.forEach(a => PubSub.publish('lock:action', a));
+                PubSub.publish('furniture:updated');
+            }
         }
     }
 };

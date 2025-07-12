@@ -2,6 +2,7 @@ const HomeUI = {
     listEl: null,
     slotContainer: null,
     furnitureContainer: null,
+    furnitureSlots: [],
     init() {
         this.listEl = document.getElementById('home-list');
         this.slotContainer = document.getElementById('home-slot');
@@ -13,6 +14,7 @@ const HomeUI = {
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('home:changed', () => this.updateSlot());
             PubSub.subscribe('furniture:updated', () => this.updateSlot());
+            PubSub.subscribe('furniture:durabilityChanged', () => this.updateDurability());
         }
     },
     renderList() {
@@ -74,8 +76,10 @@ const HomeUI = {
     updateFurnitureSlots(count = 0) {
         if (!this.furnitureContainer) return;
         this.furnitureContainer.innerHTML = '';
+        this.furnitureSlots = [];
         for (let i = 0; i < count; i++) {
             const slot = new BaseSlot();
+            this.furnitureSlots.push(slot);
             const data = State.furniture[i];
             if (data) {
                 const furn = FurnitureSystem.furniture.find(f => f.id === data.id);
@@ -83,10 +87,31 @@ const HomeUI = {
                     slot.setLabel(furn.name);
                     slot.setImage(furn.image);
                     slot.setTooltip(`${furn.description}\nDurability: ${data.durability}/${furn.durability}`);
+                    slot.setProgress(data.durability / furn.durability);
                 }
             }
             this.furnitureContainer.appendChild(slot.el);
         }
+    },
+
+    updateDurability() {
+        if (!this.furnitureContainer) return;
+        this.furnitureSlots.forEach((slot, i) => {
+            const data = State.furniture[i];
+            if (!data) {
+                slot.setProgress(0);
+                slot.setTooltip('');
+                slot.setLabel('');
+                slot.setImage(null);
+                return;
+            }
+            const furn = FurnitureSystem.furniture.find(f => f.id === data.id);
+            if (furn) {
+                const ratio = Math.max(data.durability, 0) / furn.durability;
+                slot.setProgress(ratio);
+                slot.setTooltip(`${furn.description}\nDurability: ${data.durability.toFixed(1)}/${furn.durability}`);
+            }
+        });
     }
 };
 
