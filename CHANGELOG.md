@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.64] - 2025-07-09
 ### Changed
+- Inventory updates now publish events instead of calling UI modules directly.
 - Furniture slots now show durability progress and related actions consume it.
 - Actions tied to destroyed furniture are removed from active slots.
 - Fixed invalid image fields in `actions.json` that prevented initialization.
