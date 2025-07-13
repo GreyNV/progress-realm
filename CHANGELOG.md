@@ -1,4 +1,9 @@
 # Changelog
+## [0.41.65] - 2025-07-13
+### Fixed
+- Progress bars on furniture slots now display current and maximum durability.
+- Active actions are immediately removed if their supporting furniture breaks.
+
 ## [0.41.64] - 2025-07-09
 ### Changed
 - Inventory updates now publish events instead of calling UI modules directly.
