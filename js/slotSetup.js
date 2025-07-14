@@ -38,7 +38,7 @@ function setupSlots() {
     if (!Array.isArray(State.slots)) setState('slots', []);
     if (State.slotCount === undefined) setState('slotCount', State.slots.length);
     while (State.slots.length < State.slotCount) {
-        pushState(['slots'], { actionId: null, progress: 0, blocked: false, text: '' });
+        pushState(['slots'], { actionId: State.defaultActionId, progress: 0, blocked: false, text: '' });
     }
     if (State.slots.length > State.slotCount) {
         setState('slots', State.slots.slice(0, State.slotCount));
@@ -126,12 +126,7 @@ function updateSlotUI(i) {
     const labelEl = slotEl.querySelector('.label');
     slotEl.classList.toggle('blocked', slot.blocked);
     if (!slot.actionId) {
-        progressEl.value = 0;
-        progressEl.max = 1;
-        labelEl.textContent = slot.text || '';
-        slotEl.style.backgroundImage = 'none';
-        slotEl.dataset.tooltip = 'Drag an action here';
-        return;
+        slot.actionId = State.defaultActionId;
     }
     const action = actions[slot.actionId];
     progressEl.max = 1;

@@ -31,6 +31,7 @@ const SaveSystem = {
                 });
                 if (Array.isArray(State.slots)) {
                     State.slots.forEach(s => {
+                        if (!s.actionId) s.actionId = State.defaultActionId;
                         if (s.text === undefined) s.text = '';
                     });
                 } else {

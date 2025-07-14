@@ -1,4 +1,8 @@
 # Changelog
+## [0.41.66] - 2025-07-14
+### Changed
+- Empty action slots now default to the Rest action.
+
 ## [0.41.65] - 2025-07-13
 ### Fixed
 - Progress bars on furniture slots now display current and maximum durability.

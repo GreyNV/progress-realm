@@ -70,7 +70,7 @@ function initPubSub() {
             updateTaskList();
             State.slots.forEach((slot, i) => {
                 if (slot.actionId === id) {
-                    slot.actionId = null;
+                    slot.actionId = State.defaultActionId;
                     slot.progress = 0;
                     slot.text = '';
                     if (typeof updateSlotUI === 'function') {
