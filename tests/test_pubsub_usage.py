@@ -23,3 +23,9 @@ def test_inventory_ui_subscribes_to_changes():
     with open(os.path.join('js', 'ui', 'inventory.js')) as f:
         text = f.read()
     assert "inventory:changed" in text
+
+
+def test_furniture_ui_updates_on_inventory_change():
+    with open(os.path.join('js', 'ui', 'furniture.js')) as f:
+        text = f.read()
+    assert "inventory:changed" in text
