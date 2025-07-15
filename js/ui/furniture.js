@@ -6,6 +6,8 @@ const FurnitureUI = {
         this.render();
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('furniture:updated', () => this.render());
+            // Re-render when inventory changes so affordable items highlight
+            PubSub.subscribe('inventory:changed', () => this.render());
         }
     },
     render() {

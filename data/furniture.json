@@ -4,7 +4,7 @@
     "name": "Wooden Table",
     "image": "assets/furniture/wooden_table.png",
     "description": "A sturdy table for daily chores.",
-    "cost": {"money": 100},
+    "cost": {"wood_log": 10},
     "durability": 1000,
     "unlocks": ["woodworking"]
   },
@@ -13,7 +13,7 @@
     "name": "Comfy Bed",
     "image": "assets/furniture/comfy_bed.png",
     "description": "Rest well to recover faster.",
-    "cost": {"money": 200},
+    "cost": {"wood_log": 15},
     "durability": 2000,
     "unlocks": ["sleep"]
   }

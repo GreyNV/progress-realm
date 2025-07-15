@@ -17,6 +17,7 @@ const UpdateUI = {
     renderList() {
         this.listEl.innerHTML = '';
         UpdateSystem.updates.forEach(u => {
+            if (u.state === 'done') return; // hide completed upgrades
             const li = document.createElement('li');
             li.textContent = u.name;
             li.dataset.updateId = u.id;
