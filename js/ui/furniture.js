@@ -15,6 +15,7 @@ const FurnitureUI = {
             const li = document.createElement('li');
             li.textContent = f.name;
             li.dataset.tooltip = `${f.description}\nCost: ${Utils.formatCost(f.cost)}`;
+            if (Inventory.canAfford(f.cost)) li.classList.add('affordable');
             li.addEventListener('click', () => FurnitureSystem.purchase(f.id));
             this.listEl.appendChild(li);
         });

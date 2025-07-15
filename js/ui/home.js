@@ -24,6 +24,7 @@ const HomeUI = {
             li.textContent = h.name;
             li.dataset.homeId = h.id;
             li.dataset.tooltip = `${h.description}\nCost: ${Utils.formatCost(h.cost)}`;
+            if (Inventory.canAfford(h.cost)) li.classList.add('affordable');
             li.setAttribute('draggable', 'true');
             li.addEventListener('dragstart', e => {
                 li.classList.add('dragging');

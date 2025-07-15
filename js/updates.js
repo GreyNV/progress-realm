@@ -42,6 +42,8 @@ const UpdateSystem = {
         const slot = this.slots[index];
         const update = this.updates.find(u => u.id === id && u.state === 'available');
         if (!update) return;
+        if (!Inventory.canAfford(update.resourceConsumption)) return;
+        Inventory.consumeCost(update.resourceConsumption);
         slot.updateId = id;
         slot.progress = 0;
         slot.active = true;
@@ -99,6 +101,24 @@ const UpdateSystem = {
         }
         if (update.unlocks && update.unlocks.storyEvents) {
             update.unlocks.storyEvents.forEach(id => StorySystem.trigger(id));
+        }
+        if (update.replaceEncounters) {
+            for (const [oldId, newId] of Object.entries(update.replaceEncounters)) {
+                const oldEnc = EncounterGenerator.encounters.find(e => e.id === oldId);
+                const newEnc = EncounterGenerator.encounters.find(e => e.id === newId);
+                if (oldEnc) {
+                    oldEnc.locked = true;
+                    if (typeof PubSub !== 'undefined') {
+                        PubSub.publish('lock:encounter', oldId);
+                    }
+                }
+                if (newEnc) {
+                    newEnc.locked = false;
+                    if (typeof PubSub !== 'undefined') {
+                        PubSub.publish('unlock:encounter', newId);
+                    }
+                }
+            }
         }
     }
 };
