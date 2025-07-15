@@ -93,7 +93,7 @@
       "sturdy_bark": 0.05
     },
     "loot": {
-      "wood_log": 0.1
+      "wood_log": 1
     }
   },
   {
@@ -133,7 +133,7 @@
       "sturdy_bark": 0.25
     },
     "loot": {
-      "wood_log": 0.1
+      "wood_log": 1
     }
   },
   {
