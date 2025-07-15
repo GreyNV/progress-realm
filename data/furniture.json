@@ -5,7 +5,7 @@
     "image": "assets/furniture/wooden_table.png",
     "description": "A sturdy table for daily chores.",
     "cost": {"money": 100},
-    "durability": 10,
+    "durability": 1000,
     "unlocks": ["woodworking"]
   },
   {
@@ -14,7 +14,7 @@
     "image": "assets/furniture/comfy_bed.png",
     "description": "Rest well to recover faster.",
     "cost": {"money": 200},
-    "durability": 20,
+    "durability": 2000,
     "unlocks": ["sleep"]
   }
 ]

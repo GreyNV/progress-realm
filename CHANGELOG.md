@@ -9,6 +9,7 @@
 - Dexterity now grants prestige toward a new stat, Reflexes.
 - Updates can replace earlier encounters with improved tiers once purchased.
 - Purchase buttons highlight when an item is affordable.
+- Furniture durability values increased 100x so furnishings last longer before breaking.
 
 ## [0.41.65] - 2025-07-13
 ### Fixed
