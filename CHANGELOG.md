@@ -2,6 +2,11 @@
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Empty action slots now default to the Rest action.
+- Removed creativity stat and updated items and encounters to match current
+  resources. Money no longer grants a softcap bonus.
+- Balanced encounter categories across stats and gave bandit ambush a small
+  repeat appearance chance.
+- Dexterity now grants prestige toward a new stat, Reflexes.
 
 ## [0.41.65] - 2025-07-13
 ### Fixed

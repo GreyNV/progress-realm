@@ -2,7 +2,6 @@
     "stats": {
         "strength": {"value": 0, "baseMax": 50},
         "intelligence": {"value": 0, "baseMax": 50},
-        "creativity": {"value": 0, "baseMax": 50},
         "dexterity": {"value": 0, "baseMax": 50}
     },
     "resources": {
@@ -13,6 +12,6 @@
     "prestige": {
         "constitution": 0,
         "wisdom": 0,
-        "creativity": 0
+        "reflexes": 0
     }
 }
