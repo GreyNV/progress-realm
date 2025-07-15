@@ -134,7 +134,7 @@ const DEFAULT_ACTION_ID = 'rest';
 const PRESTIGE_MAP = {
     strength: 'constitution',
     intelligence: 'wisdom',
-    creativity: 'creativity'
+    dexterity: 'reflexes'
 };
 const PRESTIGE_KEYS = Object.values(PRESTIGE_MAP);
 const RARITY_CLASSES = ['common', 'rare', 'epic', 'legendary', 'story'];

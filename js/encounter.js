@@ -62,7 +62,7 @@ const EncounterGenerator = {
     lootBaseByCategory: {
         strength: 0.02,
         intelligence: 0.02,
-        creativity: 0.02,
+        dexterity: 0.02,
     },
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
     lootYieldBonusPerStat: 0.02, // +2% loot amount per stat point
@@ -145,7 +145,9 @@ const EncounterGenerator = {
             if (e.rarity !== 'story') return false;
             if (e.storyLevel === undefined) return false;
             if (this.level < e.storyLevel) return false;
-            if (e.id === 'banditsAmbush' && State.banditsAmbushSeen) return false;
+            if (e.id === 'banditsAmbush' && State.banditsAmbushSeen) {
+                return Math.random() < 0.0005;
+            }
             return true;
         });
         if (story) return story;

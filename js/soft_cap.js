@@ -1,6 +1,6 @@
 // Handles stat and resource soft cap calculations
 const SoftCapSystem = {
-    baseStatCaps: { strength: 50, intelligence: 50, creativity: 50, dexterity: 50 },
+    baseStatCaps: { strength: 50, intelligence: 50, dexterity: 50 },
     baseResourceCaps: { energy: 20, focus: 20, health: 10 },
     statCaps: {},
     resourceCaps: {},

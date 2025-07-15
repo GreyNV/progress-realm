@@ -35,7 +35,7 @@ const StatsUI = {
 const PrestigeUI = {
     list: [],
     init() {
-        this.list = PRESTIGE_KEYS.filter(k => k !== 'creativity');
+        this.list = PRESTIGE_KEYS;
         this.container = document.getElementById('prestige-block');
         this.translate();
         this.update();

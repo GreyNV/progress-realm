@@ -170,7 +170,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "focus": 1
+      "dexterity": 1
     },
     "image": "assets/user_uploaded/feather.jpg",
     "description": "Soft plumage useful for fletching arrows."
@@ -180,7 +180,9 @@
     "name": "Clay",
     "rarity": "common",
     "effectType": "increaseSoftcap",
-    "effectValue": {},
+    "effectValue": {
+      "dexterity": 1
+    },
     "image": "assets/user_uploaded/clay.jpg",
     "description": "Moist earth that can be shaped and fired."
   },
@@ -199,7 +201,7 @@
     "id": "money",
     "name": "Money",
     "rarity": "common",
-    "effectType": "increaseSoftcap",
+    "effectType": "none",
     "effectValue": {},
     "image": "assets/user_uploaded/money.jpg",
     "description": "A few coins of questionable value."
