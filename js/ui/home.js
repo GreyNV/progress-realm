@@ -20,6 +20,7 @@ const HomeUI = {
     renderList() {
         this.listEl.innerHTML = '';
         HomeSystem.homes.forEach(h => {
+            if (h.default) return;
             const li = document.createElement('li');
             li.textContent = h.name;
             li.dataset.homeId = h.id;

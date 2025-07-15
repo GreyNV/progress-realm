@@ -10,6 +10,8 @@
 - Updates can replace earlier encounters with improved tiers once purchased.
 - Purchase buttons highlight when an item is affordable.
 - Furniture durability values increased 100x so furnishings last longer before breaking.
+- Hut in the Woods now loads automatically and no longer shows in the available homes list.
+- Update, research and furniture buttons share the drag-and-drop style and appear in flexible columns.
 
 ## [0.41.65] - 2025-07-13
 ### Fixed
