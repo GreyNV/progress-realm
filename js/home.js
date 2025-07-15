@@ -21,6 +21,10 @@ const HomeSystem = {
             console.error('Failed to load homes', e);
             this.homes = [];
         }
+        const defaultHome = this.homes.find(h => h.default);
+        if (!State.homeId && defaultHome) {
+            setState('homeId', defaultHome.id);
+        }
     },
     setHome(id) {
         const home = this.homes.find(h => h.id === id);
