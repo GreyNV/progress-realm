@@ -394,6 +394,10 @@ body.left-collapsed #left {
     border-left: 4px solid #ffd700;
 }
 
+li.affordable {
+    outline: 2px solid #66cc66;
+}
+
 .tab-headers {
     display: flex;
     gap: 0.5rem;

@@ -20,7 +20,8 @@ const UpdateUI = {
             const li = document.createElement('li');
             li.textContent = u.name;
             li.dataset.updateId = u.id;
-            li.dataset.tooltip = u.description;
+            li.dataset.tooltip = `${u.description}\nCost: ${Utils.formatCost(u.resourceConsumption)}`;
+            if (Inventory.canAfford(u.resourceConsumption)) li.classList.add('affordable');
             if (u.state !== 'available') {
                 li.classList.add('locked');
             } else {

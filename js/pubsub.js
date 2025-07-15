@@ -84,6 +84,10 @@ function initPubSub() {
         const enc = EncounterGenerator.encounters.find(e => e.id === id);
         if (enc) enc.locked = false;
     });
+    PubSub.subscribe('lock:encounter', id => {
+        const enc = EncounterGenerator.encounters.find(e => e.id === id);
+        if (enc) enc.locked = true;
+    });
     PubSub.subscribe('age:maxReached', () => {
         if (!State.prestiging) {
             setState('prestiging', true);

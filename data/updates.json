@@ -1,5 +1,14 @@
 [
   {
+    "id": "lumberSupervision",
+    "name": "Lumber Supervision",
+    "description": "Train to oversee a team of woodcutters.",
+    "duration": 10,
+    "resourceConsumption": {"wood_log": 20},
+    "state": "available",
+    "replaceEncounters": {"chopWood": "overseeLumberTeam"}
+  },
+  {
     "id": "townHall",
     "name": "Rebuild Town Hall",
     "description": "Restores the town center and unlocks new opportunities.",

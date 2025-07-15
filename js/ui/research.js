@@ -15,6 +15,7 @@ const ResearchUI = {
             const li = document.createElement('li');
             li.textContent = r.name;
             li.dataset.tooltip = `${r.description}\nCost: ${r.cost}`;
+            if (State.masteryPoints >= r.cost) li.classList.add('affordable');
             if (State.researchCompleted.includes(r.id) || r.done) {
                 li.classList.add('locked');
             } else {

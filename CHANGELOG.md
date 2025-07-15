@@ -7,6 +7,8 @@
 - Balanced encounter categories across stats and gave bandit ambush a small
   repeat appearance chance.
 - Dexterity now grants prestige toward a new stat, Reflexes.
+- Updates can replace earlier encounters with improved tiers once purchased.
+- Purchase buttons highlight when an item is affordable.
 
 ## [0.41.65] - 2025-07-13
 ### Fixed
