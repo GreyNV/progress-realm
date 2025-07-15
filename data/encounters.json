@@ -114,7 +114,9 @@
       "ore_chunk": 0.05,
       "iron_ore": 0.2
     },
-    "loot": {}
+    "loot": {
+      "stone_piece": 1
+    }
   },
   {
     "id": "overseeLumberTeam",
@@ -150,7 +152,7 @@
       "focus": 0.5
     },
     "items": {
-      "water_flask": 1.0
+      "gem": 0.05
     },
     "loot": {
       "water_flask": 1
@@ -170,7 +172,7 @@
       "focus": 0.5
     },
     "items": {
-      "clay": 1.0
+      "iron_ore": 0.2
     },
     "loot": {
       "clay": 1
@@ -190,7 +192,7 @@
       "focus": 1
     },
     "items": {
-      "berries": 1.0
+      "feather": 0.2
     },
     "loot": {
       "berries": 1
@@ -210,7 +212,7 @@
       "focus": 0.5
     },
     "items": {
-      "cooked_fish": 1.0
+      "water_flask": 0.2
     },
     "loot": {
       "cooked_fish": 1
@@ -275,7 +277,9 @@
       "ore_chunk": 0.6,
       "iron_ore": 0.3
     },
-    "loot": {}
+    "loot": {
+      "iron_ore": 1
+    }
   },
   {
     "id": "banditsAmbush",
@@ -320,6 +324,8 @@
       "leather_armor": 0.2,
       "gem": 0.2
     },
-    "loot": {}
+    "loot": {
+      "money": 1
+    }
   }
 ]
