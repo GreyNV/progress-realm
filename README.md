@@ -118,13 +118,34 @@ docs/MVP.md         - checklist for the first prototype
 * InventoryUI lives in `js/ui/inventory.js` and UI guidelines are documented in `AGENTS.md`.
 * `requirements.txt` lists Python packages used by helper scripts and tests.
 
+
+#### Module Responsibilities
+
+- `logger.js` - toggled console logging for debugging
+- `utils.js` - common helper functions
+- `pubsub.js` - lightweight event bus
+- `bonus.js` - stat and resource multipliers
+- `state.js` - global state and helper methods
+- `save_system.js` - persist and restore game data
+- `age_system.js` - updates age and publishes events
+- `soft_cap.js` - calculates soft caps from items
+- `tab_manager.js` - manages tab navigation
+- `engine.js` - computes per-tick stat/resource changes
+- `action_engine.js` - advances active actions
+- `adventure_engine.js` - resolves encounters
+- `slotSetup.js` - creates task and adventure slots
+- `ui_handler.js` - builds UI layout from JSON
+- `ui.js` - renders stats, resources and other panels
+- `story.js` - loads story events from data
+- `story_core.js` - shared story helpers and settings
+- `tooltipHandler.js` - global tooltip support
 #### Prototype Layout
 
 The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and a log panel occupies the right side. The header shows the current age and provides buttons to adjust the game speed.
 
 Resources appear as horizontal bars whose colors match each type (red for health, yellow for energy, blue for focus).
 
-Story modals are defined in `data/story_events.json` and triggered by the `StorySystem`. The intro plays once on first load while another short scene fires after thirty days pass in game time. All modals only appear during the first life and log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects. Homes and furniture now cost items from your inventory instead of generic currency. Purchased furniture has durability that decreases slowly over time; once it reaches zero the slot empties and you must buy the item again. The Chip tab unlocks after you survive the bandits ambush and includes a Research section with one-time upgrades unlocking additional actions.
+Story modals are defined in `data/story_events.json` and triggered by the `StorySystem`. The intro plays once on first load while another short scene fires after thirty days pass in game time. All modals only appear during the first life and log messages are recorded in a scrollable container (about 300&nbsp;px high) in the right panel. Habits are quick actions found below the routines for instant resource gains. Routines themselves are triggered by clicking their progress bars; hovering shows the cost and effect. The adventure tab now displays a second progress bar beneath the location name showing how many encounters remain before the next level. The Belongings tab includes a filter button to hide items below a chosen rarity. A new Home section now lets you choose a dwelling above the item list. The home slot uses the larger encounter slot formatting to showcase the current home's image, while a Furniture section provides action-style slots that will hold unlockable furniture objects. Homes and furniture now cost items from your inventory instead of generic currency. Purchased furniture has durability that decreases slowly over time; once it reaches zero the slot empties and you must buy the item again. The Chip tab unlocks after you survive the bandits ambush and includes a Research section with one-time upgrades unlocking additional actions. Certain upgrades now replace older encounters with stronger versions once you pay the required item cost.
 Each event now includes a `text` field with English narrative used when no translation is available.
 
 See **docs/MVP.md** for the MVP list.
@@ -180,6 +201,12 @@ helper functions exported from `js/state.js` such as `setState()`,
 `updateState()`, and `pushState()`. This ensures a single source of truth and
 makes state changes easy to audit.
 
+#### Testing
+
+Run `pytest --cov` to execute the unit tests. Coverage should remain above
+80%. Recent tests cover `SaveSystem`, `SoftCapSystem`, and `TabManager` to
+ensure reliability of the core modules.
+
 #### 12. Future Extensions
 
 * Prestige system with meta-upgrades
@@ -196,6 +223,12 @@ adding notes, update the bullet list under the latest version at the top of the
 file rather than creating a new version header. Only introduce a new version
 section when an issue or task specifically calls for it. Use dates in
 `YYYY-MM-DD` format.
+
+#### 14. DOM Manipulation Rule
+
+Only files within `js/ui/` or the main UI modules (`ui.js`, `ui_handler.js`)
+may directly interact with the browser DOM. Game logic modules must publish
+events or call UI handlers instead of touching elements themselves.
 
 ---
 

@@ -12,6 +12,9 @@ class BaseSlot {
             this.progress.value = 0;
             this.progress.max = 1;
             this.progressWrapper.appendChild(this.progress);
+            this.progressText = document.createElement('span');
+            this.progressText.className = 'progress-text';
+            this.progressWrapper.appendChild(this.progressText);
             this.el.appendChild(this.progressWrapper);
         } else {
             this.progress = null;
@@ -35,8 +38,9 @@ class BaseSlot {
         this.el.dataset.tooltip = text || '';
     }
 
-    setProgress(value) {
+    setProgress(value, text) {
         if (this.progress) this.progress.value = value;
+        if (this.progressText) this.progressText.textContent = text || '';
     }
 }
 

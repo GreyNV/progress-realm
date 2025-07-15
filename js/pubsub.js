@@ -49,28 +49,44 @@ const PubSub = {
  */
 function initPubSub() {
     PubSub.subscribe('modal:open', id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('hidden');
+        PubSub.publish('ui:modalOpen', id);
     });
     PubSub.subscribe('modal:close', id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
+        PubSub.publish('ui:modalClose', id);
     });
     PubSub.subscribe('unlock:tab', id => TabManager.unlockTab(id));
     PubSub.subscribe('unlock:action', id => {
         if (actions[id]) {
             actions[id].locked = false;
+            actions[id].hidden = false;
             updateTaskList();
+        }
+    });
+    PubSub.subscribe('lock:action', id => {
+        if (actions[id]) {
+            actions[id].hidden = true;
+            actions[id].locked = true;
+            if (selectedActionId === id) selectedActionId = null;
+            updateTaskList();
+            State.slots.forEach((slot, i) => {
+                if (slot.actionId === id) {
+                    slot.actionId = State.defaultActionId;
+                    slot.progress = 0;
+                    slot.text = '';
+                    if (typeof updateSlotUI === 'function') {
+                        updateSlotUI(i);
+                    }
+                }
+            });
         }
     });
     PubSub.subscribe('unlock:encounter', id => {
         const enc = EncounterGenerator.encounters.find(e => e.id === id);
         if (enc) enc.locked = false;
     });
-    PubSub.subscribe('age:advanced', days => {
-        if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.decay) {
-            FurnitureSystem.decay(days);
-        }
+    PubSub.subscribe('lock:encounter', id => {
+        const enc = EncounterGenerator.encounters.find(e => e.id === id);
+        if (enc) enc.locked = true;
     });
     PubSub.subscribe('age:maxReached', () => {
         if (!State.prestiging) {

@@ -1,11 +1,34 @@
 # Changelog
+## [0.41.66] - 2025-07-14
+### Changed
+- Empty action slots now default to the Rest action.
+- Removed creativity stat and updated items and encounters to match current
+  resources. Money no longer grants a softcap bonus.
+- Balanced encounter categories across stats and gave bandit ambush a small
+  repeat appearance chance.
+- Dexterity now grants prestige toward a new stat, Reflexes.
+- Updates can replace earlier encounters with improved tiers once purchased.
+- Purchase buttons highlight when an item is affordable.
+
+## [0.41.65] - 2025-07-13
+### Fixed
+- Progress bars on furniture slots now display current and maximum durability.
+- Active actions are immediately removed if their supporting furniture breaks.
+
 ## [0.41.64] - 2025-07-09
 ### Changed
+- Inventory updates now publish events instead of calling UI modules directly.
+- Furniture slots now show durability progress and related actions consume it.
+- Actions tied to destroyed furniture are removed from active slots.
+- Fixed invalid image fields in `actions.json` that prevented initialization.
+- Docs: update module responsibilities in README.md
+- Added unit tests for `SaveSystem`, `SoftCapSystem` and `TabManager` to keep
+  coverage above 80%.
 - Action and adventure slot creation now uses the `BaseSlot` class.
 - Selecting a home publishes a `home:changed` event.
 - Documented changelog update policy in `AGENTS.md` and added a section to
   `README.md` describing the process.
-- Chip tab remains locked until the bandits ambush is completed once.
+- Chip tab remains hidden until the Bandits Ambush story event is cleared.
 - Added `requirements.txt` and updated documentation on installing Python dependencies.
 - Split home, furniture and research modules into data and UI components.
 - Moved `InventoryUI` to its own script under `js/ui/` and added UI guidelines.
@@ -13,6 +36,13 @@
 - Remaining game logic moved out of `main.js` into dedicated modules.
 - Enforced single source of truth for `State`: all mutations now go through
   helpers in `state.js`.
+- Removed direct DOM access from logic modules. UI updates now occur only in
+  `ui.js`, `ui_handler.js` or `js/ui/` components.
+- Added woodworking and sleep actions tied to furniture purchases.
+- Furniture durability now decreases while related actions run.
+- Actions unlocked by furniture remain hidden until that furniture is present.
+- Destroyed furniture hides its actions again and removes selection.
+- Added new Dexterity stat; stats after Strength and Intelligence stay hidden until they exceed zero.
 
 ## [0.41.63] - 2025-07-09
 ### Added

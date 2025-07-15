@@ -62,7 +62,7 @@ const EncounterGenerator = {
     lootBaseByCategory: {
         strength: 0.02,
         intelligence: 0.02,
-        creativity: 0.02,
+        dexterity: 0.02,
     },
     lootBonusPerStat: 0.001, // +0.1% loot chance per stat point
     lootYieldBonusPerStat: 0.02, // +2% loot amount per stat point
@@ -91,23 +91,14 @@ const EncounterGenerator = {
     },
 
     updateName() {
-        const milestone = this.milestones
-            .slice()
-            .reverse()
-            .find(m => this.level >= m.level);
-        const name = milestone ? milestone.name : this.milestones[0].name;
-        const el = document.getElementById('encounter-location');
-        if (el) {
-            el.textContent = `${name} (Level ${this.level})`;
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('encounter:update');
         }
-        this.updateProgressBar();
     },
 
     updateProgressBar() {
-        const bar = document.getElementById('encounter-level-progress');
-        if (bar) {
-            bar.max = 10;
-            bar.value = Math.min(State.encounterStreak || 0, 10);
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('encounter:update');
         }
     },
 
@@ -137,8 +128,7 @@ const EncounterGenerator = {
     },
 
     init() {
-        this.container = document.getElementById('adventure-slots');
-        if (!this.container) return;
+        this.container = null;
         this.level = State.encounterLevel || 1;
         this.updateName();
         this.updateProgressBar();
@@ -155,7 +145,9 @@ const EncounterGenerator = {
             if (e.rarity !== 'story') return false;
             if (e.storyLevel === undefined) return false;
             if (this.level < e.storyLevel) return false;
-            if (e.id === 'banditsAmbush' && State.banditsAmbushSeen) return false;
+            if (e.id === 'banditsAmbush' && State.banditsAmbushSeen) {
+                return Math.random() < 0.0005;
+            }
             return true;
         });
         if (story) return story;

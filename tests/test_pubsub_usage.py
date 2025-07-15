@@ -17,3 +17,9 @@ def test_pubsub_item_events_present():
     with open(os.path.join('js', 'items.js')) as f:
         text = f.read()
     assert "item:added" in text and "item:consumed" in text
+
+
+def test_inventory_ui_subscribes_to_changes():
+    with open(os.path.join('js', 'ui', 'inventory.js')) as f:
+        text = f.read()
+    assert "inventory:changed" in text

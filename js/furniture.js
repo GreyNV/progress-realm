@@ -1,4 +1,5 @@
-const DURABILITY_DECAY_RATE = 0.1; // proportion of durability lost per day
+// Durability lost per second while the furniture's action is active
+const DURABILITY_USE_RATE = 0.1;
 
 class Furniture {
     constructor(data) {
@@ -30,44 +31,38 @@ const FurnitureSystem = {
         if (!Inventory.canAfford(item.cost)) return;
         Inventory.consumeCost(item.cost);
         pushState(['furniture'], { id: item.id, durability: item.durability });
-        HomeUI.updateSlot();
         item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
-        FurnitureUI.render();
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('furniture:updated');
+        }
         SaveSystem.save();
     },
-    decay(days = 1) {
+    use(actionId, seconds = 1) {
         let changed = false;
+        const removedUnlocks = [];
         const updated = State.furniture.filter(f => {
-            f.durability -= days * DURABILITY_DECAY_RATE;
+            const def = this.furniture.find(x => x.id === f.id);
+            if (!def) return false;
+            if (def.unlocks.includes(actionId)) {
+                f.durability -= seconds * DURABILITY_USE_RATE;
+                if (f.durability < 0) f.durability = 0;
+            }
             if (f.durability > 0) return true;
             changed = true;
+            removedUnlocks.push(...def.unlocks);
             return false;
         });
         setState('furniture', updated);
-        if (changed) HomeUI.updateSlot();
-    }
-};
-
-const FurnitureUI = {
-    listEl: null,
-    init() {
-        this.listEl = document.getElementById('furniture-list');
-        if (!this.listEl) return;
-        this.render();
-    },
-    render() {
-        if (!this.listEl) return;
-        this.listEl.innerHTML = '';
-        FurnitureSystem.furniture.forEach(f => {
-            const li = document.createElement('li');
-            li.textContent = f.name;
-            li.dataset.tooltip = `${f.description}\nCost: ${Utils.formatCost(f.cost)}`;
-            li.addEventListener('click', () => FurnitureSystem.purchase(f.id));
-            this.listEl.appendChild(li);
-        });
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('furniture:durabilityChanged');
+            if (changed) {
+                removedUnlocks.forEach(a => PubSub.publish('lock:action', a));
+                PubSub.publish('furniture:updated');
+            }
+        }
     }
 };
 
 if (typeof module !== 'undefined') {
-    module.exports = { FurnitureSystem, FurnitureUI, Furniture };
+    module.exports = { FurnitureSystem, Furniture };
 }

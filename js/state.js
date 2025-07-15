@@ -129,11 +129,12 @@ function mergeState(obj) {
 
 let STAT_KEYS = [];
 let RESOURCE_KEYS = [];
+const DEFAULT_ACTION_ID = 'rest';
 // Mapping from base stats to their prestige equivalents
 const PRESTIGE_MAP = {
     strength: 'constitution',
     intelligence: 'wisdom',
-    creativity: 'creativity'
+    dexterity: 'reflexes'
 };
 const PRESTIGE_KEYS = Object.values(PRESTIGE_MAP);
 const RARITY_CLASSES = ['common', 'rare', 'epic', 'legendary', 'story'];
@@ -167,10 +168,11 @@ const State = {
     language: 'en',
     hideRarityEnabled: false,
     hideBelowRarity: 'rare',
+    defaultActionId: DEFAULT_ACTION_ID,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
-    State.slots.push({ actionId: null, progress: 0, blocked: false, text: '' });
+    State.slots.push({ actionId: DEFAULT_ACTION_ID, progress: 0, blocked: false, text: '' });
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
@@ -222,6 +224,7 @@ if (typeof module !== 'undefined') {
         RESOURCE_KEYS,
         PRESTIGE_MAP,
         PRESTIGE_KEYS,
+        DEFAULT_ACTION_ID,
     };
 }
 

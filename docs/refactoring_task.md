@@ -57,7 +57,7 @@ Version 0.41.64 switches action and adventure slot creation to the reusable `Bas
 ### Design Updates
 - Modular system for core managers and UI components.
 - PubSub events power age progression and furniture decay.
-- Chip tab locked until the bandits ambush is completed.
+- Chip tab remains hidden until the Bandits Ambush story event is cleared.
 
 ### Dependencies
 - Python packages now installed with `pip install -r requirements.txt`.

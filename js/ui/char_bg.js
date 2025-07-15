@@ -8,6 +8,9 @@ const CharacterBackground = {
     container: null,
     init() {
         this.container = document.getElementById('left');
+        if (typeof PubSub !== 'undefined') {
+            PubSub.subscribe('inventory:changed', () => this.update());
+        }
         this.update();
     },
     update() {

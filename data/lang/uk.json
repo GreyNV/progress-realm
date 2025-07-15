@@ -68,9 +68,10 @@
   "stats": {
     "strength": "Сила",
     "intelligence": "Інтелект",
-  "creativity": "Креативність"
-  ,"constitution": "Комплекція"
-  ,"wisdom": "Мудрість"
+  "dexterity": "Спритність",
+  "constitution": "Комплекція",
+  "wisdom": "Мудрість",
+  "reflexes": "Рефлекси"
   },
   "resources": {
     "energy": "Енергія",
@@ -79,7 +80,7 @@
     "resolve": "Рішучість",
     "constitution": "Комплекція",
     "wisdom": "Мудрість",
-    "creativity": "Креативність"
+    "reflexes": "Рефлекси"
   },
   "effects": {
     "increaseSoftcap": "Підвищує ліміт {resource}"

@@ -14,7 +14,12 @@ const ActionEngine = {
         DeltaEngine.apply(delta, State.time);
         State.slots.forEach((slot, i) => {
             if (!slot.actionId) return;
+            if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.use) {
+                FurnitureSystem.use(slot.actionId, delta * State.time);
+                if (!slot.actionId) return; // action may be locked and removed
+            }
             const action = actions[slot.actionId];
+            if (!action) return;
             slot.progress = action.exp / action.expToNext;
             updateSlotUI(i);
         });
