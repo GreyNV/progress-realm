@@ -15,6 +15,7 @@ const HomeUI = {
             PubSub.subscribe('home:changed', () => this.updateSlot());
             PubSub.subscribe('furniture:updated', () => this.updateSlot());
             PubSub.subscribe('furniture:durabilityChanged', () => this.updateDurability());
+            PubSub.subscribe('inventory:changed', () => this.renderList());
         }
     },
     renderList() {
