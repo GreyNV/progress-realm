@@ -10,13 +10,13 @@
     "cost": {}
   },
   {
-    "id": "cottage",
-    "name": "Cottage",
+    "id": "simple_house",
+    "name": "Reinforce your hut by improving walls and expanding space to store more furniture",
     "rarity": "rare",
     "image": "assets/homes/cottage.png",
     "description": "A cozy cottage with a thatched roof.",
     "furnitureSlots": 3,
-    "cost": {"money": 1000}
+    "cost": {"money": 1000, "wood_log": 1000, "clay": 100, "stone_piece": 100}
   },
   {
     "id": "manor",
