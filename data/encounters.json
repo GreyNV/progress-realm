@@ -55,7 +55,8 @@
       "wolf_pelt": 0.05,
       "feather": 0.2
     },
-    "loot": {}
+    "loot": {
+      "rabbit_meat": 1}
   },
   {
     "id": "wolfAmbush",
@@ -74,7 +75,9 @@
     "items": {
       "wolf_pelt": 0.5
     },
-    "loot": {}
+    "loot": {
+      "feather": 1
+    }
   },
   {
     "id": "chopWood",
@@ -90,7 +93,8 @@
       "focus": 0.5
     },
     "items": {
-      "sturdy_bark": 0.05
+      "sturdy_bark": 0.05,
+      "feather": 0.3
     },
     "loot": {
       "wood_log": 1
@@ -132,7 +136,8 @@
       "focus": 1
     },
     "items": {
-      "sturdy_bark": 0.25
+      "sturdy_bark": 0.25,
+      "feather": 0.5
     },
     "loot": {
       "wood_log": 1
@@ -255,10 +260,13 @@
       "health": 1
     },
     "items": {
-      "boar_tusk": 0.7,
-      "herb": 0.3
+      "boar_tusk": 0.2,
+      "feather": 0.4,
+      "herb": 0.4
     },
-    "loot": {}
+    "loot": {
+      "herb": 1
+    }
   },
   {
     "id": "findOre",
@@ -270,7 +278,7 @@
     "minLevel": 15,
     "image": "assets/enc/mineore.jpg",
     "resourceConsumption": {
-      "energy": 3,
+      "energy": 2,
       "focus": 1.2
     },
     "items": {
@@ -287,14 +295,14 @@
     "description": "Outlaws spring from hiding to surround you with blades drawn.",
     "rarity": "story",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 10,
     "minLevel": 50,
     "storyLevel": 50,
     "image": "assets/enc/wolf.png",
     "resourceConsumption": {
-      "energy": 4,
+      "energy": 3,
       "focus": 2,
-      "health": 3
+      "health": 2
     },
     "items": {},
     "loot": {
@@ -306,7 +314,7 @@
   },
   {
     "id": "ancientVault",
-    "name": "Ancient Vault Awakens",
+    "name": "Ancient Vault Exploration",
     "description": "A mysterious vault opens, promising untold riches.",
     "rarity": "rare",
     "category": "intelligence",
