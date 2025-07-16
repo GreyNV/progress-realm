@@ -12,6 +12,7 @@ const UpdateUI = {
                 this.renderList();
                 this.updateSlots();
             });
+            PubSub.subscribe('inventory:changed', () => this.renderList());
         }
     },
     renderList() {
