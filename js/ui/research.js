@@ -20,6 +20,9 @@ const ResearchUI = {
                 li.classList.add('locked');
             } else {
                 li.addEventListener('click', () => ResearchSystem.purchase(r.id));
+                li.setAttribute('draggable', 'true');
+                li.addEventListener('dragstart', () => li.classList.add('dragging'));
+                li.addEventListener('dragend', () => li.classList.remove('dragging'));
             }
             this.listEl.appendChild(li);
         });

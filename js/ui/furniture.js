@@ -6,6 +6,8 @@ const FurnitureUI = {
         this.render();
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('furniture:updated', () => this.render());
+            // Re-render when inventory changes so affordable items highlight
+            PubSub.subscribe('inventory:changed', () => this.render());
         }
     },
     render() {
@@ -17,6 +19,9 @@ const FurnitureUI = {
             li.dataset.tooltip = `${f.description}\nCost: ${Utils.formatCost(f.cost)}`;
             if (Inventory.canAfford(f.cost)) li.classList.add('affordable');
             li.addEventListener('click', () => FurnitureSystem.purchase(f.id));
+            li.setAttribute('draggable', 'true');
+            li.addEventListener('dragstart', () => li.classList.add('dragging'));
+            li.addEventListener('dragend', () => li.classList.remove('dragging'));
             this.listEl.appendChild(li);
         });
     }

@@ -153,6 +153,7 @@ const EncounterGenerator = {
         if (story) return story;
 
         const pool = this.encounters.filter(e => {
+            if (e.locked) return false;
             if ((e.minLevel || 0) > this.level) return false;
             // Recover is only triggered after retreats and should not be random
             if (e.id === 'recover') return false;

@@ -3,6 +3,7 @@
     "id": "hut",
     "name": "Hut in the Woods",
     "rarity": "common",
+    "default": true,
     "image": "assets/homes/camp.png",
     "description": "A simple hut hidden among the trees.",
     "furnitureSlots": 1,

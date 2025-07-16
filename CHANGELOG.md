@@ -9,6 +9,11 @@
 - Dexterity now grants prestige toward a new stat, Reflexes.
 - Updates can replace earlier encounters with improved tiers once purchased.
 - Purchase buttons highlight when an item is affordable.
+- Furniture durability values increased 100x so furnishings last longer before breaking.
+- Hut in the Woods now loads automatically and no longer shows in the available homes list.
+- Update, research and furniture buttons share the drag-and-drop style and appear in flexible columns.
+- Furniture highlights refresh on inventory changes, early furniture costs use wood instead of money,
+  completed updates disappear from the list, and locked encounters are skipped when choosing battles.
 
 ## [0.41.65] - 2025-07-13
 ### Fixed

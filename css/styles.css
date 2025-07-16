@@ -193,9 +193,15 @@ body.left-collapsed #left {
     padding: 0;
 }
 
-#home-list {
+#home-list,
+#furniture-list,
+#research-list,
+#chip-list {
     list-style: none;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
 }
 
 #task-list li {
@@ -206,7 +212,10 @@ body.left-collapsed #left {
     border-radius: 4px;
 }
 
-#home-list li {
+#home-list li,
+#furniture-list li,
+#research-list li,
+#chip-list li {
     background: var(--task-bg);
     margin-bottom: 0.5rem;
     padding: 0.5rem;
@@ -218,7 +227,8 @@ body.left-collapsed #left {
     opacity: 0.5;
 }
 
-#home-list li.dragging {
+#home-list li.dragging,
+#chip-list li.dragging {
     opacity: 0.5;
 }
 

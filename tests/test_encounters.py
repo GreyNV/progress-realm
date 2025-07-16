@@ -85,5 +85,5 @@ def test_oversee_lumber_team_exists():
     with open(path) as f:
         data = json.load(f)
     enc = next(e for e in data if e['id'] == 'overseeLumberTeam')
-    assert enc['loot'].get('wood_log') == 0.1
+    assert enc['loot'].get('wood_log') == 1
     assert enc['items'].get('sturdy_bark') == 0.25
