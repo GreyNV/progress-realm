@@ -1,6 +1,8 @@
 # Changelog
 ## [0.41.66] - 2025-07-14
 ### Changed
+- Home and update lists refresh when inventory changes.
+- Chip section heading renamed to "Updates" while tab name remains.
 - Empty action slots now default to the Rest action.
 - Removed creativity stat and updated items and encounters to match current
   resources. Money no longer grants a softcap bonus.

@@ -295,7 +295,7 @@
     "description": "Outlaws spring from hiding to surround you with blades drawn.",
     "rarity": "story",
     "category": "strength",
-    "baseDuration": 10,
+    "baseDuration": 15,
     "minLevel": 50,
     "storyLevel": 50,
     "image": "assets/enc/wolf.png",
