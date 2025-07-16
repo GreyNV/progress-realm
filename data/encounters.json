@@ -114,9 +114,9 @@
       "focus": 0.6
     },
     "items": {
-      "stone_piece": 0.8,
+      
       "ore_chunk": 0.05,
-      "iron_ore": 0.2
+      "iron_ore": 0.5
     },
     "loot": {
       "stone_piece": 1
@@ -140,7 +140,8 @@
       "feather": 0.5
     },
     "loot": {
-      "wood_log": 1
+      "wood_log": 1,
+      "money": 2
     }
   },
   {
@@ -197,7 +198,8 @@
       "focus": 1
     },
     "items": {
-      "feather": 0.2
+      "feather": 0.5,
+      "herb": 0.5
     },
     "loot": {
       "berries": 1
@@ -217,7 +219,8 @@
       "focus": 0.5
     },
     "items": {
-      "water_flask": 0.2
+      "water_flask": 0.2,
+      "money": 0.2
     },
     "loot": {
       "cooked_fish": 1
@@ -229,7 +232,7 @@
     "description": "An old campsite may still hold valuable supplies.",
     "rarity": "common",
     "category": "intelligence",
-    "baseDuration": 1,
+    "baseDuration": 2,
     "minLevel": 5,
     "image": "assets/generated/abandoned_camp.png",
     "resourceConsumption": {
@@ -239,7 +242,8 @@
     "items": {
       "torch": 0.5,
       "money": 0.3,
-      "water_flask": 0.2
+      "water_flask": 0.2,
+      "wooden_shield": 0.05
     },
     "loot": {
       "money": 1
@@ -282,8 +286,7 @@
       "focus": 1.2
     },
     "items": {
-      "ore_chunk": 0.6,
-      "iron_ore": 0.3
+      "ore_chunk": 0.6
     },
     "loot": {
       "iron_ore": 1
@@ -295,10 +298,10 @@
     "description": "Outlaws spring from hiding to surround you with blades drawn.",
     "rarity": "story",
     "category": "strength",
-    "baseDuration": 15,
+    "baseDuration": 10,
     "minLevel": 50,
     "storyLevel": 50,
-    "image": "assets/enc/wolf.png",
+    "image": "",
     "resourceConsumption": {
       "energy": 3,
       "focus": 2,
