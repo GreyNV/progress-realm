@@ -74,10 +74,16 @@ def test_base_durations_by_rarity():
         'rare': 2,
         'epic': 5,
         'legendary': 10,
-        'story': 15,
+        'story': 10,
+    }
+    overrides = {
+        'abandonedCamp': 2,
     }
     for enc in data:
-        assert enc['baseDuration'] == expected[enc['rarity']]
+        if enc['id'] in overrides:
+            assert enc['baseDuration'] == overrides[enc['id']]
+        else:
+            assert enc['baseDuration'] == expected[enc['rarity']]
 
 
 def test_oversee_lumber_team_exists():

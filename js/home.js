@@ -24,6 +24,7 @@ const HomeSystem = {
         const defaultHome = this.homes.find(h => h.default);
         if (!State.homeId && defaultHome) {
             setState('homeId', defaultHome.id);
+            SaveSystem.save();
         }
     },
     setHome(id) {
