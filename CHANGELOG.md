@@ -16,6 +16,7 @@
 - Update, research and furniture buttons share the drag-and-drop style and appear in flexible columns.
 - Furniture highlights refresh on inventory changes, early furniture costs use wood instead of money,
   completed updates disappear from the list, and locked encounters are skipped when choosing battles.
+- Default hut is now saved and displayed automatically after resets.
 
 ## [0.41.65] - 2025-07-13
 ### Fixed
