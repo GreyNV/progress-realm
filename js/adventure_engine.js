@@ -50,10 +50,14 @@ const AdventureEngine = {
             return;
         }
         if (slot.progress >= 1) {
+            const completedId = slot.encounter.id;
             EncounterGenerator.resolve(slot.encounter);
             slot.active = false;
             slot.encounter = null;
             slot.progress = 0;
+            if (typeof PubSub !== 'undefined') {
+                PubSub.publish('encounter:complete', completedId);
+            }
             updateState('encounterStreak', s => s + 1);
             EncounterGenerator.updateProgressBar();
             updateAdventureSlotUI(this.activeIndex);

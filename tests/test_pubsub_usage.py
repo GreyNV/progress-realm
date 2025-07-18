@@ -29,3 +29,9 @@ def test_furniture_ui_updates_on_inventory_change():
     with open(os.path.join('js', 'ui', 'furniture.js')) as f:
         text = f.read()
     assert "inventory:changed" in text
+
+
+def test_engine_publishes_update_events():
+    with open(os.path.join('js', 'engine.js')) as f:
+        text = f.read()
+    assert "resources:updated" in text and "stats:updated" in text

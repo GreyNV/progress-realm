@@ -28,6 +28,14 @@ const StorySystem = {
     },
     init() {
         this.check();
+        if (typeof PubSub !== 'undefined') {
+            const ageFn = () => this.check();
+            const encFn = () => this.check();
+            PubSub.subscribe('age:advanced', ageFn);
+            PubSub.subscribe('encounter:complete', encFn);
+            this._ageFn = ageFn;
+            this._encFn = encFn;
+        }
     },
     trigger(id) {
         const event = this.events.find(e => e.id === id);

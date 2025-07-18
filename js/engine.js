@@ -69,21 +69,27 @@ const DeltaEngine = {
     },
 
     apply(deltaSeconds, mult = 1) {
+        let statsChanged = false;
+        let resourcesChanged = false;
         STAT_KEYS.forEach(k => {
             const base = statDeltas[k] * deltaSeconds * mult;
             const delta = typeof BonusEngine !== 'undefined' ?
                 BonusEngine.applyStat(base, k) : base;
+            const before = State.stats[k].value;
             StatSystem.add(State.stats[k], delta);
+            if (State.stats[k].value !== before) statsChanged = true;
         });
         RESOURCE_KEYS.forEach(k => {
             const base = resourceDeltas[k] * deltaSeconds * mult;
             const change = typeof BonusEngine !== 'undefined' ?
                 BonusEngine.applyResource(base, k) : base;
+            const before = State.resources[k].value;
             if (change >= 0) {
                 ResourceSystem.add(State.resources[k], change);
             } else {
                 ResourceSystem.consume(State.resources[k], -change);
             }
+            if (State.resources[k].value !== before) resourcesChanged = true;
         });
         AgeSystem.addDays(ageDelta * deltaSeconds * mult);
         for (const id in expDeltas) {
@@ -93,6 +99,10 @@ const DeltaEngine = {
             if (!slot.active || !slot.encounter) return;
             slot.progress += encounterProgressDeltas[i] * deltaSeconds * mult;
         });
+        if (typeof PubSub !== 'undefined') {
+            if (statsChanged) PubSub.publish('stats:updated');
+            if (resourcesChanged) PubSub.publish('resources:updated');
+        }
     }
 };
 
