@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.66] - 2025-07-14
 ### Changed
+- UI updates now subscribe to events instead of polling every 200ms.
 - Home and update lists refresh when inventory changes.
 - Chip section heading renamed to "Updates" while tab name remains.
 - Empty action slots now default to the Rest action.

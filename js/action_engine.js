@@ -23,7 +23,6 @@ const ActionEngine = {
             slot.progress = action.exp / action.expToNext;
             updateSlotUI(i);
         });
-        StorySystem.check();
         SoftCapSystem.apply();
         checkHealth();
         SaveSystem.save();

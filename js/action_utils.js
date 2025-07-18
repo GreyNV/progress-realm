@@ -66,6 +66,8 @@ function applyYield(base, mult, delta) {
 
 function gainExp(action, amount) {
     action.exp += amount;
+    const beforeLevel = action.level;
+    const beforeMastery = State.masteryPoints;
     while (action.exp >= action.expToNext) {
         action.exp -= action.expToNext;
         const oldTier = getActionTier(action.level);
@@ -75,6 +77,14 @@ function gainExp(action, amount) {
         if (newTier !== oldTier) {
             State.masteryPoints += 1;
             action.currentTier = newTier;
+        }
+    }
+    if (typeof PubSub !== 'undefined') {
+        if (action.level !== beforeLevel) {
+            PubSub.publish('action:levelUp', { id: action.id, level: action.level });
+        }
+        if (State.masteryPoints !== beforeMastery) {
+            PubSub.publish('mastery:changed', State.masteryPoints);
         }
     }
 }

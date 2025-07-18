@@ -1,6 +1,5 @@
 // Progress Realm main orchestrator
 const LOGIC_TICK_MS = 100;
-const UI_UPDATE_MS = 200;
 const TICKS_PER_SECOND = 1000 / LOGIC_TICK_MS;
 
 let actions = {};
@@ -158,6 +157,9 @@ async function init() {
             for (let i = 0; i < State.adventureSlotCount; i++) updateAdventureSlotUI(i);
             EncounterGenerator.updateName();
             InventoryUI.update();
+            if (typeof PubSub !== 'undefined') {
+                PubSub.publish('lang:changed');
+            }
             SaveSystem.save();
         });
     }
@@ -179,15 +181,19 @@ async function init() {
     }
     applyDarkMode();
     updateUI();
+    if (typeof PubSub !== 'undefined') {
+        PubSub.subscribe('resources:updated', updateUI);
+        PubSub.subscribe('stats:updated', updateUI);
+        PubSub.subscribe('mastery:changed', updateUI);
+        PubSub.subscribe('age:advanced', updateUI);
+        PubSub.subscribe('action:levelUp', updateTaskList);
+        PubSub.subscribe('lang:changed', updateTaskList);
+    }
     setInterval(() => {
         ActionEngine.tick(LOGIC_TICK_MS / 1000);
         AdventureEngine.tick(LOGIC_TICK_MS / 1000);
         UpdateSystem.tick(LOGIC_TICK_MS / 1000);
     }, LOGIC_TICK_MS);
-    setInterval(() => {
-        updateTaskList();
-        updateUI();
-    }, UI_UPDATE_MS);
 }
 
 init();
