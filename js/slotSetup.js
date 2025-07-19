@@ -1,11 +1,39 @@
 // Slot and list UI helpers separated from main.js
 
+function buildActionTooltip(action) {
+    const parts = [`<strong>${action.name}</strong> - ${capitalize(getActionTier(action.level))}`];
+    if (action.resourceConsumption && Object.keys(action.resourceConsumption).length) {
+        const cost = Utils.formatCost(action.resourceConsumption);
+        parts.push(`<strong>${Lang.ui('Cost') || 'Cost'}:</strong> ${cost}`);
+    }
+    const effects = [];
+    if (action.baseYield) {
+        if (action.baseYield.stats) {
+            for (const [stat, val] of Object.entries(action.baseYield.stats)) {
+                const name = Lang.stat(stat) || capitalize(stat);
+                effects.push(`+${val} ${name}`);
+            }
+        }
+        if (action.baseYield.resources) {
+            for (const [res, val] of Object.entries(action.baseYield.resources)) {
+                const name = Lang.resource(res) || capitalize(res);
+                const sign = val >= 0 ? '+' : '';
+                effects.push(`${sign}${val} ${name}`);
+            }
+        }
+    }
+    if (effects.length) {
+        parts.push(`<strong>${Lang.ui('Effects') || 'Effects'}:</strong> ${effects.join(', ')}`);
+    }
+    return parts.join('<br>');
+}
+
 function createActionElement(action) {
     if (action.hidden) return null;
     const li = document.createElement('li');
     li.textContent = `${action.name} Lv.${action.level}`;
     li.dataset.taskId = action.id;
-    li.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
+    li.dataset.tooltip = buildActionTooltip(action);
     const tierClass = `tier-${getActionTier(action.level)}`;
     li.classList.add(tierClass);
     if (action.locked) {
@@ -112,7 +140,7 @@ function updateTaskList() {
             return;
         }
         li.textContent = `${action.name} Lv.${action.level}`;
-        li.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
+        li.dataset.tooltip = buildActionTooltip(action);
         li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');
         li.classList.add(`tier-${getActionTier(action.level)}`);
     });
@@ -137,7 +165,7 @@ function updateSlotUI(i) {
     } else {
         slotEl.style.backgroundImage = 'none';
     }
-    slotEl.dataset.tooltip = `${action.name} - ${capitalize(getActionTier(action.level))}`;
+    slotEl.dataset.tooltip = buildActionTooltip(action);
 }
 
 function updateAdventureSlotUI(i) {
@@ -194,6 +222,7 @@ function updateAdventureSlotUI(i) {
 
 if (typeof module !== 'undefined') {
     module.exports = {
+        buildActionTooltip,
         createActionElement,
         setupSlots,
         setupAdventureSlots,
