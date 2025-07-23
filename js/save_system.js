@@ -7,7 +7,9 @@ const SaveSystem = {
                 level: a.level,
                 exp: a.exp,
                 expToNext: a.expToNext,
-                currentTier: a.currentTier
+                currentTier: a.currentTier,
+                locked: a.locked,
+                hidden: a.hidden
             };
         });
         const data = { version: VERSION, state: State, actions: actionData };
@@ -136,7 +138,6 @@ const SaveSystem = {
         setState('inventory', {});
         setState('homeId', null);
         setState('furniture', []);
-        setState('researchCompleted', []);
         setState('adventureSlots', State.adventureSlots.map(() => ({
             text: '', progress: 0, duration: 1, encounter: null, active: false
         })));

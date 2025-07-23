@@ -15,3 +15,18 @@ def test_save_system_defined():
     assert 'localStorage.setItem' in text
     assert 'localStorage.getItem' in text
     assert 'async prestige()' in text
+
+
+def test_research_list_initialized_on_load():
+    path = os.path.join('js', 'save_system.js')
+    with open(path) as f:
+        text = f.read()
+    assert "if (!Array.isArray(State.researchCompleted))" in text
+
+
+def test_action_lock_state_saved():
+    path = os.path.join('js', 'save_system.js')
+    with open(path) as f:
+        text = f.read()
+    assert 'locked: a.locked' in text
+    assert 'hidden: a.hidden' in text
