@@ -1,6 +1,10 @@
 # Changelog
 ## [0.41.66] - 2025-07-14
 ### Changed
+- Research progress now persists through prestiges.
+- Research progress is restored after page reloads.
+- Unlocked actions now persist through reloads and prestiges.
+- Buying new furniture replaces any existing piece in that slot.
 - UI updates now subscribe to events instead of polling every 200ms.
 - Home and update lists refresh when inventory changes.
 - Chip section heading renamed to "Updates" while tab name remains.

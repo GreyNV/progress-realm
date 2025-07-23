@@ -30,6 +30,13 @@ const FurnitureSystem = {
         if (!item) return;
         if (!Inventory.canAfford(item.cost)) return;
         Inventory.consumeCost(item.cost);
+        const home = HomeSystem.homes.find(h => h.id === State.homeId);
+        const limit = home ? home.furnitureSlots : 0;
+        if (State.furniture.length >= limit && limit > 0) {
+            const removed = State.furniture.shift();
+            const def = this.furniture.find(f => f.id === removed.id);
+            if (def) def.unlocks.forEach(a => PubSub.publish('lock:action', a));
+        }
         pushState(['furniture'], { id: item.id, durability: item.durability });
         item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
         if (typeof PubSub !== 'undefined') {

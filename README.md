@@ -19,6 +19,8 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 * Player can automate repeatable tasks
 * New slots and actions unlock over time
 * Resources can be replenished or crafted
+* Research progress persists across page reloads and prestiges
+* Unlocked actions remain available after reloads and prestiges
 * Optional prestige/reset layer for long-term scaling
 * Prestige triggers when age exceeds the max and converts current stats into
   prestige points
