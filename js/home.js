@@ -24,14 +24,27 @@ const HomeSystem = {
         const defaultHome = this.homes.find(h => h.default);
         if (!State.homeId && defaultHome) {
             setState('homeId', defaultHome.id);
+            if (!Array.isArray(State.homesOwned)) {
+                setState('homesOwned', []);
+            }
+            if (!State.homesOwned.includes(defaultHome.id)) {
+                pushState('homesOwned', defaultHome.id);
+            }
             SaveSystem.save();
         }
     },
     setHome(id) {
         const home = this.homes.find(h => h.id === id);
         if (!home) return;
-        if (!Inventory.canAfford(home.cost)) return;
-        Inventory.consumeCost(home.cost);
+        const owned = Array.isArray(State.homesOwned) && State.homesOwned.includes(id);
+        if (!owned) {
+            if (!Inventory.canAfford(home.cost)) return;
+            Inventory.consumeCost(home.cost);
+            if (!Array.isArray(State.homesOwned)) {
+                setState('homesOwned', []);
+            }
+            pushState('homesOwned', id);
+        }
         setState('homeId', id);
         SaveSystem.save();
         if (typeof PubSub !== 'undefined') {

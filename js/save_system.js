@@ -89,6 +89,9 @@ const SaveSystem = {
                 if (!Array.isArray(State.researchCompleted)) {
                     setState('researchCompleted', []);
                 }
+                if (!Array.isArray(State.homesOwned)) {
+                    setState('homesOwned', []);
+                }
                 if (!State.language) {
                     setState('language', 'en');
                 }
