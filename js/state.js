@@ -157,6 +157,7 @@ const State = {
     inventorySlotCount: 8,
     inventory: {},
     homeId: null,
+    homesOwned: [],
     furniture: [],
     researchCompleted: [],
     time: 1,
