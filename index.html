@@ -84,13 +84,20 @@
 
         <div id="center" class="panel">
             <div class="tabs">
-                <div id="tab-headers" class="tab-headers"></div>
                 <div id="tab-contents">
                     <div class="tab-content" data-tab="routines">
-                        <h2 data-i18n="Available Actions">Available Actions</h2>
-                        <ul id="task-list"></ul>
-                        <h2 data-i18n="Action Slots">Action Slots</h2>
-                        <div id="slots" class="slots"></div>
+                        <div class="tab-section" data-section="actions" data-type="buttons">
+                            <h2 data-i18n="Available Actions">Available Actions</h2>
+                            <div class="section-body">
+                                <ul id="task-list"></ul>
+                            </div>
+                        </div>
+                        <div class="tab-section" data-section="action-slots" data-type="slots">
+                            <h2 data-i18n="Action Slots">Action Slots</h2>
+                            <div class="section-body">
+                                <div id="slots" class="slots"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-content hidden" data-tab="adventure">
                         <h2 data-i18n="Adventure">Adventure</h2>
@@ -103,36 +110,56 @@
                         <div id="adventure-slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="inventory">
-                        <div class="section-headers" data-parent="inventory"></div>
-                        <div class="tab-section" data-section="home">
+                        <div class="tab-section" data-section="home" data-type="slots">
                             <h2 data-i18n="Available Homes">Available Homes</h2>
-                            <ul id="home-list"></ul>
-                            <h2 data-i18n="Home Slot">Home Slot</h2>
-                            <div id="home-slot" class="slots"></div>
-                            <h2 data-i18n="Furniture">Furniture</h2>
-                            <div id="furniture-slots" class="slots"></div>
-                            <h2 data-i18n="Available Furniture">Available Furniture</h2>
-                            <ul id="furniture-list"></ul>
+                            <div class="section-body">
+                                <ul id="home-list"></ul>
+                                <h2 data-i18n="Home Slot">Home Slot</h2>
+                                <div id="home-slot" class="slots"></div>
+                                <h2 data-i18n="Furniture">Furniture</h2>
+                                <div id="furniture-slots" class="slots"></div>
+                                <h2 data-i18n="Available Furniture">Available Furniture</h2>
+                                <ul id="furniture-list"></ul>
+                            </div>
                         </div>
-                        <div class="tab-section" data-section="belongings">
+                        <div class="tab-section" data-section="belongings" data-type="slots">
                             <h2 data-i18n="Belongings">Belongings</h2>
-                            <button id="inventory-filter-btn">Hide Items</button>
-                            <div id="inventory-slots" class="slots"></div>
+                            <div class="section-body">
+                                <button id="inventory-filter-btn">Hide Items</button>
+                                <div id="inventory-slots" class="slots"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-content hidden" data-tab="automation">
-                        <h2 data-i18n="Control">Control</h2>
-                        <p>Crafting and Automation go here.</p>
+                        <div class="tab-section" data-section="control" data-type="buttons">
+                            <h2 data-i18n="Control">Control</h2>
+                            <div class="section-body">
+                                <p>Crafting and Automation go here.</p>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-content hidden" data-tab="chip">
-                        <h2 data-i18n="Updates">Updates</h2>
-                        <ul id="chip-list"></ul>
-                        <h2 data-i18n="Chip Slots">Chip Slots</h2>
-                        <div id="chip-slots" class="slots"></div>
-                        <h2 data-i18n="Research">Research</h2>
-                        <ul id="research-list"></ul>
+                        <div class="tab-section" data-section="updates" data-type="buttons">
+                            <h2 data-i18n="Updates">Updates</h2>
+                            <div class="section-body">
+                                <ul id="chip-list"></ul>
+                            </div>
+                        </div>
+                        <div class="tab-section" data-section="chipslots" data-type="slots">
+                            <h2 data-i18n="Chip Slots">Chip Slots</h2>
+                            <div class="section-body">
+                                <div id="chip-slots" class="slots"></div>
+                            </div>
+                        </div>
+                        <div class="tab-section" data-section="research" data-type="buttons">
+                            <h2 data-i18n="Research">Research</h2>
+                            <div class="section-body">
+                                <ul id="research-list"></ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div id="tab-headers" class="tab-headers"></div>
             </div>
         </div>
 
@@ -166,6 +193,8 @@
     <script src="js/updates.js"></script>
     <script src="js/ui/updates.js"></script>
     <script src="js/tab_manager.js"></script>
+    <script src="js/ui/section_component.js"></script>
+    <script src="js/ui/tab_container.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/ui_handler.js"></script>
     <script src="js/ui/char_bg.js"></script>

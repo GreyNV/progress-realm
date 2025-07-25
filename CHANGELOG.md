@@ -1,4 +1,8 @@
 # Changelog
+## [0.41.67] - 2025-07-25
+### Changed
+- Tab layout moved to bottom on mobile with collapsible sections via new TabContainer.
+
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Research progress now persists through prestiges.

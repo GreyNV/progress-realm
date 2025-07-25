@@ -411,7 +411,8 @@ li.affordable {
 .tab-headers {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    justify-content: space-around;
 }
 
 .tab-headers button.active {
@@ -459,6 +460,18 @@ li.affordable {
     #adventure-slots {
         display: flex;
         flex-direction: column;
+    }
+    .tab-headers {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--panel-bg);
+        padding: 0.5rem;
+        z-index: 10;
+    }
+    main {
+        padding-bottom: 3rem;
     }
 }
 

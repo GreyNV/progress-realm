@@ -101,15 +101,7 @@ const TabManager = {
         document.querySelectorAll('#tab-headers button').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.tab === id);
         });
-        const tab = this.tabs.find(t => t.id === id);
-        if (tab && tab.sections) {
-            let current = this.activeSections[id];
-            if (!current || tab.sections.find(s => s.id === current && !s.hidden) === undefined) {
-                const first = tab.sections.find(s => !s.hidden);
-                if (first) current = first.id;
-            }
-            if (current) this.showSection(id, current);
-        }
+        // sections are now collapsible blocks rather than sub-navigation
     },
     showSection(tabId, sectionId) {
         this.activeSections[tabId] = sectionId;
