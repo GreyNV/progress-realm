@@ -2,6 +2,7 @@
 ## [0.41.67] - 2025-07-25
 ### Changed
 - Tab layout moved to bottom on mobile with collapsible sections via new TabContainer.
+- Tabs use icons in a fixed footer and old footer actions moved into the settings modal.
 
 ## [0.41.66] - 2025-07-14
 ### Changed
