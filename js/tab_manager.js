@@ -4,6 +4,13 @@ const TabManager = {
     buttons: {},
     activeSections: {},
     _sectionButtons: {},
+    icons: {
+        routines: '🏠',
+        adventure: '⚔️',
+        inventory: '🎒',
+        automation: '🤖',
+        chip: '💡'
+    },
     load(tabData) {
         this.tabs = Array.isArray(tabData) ? tabData : [];
     },
@@ -44,7 +51,9 @@ const TabManager = {
         if (!btn) return;
         const name = Lang.ui(tab.name) || tab.name;
         const locked = Lang.ui('Locked') || 'Locked';
-        btn.textContent = tab.locked ? `${name} (${locked})` : name;
+        btn.title = tab.locked ? `${name} (${locked})` : name;
+        const icon = this.icons[tab.id] || name[0];
+        btn.textContent = tab.locked ? `${icon}🔒` : icon;
     },
     _updateSectionButton(section, btn) {
         const name = Lang.ui(section.name) || section.name;

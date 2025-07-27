@@ -23,10 +23,23 @@ header h1 {
     margin: 0;
 }
 
-header, footer {
+header {
     background: var(--header-bg);
     color: var(--header-text);
     padding: 0.5rem 1rem;
+}
+
+footer {
+    background: var(--header-bg);
+    color: var(--header-text);
+    padding: 0.5rem 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    z-index: 20;
 }
 
 #stats {
@@ -160,11 +173,19 @@ header, footer {
     text-align: center;
 }
 
+.footer-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
 main {
     display: grid;
     grid-template-columns: minmax(180px, 1fr) 2fr minmax(180px, 1fr);
     gap: 1rem;
     padding: 1rem;
+    padding-bottom: 3rem;
     align-items: start;
 }
 
@@ -411,8 +432,8 @@ li.affordable {
 .tab-headers {
     display: flex;
     gap: 0.5rem;
-    margin-top: 0.5rem;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .tab-headers button.active {
@@ -460,18 +481,6 @@ li.affordable {
     #adventure-slots {
         display: flex;
         flex-direction: column;
-    }
-    .tab-headers {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--panel-bg);
-        padding: 0.5rem;
-        z-index: 10;
-    }
-    main {
-        padding-bottom: 3rem;
     }
 }
 
