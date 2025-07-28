@@ -22,7 +22,11 @@ const HomeSystem = {
             this.homes = [];
         }
         const defaultHome = this.homes.find(h => h.default);
-        if (!State.homeId && defaultHome) {
+        const currentHome = this.homes.find(h => h.id === State.homeId);
+        // Ensure a valid home is always selected. If none is set or the
+        // current id doesn't exist in the loaded list, fall back to the
+        // default option.
+        if (!currentHome && defaultHome) {
             setState('homeId', defaultHome.id);
             if (!Array.isArray(State.homesOwned)) {
                 setState('homesOwned', []);

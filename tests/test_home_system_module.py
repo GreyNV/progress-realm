@@ -18,3 +18,10 @@ def test_home_system_tracks_purchase():
         text = f.read()
     assert "pushState('homesOwned'" in text
 
+
+def test_default_home_fallback():
+    with open(os.path.join('js', 'home.js')) as f:
+        text = f.read()
+    assert 'currentHome' in text
+    assert 'if (!currentHome && defaultHome)' in text
+
