@@ -36,6 +36,9 @@ const HomeSystem = {
             }
             SaveSystem.save();
         }
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('home:changed', State.homeId);
+        }
     },
     setHome(id) {
         const home = this.homes.find(h => h.id === id);
