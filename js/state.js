@@ -150,7 +150,7 @@ const State = {
     prestige: {},
     prestiging: false,
     // number of available action slots
-    slotCount: 6,
+    slotCount: 1,
     slots: [],
     adventureSlotCount: 1,
     adventureSlots: [],

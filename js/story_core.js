@@ -35,3 +35,15 @@ function openInventoryFilter() {
 function closeInventoryFilter() {
     PubSub.publish('modal:close', 'inventory-filter-modal');
 }
+
+function showRightPanel(panel) {
+    const logPanel = document.getElementById('log-panel');
+    const activePanel = document.getElementById('active-panel');
+    const buttons = document.querySelectorAll('#right .right-tabs button');
+    if (!logPanel || !activePanel) return;
+    logPanel.classList.toggle('hidden', panel !== 'log');
+    activePanel.classList.toggle('hidden', panel !== 'active');
+    buttons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.panel === panel);
+    });
+}

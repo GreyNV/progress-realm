@@ -99,12 +99,6 @@
                                 <ul id="task-list"></ul>
                             </div>
                         </div>
-                        <div class="tab-section" data-section="action-slots" data-type="slots">
-                            <h2 data-i18n="Action Slots">Action Slots</h2>
-                            <div class="section-body">
-                                <div id="slots" class="slots"></div>
-                            </div>
-                        </div>
                     </div>
                     <div class="tab-content hidden" data-tab="adventure">
                         <h2 data-i18n="Adventure">Adventure</h2>
@@ -170,9 +164,17 @@
         </div>
 
         <div id="right" class="panel log-panel">
-            <h2 data-i18n="Log">Log</h2>
-            <div id="log-container" class="log-container">
-                <div id="log" class="log-view"></div>
+            <div class="right-tabs">
+                <button data-panel="log" class="active" data-i18n="Log">Log</button>
+                <button data-panel="active" data-i18n="Active">Active</button>
+            </div>
+            <div id="log-panel" class="right-view">
+                <div id="log-container" class="log-container">
+                    <div id="log" class="log-view"></div>
+                </div>
+            </div>
+            <div id="active-panel" class="right-view hidden">
+                <div id="slots" class="slots"></div>
             </div>
         </div>
     </main>

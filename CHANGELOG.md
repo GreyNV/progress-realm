@@ -5,6 +5,7 @@
 - Tabs use icons in a fixed footer and old footer actions moved into the settings modal.
 - Default home now falls back to "Hut in the Woods" if the saved home is missing.
 - Home slot now updates correctly after reloads and prestiges.
+- Active slots moved next to the log as a tab and reduced to one slot.
 
 ## [0.41.66] - 2025-07-14
 ### Changed

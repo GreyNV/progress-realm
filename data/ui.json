@@ -12,13 +12,6 @@
                     "type": "buttons",
                     "hidden": false,
                     "locked": false
-                },
-                {
-                    "id": "action-slots",
-                    "name": "Action Slots",
-                    "type": "slots",
-                    "hidden": false,
-                    "locked": false
                 }
             ]
         },
