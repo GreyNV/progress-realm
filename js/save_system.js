@@ -150,6 +150,9 @@ const SaveSystem = {
             if (actions[id]) Object.assign(actions[id], data);
         });
         setState('prestiging', false);
+        if (typeof HomeSystem !== 'undefined' && HomeSystem.assignDefault) {
+            HomeSystem.assignDefault();
+        }
         SaveSystem.save();
         window.location.reload();
     }
