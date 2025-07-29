@@ -501,6 +501,20 @@ li.affordable {
     flex-direction: column;
 }
 
+.right-tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.right-tabs button.active {
+    background: #333;
+    color: #fff;
+}
+
+.right-view.hidden {
+    display: none;
+}
+
 .log-container {
     height: 300px;
     overflow-y: auto;
