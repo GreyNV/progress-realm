@@ -28,15 +28,34 @@ const FurnitureSystem = {
     purchase(id) {
         const item = this.furniture.find(f => f.id === id);
         if (!item) return;
-        if (!Inventory.canAfford(item.cost)) return;
-        Inventory.consumeCost(item.cost);
+
         const home = HomeSystem.homes.find(h => h.id === State.homeId);
         const limit = home ? home.furnitureSlots : 0;
-        if (State.furniture.length >= limit && limit > 0) {
-            const removed = State.furniture.shift();
-            const def = this.furniture.find(f => f.id === removed.id);
-            if (def) def.unlocks.forEach(a => PubSub.publish('lock:action', a));
+        const existing = State.furniture.find(f => f.id === id);
+
+        if (existing) {
+            const missing = item.durability - existing.durability;
+            if (missing <= 0) return;
+            const cost = {};
+            const ratio = missing / item.durability;
+            for (const [key, val] of Object.entries(item.cost)) {
+                cost[key] = Math.ceil(val * ratio);
+            }
+            if (!Inventory.canAfford(cost)) return;
+            Inventory.consumeCost(cost);
+            existing.durability = item.durability;
+            if (typeof PubSub !== 'undefined') {
+                PubSub.publish('furniture:durabilityChanged');
+                PubSub.publish('furniture:updated');
+            }
+            SaveSystem.save();
+            return;
         }
+
+        if (State.furniture.length >= limit) return;
+        if (!Inventory.canAfford(item.cost)) return;
+
+        Inventory.consumeCost(item.cost);
         pushState(['furniture'], { id: item.id, durability: item.durability });
         item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
         if (typeof PubSub !== 'undefined') {
