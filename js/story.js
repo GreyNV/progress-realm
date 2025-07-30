@@ -61,7 +61,7 @@ const StorySystem = {
         if (!unlocks) return;
         if (unlocks.tabs) {
             unlocks.tabs.forEach(id => {
-                TabManager.unlockTab(id);
+                TabContainer.unlockTab(id);
                 if (typeof PubSub !== 'undefined') {
                     PubSub.publish('unlock:tab', id);
                 }

@@ -89,9 +89,9 @@ async function init() {
     ModalUI.init();
     setupDragAndDrop();
     setupTooltips();
-    TabManager.init();
+    TabContainer.init();
     Lang.translateUI();
-    TabManager.translate();
+    TabContainer.translate();
     const toggleBtn = document.getElementById('toggle-left');
     StorySystem.init();
     if (toggleBtn) {
@@ -137,6 +137,10 @@ async function init() {
             SaveSystem.save();
         });
     }
+    document.querySelectorAll('#right .right-tabs button').forEach(btn => {
+        btn.addEventListener('click', () => showRightPanel(btn.dataset.panel));
+    });
+    showRightPanel('log');
     const langSelect = document.getElementById('language-select');
     if (langSelect) {
         langSelect.value = State.language;
@@ -148,7 +152,7 @@ async function init() {
             Lang.applyToEncounters(EncounterGenerator.encounters);
             Lang.applyToLocations(EncounterGenerator.milestones);
             Lang.translateUI();
-            TabManager.translate();
+            TabContainer.translate();
             StatsUI.translate();
             PrestigeUI.translate();
             ResourcesUI.translate();

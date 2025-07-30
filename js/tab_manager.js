@@ -4,6 +4,13 @@ const TabManager = {
     buttons: {},
     activeSections: {},
     _sectionButtons: {},
+    icons: {
+        routines: '🏠',
+        adventure: '⚔️',
+        inventory: '🎒',
+        automation: '🤖',
+        chip: '💡'
+    },
     load(tabData) {
         this.tabs = Array.isArray(tabData) ? tabData : [];
     },
@@ -44,7 +51,9 @@ const TabManager = {
         if (!btn) return;
         const name = Lang.ui(tab.name) || tab.name;
         const locked = Lang.ui('Locked') || 'Locked';
-        btn.textContent = tab.locked ? `${name} (${locked})` : name;
+        btn.title = tab.locked ? `${name} (${locked})` : name;
+        const icon = this.icons[tab.id] || name[0];
+        btn.textContent = tab.locked ? `${icon}🔒` : icon;
     },
     _updateSectionButton(section, btn) {
         const name = Lang.ui(section.name) || section.name;
@@ -101,15 +110,7 @@ const TabManager = {
         document.querySelectorAll('#tab-headers button').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.tab === id);
         });
-        const tab = this.tabs.find(t => t.id === id);
-        if (tab && tab.sections) {
-            let current = this.activeSections[id];
-            if (!current || tab.sections.find(s => s.id === current && !s.hidden) === undefined) {
-                const first = tab.sections.find(s => !s.hidden);
-                if (first) current = first.id;
-            }
-            if (current) this.showSection(id, current);
-        }
+        // sections are now collapsible blocks rather than sub-navigation
     },
     showSection(tabId, sectionId) {
         this.activeSections[tabId] = sectionId;

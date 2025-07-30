@@ -1,4 +1,15 @@
 # Changelog
+## [0.41.67] - 2025-07-25
+### Changed
+- Tab layout moved to bottom on mobile with collapsible sections via new TabContainer.
+- Tabs use icons in a fixed footer and old footer actions moved into the settings modal.
+- Default home now falls back to "Hut in the Woods" if the saved home is missing.
+- Home slot now updates correctly after reloads and prestiges.
+
+- Active slots moved next to the log as a tab and reduced to one slot.
+- Prestige now reassigns the default hut immediately to prevent an empty home slot.
+
+
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Clicking a task immediately assigns it to an available slot.

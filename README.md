@@ -132,7 +132,9 @@ docs/MVP.md         - checklist for the first prototype
 - `save_system.js` - persist and restore game data
 - `age_system.js` - updates age and publishes events
 - `soft_cap.js` - calculates soft caps from items
-- `tab_manager.js` - manages tab navigation
+- `tab_manager.js` - internal tab helper
+- `ui/tab_container.js` - initializes tab layout and translation
+- `ui/section_component.js` - handles collapsible sections
 - `engine.js` - computes per-tick stat/resource changes
 - `action_engine.js` - advances active actions
 - `adventure_engine.js` - resolves encounters
@@ -144,7 +146,7 @@ docs/MVP.md         - checklist for the first prototype
 - `tooltipHandler.js` - global tooltip support
 #### Prototype Layout
 
-The page uses a simple header/main/footer structure. Stats and resources are kept in a left sidebar, routine controls sit in the center, and a log panel occupies the right side. The header shows the current age and provides buttons to adjust the game speed.
+The page uses a header/main/footer structure with tab navigation fixed at the bottom on mobile screens. Stats and resources remain in a left sidebar, routine controls and other tabs sit in the center, and a log panel occupies the right side. Each tab contains named sections that can collapse for clarity.
 
 Resources appear as horizontal bars whose colors match each type (red for health, yellow for energy, blue for focus).
 

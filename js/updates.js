@@ -93,7 +93,7 @@ const UpdateSystem = {
         }
         if (update.unlocks && update.unlocks.tabs) {
             update.unlocks.tabs.forEach(id => {
-                TabManager.unlockTab(id);
+                TabContainer.unlockTab(id);
                 if (typeof PubSub !== 'undefined') {
                     PubSub.publish('unlock:tab', id);
                 }

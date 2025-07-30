@@ -1,13 +1,100 @@
 {
-  "tabs": [
-    {"id": "routines", "name": "Routines", "hidden": false, "locked": false},
-    {"id": "adventure", "name": "Adventure", "hidden": true, "locked": false},
-    {"id": "inventory", "name": "Belongings", "hidden": false, "locked": false,
-     "sections": [
-       {"id": "home", "name": "Home", "hidden": false, "locked": false},
-       {"id": "belongings", "name": "Belongings", "hidden": false, "locked": false}
-     ]},
-    {"id": "automation", "name": "Automation", "hidden": true, "locked": false},
-    {"id": "chip", "name": "Chip", "hidden": true, "locked": false}
-  ]
+    "tabs": [
+        {
+            "id": "routines",
+            "name": "Routines",
+            "hidden": false,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "actions",
+                    "name": "Available Actions",
+                    "type": "buttons",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        },
+        {
+            "id": "adventure",
+            "name": "Adventure",
+            "hidden": true,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "main",
+                    "name": "Adventure",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        },
+        {
+            "id": "inventory",
+            "name": "Belongings",
+            "hidden": false,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "home",
+                    "name": "Home",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                },
+                {
+                    "id": "belongings",
+                    "name": "Belongings",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        },
+        {
+            "id": "automation",
+            "name": "Automation",
+            "hidden": true,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "control",
+                    "name": "Control",
+                    "type": "buttons",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        },
+        {
+            "id": "chip",
+            "name": "Chip",
+            "hidden": true,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "updates",
+                    "name": "Updates",
+                    "type": "buttons",
+                    "hidden": false,
+                    "locked": false
+                },
+                {
+                    "id": "chipslots",
+                    "name": "Chip Slots",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                },
+                {
+                    "id": "research",
+                    "name": "Research",
+                    "type": "buttons",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        }
+    ]
 }

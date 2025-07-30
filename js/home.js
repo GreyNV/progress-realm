@@ -12,6 +12,25 @@ class Home {
 
 const HomeSystem = {
     homes: [],
+    assignDefault() {
+        const defaultHome = this.homes.find(h => h.default);
+        const currentHome = this.homes.find(h => h.id === State.homeId);
+        if (!currentHome && defaultHome) {
+            setState('homeId', defaultHome.id);
+            if (!Array.isArray(State.homesOwned)) {
+                setState('homesOwned', []);
+            }
+            if (!State.homesOwned.includes(defaultHome.id)) {
+                pushState('homesOwned', defaultHome.id);
+            }
+            if (typeof SaveSystem !== 'undefined') {
+                SaveSystem.save();
+            }
+            if (typeof PubSub !== 'undefined') {
+                PubSub.publish('home:changed', State.homeId);
+            }
+        }
+    },
     async load() {
         try {
             const res = await fetch('data/homes.json');
@@ -21,17 +40,7 @@ const HomeSystem = {
             console.error('Failed to load homes', e);
             this.homes = [];
         }
-        const defaultHome = this.homes.find(h => h.default);
-        if (!State.homeId && defaultHome) {
-            setState('homeId', defaultHome.id);
-            if (!Array.isArray(State.homesOwned)) {
-                setState('homesOwned', []);
-            }
-            if (!State.homesOwned.includes(defaultHome.id)) {
-                pushState('homesOwned', defaultHome.id);
-            }
-            SaveSystem.save();
-        }
+        this.assignDefault();
     },
     setHome(id) {
         const home = this.homes.find(h => h.id === id);

@@ -54,7 +54,7 @@ function initPubSub() {
     PubSub.subscribe('modal:close', id => {
         PubSub.publish('ui:modalClose', id);
     });
-    PubSub.subscribe('unlock:tab', id => TabManager.unlockTab(id));
+    PubSub.subscribe('unlock:tab', id => TabContainer.unlockTab(id));
     PubSub.subscribe('unlock:action', id => {
         if (actions[id]) {
             actions[id].locked = false;
