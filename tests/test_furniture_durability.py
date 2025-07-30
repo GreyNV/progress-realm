@@ -15,8 +15,8 @@ def test_lock_action_clears_slot():
     assert 'State.slots.forEach' in text
 
 
-def test_purchase_replaces_existing_furniture():
+def test_no_auto_remove_when_slots_full():
     path = os.path.join('js', 'furniture.js')
     with open(path) as f:
         text = f.read()
-    assert '.shift()' in text and 'furnitureSlots' in text
+    assert '.shift()' not in text and 'furnitureSlots' in text
