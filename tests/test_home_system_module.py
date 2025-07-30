@@ -32,3 +32,10 @@ def test_home_system_notifies_on_load():
         text = f.read()
     assert "PubSub.publish('home:changed', State.homeId" in text
 
+
+def test_home_constructor_preserves_default_property():
+    path = os.path.join('js', 'home.js')
+    with open(path) as f:
+        text = f.read()
+    assert 'this.default = data.default' in text
+

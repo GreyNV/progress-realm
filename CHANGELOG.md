@@ -8,6 +8,7 @@
 
 - Active slots moved next to the log as a tab and reduced to one slot.
 - Prestige now reassigns the default hut immediately to prevent an empty home slot.
+- Fixed missing default property in Home constructor so default home loads correctly.
 
 
 ## [0.41.66] - 2025-07-14
