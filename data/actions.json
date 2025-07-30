@@ -6,6 +6,7 @@
     "level": 1,
     "exp": 0,
     "expToNext": 10,
+    "activationCost": { "focus": 1 },
     "baseYield": {
       "stats": {
         "intelligence": 0.01
@@ -31,6 +32,7 @@
     "level": 1,
     "exp": 0,
     "expToNext": 10,
+    "activationCost": { "energy": 1 },
     "baseYield": {
       "stats": {
         "strength": 0.02
@@ -56,6 +58,7 @@
     "level": 1,
     "exp": 0,
     "expToNext": 1000,
+    "activationCost": {},
     "baseYield": {
       "stats": {},
       "resources": {
@@ -82,6 +85,7 @@
     "level": 1,
     "exp": 0,
     "expToNext": 10,
+    "activationCost": { "energy": 1, "focus": 1 },
     "baseYield": {
       "stats": {
         "dexterity": 0.01
@@ -109,6 +113,7 @@
     "level": 1,
     "exp": 0,
     "expToNext": 10,
+    "activationCost": {},
     "baseYield": {
       "stats": {},
       "resources": {

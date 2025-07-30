@@ -15,6 +15,8 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 
 * Player assigns actions to limited slots
 * Actions consume time, energy, and resources
+* Activation costs are paid once when starting an action and the slot highlights when resources are missing
+* Action progress resumes from the previous value if the task is interrupted
 * Tasks improve stats, unlock new actions, or produce magical items
 * Player can automate repeatable tasks
 * New slots and actions unlock over time
