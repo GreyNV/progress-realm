@@ -46,14 +46,9 @@ function createActionElement(action) {
         });
         li.addEventListener('dragend', () => li.classList.remove('dragging'));
         li.addEventListener('click', () => {
-            if (selectedActionId === action.id) {
-                selectedActionId = null;
-                li.classList.remove('selected');
-            } else {
-                selectedActionId = action.id;
-                document.querySelectorAll('#task-list li').forEach(el => el.classList.remove('selected'));
-                li.classList.add('selected');
-            }
+            let index = State.slots.findIndex(s => s.actionId === State.defaultActionId);
+            if (index === -1) index = 0;
+            ActionEngine.start(index, action.id);
         });
     }
     return li;

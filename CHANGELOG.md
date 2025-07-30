@@ -1,6 +1,8 @@
 # Changelog
 ## [0.41.66] - 2025-07-14
 ### Changed
+- Clicking a task immediately assigns it to an available slot.
+- Default number of action slots is now 1 instead of 6.
 - Research progress now persists through prestiges.
 - Research progress is restored after page reloads.
 - Unlocked actions now persist through reloads and prestiges.

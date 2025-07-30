@@ -80,8 +80,9 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 
 #### 8. Slot System
 
-* Player begins with **six** action slots
+* Player begins with **one** action slot
 * Additional slots may be added dynamically
+* Clicking a task automatically fills the next available slot
 * Actions are blocked if resources are insufficient
 
 #### 9. Visual Style
