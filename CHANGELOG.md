@@ -10,6 +10,7 @@
 - UI updates now subscribe to events instead of polling every 200ms.
 - Home and update lists refresh when inventory changes.
 - Chip section heading renamed to "Updates" while tab name remains.
+- Fixed default home not appearing for new saves because the `default` field was ignored.
 - Empty action slots now default to the Rest action.
 - Removed creativity stat and updated items and encounters to match current
   resources. Money no longer grants a softcap bonus.

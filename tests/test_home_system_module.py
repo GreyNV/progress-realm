@@ -18,3 +18,9 @@ def test_home_system_tracks_purchase():
         text = f.read()
     assert "pushState('homesOwned'" in text
 
+
+def test_home_class_preserves_default():
+    with open(os.path.join('js', 'home.js')) as f:
+        text = f.read()
+    assert 'this.default = data.default' in text
+
