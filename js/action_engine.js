@@ -3,10 +3,26 @@
 const ActionEngine = {
     start(slotIndex, actionId) {
         const slot = State.slots[slotIndex];
-        slot.actionId = actionId;
-        slot.progress = 0;
+        const action = actions[actionId];
+        if (!action) return;
         slot.blocked = false;
-        slot.text = actions[actionId] ? actions[actionId].name : '';
+        if (action.activationCost) {
+            const missing = canAfford(action.activationCost, 1, 1);
+            if (missing) {
+                slot.blocked = true;
+                slot.progress = 0;
+                slot.text = `${Lang.resource(missing) || missing} required`;
+                updateSlotUI(slotIndex);
+                return;
+            }
+            for (const r in action.activationCost) {
+                ResourceSystem.consume(State.resources[r], action.activationCost[r]);
+            }
+            if (typeof PubSub !== 'undefined') PubSub.publish('resources:updated');
+        }
+        slot.actionId = actionId;
+        slot.progress = action.exp / action.expToNext;
+        slot.text = action.name;
         updateSlotUI(slotIndex);
     },
     tick(delta) {
