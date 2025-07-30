@@ -7,6 +7,7 @@ class Home {
         this.rarity = data.rarity || 'common';
         this.furnitureSlots = data.furnitureSlots || 0;
         this.cost = data.cost || {};
+        this.default = data.default || false;
     }
 }
 
