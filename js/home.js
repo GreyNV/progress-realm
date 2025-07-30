@@ -5,6 +5,7 @@ class Home {
         this.description = data.description || '';
         this.image = data.image || null;
         this.rarity = data.rarity || 'common';
+        this.default = data.default || false;
         this.furnitureSlots = data.furnitureSlots || 0;
         this.cost = data.cost || {};
     }
