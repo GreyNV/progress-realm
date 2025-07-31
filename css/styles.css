@@ -231,6 +231,24 @@ body.left-collapsed #left {
     padding: 0.5rem;
     cursor: grab;
     border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+#task-list li .level-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    z-index: 0;
+}
+
+#task-list li .action-label {
+    position: relative;
+    z-index: 1;
 }
 
 #home-list li,
