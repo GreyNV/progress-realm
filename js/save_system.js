@@ -143,6 +143,13 @@ const SaveSystem = {
         setState('inventory', {});
         setState('homeId', null);
         setState('furniture', []);
+        if (typeof PubSub !== 'undefined' && Array.isArray(FurnitureSystem.furniture)) {
+            FurnitureSystem.furniture.forEach(f => {
+                if (Array.isArray(f.unlocks)) {
+                    PubSub.publish('furniture:destroyed', { id: f.id, unlocks: f.unlocks });
+                }
+            });
+        }
         setState('adventureSlots', State.adventureSlots.map(() => ({
             text: '', progress: 0, duration: 1, encounter: null, active: false
         })));
