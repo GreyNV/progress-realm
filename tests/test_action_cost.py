@@ -15,3 +15,4 @@ def test_action_engine_references_resource_cost():
     with open(os.path.join('js', 'action_engine.js')) as f:
         text = f.read()
     assert 'resourceCost' in text
+    assert 'resourceConsumption' in text

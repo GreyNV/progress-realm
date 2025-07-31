@@ -28,10 +28,15 @@ function buildActionTooltip(action) {
     return parts.join('<br>');
 }
 
+function actionLabel(action) {
+    const pct = Math.floor((action.exp / action.expToNext) * 100);
+    return `${action.name} Lv.${action.level} (${pct}%)`;
+}
+
 function createActionElement(action) {
     if (action.hidden) return null;
     const li = document.createElement('li');
-    li.textContent = `${action.name} Lv.${action.level}`;
+    li.textContent = actionLabel(action);
     li.dataset.taskId = action.id;
     li.dataset.tooltip = buildActionTooltip(action);
     const tierClass = `tier-${getActionTier(action.level)}`;
@@ -139,7 +144,7 @@ function updateTaskList() {
             if (el) list.appendChild(el);
             return;
         }
-        li.textContent = `${action.name} Lv.${action.level}`;
+        li.textContent = actionLabel(action);
         li.dataset.tooltip = buildActionTooltip(action);
         li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');
         li.classList.add(`tier-${getActionTier(action.level)}`);

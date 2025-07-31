@@ -59,6 +59,13 @@ def test_prestige_keeps_action_slots():
     assert 's.actionId = null' not in text
 
 
+def test_prestige_resets_action_progress():
+    path = os.path.join('js', 'save_system.js')
+    with open(path) as f:
+        text = f.read()
+    assert 'progress: 0' in text
+
+
 def test_research_persists_through_prestige():
     path = os.path.join('js', 'save_system.js')
     with open(path) as f:
