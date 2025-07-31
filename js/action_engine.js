@@ -17,7 +17,7 @@ const ActionEngine = {
         }
         if (!canStart) {
             slot.actionId = State.defaultActionId;
-            slot.blocked = true;
+            slot.blocked = false;
             slot.progress = actions[State.defaultActionId].progress || 0;
             slot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
             updateSlotUI(slotIndex);
@@ -52,7 +52,7 @@ const ActionEngine = {
                 const missing = canAfford(action.resourceConsumption, delta);
                 if (missing) {
                     slot.actionId = State.defaultActionId;
-                    slot.blocked = true;
+                    slot.blocked = false;
                     slot.progress = actions[State.defaultActionId].progress || 0;
                     slot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
                     updateSlotUI(i);
@@ -88,7 +88,7 @@ const ActionEngine = {
                     }
                     if (!canRun) {
                         slot.actionId = State.defaultActionId;
-                        slot.blocked = true;
+                        slot.blocked = false;
                         slot.progress = actions[State.defaultActionId].progress || 0;
                         slot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
                         updateSlotUI(i);

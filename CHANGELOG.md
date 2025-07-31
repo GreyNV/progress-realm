@@ -8,6 +8,7 @@
 - Tabs use icons in a fixed footer and old footer actions moved into the settings modal.
 - Default home now falls back to "Hut in the Woods" if the saved home is missing.
 - Home slot now updates correctly after reloads and prestiges.
+- Action slots falling back to the Rest action now begin progress automatically.
 
 - Active slots moved next to the log as a tab and reduced to one slot.
 - Prestige now reassigns the default hut immediately to prevent an empty home slot.
