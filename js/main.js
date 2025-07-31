@@ -194,11 +194,15 @@ async function init() {
     applyDarkMode();
     updateUI();
     if (typeof PubSub !== 'undefined') {
-        PubSub.subscribe('resources:updated', updateUI);
+        PubSub.subscribe('resources:updated', data => {
+            updateUI();
+            updateTaskList();
+        });
         PubSub.subscribe('stats:updated', updateUI);
         PubSub.subscribe('mastery:changed', updateUI);
         PubSub.subscribe('age:advanced', updateUI);
         PubSub.subscribe('action:levelUp', updateTaskList);
+        PubSub.subscribe('action:exp', updateTaskList);
         PubSub.subscribe('lang:changed', updateTaskList);
     }
     setInterval(() => {

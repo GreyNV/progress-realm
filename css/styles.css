@@ -447,6 +447,10 @@ li.affordable {
     outline: 2px solid #66cc66;
 }
 
+li.unaffordable {
+    outline: 2px solid #cc6666;
+}
+
 .tab-headers {
     display: flex;
     gap: 0.5rem;

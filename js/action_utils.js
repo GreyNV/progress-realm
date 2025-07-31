@@ -87,6 +87,7 @@ function gainExp(action, amount) {
         if (State.masteryPoints !== beforeMastery) {
             PubSub.publish('mastery:changed', State.masteryPoints);
         }
+        PubSub.publish('action:exp', { id: action.id, exp: action.exp });
     }
 }
 
