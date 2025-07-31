@@ -48,11 +48,29 @@ const ActionEngine = {
             }
             const action = actions[slot.actionId];
             if (!action) return;
+            if (action.resourceConsumption) {
+                const missing = canAfford(action.resourceConsumption, delta);
+                if (missing) {
+                    slot.actionId = State.defaultActionId;
+                    slot.blocked = true;
+                    slot.progress = actions[State.defaultActionId].progress || 0;
+                    slot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
+                    updateSlotUI(i);
+                    return;
+                }
+                for (const r in action.resourceConsumption) {
+                    const amt = action.resourceConsumption[r] * State.time * delta;
+                    ResourceSystem.consume(State.resources[r], amt);
+                }
+                if (typeof PubSub !== 'undefined') {
+                    PubSub.publish('resources:updated');
+                }
+            }
             slot.progress = (slot.progress || 0) + delta * State.time;
             while (slot.progress >= 1) {
                 const mult = scalingMultiplier(action);
                 if (action.baseYield) {
-                    applyYield(action.baseYield, mult, 1);
+                    applyYield(action.baseYield, mult, 1, false);
                 }
                 if (action.baseYield && action.baseYield.exp) {
                     gainExp(action, action.baseYield.exp * mult);

@@ -51,15 +51,16 @@ function canAfford(cost, delta, mult = 1) {
     return null;
 }
 
-function applyYield(base, mult, delta) {
+function applyYield(base, mult, delta, scaleTime = false) {
+    const timeMult = scaleTime ? State.time : 1;
     if (base.stats) {
         for (const s in base.stats) {
-            StatSystem.add(State.stats[s], base.stats[s] * mult * State.time * delta);
+            StatSystem.add(State.stats[s], base.stats[s] * mult * timeMult * delta);
         }
     }
     if (base.resources) {
         for (const r in base.resources) {
-            ResourceSystem.add(State.resources[r], base.resources[r] * mult * State.time * delta);
+            ResourceSystem.add(State.resources[r], base.resources[r] * mult * timeMult * delta);
         }
     }
 }

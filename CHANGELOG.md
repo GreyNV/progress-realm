@@ -11,6 +11,8 @@
 - Prestige now reassigns the default hut immediately to prevent an empty home slot.
 - Fixed missing default property in Home constructor so default home loads correctly.
 - Actions now cost resources on activation and store progress when interrupted.
+- Resource yields now grant rewards on completion rather than per second.
+- Action buttons display experience progress toward the next level.
 
 
 ## [0.41.66] - 2025-07-14
