@@ -28,6 +28,15 @@ function buildActionTooltip(action) {
     return parts.join('<br>');
 }
 
+function actionAffordable(action) {
+    if (!action.resourceCost) return true;
+    for (const r in action.resourceCost) {
+        const res = State.resources[r];
+        if (!res || res.value < action.resourceCost[r]) return false;
+    }
+    return true;
+}
+
 function actionLabel(action) {
     return `${action.name} Lv.${action.level}`;
 }
@@ -48,6 +57,9 @@ function createActionElement(action) {
     li.dataset.tooltip = buildActionTooltip(action);
     const tierClass = `tier-${getActionTier(action.level)}`;
     li.classList.add(tierClass);
+    if (!actionAffordable(action)) {
+        li.classList.add('unaffordable');
+    }
     if (action.locked) {
         li.classList.add('locked');
     } else {
@@ -161,6 +173,7 @@ function updateTaskList() {
         li.dataset.tooltip = buildActionTooltip(action);
         li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');
         li.classList.add(`tier-${getActionTier(action.level)}`);
+        li.classList.toggle('unaffordable', !actionAffordable(action));
     });
 }
 

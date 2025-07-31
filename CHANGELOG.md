@@ -15,6 +15,7 @@
 - Actions now cost resources on activation and store progress when interrupted.
 - Resource yields now grant rewards on completion rather than per second.
 - Action buttons display experience progress toward the next level.
+- Action list refreshes when experience is gained and shows a red outline when an action is unaffordable.
 
 
 ## [0.41.66] - 2025-07-14
