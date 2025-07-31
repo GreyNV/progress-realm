@@ -21,38 +21,7 @@ const DeltaEngine = {
             delete expDeltas[id];
         }
 
-        // contributions from active actions
-        State.slots.forEach(slot => {
-            if (!slot.actionId || slot.blocked) return;
-            const action = actions[slot.actionId];
-            const mult = scalingMultiplier(action);
-
-            if (action.baseYield.stats) {
-                for (const s in action.baseYield.stats) {
-                    statDeltas[s] = (statDeltas[s] || 0) +
-                        action.baseYield.stats[s] * mult;
-                }
-            }
-
-            if (action.baseYield.resources) {
-                for (const r in action.baseYield.resources) {
-                    const rate = action.baseYield.resources[r] * mult;
-                    resourceDeltas[r] = (resourceDeltas[r] || 0) + rate;
-                }
-            }
-
-            if (action.resourceConsumption) {
-                for (const r in action.resourceConsumption) {
-                    const rate = action.resourceConsumption[r] * mult;
-                    resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
-                }
-            }
-
-            if (action.baseYield.exp) {
-                expDeltas[action.id] = (expDeltas[action.id] || 0) +
-                    action.baseYield.exp * mult;
-            }
-        });
+        // action contributions handled by ActionEngine
 
         // contributions from active encounters
         encounterProgressDeltas.length = State.adventureSlots.length;
@@ -92,9 +61,7 @@ const DeltaEngine = {
             if (State.resources[k].value !== before) resourcesChanged = true;
         });
         AgeSystem.addDays(ageDelta * deltaSeconds * mult);
-        for (const id in expDeltas) {
-            gainExp(actions[id], expDeltas[id] * deltaSeconds * mult);
-        }
+        // action experience applied by ActionEngine
         State.adventureSlots.forEach((slot, i) => {
             if (!slot.active || !slot.encounter) return;
             slot.progress += encounterProgressDeltas[i] * deltaSeconds * mult;
