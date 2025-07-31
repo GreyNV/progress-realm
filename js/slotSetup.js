@@ -8,17 +8,18 @@ function buildActionTooltip(action) {
     }
     const effects = [];
     if (action.baseYield) {
-        if (action.baseYield.stats) {
-            for (const [stat, val] of Object.entries(action.baseYield.stats)) {
+        const yields = computeActionYield(action);
+        if (yields.stats) {
+            for (const [stat, val] of Object.entries(yields.stats)) {
                 const name = Lang.stat(stat) || capitalize(stat);
-                effects.push(`+${val} ${name}`);
+                effects.push(`+${val.toFixed(2)} ${name}`);
             }
         }
-        if (action.baseYield.resources) {
-            for (const [res, val] of Object.entries(action.baseYield.resources)) {
+        if (yields.resources) {
+            for (const [res, val] of Object.entries(yields.resources)) {
                 const name = Lang.resource(res) || capitalize(res);
                 const sign = val >= 0 ? '+' : '';
-                effects.push(`${sign}${val} ${name}`);
+                effects.push(`${sign}${val.toFixed(2)} ${name}`);
             }
         }
     }
@@ -44,17 +45,25 @@ function actionLabel(action) {
 function createActionElement(action) {
     if (action.hidden) return null;
     const li = document.createElement('li');
+    li.classList.add('expandable');
     const fill = document.createElement('div');
     fill.className = 'level-fill';
     const pct = Math.floor((action.exp / action.expToNext) * 100);
     fill.style.width = `${pct}%`;
     li.appendChild(fill);
+    const arrow = document.createElement('span');
+    arrow.className = 'expand-arrow';
+    arrow.textContent = '▶';
+    li.appendChild(arrow);
     const label = document.createElement('span');
     label.className = 'action-label';
     label.textContent = actionLabel(action);
     li.appendChild(label);
+    const detail = document.createElement('div');
+    detail.className = 'expand-details';
+    detail.innerHTML = buildActionTooltip(action);
+    li.appendChild(detail);
     li.dataset.taskId = action.id;
-    li.dataset.tooltip = buildActionTooltip(action);
     const tierClass = `tier-${getActionTier(action.level)}`;
     li.classList.add(tierClass);
     if (!actionAffordable(action)) {
@@ -69,6 +78,11 @@ function createActionElement(action) {
             e.dataTransfer.setData('text/plain', action.id);
         });
         li.addEventListener('dragend', () => li.classList.remove('dragging'));
+        arrow.addEventListener('click', e => {
+            e.stopPropagation();
+            const expanded = li.classList.toggle('expanded');
+            arrow.textContent = expanded ? '▼' : '▶';
+        });
         li.addEventListener('click', () => {
             if (selectedActionId === action.id) {
                 selectedActionId = null;
@@ -170,7 +184,8 @@ function updateTaskList() {
             const pct = Math.floor((action.exp / action.expToNext) * 100);
             fill.style.width = `${pct}%`;
         }
-        li.dataset.tooltip = buildActionTooltip(action);
+        const detail = li.querySelector('.expand-details');
+        if (detail) detail.innerHTML = buildActionTooltip(action);
         li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');
         li.classList.add(`tier-${getActionTier(action.level)}`);
         li.classList.toggle('unaffordable', !actionAffordable(action));

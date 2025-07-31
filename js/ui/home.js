@@ -23,9 +23,19 @@ const HomeUI = {
         HomeSystem.homes.forEach(h => {
             if (h.default) return;
             const li = document.createElement('li');
-            li.textContent = h.name;
+            li.classList.add('expandable');
+            const arrow = document.createElement('span');
+            arrow.className = 'expand-arrow';
+            arrow.textContent = '▶';
+            li.appendChild(arrow);
+            const label = document.createElement('span');
+            label.textContent = h.name;
+            li.appendChild(label);
+            const detail = document.createElement('div');
+            detail.className = 'expand-details';
+            detail.innerHTML = `${h.description}<br>Cost: ${Utils.formatCost(h.cost)}`;
+            li.appendChild(detail);
             li.dataset.homeId = h.id;
-            li.dataset.tooltip = `${h.description}\nCost: ${Utils.formatCost(h.cost)}`;
             if (Inventory.canAfford(h.cost)) li.classList.add('affordable');
             li.setAttribute('draggable', 'true');
             li.addEventListener('dragstart', e => {
@@ -33,6 +43,11 @@ const HomeUI = {
                 e.dataTransfer.setData('text/plain', h.id);
             });
             li.addEventListener('dragend', () => li.classList.remove('dragging'));
+            arrow.addEventListener('click', e => {
+                e.stopPropagation();
+                const expanded = li.classList.toggle('expanded');
+                arrow.textContent = expanded ? '▼' : '▶';
+            });
             li.addEventListener('click', () => HomeSystem.setHome(h.id));
             this.listEl.appendChild(li);
         });
