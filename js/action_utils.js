@@ -65,6 +65,31 @@ function applyYield(base, mult, delta, scaleTime = false) {
     }
 }
 
+function computeActionYield(action) {
+    if (!action.baseYield) return {};
+    const mult = scalingMultiplier(action);
+    const result = { stats: {}, resources: {} };
+    if (action.baseYield.stats) {
+        for (const [s, v] of Object.entries(action.baseYield.stats)) {
+            let val = v * mult;
+            if (typeof BonusEngine !== 'undefined' && BonusEngine.applyStat) {
+                val = BonusEngine.applyStat(val, s);
+            }
+            result.stats[s] = val;
+        }
+    }
+    if (action.baseYield.resources) {
+        for (const [r, v] of Object.entries(action.baseYield.resources)) {
+            let val = v * mult;
+            if (typeof BonusEngine !== 'undefined' && BonusEngine.applyResource) {
+                val = BonusEngine.applyResource(val, r);
+            }
+            result.resources[r] = val;
+        }
+    }
+    return result;
+}
+
 function gainExp(action, amount) {
     action.exp += amount;
     const beforeLevel = action.level;
@@ -98,6 +123,7 @@ if (typeof module !== 'undefined') {
         scalingMultiplier,
         canAfford,
         applyYield,
-        gainExp
+        gainExp,
+        computeActionYield
     };
 }

@@ -451,6 +451,21 @@ li.unaffordable {
     outline: 2px solid #cc6666;
 }
 
+.expand-arrow {
+    cursor: pointer;
+    margin-right: 0.25rem;
+}
+
+.expand-details {
+    display: none;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.expandable.expanded .expand-details {
+    display: block;
+}
+
 .tab-headers {
     display: flex;
     gap: 0.5rem;
