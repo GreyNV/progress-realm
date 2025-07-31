@@ -9,7 +9,6 @@
 - Default home now falls back to "Hut in the Woods" if the saved home is missing.
 - Home slot now updates correctly after reloads and prestiges.
 - Action slots falling back to the Rest action now begin progress automatically.
-
 - Active slots moved next to the log as a tab and reduced to one slot.
 - Prestige now reassigns the default hut immediately to prevent an empty home slot.
 - Fixed missing default property in Home constructor so default home loads correctly.
@@ -18,6 +17,7 @@
 - Action buttons display experience progress toward the next level.
 - Action list refreshes when experience is gained and shows a red outline when an action is unaffordable.
 - Tooltips removed from action, home and furniture buttons. Buttons can expand to show details with calculated yields.
+- Expand arrows moved to the right side of buttons and belongings lists remember expanded items.
 - Furniture destruction now triggers a `furniture:destroyed` event to lock its actions.
 - Prestige removes furniture-unlocked actions using the new event.
 

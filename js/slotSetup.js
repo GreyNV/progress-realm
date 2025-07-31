@@ -51,14 +51,14 @@ function createActionElement(action) {
     const pct = Math.floor((action.exp / action.expToNext) * 100);
     fill.style.width = `${pct}%`;
     li.appendChild(fill);
-    const arrow = document.createElement('span');
-    arrow.className = 'expand-arrow';
-    arrow.textContent = '▶';
-    li.appendChild(arrow);
     const label = document.createElement('span');
     label.className = 'action-label';
     label.textContent = actionLabel(action);
     li.appendChild(label);
+    const arrow = document.createElement('span');
+    arrow.className = 'expand-arrow';
+    arrow.textContent = '▶';
+    li.appendChild(arrow);
     const detail = document.createElement('div');
     detail.className = 'expand-details';
     detail.innerHTML = buildActionTooltip(action);
