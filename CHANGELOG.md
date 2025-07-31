@@ -18,6 +18,8 @@
 - Action buttons display experience progress toward the next level.
 - Action list refreshes when experience is gained and shows a red outline when an action is unaffordable.
 - Tooltips removed from action, home and furniture buttons. Buttons can expand to show details with calculated yields.
+- Furniture destruction now triggers a `furniture:destroyed` event to lock its actions.
+- Prestige removes furniture-unlocked actions using the new event.
 
 
 ## [0.41.66] - 2025-07-14

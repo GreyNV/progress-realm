@@ -80,6 +80,11 @@ function initPubSub() {
             });
         }
     });
+    PubSub.subscribe('furniture:destroyed', data => {
+        if (data && Array.isArray(data.unlocks)) {
+            data.unlocks.forEach(id => PubSub.publish('lock:action', id));
+        }
+    });
     PubSub.subscribe('unlock:encounter', id => {
         const enc = EncounterGenerator.encounters.find(e => e.id === id);
         if (enc) enc.locked = false;
