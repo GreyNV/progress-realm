@@ -2,8 +2,8 @@
 
 function buildActionTooltip(action) {
     const parts = [`<strong>${action.name}</strong> - ${capitalize(getActionTier(action.level))}`];
-    if (action.resourceConsumption && Object.keys(action.resourceConsumption).length) {
-        const cost = Utils.formatCost(action.resourceConsumption);
+    if (action.resourceCost && Object.keys(action.resourceCost).length) {
+        const cost = Utils.formatCost(action.resourceCost);
         parts.push(`<strong>${Lang.ui('Cost') || 'Cost'}:</strong> ${cost}`);
     }
     const effects = [];
@@ -158,7 +158,7 @@ function updateSlotUI(i) {
     }
     const action = actions[slot.actionId];
     progressEl.max = 1;
-    progressEl.value = slot.progress;
+    progressEl.value = action.progress || 0;
     labelEl.textContent = slot.text || `${action.name} Lv.${action.level}`;
     if (action.image) {
         slotEl.style.backgroundImage = `url(${action.image})`;

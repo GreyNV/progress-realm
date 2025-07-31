@@ -37,12 +37,20 @@ async function init() {
         json.forEach(a => {
             a.hidden = a.hidden || false;
             a.locked = a.locked || false;
+            if (a.resourceConsumption) {
+                a.resourceCost = a.resourceConsumption;
+                delete a.resourceConsumption;
+            }
+            a.progress = 0;
             actions[a.id] = a;
         });
         if (loadedActions) {
             for (const id in loadedActions) {
                 if (actions[id]) {
                     Object.assign(actions[id], loadedActions[id]);
+                    if (loadedActions[id].progress !== undefined) {
+                        actions[id].progress = loadedActions[id].progress;
+                    }
                 }
             }
         }

@@ -9,7 +9,8 @@ const SaveSystem = {
                 expToNext: a.expToNext,
                 currentTier: a.currentTier,
                 locked: a.locked,
-                hidden: a.hidden
+                hidden: a.hidden,
+                progress: a.progress || 0
             };
         });
         const data = { version: VERSION, state: State, actions: actionData };
@@ -116,7 +117,8 @@ const SaveSystem = {
                 level: a.level,
                 exp: 0,
                 expToNext: a.expToNext,
-                currentTier: a.currentTier
+                currentTier: a.currentTier,
+                progress: 0
             };
         });
 

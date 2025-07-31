@@ -14,7 +14,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 #### 3. Core Gameplay Loop
 
 * Player assigns actions to limited slots
-* Actions consume time, energy, and resources
+* Actions require a resource cost on activation and then progress automatically
 * Tasks improve stats, unlock new actions, or produce magical items
 * Player can automate repeatable tasks
 * New slots and actions unlock over time

@@ -20,7 +20,7 @@
       "softcapLevel": 5,
       "falloff": 0.5
     },
-    "resourceConsumption": {
+    "resourceCost": {
       "focus": 0.5
     }
   },
@@ -45,7 +45,7 @@
       "softcapLevel": 5,
       "falloff": 0.5
     },
-    "resourceConsumption": {
+    "resourceCost": {
       "energy": 0.5
     }
   },
@@ -72,7 +72,7 @@
       "softcapLevel": 5,
       "falloff": 0.5
     },
-    "resourceConsumption": {}
+    "resourceCost": {}
   },
   {
     "id": "woodworking",
@@ -96,7 +96,7 @@
       "softcapLevel": 5,
       "falloff": 0.5
     },
-    "resourceConsumption": {
+    "resourceCost": {
       "energy": 0.5,
       "focus": 0.5
     }
@@ -125,6 +125,6 @@
       "softcapLevel": 5,
       "falloff": 0.5
     },
-    "resourceConsumption": {}
+    "resourceCost": {}
   }
 ]
