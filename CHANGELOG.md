@@ -18,6 +18,7 @@
 - Action buttons display experience progress toward the next level.
 - Action list refreshes when experience is gained and shows a red outline when an action is unaffordable.
 - Tooltips removed from action, home and furniture buttons. Buttons can expand to show details with calculated yields.
+- Expand arrows moved to the right side of buttons and belongings lists remember expanded items.
 
 
 ## [0.41.66] - 2025-07-14

@@ -3,6 +3,7 @@ const HomeUI = {
     slotContainer: null,
     furnitureContainer: null,
     furnitureSlots: [],
+    expandedHomes: new Set(),
     init() {
         this.listEl = document.getElementById('home-list');
         this.slotContainer = document.getElementById('home-slot');
@@ -19,18 +20,19 @@ const HomeUI = {
         }
     },
     renderList() {
+        const prevExpanded = new Set(this.expandedHomes);
         this.listEl.innerHTML = '';
         HomeSystem.homes.forEach(h => {
             if (h.default) return;
             const li = document.createElement('li');
             li.classList.add('expandable');
+            const label = document.createElement('span');
+            label.textContent = h.name;
+            li.appendChild(label);
             const arrow = document.createElement('span');
             arrow.className = 'expand-arrow';
             arrow.textContent = '▶';
             li.appendChild(arrow);
-            const label = document.createElement('span');
-            label.textContent = h.name;
-            li.appendChild(label);
             const detail = document.createElement('div');
             detail.className = 'expand-details';
             detail.innerHTML = `${h.description}<br>Cost: ${Utils.formatCost(h.cost)}`;
@@ -43,10 +45,16 @@ const HomeUI = {
                 e.dataTransfer.setData('text/plain', h.id);
             });
             li.addEventListener('dragend', () => li.classList.remove('dragging'));
+            if (prevExpanded.has(h.id)) {
+                li.classList.add('expanded');
+                arrow.textContent = '▼';
+                this.expandedHomes.add(h.id);
+            }
             arrow.addEventListener('click', e => {
                 e.stopPropagation();
                 const expanded = li.classList.toggle('expanded');
                 arrow.textContent = expanded ? '▼' : '▶';
+                if (expanded) this.expandedHomes.add(h.id); else this.expandedHomes.delete(h.id);
             });
             li.addEventListener('click', () => HomeSystem.setHome(h.id));
             this.listEl.appendChild(li);
