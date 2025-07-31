@@ -29,14 +29,21 @@ function buildActionTooltip(action) {
 }
 
 function actionLabel(action) {
-    const pct = Math.floor((action.exp / action.expToNext) * 100);
-    return `${action.name} Lv.${action.level} (${pct}%)`;
+    return `${action.name} Lv.${action.level}`;
 }
 
 function createActionElement(action) {
     if (action.hidden) return null;
     const li = document.createElement('li');
-    li.textContent = actionLabel(action);
+    const fill = document.createElement('div');
+    fill.className = 'level-fill';
+    const pct = Math.floor((action.exp / action.expToNext) * 100);
+    fill.style.width = `${pct}%`;
+    li.appendChild(fill);
+    const label = document.createElement('span');
+    label.className = 'action-label';
+    label.textContent = actionLabel(action);
+    li.appendChild(label);
     li.dataset.taskId = action.id;
     li.dataset.tooltip = buildActionTooltip(action);
     const tierClass = `tier-${getActionTier(action.level)}`;
@@ -144,7 +151,13 @@ function updateTaskList() {
             if (el) list.appendChild(el);
             return;
         }
-        li.textContent = actionLabel(action);
+        const label = li.querySelector('.action-label');
+        const fill = li.querySelector('.level-fill');
+        if (label) label.textContent = actionLabel(action);
+        if (fill) {
+            const pct = Math.floor((action.exp / action.expToNext) * 100);
+            fill.style.width = `${pct}%`;
+        }
         li.dataset.tooltip = buildActionTooltip(action);
         li.classList.remove('tier-normal', 'tier-bronze', 'tier-silver', 'tier-gold');
         li.classList.add(`tier-${getActionTier(action.level)}`);

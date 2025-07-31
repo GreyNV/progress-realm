@@ -76,6 +76,31 @@ const ActionEngine = {
                     gainExp(action, action.baseYield.exp * mult);
                 }
                 slot.progress -= 1;
+                // deduct start cost for next cycle
+                if (action.resourceCost) {
+                    let canRun = true;
+                    for (const r in action.resourceCost) {
+                        const res = State.resources[r];
+                        if (!res || res.value < action.resourceCost[r]) {
+                            canRun = false;
+                            break;
+                        }
+                    }
+                    if (!canRun) {
+                        slot.actionId = State.defaultActionId;
+                        slot.blocked = true;
+                        slot.progress = actions[State.defaultActionId].progress || 0;
+                        slot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
+                        updateSlotUI(i);
+                        return;
+                    }
+                    for (const r in action.resourceCost) {
+                        ResourceSystem.consume(State.resources[r], action.resourceCost[r]);
+                    }
+                    if (typeof PubSub !== 'undefined') {
+                        PubSub.publish('resources:updated');
+                    }
+                }
             }
             action.progress = slot.progress;
             updateSlotUI(i);

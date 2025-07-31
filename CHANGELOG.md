@@ -1,6 +1,8 @@
 # Changelog
 ## [0.41.67] - 2025-07-25
 ### Changed
+- Action buttons show level progress with a darkening background instead of text.
+- Resource costs are deducted at the start of every action cycle.
 - Furniture purchases no longer replace existing pieces; repairing uses scaled cost.
 - Tab layout moved to bottom on mobile with collapsible sections via new TabContainer.
 - Tabs use icons in a fixed footer and old footer actions moved into the settings modal.

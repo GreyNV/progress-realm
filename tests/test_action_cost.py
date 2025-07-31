@@ -16,3 +16,9 @@ def test_action_engine_references_resource_cost():
         text = f.read()
     assert 'resourceCost' in text
     assert 'resourceConsumption' in text
+
+
+def test_action_engine_deducts_cost_each_cycle():
+    with open(os.path.join('js', 'action_engine.js')) as f:
+        text = f.read()
+    assert 'deduct start cost for next cycle' in text

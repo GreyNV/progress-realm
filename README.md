@@ -17,6 +17,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 * Actions require a resource cost on activation and then progress automatically
 * Tasks improve stats, unlock new actions, or produce magical items
 * Player can automate repeatable tasks
+* Action buttons darken as they fill with experience toward the next level
 * New slots and actions unlock over time
 * Resources can be replenished or crafted
 * Research progress persists across page reloads and prestiges
