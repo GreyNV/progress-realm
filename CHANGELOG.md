@@ -20,6 +20,7 @@
 - Expand arrows moved to the right side of buttons and belongings lists remember expanded items.
 - Furniture destruction now triggers a `furniture:destroyed` event to lock its actions.
 - Prestige removes furniture-unlocked actions using the new event.
+- Added AdventureManager with per-adventure encounter pools and levels.
 
 
 ## [0.41.66] - 2025-07-14

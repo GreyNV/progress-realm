@@ -49,6 +49,14 @@ const SaveSystem = {
                 if (State.encounterStreak === undefined) {
                     setState('encounterStreak', 0);
                 }
+                if (!State.currentAdventure) {
+                    setState('currentAdventure', 'forest');
+                }
+                if (!State.adventureLevels || typeof State.adventureLevels !== 'object') {
+                    setState('adventureLevels', { forest: 1 });
+                } else if (State.adventureLevels.forest === undefined) {
+                    setState(['adventureLevels', 'forest'], 1);
+                }
                 if (State.adventureSlotCount === undefined || State.adventureSlotCount > 1) {
                     setState('adventureSlotCount', 1);
                 }
@@ -153,6 +161,8 @@ const SaveSystem = {
         setState('adventureSlots', State.adventureSlots.map(() => ({
             text: '', progress: 0, duration: 1, encounter: null, active: false
         })));
+        setState('currentAdventure', 'forest');
+        setState('adventureLevels', { forest: 1 });
         setState('encounterLevel', 1);
         setState('encounterStreak', 0);
         Object.entries(preserved).forEach(([id, data]) => {

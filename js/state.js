@@ -164,6 +164,8 @@ const State = {
     masteryPoints: 0,
     encounterLevel: 1,
     encounterStreak: 0,
+    currentAdventure: 'forest',
+    adventureLevels: { forest: 1 },
     autoProgress: true,
     darkMode: true,
     language: 'en',

@@ -36,20 +36,22 @@ def test_prestige_ui_defined():
     assert 'prestige-block' in text
 
 
-def test_encounter_level_default_one():
+def test_adventure_defaults_present():
     with open(os.path.join('js', 'state.js')) as f:
         text = f.read()
-    assert 'encounterLevel: 1' in text
+    assert "currentAdventure: 'forest'" in text
+    assert "adventureLevels: { forest: 1 }" in text
     with open(os.path.join('js', 'save_system.js')) as f:
         mtext = f.read()
-    assert "setState('encounterLevel', 1)" in mtext
+    assert "setState('currentAdventure', 'forest')" in mtext
+    assert "setState('adventureLevels', { forest: 1 })" in mtext
 
 
-def test_prestige_resets_encounter_level():
+def test_prestige_resets_adventure_levels():
     path = os.path.join('js', 'save_system.js')
     with open(path) as f:
         text = f.read()
-    assert text.count("setState('encounterLevel', 1)") >= 2
+    assert text.count("setState('adventureLevels', { forest: 1 })") >= 1
 
 
 def test_prestige_keeps_action_slots():
