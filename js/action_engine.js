@@ -19,6 +19,7 @@ const ActionEngine = {
             }
         }
         if (!canStart) {
+            slot.queue = { id: actionId, progress: 0, costPaid: false };
             slot.actionId = State.defaultActionId;
             slot.blocked = false;
             slot.progress = actions[State.defaultActionId].progress || 0;
@@ -44,7 +45,39 @@ const ActionEngine = {
         DeltaEngine.calculate();
         DeltaEngine.apply(delta, State.time);
         State.slots.forEach((slot, i) => {
-            if (!slot.actionId || slot.blocked) return;
+            if (slot.blocked) return;
+            if (slot.actionId === State.defaultActionId && slot.queue && slot.queue.id) {
+                const qAction = actions[slot.queue.id];
+                let canResume = true;
+                if (qAction.resourceCost && !slot.queue.costPaid) {
+                    for (const r in qAction.resourceCost) {
+                        const res = State.resources[r];
+                        if (!res || res.value < qAction.resourceCost[r]) {
+                            canResume = false;
+                            break;
+                        }
+                    }
+                }
+                if (canResume && qAction.resourceConsumption) {
+                    const missing = canAfford(qAction.resourceConsumption, delta);
+                    if (missing) canResume = false;
+                }
+                if (canResume) {
+                    if (!slot.queue.costPaid && qAction.resourceCost) {
+                        for (const r in qAction.resourceCost) {
+                            ResourceSystem.consume(State.resources[r], qAction.resourceCost[r]);
+                        }
+                        if (typeof PubSub !== 'undefined') {
+                            PubSub.publish('resources:updated');
+                        }
+                    }
+                    slot.actionId = slot.queue.id;
+                    slot.progress = slot.queue.progress;
+                    slot.text = qAction.name;
+                    slot.queue = null;
+                }
+            }
+            if (!slot.actionId) return;
             if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.use) {
                 FurnitureSystem.use(slot.actionId, delta * State.time);
                 if (!slot.actionId) return; // action may be locked and removed
@@ -54,6 +87,7 @@ const ActionEngine = {
             if (action.resourceConsumption) {
                 const missing = canAfford(action.resourceConsumption, delta);
                 if (missing) {
+                    slot.queue = { id: slot.actionId, progress: slot.progress, costPaid: true };
                     slot.actionId = State.defaultActionId;
                     slot.blocked = false;
                     slot.progress = actions[State.defaultActionId].progress || 0;
@@ -90,6 +124,7 @@ const ActionEngine = {
                         }
                     }
                     if (!canRun) {
+                        slot.queue = { id: slot.actionId, progress: slot.progress, costPaid: false };
                         slot.actionId = State.defaultActionId;
                         slot.blocked = false;
                         slot.progress = actions[State.defaultActionId].progress || 0;
