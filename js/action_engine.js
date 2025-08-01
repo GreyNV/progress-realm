@@ -2,6 +2,9 @@
 
 const ActionEngine = {
     start(slotIndex, actionId) {
+        if (typeof AdventureEngine !== 'undefined' && AdventureEngine.active) {
+            AdventureEngine.cancel();
+        }
         const slot = State.slots[slotIndex];
         const action = actions[actionId];
         if (!action) return;

@@ -102,13 +102,16 @@
                     </div>
                     <div class="tab-content hidden" data-tab="adventure">
                         <h2 data-i18n="Adventure">Adventure</h2>
-                        <p id="encounter-location"></p>
-                        <progress id="encounter-level-progress" value="0" max="10"></progress>
-                        <div id="adventure-controls">
-                            <button id="return-btn" data-i18n="Return">Return</button>
-                            <label><input type="checkbox" id="autoprogress-toggle" checked> <span data-i18n="Autoprogress">Autoprogress</span></label>
+                        <button id="adventure-start-btn"></button>
+                        <div id="adventure-content" class="hidden">
+                            <p id="encounter-location"></p>
+                            <progress id="encounter-level-progress" value="0" max="10"></progress>
+                            <div id="adventure-controls">
+                                <button id="return-btn" data-i18n="Return">Return</button>
+                                <label><input type="checkbox" id="autoprogress-toggle" checked> <span data-i18n="Autoprogress">Autoprogress</span></label>
+                            </div>
+                            <div id="adventure-slots" class="slots"></div>
                         </div>
-                        <div id="adventure-slots" class="slots"></div>
                     </div>
                     <div class="tab-content hidden" data-tab="inventory">
                         <div class="tab-section" data-section="home" data-type="slots">
@@ -215,6 +218,7 @@
     <script src="js/engine.js"></script>
     <script src="js/action_engine.js"></script>
     <script src="js/adventure_engine.js"></script>
+    <script src="js/ui/adventure.js"></script>
     <script src="js/slotSetup.js"></script>
     <script src="js/ui/encounter.js"></script>
     <script src="js/ui/modal.js"></script>

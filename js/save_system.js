@@ -77,6 +77,9 @@ const SaveSystem = {
                 if (State.banditsAmbushSeen === undefined) {
                     setState('banditsAmbushSeen', false);
                 }
+                if (State.adventureActive === undefined) {
+                    setState('adventureActive', false);
+                }
                 if (State.autoProgress === undefined) {
                     setState('autoProgress', true);
                 }
@@ -163,6 +166,7 @@ const SaveSystem = {
         })));
         setState('currentAdventure', 'forest');
         setState('adventureLevels', { forest: 1 });
+        setState('adventureActive', false);
         setState('encounterLevel', 1);
         setState('encounterStreak', 0);
         Object.entries(preserved).forEach(([id, data]) => {
