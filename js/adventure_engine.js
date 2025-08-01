@@ -2,13 +2,16 @@
 
 const AdventureEngine = {
     activeIndex: null,
-    waitResource: null,
-    recovering: false,
     active: false,
     start() {
         if (this.active) return;
         this.active = true;
+        const actionSlot = State.slots[0];
+        actionSlot.actionId = null;
+        actionSlot.progress = 0;
+        actionSlot.text = '';
         setState(['slots', 0, 'blocked'], true);
+        updateSlotUI(0);
         this.startSlot(0);
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('adventure:started');
@@ -25,9 +28,13 @@ const AdventureEngine = {
             updateAdventureSlotUI(this.activeIndex);
         }
         this.activeIndex = null;
-        this.waitResource = null;
-        this.recovering = false;
+        const actionSlot = State.slots[0];
+        actionSlot.actionId = State.defaultActionId;
+        actionSlot.blocked = false;
+        actionSlot.progress = actions[State.defaultActionId].progress || 0;
+        actionSlot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
         setState(['slots', 0, 'blocked'], false);
+        updateSlotUI(0);
         EncounterGenerator.populateSlots();
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('adventure:stopped');
@@ -35,27 +42,16 @@ const AdventureEngine = {
     },
     startSlot(i = 0) {
         if (!this.active) return;
-        if (this.recovering) {
-            const rec = EncounterGenerator.getRecoverEncounter();
-            if (rec) {
-                const slot = State.adventureSlots[i];
-                slot.encounter = rec;
-                slot.duration = rec.getDuration();
-                slot.progress = 0;
-                slot.active = true;
-                this.activeIndex = i;
-                this.recovering = false;
-                updateAdventureSlotUI(i);
-                return;
-            }
-        }
-        if (this.waitResource) {
-            const res = State.resources[this.waitResource];
-            if (res && res.value < ResourceSystem.max(res)) {
-                this.activeIndex = null;
-                return;
-            }
-            this.waitResource = null;
+        const rec = EncounterGenerator.getRecoverEncounter();
+        if (rec && State.resources.health.value < ResourceSystem.max(State.resources.health)) {
+            const slot = State.adventureSlots[i];
+            slot.encounter = rec;
+            slot.duration = rec.getDuration();
+            slot.progress = 0;
+            slot.active = true;
+            this.activeIndex = i;
+            updateAdventureSlotUI(i);
+            return;
         }
         const encounter = EncounterGenerator.randomEncounter();
         const slot = State.adventureSlots[i];
@@ -118,10 +114,9 @@ function retreat(resourceName, manual = false) {
     const msg = Lang.log('retreat', { encounter: enc, resource: resLabel }) ||
         `You had to retreat after ${enc} because you ran out of ${resLabel}.`;
     Log.add(msg);
-    AdventureEngine.waitResource = resourceName;
-    if (!manual) AdventureEngine.recovering = true;
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
+    AdventureEngine.cancel();
 }
 
 function checkHealth() {

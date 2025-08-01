@@ -214,6 +214,11 @@ body.left-collapsed #left {
     padding: 0;
 }
 
+#adventure-list {
+    list-style: none;
+    padding: 0;
+}
+
 #home-list,
 #furniture-list,
 #research-list,
@@ -230,6 +235,16 @@ body.left-collapsed #left {
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     cursor: grab;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+#adventure-list li {
+    background: var(--task-bg);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
     border-radius: 4px;
     position: relative;
     overflow: hidden;

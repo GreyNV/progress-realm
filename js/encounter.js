@@ -67,6 +67,19 @@ const AdventureManager = {
     getCurrent() {
         return this.adventures[State.currentAdventure] || this.adventures.forest;
     },
+    setCurrent(id) {
+        if (this.adventures[id]) {
+            setState('currentAdventure', id);
+        }
+    },
+    getEncounterNames(id) {
+        const adv = this.adventures[id] || this.adventures[State.currentAdventure];
+        const ids = adv ? adv.encounterIds || [] : [];
+        return ids.map(eid => {
+            const enc = EncounterGenerator.encounters.find(e => e.id === eid);
+            return enc ? enc.name : eid;
+        });
+    },
     getLevel(id) {
         const advId = id || State.currentAdventure;
         return (State.adventureLevels && State.adventureLevels[advId]) || 1;
