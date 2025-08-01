@@ -114,6 +114,11 @@
     "fishingTrip": { "name": "Риболовля", "description": "Закиньте вудку в озеро за швидкою здобиччю." },
     "gatherWater": { "name": "Збір води", "description": "Зберіть свіжу воду з найближчого джерела." }
   },
+  "adventures": {
+    "forest": {
+      "shortDescription": "Дослідіть ліс і зберіть корисні ресурси"
+    }
+  },
   "locations": {
     "Hut in the Forest": "Хатина в лісі",
     "Abandoned Clearing": "Покинута галявина",
