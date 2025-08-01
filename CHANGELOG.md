@@ -3,6 +3,7 @@
 ### Changed
 - Adventure list uses expandable buttons with encounter previews and cancels when resources run out.
 - Adventure tab now requires manual activation and shows encounters in the Active slot.
+- Current encounter now appears in the action slot while adventuring.
 - Action buttons show level progress with a darkening background instead of text.
 - Resource costs are deducted at the start of every action cycle.
 - Furniture purchases no longer replace existing pieces; repairing uses scaled cost.
