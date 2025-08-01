@@ -93,6 +93,7 @@ async function init() {
     setupInventorySlots();
     EncounterGenerator.init();
     EncounterUI.init();
+    AdventureUI.init();
     StoryUI.init();
     ModalUI.init();
     setupDragAndDrop();
@@ -183,9 +184,6 @@ async function init() {
             SaveSystem.save();
         });
     }
-    document.getElementById('return-btn').addEventListener('click', () => {
-        retreat('resolve', true);
-    });
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     const prestigeBtn = document.getElementById('prestige-btn');
     if (prestigeBtn) {

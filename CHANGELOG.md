@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-07-25
 ### Changed
+- Adventure tab now requires manual activation and shows encounters in the Active slot.
 - Action buttons show level progress with a darkening background instead of text.
 - Resource costs are deducted at the start of every action cycle.
 - Furniture purchases no longer replace existing pieces; repairing uses scaled cost.

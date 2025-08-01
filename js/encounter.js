@@ -163,7 +163,7 @@ const EncounterGenerator = {
         this.populateSlots();
         setState('encounterStreak', 0);
         this.updateProgressBar();
-        if (typeof AdventureEngine !== 'undefined') {
+        if (typeof AdventureEngine !== 'undefined' && AdventureEngine.active) {
             AdventureEngine.startSlot(0);
         }
     },

@@ -4,7 +4,37 @@ const AdventureEngine = {
     activeIndex: null,
     waitResource: null,
     recovering: false,
+    active: false,
+    start() {
+        if (this.active) return;
+        this.active = true;
+        setState(['slots', 0, 'blocked'], true);
+        this.startSlot(0);
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('adventure:started');
+        }
+    },
+    cancel() {
+        if (!this.active) return;
+        this.active = false;
+        if (this.activeIndex !== null) {
+            const slot = State.adventureSlots[this.activeIndex];
+            slot.active = false;
+            slot.encounter = null;
+            slot.progress = 0;
+            updateAdventureSlotUI(this.activeIndex);
+        }
+        this.activeIndex = null;
+        this.waitResource = null;
+        this.recovering = false;
+        setState(['slots', 0, 'blocked'], false);
+        EncounterGenerator.populateSlots();
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('adventure:stopped');
+        }
+    },
     startSlot(i = 0) {
+        if (!this.active) return;
         if (this.recovering) {
             const rec = EncounterGenerator.getRecoverEncounter();
             if (rec) {
@@ -37,8 +67,9 @@ const AdventureEngine = {
         updateAdventureSlotUI(i);
     },
     tick(delta) {
+        if (!this.active) return;
         if (this.activeIndex === null) {
-            if (State.healerGoneSeen) this.startSlot(0);
+            this.startSlot(0);
             return;
         }
         const slot = State.adventureSlots[this.activeIndex];
@@ -71,7 +102,7 @@ const AdventureEngine = {
                     EncounterGenerator.updateProgressBar();
                 }
             }
-            this.startSlot(this.activeIndex);
+            if (this.active) this.startSlot(this.activeIndex);
         } else {
             updateAdventureSlotUI(this.activeIndex);
         }

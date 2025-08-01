@@ -166,6 +166,7 @@ const State = {
     encounterStreak: 0,
     currentAdventure: 'forest',
     adventureLevels: { forest: 1 },
+    adventureActive: false,
     autoProgress: true,
     darkMode: true,
     language: 'en',

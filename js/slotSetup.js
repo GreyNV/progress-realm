@@ -198,6 +198,30 @@ function updateSlotUI(i) {
     if (!slotEl) return;
     const progressEl = slotEl.querySelector('progress');
     const labelEl = slotEl.querySelector('.label');
+    if (typeof AdventureEngine !== 'undefined' && AdventureEngine.active &&
+        AdventureEngine.activeIndex === i) {
+        const aSlot = State.adventureSlots[i];
+        const enc = aSlot.encounter;
+        RARITY_CLASSES.forEach(r => slotEl.classList.remove(`rarity-${r}`));
+        progressEl.max = 1;
+        progressEl.value = aSlot.progress || 0;
+        if (enc) {
+            labelEl.textContent = enc.name;
+            if (enc.image) {
+                slotEl.style.backgroundImage = `url(${enc.image})`;
+                slotEl.style.backgroundSize = 'cover';
+            } else {
+                slotEl.style.backgroundImage = 'none';
+            }
+            slotEl.classList.add(`rarity-${enc.rarity}`);
+            slotEl.dataset.tooltip = enc.description || '';
+        } else {
+            labelEl.textContent = '';
+            slotEl.style.backgroundImage = 'none';
+            slotEl.dataset.tooltip = '';
+        }
+        return;
+    }
     slotEl.classList.toggle('blocked', slot.blocked);
     if (!slot.actionId) {
         slot.actionId = State.defaultActionId;
