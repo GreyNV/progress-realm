@@ -66,7 +66,6 @@ function initPubSub() {
         if (actions[id]) {
             actions[id].hidden = true;
             actions[id].locked = true;
-            if (selectedActionId === id) selectedActionId = null;
             updateTaskList();
             State.slots.forEach((slot, i) => {
                 if (slot.actionId === id) {

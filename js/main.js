@@ -3,7 +3,6 @@ const LOGIC_TICK_MS = 100;
 const TICKS_PER_SECOND = 1000 / LOGIC_TICK_MS;
 
 let actions = {};
-let selectedActionId = null;
 
 function updateUI() {
     StatsUI.update();
