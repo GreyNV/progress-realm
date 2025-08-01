@@ -47,6 +47,49 @@ class Encounter {
     }
 }
 
+const AdventureManager = {
+    adventures: {
+        forest: {
+            id: 'forest',
+            name: 'Forest near the Hut',
+            encounterIds: [
+                'chopWood',
+                'collectStones',
+                'foragingHerbs',
+                'rabbitHunt',
+                'wolfAmbush',
+                'gatherWater',
+                'berryPicking',
+                'digClay'
+            ]
+        }
+    },
+    getCurrent() {
+        return this.adventures[State.currentAdventure] || this.adventures.forest;
+    },
+    getLevel(id) {
+        const advId = id || State.currentAdventure;
+        return (State.adventureLevels && State.adventureLevels[advId]) || 1;
+    },
+    incrementLevel(id) {
+        const advId = id || State.currentAdventure;
+        const lvl = this.getLevel(advId) + 1;
+        setState(['adventureLevels', advId], lvl);
+        return lvl;
+    },
+    decrementLevel(id) {
+        const advId = id || State.currentAdventure;
+        let lvl = this.getLevel(advId);
+        if (lvl > 1) lvl -= 1;
+        setState(['adventureLevels', advId], lvl);
+        return lvl;
+    }
+};
+
+if (typeof module !== 'undefined') {
+    module.exports = { AdventureManager, EncounterGenerator, Encounter };
+}
+
 const EncounterGenerator = {
     encounters: [],
     container: null,
@@ -103,16 +146,14 @@ const EncounterGenerator = {
     },
 
     incrementLevel() {
-        this.level += 1;
+        this.level = AdventureManager.incrementLevel();
         setState('encounterLevel', this.level);
         this.updateName();
         this.updateProgressBar();
     },
 
     decrementLevel() {
-        if (this.level > 1) {
-            this.level -= 1;
-        }
+        this.level = AdventureManager.decrementLevel();
         setState('encounterLevel', this.level);
         this.updateName();
         this.updateProgressBar();
@@ -129,7 +170,7 @@ const EncounterGenerator = {
 
     init() {
         this.container = null;
-        this.level = State.encounterLevel || 1;
+        this.level = AdventureManager.getLevel();
         this.updateName();
         this.updateProgressBar();
         this.populateSlots();
@@ -152,7 +193,9 @@ const EncounterGenerator = {
         });
         if (story) return story;
 
+        const ids = AdventureManager.getCurrent().encounterIds || [];
         const pool = this.encounters.filter(e => {
+            if (ids.length && !ids.includes(e.id)) return false;
             if (e.locked) return false;
             if ((e.minLevel || 0) > this.level) return false;
             // Recover is only triggered after retreats and should not be random
