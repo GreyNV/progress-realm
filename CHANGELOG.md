@@ -25,6 +25,7 @@
 - Furniture destruction now triggers a `furniture:destroyed` event to lock its actions.
 - Prestige removes furniture-unlocked actions using the new event.
 - Added AdventureManager with per-adventure encounter pools and levels.
+- Clicking an action now assigns it directly to an available slot.
 
 
 ## [0.41.66] - 2025-07-14

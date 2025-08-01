@@ -42,6 +42,15 @@ function actionLabel(action) {
     return `${action.name} Lv.${action.level}`;
 }
 
+function assignActionToSlot(actionId) {
+    let index = State.slots.findIndex(s => !s.actionId);
+    if (index === -1) {
+        index = State.slots.findIndex(s => s.actionId === State.defaultActionId);
+    }
+    if (index === -1) index = 0;
+    ActionEngine.start(index, actionId);
+}
+
 function createActionElement(action) {
     if (action.hidden) return null;
     const li = document.createElement('li');
@@ -83,16 +92,7 @@ function createActionElement(action) {
             const expanded = li.classList.toggle('expanded');
             arrow.textContent = expanded ? '▼' : '▶';
         });
-        li.addEventListener('click', () => {
-            if (selectedActionId === action.id) {
-                selectedActionId = null;
-                li.classList.remove('selected');
-            } else {
-                selectedActionId = action.id;
-                document.querySelectorAll('#task-list li').forEach(el => el.classList.remove('selected'));
-                li.classList.add('selected');
-            }
-        });
+        li.addEventListener('click', () => assignActionToSlot(action.id));
     }
     return li;
 }
@@ -154,11 +154,6 @@ function setupDragAndDrop() {
             const index = parseInt(slotEl.dataset.slot, 10);
             ActionEngine.start(index, id);
         });
-        slotEl.addEventListener('click', () => {
-            if (!selectedActionId) return;
-            const index = parseInt(slotEl.dataset.slot, 10);
-            ActionEngine.start(index, selectedActionId);
-        });
     });
 }
 
@@ -169,7 +164,6 @@ function updateTaskList() {
         const li = list.querySelector(`li[data-task-id="${action.id}"]`);
         if (action.hidden) {
             if (li) li.remove();
-            if (selectedActionId === action.id) selectedActionId = null;
             return;
         }
         if (!li) {
@@ -302,6 +296,7 @@ if (typeof module !== 'undefined') {
         setupDragAndDrop,
         updateTaskList,
         updateSlotUI,
-        updateAdventureSlotUI
+        updateAdventureSlotUI,
+        assignActionToSlot
     };
 }
