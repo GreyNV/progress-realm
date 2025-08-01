@@ -292,6 +292,13 @@ body.left-collapsed #left {
     margin-top: 1rem;
 }
 
+.slot-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 #adventure-slots {
     display: flex;
 }
@@ -435,6 +442,11 @@ body.left-collapsed #left {
 
 .slot.blocked {
     border-color: #cc6666;
+}
+
+.queue-slot {
+    min-height: 3rem;
+    opacity: 0.8;
 }
 
 #task-list li.locked {
