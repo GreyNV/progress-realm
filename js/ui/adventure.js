@@ -35,11 +35,15 @@ const AdventureUI = {
             li.appendChild(arrow);
             const detail = document.createElement('div');
             detail.className = 'expand-details';
-            const names = (adv.encounterIds || []).map(id => {
-                const enc = EncounterGenerator.encounters.find(e => e.id === id);
-                return enc ? enc.name : id;
-            });
-            detail.textContent = names.join(', ');
+            if (adv.shortDescription) {
+                detail.textContent = adv.shortDescription;
+            } else {
+                const names = (adv.encounterIds || []).map(id => {
+                    const enc = EncounterGenerator.encounters.find(e => e.id === id);
+                    return enc ? enc.name : id;
+                });
+                detail.textContent = names.join(', ');
+            }
             li.appendChild(detail);
             li.dataset.adventureId = adv.id;
             arrow.addEventListener('click', e => {

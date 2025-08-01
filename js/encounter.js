@@ -52,6 +52,7 @@ const AdventureManager = {
         forest: {
             id: 'forest',
             name: 'Forest near the Hut',
+            shortDescription: 'Explore the forest and collect some useful resources',
             encounterIds: [
                 'chopWood',
                 'collectStones',
