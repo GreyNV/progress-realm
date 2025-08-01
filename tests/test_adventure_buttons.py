@@ -19,3 +19,11 @@ def test_retreat_stops_adventure():
         text = f.read()
     assert 'AdventureEngine.cancel();' in text
     assert 'State.defaultActionId' in text
+
+
+def test_adventure_slot_updates_action_slot():
+    path = os.path.join('js', 'slotSetup.js')
+    with open(path) as f:
+        text = f.read()
+    assert 'const actionEl' in text
+    assert 'updateSlotUI(i)' in text

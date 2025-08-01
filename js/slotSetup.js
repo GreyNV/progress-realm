@@ -288,6 +288,8 @@ function updateAdventureSlotUI(i) {
         slotEl.style.backgroundImage = 'none';
         slotEl.dataset.tooltip = '';
     }
+    const actionEl = document.querySelector(`#slots .slot[data-slot="${i}"]`);
+    if (actionEl) updateSlotUI(i);
 }
 
 if (typeof module !== 'undefined') {
