@@ -32,6 +32,17 @@ const Utils = {
                 return `${qty}x ${name}`;
             })
             .join(', ');
+    },
+
+    /**
+     * Check if all resources are at their maximum values.
+     * @returns {boolean}
+     */
+    allResourcesFull() {
+        return RESOURCE_KEYS.every(k => {
+            const res = State.resources[k];
+            return res && res.value >= ResourceSystem.max(res);
+        });
     }
 };
 

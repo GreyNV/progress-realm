@@ -61,7 +61,7 @@ function setupSlots() {
     if (!Array.isArray(State.slots)) setState('slots', []);
     if (State.slotCount === undefined) setState('slotCount', State.slots.length);
     while (State.slots.length < State.slotCount) {
-        pushState(['slots'], { actionId: State.defaultActionId, progress: 0, blocked: false, text: '' });
+        pushState(['slots'], { actionId: State.defaultActionId, progress: 0, blocked: false, text: '', queuedActionId: null });
     }
     if (State.slots.length > State.slotCount) {
         setState('slots', State.slots.slice(0, State.slotCount));

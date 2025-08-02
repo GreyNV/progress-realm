@@ -10,6 +10,7 @@ const ActionEngine = {
             const missing = canAfford(action.activationCost, 1, 1);
             if (missing) {
                 slot.blocked = true;
+                slot.queuedActionId = actionId;
                 slot.progress = 0;
                 slot.text = `${Lang.resource(missing) || missing} required`;
                 updateSlotUI(slotIndex);
@@ -20,6 +21,7 @@ const ActionEngine = {
             }
             if (typeof PubSub !== 'undefined') PubSub.publish('resources:updated');
         }
+        slot.queuedActionId = null;
         slot.actionId = actionId;
         slot.progress = action.exp / action.expToNext;
         slot.text = action.name;
@@ -29,6 +31,12 @@ const ActionEngine = {
         DeltaEngine.calculate();
         DeltaEngine.apply(delta, State.time);
         State.slots.forEach((slot, i) => {
+            if (slot.blocked && slot.queuedActionId) {
+                if (Utils.allResourcesFull()) {
+                    this.start(i, slot.queuedActionId);
+                }
+                return;
+            }
             if (!slot.actionId) return;
             if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.use) {
                 FurnitureSystem.use(slot.actionId, delta * State.time);

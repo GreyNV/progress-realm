@@ -35,6 +35,7 @@ const SaveSystem = {
                     State.slots.forEach(s => {
                         if (!s.actionId) s.actionId = State.defaultActionId;
                         if (s.text === undefined) s.text = '';
+                        if (s.queuedActionId === undefined) s.queuedActionId = null;
                     });
                 } else {
                     setState('slots', []);
@@ -79,6 +80,9 @@ const SaveSystem = {
                 }
                 if (!State.hideBelowRarity) {
                     setState('hideBelowRarity', 'rare');
+                }
+                if (State.queuedEncounterId === undefined) {
+                    setState('queuedEncounterId', null);
                 }
                 if (State.homeId === undefined) {
                     setState('homeId', null);
@@ -144,6 +148,10 @@ const SaveSystem = {
         setState('adventureSlots', State.adventureSlots.map(() => ({
             text: '', progress: 0, duration: 1, encounter: null, active: false
         })));
+        setState('queuedEncounterId', null);
+        State.slots.forEach((_, i) => {
+            setState(['slots', i, 'queuedActionId'], null);
+        });
         setState('encounterLevel', 1);
         setState('encounterStreak', 0);
         Object.entries(preserved).forEach(([id, data]) => {

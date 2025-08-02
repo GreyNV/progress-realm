@@ -164,6 +164,7 @@ const State = {
     masteryPoints: 0,
     encounterLevel: 1,
     encounterStreak: 0,
+    queuedEncounterId: null,
     autoProgress: true,
     darkMode: true,
     language: 'en',
@@ -173,7 +174,7 @@ const State = {
 };
 
 for (let i = 0; i < State.slotCount; i++) {
-    State.slots.push({ actionId: DEFAULT_ACTION_ID, progress: 0, blocked: false, text: '' });
+    State.slots.push({ actionId: DEFAULT_ACTION_ID, progress: 0, blocked: false, text: '', queuedActionId: null });
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
