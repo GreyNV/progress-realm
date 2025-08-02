@@ -10,9 +10,10 @@ const ActionEngine = {
         if (!action) return;
         let canStart = true;
         if (action.resourceCost) {
+            // require all cost resources to be at their maximum before starting
             for (const r in action.resourceCost) {
                 const res = State.resources[r];
-                if (!res || res.value < action.resourceCost[r]) {
+                if (!res || res.value !== ResourceSystem.max(res)) {
                     canStart = false;
                     break;
                 }
@@ -50,17 +51,24 @@ const ActionEngine = {
                 const qAction = actions[slot.queue.id];
                 let canResume = true;
                 if (qAction.resourceCost && !slot.queue.costPaid) {
+                    // resume only when cost resources are fully replenished
                     for (const r in qAction.resourceCost) {
                         const res = State.resources[r];
-                        if (!res || res.value < qAction.resourceCost[r]) {
+                        if (!res || res.value !== ResourceSystem.max(res)) {
                             canResume = false;
                             break;
                         }
                     }
                 }
                 if (canResume && qAction.resourceConsumption) {
-                    const missing = canAfford(qAction.resourceConsumption, delta);
-                    if (missing) canResume = false;
+                    // consumption resources must also be at maximum before resuming
+                    for (const r in qAction.resourceConsumption) {
+                        const res = State.resources[r];
+                        if (!res || res.value !== ResourceSystem.max(res)) {
+                            canResume = false;
+                            break;
+                        }
+                    }
                 }
                 if (canResume) {
                     if (!slot.queue.costPaid && qAction.resourceCost) {
@@ -116,9 +124,10 @@ const ActionEngine = {
                 // deduct start cost for next cycle
                 if (action.resourceCost) {
                     let canRun = true;
+                    // next cycle only begins when cost resources are back at max
                     for (const r in action.resourceCost) {
                         const res = State.resources[r];
-                        if (!res || res.value < action.resourceCost[r]) {
+                        if (!res || res.value !== ResourceSystem.max(res)) {
                             canRun = false;
                             break;
                         }
