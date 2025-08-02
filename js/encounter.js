@@ -190,9 +190,6 @@ const EncounterGenerator = {
         this.populateSlots();
     },
 
-    getRecoverEncounter() {
-        return this.encounters.find(e => e.id === 'recover') || null;
-    },
 
     randomEncounter() {
         if (!this.encounters.length) return null;
@@ -212,8 +209,6 @@ const EncounterGenerator = {
             if (ids.length && !ids.includes(e.id)) return false;
             if (e.locked) return false;
             if ((e.minLevel || 0) > this.level) return false;
-            // Recover is only triggered after retreats and should not be random
-            if (e.id === 'recover') return false;
             return true;
         });
         if (!pool.length) return null;

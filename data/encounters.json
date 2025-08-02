@@ -1,20 +1,5 @@
 [
   {
-    "id": "recover",
-    "name": "Recover",
-    "description": "You take a moment to catch your breath and tend to wounds.",
-    "rarity": "common",
-    "category": "strength",
-    "baseDuration": 1,
-    "minLevel": 0,
-    "image": "assets/user_uploaded/recover.jpg",
-    "resourceConsumption": {
-      "energy": -1
-    },
-    "items": {},
-    "loot": {}
-  },
-  {
     "id": "foragingHerbs",
     "name": "Foraging for Herbs",
     "description": "Dewy plants grow in the underbrush, promising useful herbs.",
