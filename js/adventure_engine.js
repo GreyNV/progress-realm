@@ -17,8 +17,8 @@ const AdventureEngine = {
             PubSub.publish('adventure:started');
         }
     },
-    cancel() {
-        if (!this.active) return;
+    cancel(manual = false) {
+        if (!this.active && !manual) return;
         this.active = false;
         if (this.activeIndex !== null) {
             const slot = State.adventureSlots[this.activeIndex];
@@ -36,6 +36,9 @@ const AdventureEngine = {
         setState(['slots', 0, 'blocked'], false);
         updateSlotUI(0);
         EncounterGenerator.populateSlots();
+        if (manual) {
+            State.adventureSlots.forEach(s => { s.queue = null; });
+        }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('adventure:stopped');
         }
@@ -52,7 +55,30 @@ const AdventureEngine = {
         updateAdventureSlotUI(i);
     },
     tick(delta) {
-        if (!this.active) return;
+        if (!this.active) {
+            for (let i = 0; i < State.adventureSlots.length; i++) {
+                const slot = State.adventureSlots[i];
+                if (slot.queue) {
+                    const cost = slot.queue.encounter.getResourceCost();
+                    const ready = Object.keys(cost).every(r => {
+                        const res = State.resources[r];
+                        return res && res.value >= ResourceSystem.max(res);
+                    });
+                    if (ready) {
+                        slot.encounter = slot.queue.encounter;
+                        slot.progress = slot.queue.progress;
+                        slot.duration = slot.encounter.getDuration();
+                        slot.queue = null;
+                        slot.active = true;
+                        this.active = true;
+                        this.activeIndex = i;
+                        updateAdventureSlotUI(i);
+                    }
+                    break;
+                }
+            }
+            return;
+        }
         if (this.activeIndex === null) {
             this.startSlot(0);
             return;
@@ -62,7 +88,14 @@ const AdventureEngine = {
         const cost = slot.encounter.getResourceCost();
         const missing = canAfford(cost, delta);
         if (missing) {
-            retreat(missing);
+            slot.queue = { encounter: slot.encounter, progress: slot.progress };
+            slot.encounter = null;
+            slot.progress = 0;
+            slot.active = false;
+            this.active = false;
+            const idx = this.activeIndex;
+            this.activeIndex = null;
+            updateAdventureSlotUI(idx);
             return;
         }
         if (slot.progress >= 1) {
@@ -93,7 +126,7 @@ const AdventureEngine = {
         }
         checkHealth();
     }
-};
+  };
 
 function retreat(resourceName, manual = false) {
     const slot = AdventureEngine.activeIndex !== null ?
@@ -105,7 +138,7 @@ function retreat(resourceName, manual = false) {
     Log.add(msg);
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
-    AdventureEngine.cancel();
+    AdventureEngine.cancel(manual);
 }
 
 function checkHealth() {

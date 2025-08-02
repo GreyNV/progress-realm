@@ -17,7 +17,7 @@ def test_adventure_ui_expandable():
 def test_retreat_stops_adventure():
     with open(os.path.join('js', 'adventure_engine.js')) as f:
         text = f.read()
-    assert 'AdventureEngine.cancel();' in text
+    assert 'AdventureEngine.cancel(manual);' in text
     assert 'State.defaultActionId' in text
 
 

@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-02
 ### Changed
+- Adventure encounters pause on resource depletion and resume when resources are fully restored.
 - Queued actions now wait for all related resources to reach their maximum before starting or resuming.
 - Adventure details now show a short description when expanded.
 - Adventure list uses expandable buttons with encounter previews and cancels when resources run out.
