@@ -42,17 +42,6 @@ const AdventureEngine = {
     },
     startSlot(i = 0) {
         if (!this.active) return;
-        const rec = EncounterGenerator.getRecoverEncounter();
-        if (rec && State.resources.health.value < ResourceSystem.max(State.resources.health)) {
-            const slot = State.adventureSlots[i];
-            slot.encounter = rec;
-            slot.duration = rec.getDuration();
-            slot.progress = 0;
-            slot.active = true;
-            this.activeIndex = i;
-            updateAdventureSlotUI(i);
-            return;
-        }
         const encounter = EncounterGenerator.randomEncounter();
         const slot = State.adventureSlots[i];
         slot.encounter = encounter;
