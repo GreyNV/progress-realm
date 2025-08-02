@@ -20,14 +20,19 @@ const AdventureEngine = {
             }
         }
         if (this.waitResource) {
-            const res = State.resources[this.waitResource];
-            if (res && res.value < ResourceSystem.max(res)) {
+            if (!Utils.allResourcesFull()) {
                 this.activeIndex = null;
                 return;
             }
             this.waitResource = null;
         }
-        const encounter = EncounterGenerator.randomEncounter();
+        let encounter = null;
+        if (State.queuedEncounterId) {
+            encounter = EncounterGenerator.encounters.find(e => e.id === State.queuedEncounterId) || null;
+            setState('queuedEncounterId', null);
+        } else {
+            encounter = EncounterGenerator.randomEncounter();
+        }
         const slot = State.adventureSlots[i];
         slot.encounter = encounter;
         slot.duration = encounter ? encounter.getDuration() : 1;
@@ -87,6 +92,9 @@ function retreat(resourceName, manual = false) {
     const msg = Lang.log('retreat', { encounter: enc, resource: resLabel }) ||
         `You had to retreat after ${enc} because you ran out of ${resLabel}.`;
     Log.add(msg);
+    if (slot && slot.encounter) {
+        setState('queuedEncounterId', slot.encounter.id);
+    }
     AdventureEngine.waitResource = resourceName;
     if (!manual) AdventureEngine.recovering = true;
     EncounterGenerator.decrementLevel();

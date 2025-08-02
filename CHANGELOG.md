@@ -4,6 +4,8 @@
 ### Added
 - Activation cost for actions deducted only once on start with visible block state when insufficient resources.
 - Slot progress now resumes from previous value when reselecting an action.
+- Queued actions and adventures wait until all resources are full before resuming.
+- Retreats now store the last encounter and resume it after recovery.
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Clicking a task immediately assigns it to an available slot.
