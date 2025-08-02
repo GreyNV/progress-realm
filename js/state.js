@@ -186,7 +186,7 @@ for (let i = 0; i < State.slotCount; i++) {
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
-    State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null, active: false });
+    State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null, active: false, queue: null });
 }
 
 async function loadBaseData() {

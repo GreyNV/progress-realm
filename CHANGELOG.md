@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-07-25
 ### Changed
+- Adventure encounters pause on resource depletion and resume when resources are fully restored.
 - Adventure details now show a short description when expanded.
 - Adventure list uses expandable buttons with encounter previews and cancels when resources run out.
 - Adventure tab now requires manual activation and shows encounters in the Active slot.

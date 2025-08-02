@@ -8,7 +8,7 @@ const AdventureUI = {
         const returnBtn = document.getElementById('return-btn');
         if (returnBtn) {
             returnBtn.addEventListener('click', () => {
-                AdventureEngine.cancel();
+                AdventureEngine.cancel(true);
                 this.update();
             });
         }
