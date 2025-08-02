@@ -1,29 +1,27 @@
 // Agents: ItemGenerator and Inventory work together to manage loot. Encounters
-// call `Inventory.add()` with items produced here. Effects like softcap boosts
-// are handled by SoftCapSystem after items are acquired.
+// call `Inventory.add()` with items produced here. Consumable items restore
+// resources directly when used.
 class Item {
     constructor(data) {
         this.id = data.id;
         this.name = data.name;
         this.description = data.description || '';
         this.rarity = data.rarity || 'common';
-        this.effectType = data.effectType;
-        this.effectValue = data.effectValue;
+        this.type = data.type || 'resource';
+        this.restore = data.restore || {};
         this.image = data.image || null;
     }
 
     getEffectDescription() {
-        if (this.effectType === 'increaseSoftcap' && this.effectValue) {
-            const key = Object.keys(this.effectValue)[0];
-            const resName = Lang.resource(key) || key;
-            const tpl = Lang.effect('increaseSoftcap') || 'Improves {resource} cap';
-            return tpl.replace('{resource}', resName);
+        if (this.type === 'food' && this.restore) {
+            const parts = [];
+            for (const [key, val] of Object.entries(this.restore)) {
+                const resName = Lang.resource(key) || key;
+                parts.push(`+${val} ${resName}`);
+            }
+            return `Restores ${parts.join(', ')}`;
         }
         return '';
-    }
-
-    applyEffect() {
-        // Effect application now handled by SoftCapSystem.recalculateCaps
     }
 
     handleDuplicate() {
@@ -97,7 +95,6 @@ const Inventory = {
             item.handleDuplicate(State.inventory);
             updateState(['inventory', item.id, 'quantity'], q => q + 1);
         }
-        SoftCapSystem.recalculateCaps(State.inventory);
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('item:added', item.id);
             PubSub.publish('inventory:changed', State.inventory);
@@ -108,7 +105,17 @@ const Inventory = {
         if (!record || record.quantity < qty) return false;
         updateState(['inventory', id, 'quantity'], q => q - qty);
         if (State.inventory[id].quantity <= 0) deleteState(['inventory', id]);
-        SoftCapSystem.recalculateCaps(State.inventory);
+        const item = ItemGenerator.itemList.find(i => i.id === id);
+        if (item && item.type === 'food') {
+            for (const [res, amt] of Object.entries(item.restore)) {
+                if (State.resources[res]) {
+                    ResourceSystem.add(State.resources[res], amt * qty);
+                }
+            }
+            if (typeof PubSub !== 'undefined') {
+                PubSub.publish('resources:updated');
+            }
+        }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('item:consumed', { id, quantity: qty });
             PubSub.publish('inventory:changed', State.inventory);

@@ -10,19 +10,20 @@ def test_item_fields():
         assert 'id' in item
         assert 'name' in item
         assert 'rarity' in item
-        assert 'effectType' in item
-        assert 'effectValue' in item
-        assert isinstance(item['effectValue'], dict)
+        assert 'type' in item
+        if item['type'] == 'food':
+            assert 'restore' in item
+            assert isinstance(item['restore'], dict)
+            assert 'health' in item['restore']
+        else:
+            assert 'restore' not in item or item['restore'] == {}
         assert 'image' in item
 
-
-def test_effect_formula_log():
+def test_food_restoration_values():
     path = os.path.join('data', 'items.json')
     with open(path) as f:
         data = json.load(f)
-    herb = next(i for i in data if i['id'] == 'herb')
-    qty = 1
-    effect_val = herb['effectValue']['focus']
-    import math
-    effect = effect_val * math.log(qty + 1)
-    assert effect > 0
+    rabbit = next(i for i in data if i['id'] == 'rabbit_meat')
+    assert rabbit['restore']['health'] > 1
+    berries = next(i for i in data if i['id'] == 'berries')
+    assert set(berries['restore'].keys()) == {'health', 'energy', 'focus'}

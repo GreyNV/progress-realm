@@ -5,23 +5,9 @@ const SoftCapSystem = {
     statCaps: {},
     resourceCaps: {},
     falloff: 0.5,
-    recalculateCaps(inventory) {
+    recalculateCaps() {
         this.statCaps = { ...this.baseStatCaps };
         this.resourceCaps = { ...this.baseResourceCaps };
-        if (!inventory) return;
-        for (const [id, record] of Object.entries(inventory)) {
-            const item = ItemGenerator.itemList.find(i => i.id === id);
-            if (!item || item.effectType !== 'increaseSoftcap') continue;
-            const qty = record.quantity || 0;
-            for (const key in item.effectValue) {
-                const value = item.effectValue[key] * Math.log(qty + 1);
-                if (this.statCaps[key] !== undefined) {
-                    this.statCaps[key] += value;
-                } else {
-                    this.resourceCaps[key] = (this.resourceCaps[key] || (this.baseResourceCaps[key] || 0)) + value;
-                }
-            }
-        }
         for (const r in this.resourceCaps) {
             if (State.resources[r]) {
                 setState(['resources', r, 'baseMax'], this.resourceCaps[r]);
@@ -30,8 +16,6 @@ const SoftCapSystem = {
         for (const s in this.statCaps) {
             if (State.stats[s]) {
                 setState(['stats', s, 'baseMax'], this.statCaps[s]);
-                // statCaps should reflect prestige multipliers for UI and
-                // softcap calculations
                 this.statCaps[s] = StatSystem.max(State.stats[s]);
             }
         }

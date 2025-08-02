@@ -5,6 +5,7 @@
 - Queued actions now wait for all related resources to reach their maximum before starting or resuming.
 - Adventure details now show a short description when expanded.
 - Adventure list uses expandable buttons with encounter previews and cancels when resources run out.
+- Items now have types and consumables restore resources instead of granting soft caps.
 - Adventure tab now requires manual activation and shows encounters in the Active slot.
 - Current encounter now appears in the action slot while adventuring.
 - Action buttons show level progress with a darkening background instead of text.
