@@ -176,7 +176,13 @@ const State = {
 };
 
 for (let i = 0; i < State.slotCount; i++) {
-    State.slots.push({ actionId: DEFAULT_ACTION_ID, progress: 0, blocked: false, text: '' });
+    State.slots.push({
+        actionId: DEFAULT_ACTION_ID,
+        progress: 0,
+        blocked: false,
+        text: '',
+        queue: null
+    });
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {

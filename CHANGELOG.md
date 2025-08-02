@@ -27,7 +27,7 @@
 - Added AdventureManager with per-adventure encounter pools and levels.
 - Clicking an action now assigns it directly to an available slot.
 - Removed the Recover encounter and related logic.
-
+- Blocked actions are queued and resume automatically once resources recover.
 
 ## [0.41.66] - 2025-07-14
 ### Changed

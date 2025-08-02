@@ -104,17 +104,31 @@ function setupSlots() {
     if (!Array.isArray(State.slots)) setState('slots', []);
     if (State.slotCount === undefined) setState('slotCount', State.slots.length);
     while (State.slots.length < State.slotCount) {
-        pushState(['slots'], { actionId: State.defaultActionId, progress: 0, blocked: false, text: '' });
+        pushState(['slots'], {
+            actionId: State.defaultActionId,
+            progress: 0,
+            blocked: false,
+            text: '',
+            queue: null
+        });
     }
     if (State.slots.length > State.slotCount) {
         setState('slots', State.slots.slice(0, State.slotCount));
     }
     for (let i = 0; i < State.slotCount; i++) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'slot-wrapper';
         const slot = new BaseSlot();
         const slotEl = slot.el;
         slotEl.dataset.slot = i;
         slotEl.dataset.tooltip = 'Drag an action here';
-        container.appendChild(slotEl);
+        wrapper.appendChild(slotEl);
+        const qSlot = new BaseSlot();
+        const qEl = qSlot.el;
+        qEl.dataset.queue = i;
+        qEl.classList.add('queue-slot');
+        wrapper.appendChild(qEl);
+        container.appendChild(wrapper);
         updateSlotUI(i);
     }
 }
@@ -146,7 +160,7 @@ function setupInventorySlots() {
 }
 
 function setupDragAndDrop() {
-    document.querySelectorAll('#slots .slot').forEach(slotEl => {
+    document.querySelectorAll('#slots .slot[data-slot]').forEach(slotEl => {
         slotEl.addEventListener('dragover', e => e.preventDefault());
         slotEl.addEventListener('drop', e => {
             e.preventDefault();
@@ -189,6 +203,7 @@ function updateTaskList() {
 function updateSlotUI(i) {
     const slot = State.slots[i];
     const slotEl = document.querySelector(`#slots .slot[data-slot="${i}"]`);
+    const queueEl = document.querySelector(`#slots .slot[data-queue="${i}"]`);
     if (!slotEl) return;
     const progressEl = slotEl.querySelector('progress');
     const labelEl = slotEl.querySelector('.label');
@@ -230,6 +245,33 @@ function updateSlotUI(i) {
         slotEl.style.backgroundImage = 'none';
     }
     slotEl.dataset.tooltip = buildActionTooltip(action);
+    if (queueEl) {
+        if (slot.queue && slot.queue.id) {
+            const qAction = actions[slot.queue.id];
+            queueEl.classList.remove('hidden');
+            const qp = queueEl.querySelector('progress');
+            const qLabel = queueEl.querySelector('.label');
+            if (qp) {
+                qp.max = 1;
+                qp.value = slot.queue.progress || 0;
+            }
+            if (qLabel) qLabel.textContent = qAction.name;
+            if (qAction.image) {
+                queueEl.style.backgroundImage = `url(${qAction.image})`;
+            } else {
+                queueEl.style.backgroundImage = 'none';
+            }
+            queueEl.dataset.tooltip = buildActionTooltip(qAction);
+        } else {
+            queueEl.classList.add('hidden');
+            const qp = queueEl.querySelector('progress');
+            const qLabel = queueEl.querySelector('.label');
+            if (qp) qp.value = 0;
+            if (qLabel) qLabel.textContent = '';
+            queueEl.style.backgroundImage = 'none';
+            queueEl.dataset.tooltip = '';
+        }
+    }
 }
 
 function updateAdventureSlotUI(i) {

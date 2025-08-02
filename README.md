@@ -20,6 +20,7 @@ In this prototype you awaken in the body of a 16‑year‑old after bandits ambu
 * Action buttons darken as they fill with experience toward the next level
 * New slots and actions unlock over time
 * Resources can be replenished or crafted
+* Blocked actions queue automatically until resources recover
 * Research progress persists across page reloads and prestiges
 * Unlocked actions remain available after reloads and prestiges
 * Optional prestige/reset layer for long-term scaling
