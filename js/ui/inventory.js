@@ -11,17 +11,30 @@ const InventoryUI = {
     update() {
         if (!this.container) return;
         const items = Inventory.getItems();
-        const count = items.length;
         this.container.innerHTML = '';
-        for (let i = 0; i < count; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'slot';
-            const label = document.createElement('span');
-            label.className = 'label';
-            const countEl = document.createElement('span');
-            countEl.className = 'count';
-            if (items[i]) {
-                const item = items[i];
+        const groups = {};
+        // Group items by type so each section can be labeled
+        items.forEach(item => {
+            if (!groups[item.type]) groups[item.type] = [];
+            groups[item.type].push(item);
+        });
+        const typeLabels = {
+            food: 'Consumables',
+            equipment: 'Equipment',
+            resource: 'Resources'
+        };
+        Object.keys(groups).forEach(type => {
+            const heading = document.createElement('h3');
+            const labelKey = typeLabels[type] || type;
+            heading.textContent = Lang.ui(labelKey) || labelKey;
+            this.container.appendChild(heading);
+            groups[type].forEach(item => {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                const label = document.createElement('span');
+                label.className = 'label';
+                const countEl = document.createElement('span');
+                countEl.className = 'count';
                 label.textContent = capitalize(item.name);
                 countEl.textContent = item.quantity;
                 if (item.image) {

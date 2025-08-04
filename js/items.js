@@ -13,7 +13,7 @@ class Item {
     }
 
     getEffectDescription() {
-        if (this.type === 'food' && this.restore) {
+        if (this.type === 'consumable' && this.restore) {
             const parts = [];
             for (const [key, val] of Object.entries(this.restore)) {
                 const resName = Lang.resource(key) || key;
@@ -106,7 +106,7 @@ const Inventory = {
         updateState(['inventory', id, 'quantity'], q => q - qty);
         if (State.inventory[id].quantity <= 0) deleteState(['inventory', id]);
         const item = ItemGenerator.itemList.find(i => i.id === id);
-        if (item && item.type === 'food') {
+        if (item && item.type === 'consumable') {
             for (const [res, amt] of Object.entries(item.restore)) {
                 if (State.resources[res]) {
                     ResourceSystem.add(State.resources[res], amt * qty);
