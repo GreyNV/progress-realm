@@ -37,8 +37,11 @@ const InventoryUI = {
                 countEl.className = 'count';
                 label.textContent = capitalize(item.name);
                 countEl.textContent = item.quantity;
+                // Use the item's image if provided; otherwise clear any background
                 if (item.image) {
                     slot.style.backgroundImage = `url(${item.image})`;
+                } else {
+                    slot.style.backgroundImage = 'none';
                 }
                 slot.classList.add(`rarity-${item.rarity}`);
                 const lines = [item.description];
@@ -55,16 +58,11 @@ const InventoryUI = {
                     });
                     slot.appendChild(btn);
                 }
-            } else {
-                slot.style.backgroundImage = 'none';
-                label.textContent = '';
-                countEl.textContent = '';
-                slot.dataset.tooltip = '';
-            }
-            slot.appendChild(label);
-            slot.appendChild(countEl);
-            this.container.appendChild(slot);
-        }
+                slot.appendChild(label);
+                slot.appendChild(countEl);
+                this.container.appendChild(slot);
+            });
+        });
     }
 };
 

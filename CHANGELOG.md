@@ -37,6 +37,9 @@
 - Removed the Recover encounter and related logic.
 - Blocked actions are queued and resume automatically once resources recover.
 
+### Fixed
+- Resolved misplaced braces in the inventory UI loop that broke item rendering.
+
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Research progress now persists through prestiges.
