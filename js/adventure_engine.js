@@ -10,9 +10,9 @@ const AdventureEngine = {
         actionSlot.actionId = null;
         actionSlot.progress = 0;
         actionSlot.text = '';
-        setState(['slots', 0, 'blocked'], true);
-        updateSlotUI(0);
+        // Begin the encounter before refreshing UI so the default action isn't reassigned
         this.startSlot(0);
+        updateSlotUI(0);
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('adventure:started');
         }
@@ -95,6 +95,14 @@ const AdventureEngine = {
             this.active = false;
             const idx = this.activeIndex;
             this.activeIndex = null;
+            // Reset the action slot to its default when resources run out
+            const actionSlot = State.slots[0];
+            actionSlot.actionId = State.defaultActionId;
+            actionSlot.blocked = false;
+            actionSlot.progress = actions[State.defaultActionId].progress || 0;
+            actionSlot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
+            setState(['slots', 0, 'blocked'], false);
+            updateSlotUI(0);
             updateAdventureSlotUI(idx);
             return;
         }
