@@ -129,6 +129,7 @@ const Inventory = {
                 id,
                 name: itemData.name || id,
                 rarity: itemData.rarity || 'common',
+                type: itemData.type || 'resource',
                 quantity: data.quantity,
                 image: itemData.image,
                 description: itemData.description || '',

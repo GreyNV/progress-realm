@@ -36,7 +36,9 @@
     "Continue": "Продовжити",
     "Language": "Мова",
     "Drop Chances": "Шанс здобичі",
-    "Guaranteed Loot": "Гарантована здобич"
+    "Guaranteed Loot": "Гарантована здобич",
+    "Consumables": "Витратні матеріали",
+    "Equipment": "Спорядження"
   },
   "actions": {
     "studying": { "name": "Навчання" },
