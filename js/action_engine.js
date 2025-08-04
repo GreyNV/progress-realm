@@ -1,4 +1,7 @@
 // Core engine driving action progression
+// Dependencies: AdventureEngine, ResourceSystem, PubSub, DeltaEngine,
+// FurnitureSystem, SoftCapSystem, SaveSystem
+// Exports: ActionEngine
 
 const ActionEngine = {
     start(slotIndex, actionId) {
@@ -10,10 +13,10 @@ const ActionEngine = {
         if (!action) return;
         let canStart = true;
         if (action.resourceCost) {
-            // require all cost resources to be at their maximum before starting
+            // ensure each cost resource can cover its initial cost
             for (const r in action.resourceCost) {
                 const res = State.resources[r];
-                if (!res || res.value !== ResourceSystem.max(res)) {
+                if (!res || res.value < action.resourceCost[r]) {
                     canStart = false;
                     break;
                 }
@@ -124,15 +127,16 @@ const ActionEngine = {
                 // deduct start cost for next cycle
                 if (action.resourceCost) {
                     let canRun = true;
-                    // next cycle only begins when cost resources are back at max
+                    // continue only while each cost resource can cover the next cycle
                     for (const r in action.resourceCost) {
                         const res = State.resources[r];
-                        if (!res || res.value !== ResourceSystem.max(res)) {
+                        if (!res || res.value < action.resourceCost[r]) {
                             canRun = false;
                             break;
                         }
                     }
                     if (!canRun) {
+                        // insufficient resources: queue action and fall back to default
                         slot.queue = { id: slot.actionId, progress: slot.progress, costPaid: false };
                         slot.actionId = State.defaultActionId;
                         slot.blocked = false;
