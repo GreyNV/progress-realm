@@ -129,6 +129,8 @@ const Inventory = {
                 id,
                 name: itemData.name || id,
                 rarity: itemData.rarity || 'common',
+                // expose item type for UI logic like consumable buttons
+                type: itemData.type || 'resource',
                 quantity: data.quantity,
                 image: itemData.image,
                 description: itemData.description || '',
