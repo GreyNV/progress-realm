@@ -44,11 +44,27 @@ const InventoryUI = {
                 const lines = [item.description];
                 if (item.effect) lines.push(item.effect);
                 slot.dataset.tooltip = lines.join('\n');
-                slot.appendChild(label);
-                slot.appendChild(countEl);
-                this.container.appendChild(slot);
-            });
-        });
+                // add a button to consume items directly from the inventory
+                if (item.type === 'consumable') {
+                    const btn = document.createElement('button');
+                    btn.textContent = '🍽️';
+                    btn.className = 'consume-btn';
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        Inventory.consume(item.id);
+                    });
+                    slot.appendChild(btn);
+                }
+            } else {
+                slot.style.backgroundImage = 'none';
+                label.textContent = '';
+                countEl.textContent = '';
+                slot.dataset.tooltip = '';
+            }
+            slot.appendChild(label);
+            slot.appendChild(countEl);
+            this.container.appendChild(slot);
+        }
     }
 };
 

@@ -423,6 +423,17 @@ body.left-collapsed #left {
     color: #fff;
 }
 
+.slot .consume-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.6rem;
+    padding: 0 2px;
+    border: none;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
 .tooltip {
     position: absolute;
     background: #333;
