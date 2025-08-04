@@ -3,7 +3,7 @@
         "id": "herb",
         "name": "Herb",
         "rarity": "common",
-        "type": "food",
+        "type": "consumable",
         "restore": {
             "health": 1,
             "focus": 1
@@ -15,7 +15,7 @@
         "id": "rabbit_meat",
         "name": "Rabbit Meat",
         "rarity": "common",
-        "type": "food",
+        "type": "consumable",
         "restore": {
             "health": 5
         },
@@ -114,7 +114,7 @@
         "id": "water_flask",
         "name": "Water Flask",
         "rarity": "common",
-        "type": "food",
+        "type": "consumable",
         "restore": {
             "health": 1,
             "energy": 2
@@ -150,7 +150,7 @@
         "id": "berries",
         "name": "Berries",
         "rarity": "common",
-        "type": "food",
+        "type": "consumable",
         "restore": {
             "health": 1,
             "energy": 1,
@@ -179,7 +179,7 @@
         "id": "cooked_fish",
         "name": "Cooked Fish",
         "rarity": "common",
-        "type": "food",
+        "type": "consumable",
         "restore": {
             "health": 3,
             "energy": 2
