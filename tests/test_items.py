@@ -11,7 +11,7 @@ def test_item_fields():
         assert 'name' in item
         assert 'rarity' in item
         assert 'type' in item
-        if item['type'] == 'food':
+        if item['type'] == 'consumable':
             assert 'restore' in item
             assert isinstance(item['restore'], dict)
             assert 'health' in item['restore']
@@ -19,7 +19,7 @@ def test_item_fields():
             assert 'restore' not in item or item['restore'] == {}
         assert 'image' in item
 
-def test_food_restoration_values():
+def test_consumable_restoration_values():
     path = os.path.join('data', 'items.json')
     with open(path) as f:
         data = json.load(f)
