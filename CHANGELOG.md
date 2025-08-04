@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-02
 ### Changed
+- Renamed item type `food` to `consumable` and updated related logic and tests.
 - Actions now restart automatically until resources run out, then queue and wait for full recovery before resuming.
 - Action slot now resets to the default action if an encounter ends due to resource depletion.
 - Adventure encounters pause on resource depletion and resume when resources are fully restored.
