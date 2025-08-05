@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-02
 ### Changed
+- Character background art now reflects equipped items instead of inventory contents.
 - Added consume buttons for consumable inventory items.
 - Inventory now groups items by type with translated headers.
 - Renamed item type `food` to `consumable` and updated related logic and tests.
