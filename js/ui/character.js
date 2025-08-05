@@ -56,12 +56,10 @@ const CharacterUI = {
             label.className = 'label';
             label.textContent = capitalize(item.name);
             itemEl.appendChild(label);
-            itemEl.addEventListener('click', () => {
-                const emptySlot = Object.entries(State.equipment).find(([, v]) => !v);
-                if (emptySlot) {
-                    Equipment.equip(item.id, emptySlot[0]);
-                }
-            });
+            const equipBtn = document.createElement('button');
+            equipBtn.textContent = Lang.ui('Equip') || 'Equip';
+            equipBtn.addEventListener('click', () => Equipment.equip(item.id));
+            itemEl.appendChild(equipBtn);
             this.itemContainer.appendChild(itemEl);
         });
     }

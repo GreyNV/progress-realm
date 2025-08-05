@@ -1,9 +1,11 @@
 # Changelog
-## [0.41.67] - 2025-08-02
+## [0.41.67] - 2025-08-05
 ### Added
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
 ### Changed
+- Equipment.equip validates item slots and infers the correct slot when unspecified.
+- Character equipment items now include an Equip button.
 - Equipment items now specify their equip slot.
 - Inventory screen now hides equipment items; gear is handled in the character UI.
 - Character background art now reflects equipped items instead of inventory contents.
