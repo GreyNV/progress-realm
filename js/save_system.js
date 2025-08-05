@@ -74,6 +74,21 @@ const SaveSystem = {
                 if (!State.inventory) {
                     setState('inventory', {});
                 }
+                if (!State.equipment) {
+                    // initialize equipment slots for older saves
+                    setState('equipment', {
+                        head: null,
+                        armor: null,
+                        leftHand: null,
+                        rightHand: null,
+                        pants: null,
+                        boots: null,
+                        gloves: null,
+                        ring1: null,
+                        ring2: null,
+                        necklace: null
+                    });
+                }
                 if (State.banditsAmbushSeen === undefined) {
                     setState('banditsAmbushSeen', false);
                 }
@@ -152,6 +167,19 @@ const SaveSystem = {
         setState(['age', 'days'], 0);
 
         setState('inventory', {});
+        // clear all equipped items
+        setState('equipment', {
+            head: null,
+            armor: null,
+            leftHand: null,
+            rightHand: null,
+            pants: null,
+            boots: null,
+            gloves: null,
+            ring1: null,
+            ring2: null,
+            necklace: null
+        });
         setState('homeId', null);
         setState('furniture', []);
         if (typeof PubSub !== 'undefined' && Array.isArray(FurnitureSystem.furniture)) {

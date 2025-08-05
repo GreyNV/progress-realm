@@ -92,20 +92,30 @@ const Inventory = {
         if (!State.inventory[item.id]) {
             setState(['inventory', item.id], { quantity: 1 });
         } else {
-            item.handleDuplicate(State.inventory);
+            if (item.type !== 'equipment') {
+                item.handleDuplicate(State.inventory);
+            }
             updateState(['inventory', item.id, 'quantity'], q => q + 1);
         }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('item:added', item.id);
+            // notify equipment listeners when new gear enters the inventory
+            if (item.type === 'equipment') {
+                PubSub.publish('equipment:available', item.id);
+            }
             PubSub.publish('inventory:changed', State.inventory);
         }
     },
     consume(id, qty = 1) {
+        const item = ItemGenerator.itemList.find(i => i.id === id);
+        // do not allow consuming equipment currently in use
+        if (item && item.type === 'equipment' && Object.values(State.equipment).includes(id)) {
+            return false;
+        }
         const record = State.inventory[id];
         if (!record || record.quantity < qty) return false;
         updateState(['inventory', id, 'quantity'], q => q - qty);
         if (State.inventory[id].quantity <= 0) deleteState(['inventory', id]);
-        const item = ItemGenerator.itemList.find(i => i.id === id);
         if (item && item.type === 'consumable') {
             for (const [res, amt] of Object.entries(item.restore)) {
                 if (State.resources[res]) {

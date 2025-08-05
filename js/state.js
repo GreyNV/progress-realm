@@ -156,6 +156,18 @@ const State = {
     adventureSlots: [],
     inventorySlotCount: 8,
     inventory: {},
+    equipment: {
+        head: null,
+        armor: null,
+        leftHand: null,
+        rightHand: null,
+        pants: null,
+        boots: null,
+        gloves: null,
+        ring1: null,
+        ring2: null,
+        necklace: null
+    },
     homeId: null,
     homesOwned: [],
     furniture: [],
