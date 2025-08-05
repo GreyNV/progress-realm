@@ -1,5 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-02
+### Added
+- Equipment system with equippable slots and prestige reset.
 ### Changed
 - Character background art now reflects equipped items instead of inventory contents.
 - Added consume buttons for consumable inventory items.
