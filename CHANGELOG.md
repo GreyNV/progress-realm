@@ -4,6 +4,7 @@
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
 ### Changed
+- Equipment items now specify their equip slot.
 - Inventory screen now hides equipment items; gear is handled in the character UI.
 - Character background art now reflects equipped items instead of inventory contents.
 - Added consume buttons for consumable inventory items.

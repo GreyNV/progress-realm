@@ -17,6 +17,9 @@ def test_item_fields():
             assert 'health' in item['restore']
         else:
             assert 'restore' not in item or item['restore'] == {}
+        if item['type'] == 'equipment':
+            # Equipment items must define the slot they occupy
+            assert 'slot' in item
         assert 'image' in item
 
 def test_consumable_restoration_values():

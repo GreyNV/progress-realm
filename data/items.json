@@ -67,6 +67,7 @@
         "name": "Stone Spear",
         "rarity": "rare",
         "type": "equipment",
+        "slot": "rightHand",
         "image": "assets/items/spear.PNG",
         "description": "Crude spear tipped with sharpened stone."
     },
@@ -75,6 +76,7 @@
         "name": "Wooden Shield",
         "rarity": "rare",
         "type": "equipment",
+        "slot": "leftHand",
         "image": "assets/items/woodshield.PNG",
         "description": "Simple shield offering basic protection."
     },
@@ -83,6 +85,7 @@
         "name": "Leather Armor",
         "rarity": "rare",
         "type": "equipment",
+        "slot": "armor",
         "image": "assets/items/leatherarmor.PNG",
         "description": "Light armor made from treated hides."
     },
@@ -99,6 +102,7 @@
         "name": "Iron Sword",
         "rarity": "rare",
         "type": "equipment",
+        "slot": "rightHand",
         "image": "assets/generated/iron_sword.png",
         "description": "A sturdy blade forged from iron."
     },
@@ -172,6 +176,7 @@
         "name": "Torch",
         "rarity": "common",
         "type": "equipment",
+        "slot": "leftHand",
         "image": "assets/user_uploaded/torch.jpg",
         "description": "Provides light when exploring dark places."
     },
