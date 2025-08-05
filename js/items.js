@@ -132,7 +132,7 @@ const Inventory = {
         }
         return true;
     },
-    getItems() {
+    getItems(includeEquipment = true) {
         const items = Object.entries(State.inventory).map(([id, data]) => {
             const itemData = ItemGenerator.itemList.find(i => i.id === id) || {};
             return {
@@ -156,9 +156,12 @@ const Inventory = {
             return a.name.localeCompare(b.name);
         });
         let result = items;
+        if (!includeEquipment) {
+            result = result.filter(it => it.type !== 'equipment');
+        }
         if (State.hideRarityEnabled) {
             const threshold = RARITY_CLASSES.indexOf(State.hideBelowRarity);
-            result = items.filter(it => RARITY_CLASSES.indexOf(it.rarity) >= threshold);
+            result = result.filter(it => RARITY_CLASSES.indexOf(it.rarity) >= threshold);
         }
 
         return result;
