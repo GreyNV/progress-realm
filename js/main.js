@@ -79,6 +79,9 @@ async function init() {
     MasteryUI.init();
     PrestigeUI.init();
     InventoryUI.init();
+    if (typeof CharacterUI !== 'undefined') {
+        CharacterUI.init();
+    }
     HomeUI.init();
     FurnitureUI.init();
     ResearchUI.init();

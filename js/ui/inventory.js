@@ -10,7 +10,7 @@ const InventoryUI = {
     },
     update() {
         if (!this.container) return;
-        const items = Inventory.getItems();
+        const items = Inventory.getItems(false);
         this.container.innerHTML = '';
         const groups = {};
         // Group items by type so each section can be labeled
@@ -19,8 +19,7 @@ const InventoryUI = {
             groups[item.type].push(item);
         });
         const typeLabels = {
-            food: 'Consumables',
-            equipment: 'Equipment',
+            consumable: 'Consumables',
             resource: 'Resources'
         };
         Object.keys(groups).forEach(type => {
