@@ -6,7 +6,7 @@ def test_equip_and_unequip_publish_events():
 const { Equipment } = require('./js/equipment.js');
 const { ItemGenerator, Inventory } = require('./js/items.js');
 
-ItemGenerator.itemList = [{ id: 'stone_spear', type: 'equipment' }];
+ItemGenerator.itemList = [{ id: 'stone_spear', type: 'equipment', slot: 'rightHand' }];
 
 global.State = {
     equipment: { head:null, armor:null, leftHand:null, rightHand:null, pants:null, boots:null, gloves:null, ring1:null, ring2:null, necklace:null },
@@ -29,7 +29,7 @@ console.log(JSON.stringify({ equipment: State.equipment, events: PubSub.events }
 def test_consume_rejects_equipped_items():
     script = r"""
 const { ItemGenerator, Inventory } = require('./js/items.js');
-ItemGenerator.itemList = [{ id: 'stone_spear', type: 'equipment' }];
+ItemGenerator.itemList = [{ id: 'stone_spear', type: 'equipment', slot: 'rightHand' }];
 
 global.State = {
     equipment: { head:null, armor:null, leftHand:null, rightHand:'stone_spear', pants:null, boots:null, gloves:null, ring1:null, ring2:null, necklace:null },
@@ -50,3 +50,46 @@ console.log(JSON.stringify({ result, qty: State.inventory.stone_spear.quantity }
     data = json.loads(res.stdout.strip())
     assert data['result'] is False
     assert data['qty'] == 1
+
+
+def test_equip_rejects_mismatched_slot():
+    script = r"""
+const { Equipment } = require('./js/equipment.js');
+const { ItemGenerator } = require('./js/items.js');
+
+ItemGenerator.itemList = [{ id: 'stone_spear', type: 'equipment', slot: 'rightHand' }];
+
+global.State = {
+    equipment: { head:null, armor:null, leftHand:null, rightHand:null, pants:null, boots:null, gloves:null, ring1:null, ring2:null, necklace:null },
+    inventory: { stone_spear: { quantity: 1 } }
+};
+
+const result = Equipment.equip('stone_spear', 'leftHand');
+console.log(JSON.stringify({ result, equip: State.equipment }));
+""";
+    res = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
+    data = json.loads(res.stdout.strip())
+    assert data['result'] is False
+    assert data['equip']['rightHand'] is None
+
+
+def test_equip_uses_item_slot_when_slot_missing():
+    script = r"""
+const { Equipment } = require('./js/equipment.js');
+const { ItemGenerator } = require('./js/items.js');
+
+ItemGenerator.itemList = [{ id: 'stone_spear', type: 'equipment', slot: 'rightHand' }];
+
+global.State = {
+    equipment: { head:null, armor:null, leftHand:null, rightHand:null, pants:null, boots:null, gloves:null, ring1:null, ring2:null, necklace:null },
+    inventory: { stone_spear: { quantity: 1 } }
+};
+
+const result = Equipment.equip('stone_spear');
+console.log(JSON.stringify({ result, equip: State.equipment }));
+""";
+    res = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
+    data = json.loads(res.stdout.strip())
+    assert data['result'] is True
+    assert data['equip']['rightHand'] == 'stone_spear'
+
