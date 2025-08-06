@@ -71,11 +71,24 @@ global.actions = {
         progress: 0,
         resourceCost: { gold: 1 },
         resourceConsumption: { mana: 1 },
-        baseYield: { resources: { food: 2 } }
+        baseYield: { resources: { food: 2 }, stats: { strength: 3 } }
     }
 };
 
-global.State = { slots: [{ actionId: 'work', progress: 0, blocked: false, text: '', queue: null }], defaultActionId: 'idle' };
+global.ResourceSystem = { max: r => r.baseMax };
+global.StatSystem = { max: s => s.baseMax };
+global.State = {
+    slots: [{ actionId: 'work', progress: 0, blocked: false, text: '', queue: null }],
+    defaultActionId: 'idle',
+    resources: {
+        gold: { value: 5, baseMax: 10 },
+        mana: { value: 3, baseMax: 5 },
+        food: { value: 7, baseMax: 15 }
+    },
+    stats: {
+        strength: { value: 8, baseMax: 20 }
+    }
+};
 global.RARITY_CLASSES = ['common'];
 global.capitalize = s => s;
 global.getActionTier = () => 'common';
@@ -85,10 +98,10 @@ global.Lang = { ui: () => '', stat: s => s, resource: r => r };
 
 updateSlotUI(0);
 const tagsEl = slot.el.querySelector('.resource-tags');
-const texts = tagsEl.children.map(ch => ch.textContent);
+const texts = tagsEl.children.map(ch => ch.children.map(c => c.textContent));
 console.log(JSON.stringify(texts));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     data = json.loads(result.stdout.strip())
-    assert data == ['-gold', '-mana', '+food']
+    assert data == [['-1 gold', '5/10'], ['-1 mana', '3/5'], ['+2 food', '7/15'], ['+3 strength', '8/20']]
 
