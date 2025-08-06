@@ -6,6 +6,11 @@ const CharacterUI = {
         this.rightContainer = document.getElementById('character-slots-right');
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('equipment:changed', (_, eq) => this.updateSlots(eq));
+            // rebuild the display when the interface language changes
+            PubSub.subscribe('lang:changed', () => {
+                this.updateSlots();
+                this.updateItems();
+            });
         }
         this.updateSlots(State.equipment);
     },
