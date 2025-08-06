@@ -247,33 +247,69 @@ function updateSlotUI(i) {
     slotEl.dataset.tooltip = buildActionTooltip(action);
     const tagsEl = slotEl.querySelector('.resource-tags');
     if (tagsEl) {
+        // Build tags for all costs, consumptions and yields
         tagsEl.innerHTML = '';
         const tags = [];
         if (action.resourceCost) {
             for (const r in action.resourceCost) {
+                const amt = action.resourceCost[r];
                 const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
-                tags.push({ sign: '-', name });
+                tags.push({ sign: '-', amount: amt, name, type: 'resource', key: r });
             }
         }
         if (action.resourceConsumption) {
             for (const r in action.resourceConsumption) {
+                const amt = action.resourceConsumption[r];
                 const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
-                tags.push({ sign: '-', name });
+                tags.push({ sign: '-', amount: amt, name, type: 'resource', key: r });
             }
         }
-        if (action.baseYield && action.baseYield.resources) {
-            for (const r in action.baseYield.resources) {
-                const val = action.baseYield.resources[r];
+        const yields = typeof computeActionYield === 'function' ? (computeActionYield(action) || {}) : (action.baseYield || {});
+        if (yields.resources) {
+            for (const r in yields.resources) {
+                const val = yields.resources[r];
                 const sign = val >= 0 ? '+' : '-';
                 const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
-                tags.push({ sign, name });
+                tags.push({ sign, amount: Math.abs(val), name, type: 'resource', key: r });
+            }
+        }
+        if (yields.stats) {
+            for (const s in yields.stats) {
+                const val = yields.stats[s];
+                const sign = val >= 0 ? '+' : '-';
+                const name = typeof Lang !== 'undefined' && Lang.stat ? (Lang.stat(s) || s) : s;
+                tags.push({ sign, amount: Math.abs(val), name, type: 'stat', key: s });
             }
         }
         for (const t of tags) {
-            const span = document.createElement('span');
-            span.className = 'resource-tag';
-            span.textContent = `${t.sign}${t.name}`;
-            tagsEl.appendChild(span);
+            const tag = document.createElement('div');
+            tag.className = 'resource-tag';
+            const left = document.createElement('span');
+            left.textContent = `${t.sign}${t.amount} ${t.name}`;
+            const right = document.createElement('span');
+            let current = 0;
+            let max = Infinity;
+            if (t.type === 'resource') {
+                const res = State.resources && State.resources[t.key];
+                if (res) {
+                    current = res.value;
+                    if (typeof ResourceSystem !== 'undefined' && ResourceSystem.max) {
+                        max = ResourceSystem.max(res);
+                    }
+                }
+            } else {
+                const stat = State.stats && State.stats[t.key];
+                if (stat) {
+                    current = stat.value;
+                    if (typeof StatSystem !== 'undefined' && StatSystem.max) {
+                        max = StatSystem.max(stat);
+                    }
+                }
+            }
+            right.textContent = max === Infinity ? `${current}` : `${current}/${max}`;
+            tag.appendChild(left);
+            tag.appendChild(right);
+            tagsEl.appendChild(tag);
         }
     }
     if (queueEl) {
