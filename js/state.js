@@ -148,6 +148,9 @@ const State = {
     stats: {},
     resources: {},
     prestige: {},
+    statDescriptions: {},
+    resourceDescriptions: {},
+    prestigeDescriptions: {},
     prestiging: false,
     // number of available action slots
     slotCount: 1,
@@ -173,7 +176,8 @@ const State = {
     furniture: [],
     researchCompleted: [],
     time: 1,
-    masteryPoints: 0,
+    mastery: ResourceSystem.create(0, Infinity),
+    masteryDescription: 'Earned by advancing action tiers.',
     encounterLevel: 1,
     encounterStreak: 0,
     currentAdventure: 'forest',
@@ -213,12 +217,19 @@ async function loadBaseData() {
         STAT_KEYS.forEach(k => {
             const def = json.stats[k];
             State.stats[k] = StatSystem.create(def.value, def.baseMax);
+            State.statDescriptions[k] = def.description || '';
         });
         RESOURCE_KEYS.forEach(k => {
             const def = json.resources[k];
             State.resources[k] = ResourceSystem.create(def.value, def.baseMax);
+            State.resourceDescriptions[k] = def.description || '';
         });
-        State.prestige = { ...json.prestige };
+        State.prestige = {};
+        Object.keys(json.prestige || {}).forEach(k => {
+            const def = json.prestige[k];
+            State.prestige[k] = StatSystem.create(def.value, Infinity);
+            State.prestigeDescriptions[k] = def.description || '';
+        });
         if (typeof BonusEngine !== 'undefined' && BonusEngine.initialize) {
             BonusEngine.initialize(STAT_KEYS, RESOURCE_KEYS);
         }

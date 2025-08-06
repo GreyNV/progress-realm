@@ -51,7 +51,7 @@ const PrestigeUI = {
         if (!this.container) return;
         let show = false;
         this.list.forEach(key => {
-            const val = State.prestige[key] || 0;
+            const val = State.prestige[key] ? State.prestige[key].value : 0;
             const stat = Object.keys(PRESTIGE_MAP).find(k => PRESTIGE_MAP[k] === key);
             const gain = stat ? Math.floor(Math.log10(State.stats[stat].value + 1)) : 0;
             const el = document.getElementById(`prestige-${key}`);
@@ -94,11 +94,11 @@ const ResourcesUI = {
 const MasteryUI = {
     init() {
         const el = document.getElementById('mastery-points');
-        if (el) el.textContent = State.masteryPoints;
+        if (el) el.textContent = State.mastery.value;
     },
     update() {
         const el = document.getElementById('mastery-points');
-        if (el) el.textContent = State.masteryPoints;
+        if (el) el.textContent = State.mastery.value;
     }
 };
 
