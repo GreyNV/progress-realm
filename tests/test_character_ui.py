@@ -47,6 +47,8 @@ class Elem {
 const elements = {
   'character-slots-left': new Elem('div'),
   'character-slots-right': new Elem('div'),
+  'equipment-items': new Elem('div'),
+  'character-image': new Elem('div')
   'character-image': new Elem('img')
 };
 
