@@ -24,8 +24,8 @@ const ResourceSystem = {
     },
     max(res) {
         let m = res.baseMax;
-        res.maxAdditions.forEach(a => { m += a; });
-        res.maxMultipliers.forEach(x => { m *= x; });
+        (res.maxAdditions || []).forEach(a => { m += a; });
+        (res.maxMultipliers || []).forEach(x => { m *= x; });
         return m;
     },
     add(res, amt) {
@@ -44,8 +44,8 @@ const StatSystem = {
     },
     max(stat) {
         let m = stat.baseMax;
-        stat.maxAdditions.forEach(a => { m += a; });
-        stat.maxMultipliers.forEach(x => { m *= x; });
+        (stat.maxAdditions || []).forEach(a => { m += a; });
+        (stat.maxMultipliers || []).forEach(x => { m *= x; });
         return m;
     },
     add(stat, amt) {
@@ -66,8 +66,12 @@ function setResourceValue(name, val) {
     r.value = Math.min(val, getResourceMax(name));
 }
 function ensureResource(name, value, max) {
-    if (!State.resources[name] || typeof State.resources[name].value !== "number") {
+    const res = State.resources[name];
+    if (!res || typeof res.value !== "number") {
         State.resources[name] = ResourceSystem.create(value, max);
+    } else {
+        if (!Array.isArray(res.maxAdditions)) res.maxAdditions = [];
+        if (!Array.isArray(res.maxMultipliers)) res.maxMultipliers = [];
     }
 }
 
@@ -85,8 +89,12 @@ function setStatValue(name, val) {
 }
 
 function ensureStat(name, value, max) {
-    if (!State.stats[name] || typeof State.stats[name].value !== "number") {
+    const stat = State.stats[name];
+    if (!stat || typeof stat.value !== "number") {
         State.stats[name] = StatSystem.create(value, max);
+    } else {
+        if (!Array.isArray(stat.maxAdditions)) stat.maxAdditions = [];
+        if (!Array.isArray(stat.maxMultipliers)) stat.maxMultipliers = [];
     }
 }
 
