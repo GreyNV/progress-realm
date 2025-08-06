@@ -53,12 +53,21 @@ ResourcesTab.init();
 const li = elements['resource-list'].children[0];
 const btn = li.children[0];
 btn.click();
-console.log(JSON.stringify({ detail: li.children[1].className, event: global.eventName }));
+console.log(JSON.stringify({
+  detail: li.children[1].className,
+  event: global.eventName,
+  first: btn.children[0].className,
+  second: btn.children[1].className,
+  text: btn.children[1].textContent
+}));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     out = json.loads(result.stdout.strip())
     assert out['event'] == 'resource:changed'
     assert out['detail'] == 'resource-detail'
+    assert out['first'] == 'resource-label'
+    assert out['second'] == 'resource-amount'
+    assert out['text'] == '10/5'
 
 
 def test_uk_translation_resources_tab():
