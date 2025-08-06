@@ -635,7 +635,7 @@ body.dark {
 
 .character-layout {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr auto 1fr;
     gap: 1rem;
     align-items: center;
 }
@@ -645,10 +645,9 @@ body.dark {
     margin-top: 0;
 }
 
-.character-layout .character-image {
-    width: 100%;
-    max-width: 200px;
-    height: 200px;
+.character-image {
+    width: 180px;
+    height: 180px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
