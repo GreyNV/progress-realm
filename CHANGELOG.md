@@ -5,11 +5,13 @@
 - Resources tab with expandable buttons showing resource modifiers.
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
+- Emitted `prestige:updated` when prestige points are gained or reset.
 ### Changed
 - Resource buttons now display white text with labels before amounts, showing max/current and aligning amounts right.
 - Removed stats side panel and related UI initialization; main layout now uses two columns.
 - Tab order now lists Routines, Adventure, Belongings, then Character with updated icons.
 - Character image now uses a single `div` with a background image and layout auto-sizing.
+- Resources tab listens for `resources:updated`, `stats:updated`, and `prestige:updated` events.
 - Inventory tab renamed and character equipment UI now reacts to language changes.
 - Character art now renders in a dedicated Character tab element and updates only on equipment changes.
 - Added Character tab with separate character and equipment sections.
