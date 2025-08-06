@@ -3,6 +3,7 @@
 ### Added
 - Converted mastery points into a resource and added descriptions for all stats, resources and prestige values.
 - Resources tab with expandable buttons showing resource modifiers.
+- Action slots now show resource tags for costs and yields.
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
 - Emitted `prestige:updated` when prestige points are gained or reset.

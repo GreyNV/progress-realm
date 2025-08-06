@@ -245,6 +245,37 @@ function updateSlotUI(i) {
         slotEl.style.backgroundImage = 'none';
     }
     slotEl.dataset.tooltip = buildActionTooltip(action);
+    const tagsEl = slotEl.querySelector('.resource-tags');
+    if (tagsEl) {
+        tagsEl.innerHTML = '';
+        const tags = [];
+        if (action.resourceCost) {
+            for (const r in action.resourceCost) {
+                const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
+                tags.push({ sign: '-', name });
+            }
+        }
+        if (action.resourceConsumption) {
+            for (const r in action.resourceConsumption) {
+                const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
+                tags.push({ sign: '-', name });
+            }
+        }
+        if (action.baseYield && action.baseYield.resources) {
+            for (const r in action.baseYield.resources) {
+                const val = action.baseYield.resources[r];
+                const sign = val >= 0 ? '+' : '-';
+                const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
+                tags.push({ sign, name });
+            }
+        }
+        for (const t of tags) {
+            const span = document.createElement('span');
+            span.className = 'resource-tag';
+            span.textContent = `${t.sign}${t.name}`;
+            tagsEl.appendChild(span);
+        }
+    }
     if (queueEl) {
         if (slot.queue && slot.queue.id) {
             const qAction = actions[slot.queue.id];

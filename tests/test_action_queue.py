@@ -13,6 +13,7 @@ def test_queue_slot_styles_defined():
     with open(os.path.join('css', 'styles.css')) as f:
         text = f.read()
     assert '.queue-slot' in text and '.slot-wrapper' in text
+    assert '.resource-tags' in text and '.resource-tag' in text
 
 
 def test_action_repeats_queues_and_resumes_at_max():
