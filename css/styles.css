@@ -601,24 +601,31 @@ li.unaffordable {
     flex-direction: column;
 }
 
-.right-tabs {
+/* Right panel collapsible sections */
+.collapsible-section .section-header {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    cursor: pointer;
 }
 
-.right-tabs button.active {
-    background: #333;
-    color: #fff;
+.collapsible-section .section-header .arrow {
+    display: inline-block;
+    margin-right: 0.25rem;
+    transition: transform 0.2s;
+    transform: rotate(90deg);
 }
 
-.right-view.hidden {
-    display: none;
+.collapsible-section .section-header.collapsed .arrow {
+    transform: rotate(0deg);
+}
+
+.collapsible-section .section-body {
+    margin-top: 0.5rem;
 }
 
 .log-container {
     height: 300px;
     overflow-y: auto;
-    margin-top: 0.5rem;
 }
 
 .log-view {
