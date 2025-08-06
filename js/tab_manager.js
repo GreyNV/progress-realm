@@ -5,6 +5,7 @@ const TabManager = {
     activeSections: {},
     _sectionButtons: {},
     icons: {
+        resources: '💰',
         routines: '⚡',
         adventure: '🌲',
         inventory: '📦',
