@@ -54,7 +54,7 @@
         },
         {
             "id": "inventory",
-            "name": "Belongings",
+            "name": "Inventory",
             "hidden": false,
             "locked": false,
             "sections": [

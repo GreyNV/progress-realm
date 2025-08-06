@@ -112,6 +112,11 @@ const TabManager = {
             btn.classList.toggle('active', btn.dataset.tab === id);
         });
         // sections are now collapsible blocks rather than sub-navigation
+        if (id === 'character' && typeof CharacterUI !== 'undefined') {
+            // refresh character display when the tab becomes active
+            CharacterUI.updateSlots();
+            CharacterUI.updateItems();
+        }
     },
     showSection(tabId, sectionId) {
         this.activeSections[tabId] = sectionId;
