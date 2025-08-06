@@ -1,4 +1,4 @@
-// Agents: UI helper for the left panel background image. Character art updates
+// Agents: UI helper for the character image in the Character tab. Character art updates
 // when equipment changes. Purely cosmetic and not tied into game mechanics.
 const CharacterBackground = {
     baseImage: 'assets/char/new_char.png',
@@ -6,11 +6,12 @@ const CharacterBackground = {
     fullGearImage: 'assets/char/set+sword.png',
     container: null,
     init() {
-        this.container = document.getElementById('left');
+        this.container = document.getElementById('character-image');
+        if (!this.container) return;
+        this.container.style.backgroundImage = `url(${this.baseImage})`;
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('equipment:changed', (_, equipped) => this.update(equipped));
         }
-        this.update([]);
     },
     update(equipped = []) {
         if (!this.container) return;
