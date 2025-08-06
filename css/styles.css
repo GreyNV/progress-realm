@@ -182,19 +182,11 @@ footer {
 
 main {
     display: grid;
-    grid-template-columns: minmax(180px, 1fr) 2fr minmax(180px, 1fr);
+    grid-template-columns: 2fr minmax(180px, 1fr);
     gap: 1rem;
     padding: 1rem;
     padding-bottom: 3rem;
     align-items: start;
-}
-
-body.left-collapsed main {
-    grid-template-columns: 2fr minmax(180px, 1fr);
-}
-
-body.left-collapsed #left {
-    display: none;
 }
 
 .panel {
