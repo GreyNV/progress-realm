@@ -19,20 +19,20 @@
 const VERSION = 2;
 
 const ResourceSystem = {
-    // baseMax is coerced to a number and defaults to 0
+    // baseMax is coerced to a number and defaults to 10
     create(value, baseMax) {
         return {
             value: value,
-            baseMax: Number(baseMax) || 0,
+            baseMax: Number(baseMax ?? 10),
             maxAdditions: [],
             maxMultipliers: []
         };
     },
     max(res) {
-        let m = Number(res.baseMax) || 0;
-        (res.maxAdditions || []).forEach(a => { m += a; });
-        (res.maxMultipliers || []).forEach(x => { m *= x; });
-        return m;
+        const base = Number(res.baseMax ?? 0);
+        const additions = (res.maxAdditions || []).reduce((s, a) => s + a, 0);
+        const mult = 1 + (res.maxMultipliers || [0]).reduce((s, x) => s + x, 0);
+        return (base + additions) * mult;
     },
     add(res, amt) {
         res.value = Math.min(res.value + amt, this.max(res));
@@ -45,20 +45,20 @@ const ResourceSystem = {
 };
 
 const StatSystem = {
-    // baseMax is coerced to a number and defaults to 0
+    // baseMax is coerced to a number and defaults to 10
     create(value, baseMax) {
         return {
             value: value,
-            baseMax: Number(baseMax) || 0,
+            baseMax: Number(baseMax ?? 10),
             maxAdditions: [],
             maxMultipliers: []
         };
     },
     max(stat) {
-        let m = Number(stat.baseMax) || 0;
-        (stat.maxAdditions || []).forEach(a => { m += a; });
-        (stat.maxMultipliers || []).forEach(x => { m *= x; });
-        return m;
+        const base = Number(stat.baseMax ?? 0);
+        const additions = (stat.maxAdditions || []).reduce((s, a) => s + a, 0);
+        const mult = 1 + (stat.maxMultipliers || [0]).reduce((s, x) => s + x, 0);
+        return (base + additions) * mult;
     },
     add(stat, amt) {
         stat.value = Math.min(stat.value + amt, this.max(stat));
@@ -81,10 +81,10 @@ function ensureResource(name, value, max) {
     const res = State.resources[name];
     if (!res || typeof res.value !== "number") {
         State.resources[name] = ResourceSystem.create(value, max);
-    } else {
-        if (!Array.isArray(res.maxAdditions)) res.maxAdditions = [];
-        if (!Array.isArray(res.maxMultipliers)) res.maxMultipliers = [];
     }
+    const r = State.resources[name];
+    if (!Array.isArray(r.maxAdditions)) r.maxAdditions = [];
+    if (!Array.isArray(r.maxMultipliers) || r.maxMultipliers.length === 0) r.maxMultipliers = [0];
 }
 
 function getStatValue(name) {
@@ -104,10 +104,10 @@ function ensureStat(name, value, max) {
     const stat = State.stats[name];
     if (!stat || typeof stat.value !== "number") {
         State.stats[name] = StatSystem.create(value, max);
-    } else {
-        if (!Array.isArray(stat.maxAdditions)) stat.maxAdditions = [];
-        if (!Array.isArray(stat.maxMultipliers)) stat.maxMultipliers = [];
     }
+    const s = State.stats[name];
+    if (!Array.isArray(s.maxAdditions)) s.maxAdditions = [];
+    if (!Array.isArray(s.maxMultipliers) || s.maxMultipliers.length === 0) s.maxMultipliers = [0];
 }
 
 function ensureMastery() {
@@ -116,7 +116,7 @@ function ensureMastery() {
         : 0;
     State.mastery = ResourceSystem.create(savedValue, Infinity);
     if (!Array.isArray(State.mastery.maxAdditions)) State.mastery.maxAdditions = [];
-    if (!Array.isArray(State.mastery.maxMultipliers)) State.mastery.maxMultipliers = [];
+    if (!Array.isArray(State.mastery.maxMultipliers) || State.mastery.maxMultipliers.length === 0) State.mastery.maxMultipliers = [0];
 }
 
 function _pathParts(path) {

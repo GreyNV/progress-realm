@@ -2,34 +2,34 @@
     "stats": {
         "strength": {
             "value": 0,
-            "baseMax": 0,
+            "baseMax": 10,
             "description": "Improves physical power."
         },
         "intelligence": {
             "value": 0,
-            "baseMax": 0,
+            "baseMax": 10,
             "description": "Powers mental acuity."
         },
         "dexterity": {
             "value": 0,
-            "baseMax": 0,
+            "baseMax": 10,
             "description": "Increases agility and precision."
         }
     },
     "resources": {
         "energy": {
             "value": 0,
-            "baseMax": 0,
+            "baseMax": 10,
             "description": "Spent to perform actions."
         },
         "focus": {
             "value": 0,
-            "baseMax": 0,
+            "baseMax": 10,
             "description": "Required for study and research."
         },
         "health": {
             "value": 0,
-            "baseMax": 0,
+            "baseMax": 10,
             "description": "Represents vitality."
         }
     },

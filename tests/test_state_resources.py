@@ -26,15 +26,21 @@ def test_max_handles_missing_arrays():
     assert data['statMax'] == 7
 
 
-def test_missing_base_max_defaults_to_zero():
+def test_missing_base_max_defaults_to_ten_and_zero_multiplier_no_effect():
     script = textwrap.dedent(
         """
         const { ResourceSystem, StatSystem } = require('./js/state.js');
         const res = ResourceSystem.create(5);
         const stat = StatSystem.create(3);
+        const resMult = ResourceSystem.create(5);
+        resMult.maxMultipliers = [0];
+        const statMult = StatSystem.create(3);
+        statMult.maxMultipliers = [0];
         console.log(JSON.stringify({
             resMax: ResourceSystem.max(res),
-            statMax: StatSystem.max(stat)
+            statMax: StatSystem.max(stat),
+            resMultMax: ResourceSystem.max(resMult),
+            statMultMax: StatSystem.max(statMult)
         }));
         """
     )
@@ -45,6 +51,8 @@ def test_missing_base_max_defaults_to_zero():
         check=True,
     )
     data = json.loads(result.stdout.strip())
-    assert data['resMax'] == 0
-    assert data['statMax'] == 0
+    assert data['resMax'] == 10
+    assert data['statMax'] == 10
+    assert data['resMultMax'] == 10
+    assert data['statMultMax'] == 10
 
