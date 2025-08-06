@@ -24,6 +24,7 @@ const SaveSystem = {
             if (data.version !== VERSION) return null;
             if (data.state) {
                 mergeState(data.state);
+                ensureMastery();
                 RESOURCE_KEYS.forEach(k => {
                     const def = State.resources[k] || { value: 0, baseMax: 0 };
                     ensureResource(k, def.value, def.baseMax);

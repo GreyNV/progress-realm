@@ -38,6 +38,9 @@
 - Tab layout moved to bottom on mobile with collapsible sections via new TabContainer.
 - Tabs use icons in a fixed footer and old footer actions moved into the settings modal.
 - Default home now falls back to "Hut in the Woods" if the saved home is missing.
+
+### Fixed
+- Mastery resource is rebuilt on load so saved values and modifiers persist.
 - Home slot now updates correctly after reloads and prestiges.
 - Action slots falling back to the Rest action now begin progress automatically.
 - Active slots moved next to the log as a tab and reduced to one slot.

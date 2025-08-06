@@ -110,6 +110,15 @@ function ensureStat(name, value, max) {
     }
 }
 
+function ensureMastery() {
+    const savedValue = State.mastery && typeof State.mastery.value === 'number'
+        ? State.mastery.value
+        : 0;
+    State.mastery = ResourceSystem.create(savedValue, Infinity);
+    if (!Array.isArray(State.mastery.maxAdditions)) State.mastery.maxAdditions = [];
+    if (!Array.isArray(State.mastery.maxMultipliers)) State.mastery.maxMultipliers = [];
+}
+
 function _pathParts(path) {
     return Array.isArray(path) ? path : path.split('.');
 }
@@ -272,6 +281,7 @@ if (typeof module !== 'undefined') {
         pushState,
         deleteState,
         mergeState,
+        ensureMastery,
         loadBaseData,
         STAT_KEYS,
         RESOURCE_KEYS,
