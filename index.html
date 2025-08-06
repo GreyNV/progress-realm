@@ -162,17 +162,19 @@
         </div>
 
         <div id="right" class="panel log-panel">
-            <div class="right-tabs">
-                <button data-panel="log" class="active" data-i18n="Log">Log</button>
-                <button data-panel="active" data-i18n="Active">Active</button>
-            </div>
-            <div id="log-panel" class="right-view">
-                <div id="log-container" class="log-container">
-                    <div id="log" class="log-view"></div>
+            <div id="active-section" class="collapsible-section">
+                <h2 class="section-header"><span class="arrow">&#9654;</span><span data-i18n="Active">Active</span></h2>
+                <div class="section-body">
+                    <div id="slots" class="slots"></div>
                 </div>
             </div>
-            <div id="active-panel" class="right-view hidden">
-                <div id="slots" class="slots"></div>
+            <div id="log-section" class="collapsible-section">
+                <h2 class="section-header"><span class="arrow">&#9654;</span><span data-i18n="Log">Log</span></h2>
+                <div class="section-body">
+                    <div id="log-container" class="log-container">
+                        <div id="log" class="log-view"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

@@ -137,10 +137,6 @@ async function init() {
             SaveSystem.save();
         });
     }
-    document.querySelectorAll('#right .right-tabs button').forEach(btn => {
-        btn.addEventListener('click', () => showRightPanel(btn.dataset.panel));
-    });
-    showRightPanel('log');
     const langSelect = document.getElementById('language-select');
     if (langSelect) {
         langSelect.value = State.language;
