@@ -155,10 +155,13 @@ const SaveSystem = {
             prestigeGain[pKey] = Math.floor(Math.log10(val + 1));
         });
 
-        const previousPrestige = { ...State.prestige };
+        const previousPrestige = {};
+        Object.keys(State.prestige).forEach(k => {
+            previousPrestige[k] = State.prestige[k].value;
+        });
         await loadBaseData();
         PRESTIGE_KEYS.forEach(k => {
-            setState(['prestige', k], (previousPrestige[k] || 0) + (prestigeGain[k] || 0));
+            setState(['prestige', k, 'value'], (previousPrestige[k] || 0) + (prestigeGain[k] || 0));
         });
 
         applyPrestigeBonuses();

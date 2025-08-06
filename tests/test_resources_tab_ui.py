@@ -1,5 +1,5 @@
-import json
 import os
+import json
 import subprocess
 
 
@@ -20,7 +20,7 @@ def test_resources_tab_markup_and_script():
     assert 'js/ui/resources_tab.js' in html
 
 
-def test_resources_tab_toggle_behavior():
+def test_resources_tab_entries_and_descriptions():
     script = r"""
 class Elem {
   constructor(tag){
@@ -43,31 +43,50 @@ class Elem {
 }
 const elements = { 'resource-list': new Elem('ul') };
 global.document = { getElementById: id => elements[id], createElement: tag => new Elem(tag) };
-global.State = { resources: { energy: { value: 5, baseMax: 10, maxAdditions: [2], maxMultipliers: [2] } } };
+global.State = {
+  stats: { strength: { value:1, baseMax:10, maxAdditions:[], maxMultipliers:[] } },
+  resources: { energy: { value:5, baseMax:10, maxAdditions:[], maxMultipliers:[] } },
+  prestige: { wisdom: { value:2, baseMax:Infinity, maxAdditions:[], maxMultipliers:[] } },
+  mastery: { value:3, baseMax:Infinity, maxAdditions:[], maxMultipliers:[] },
+  statDescriptions: { strength: 'Power' },
+  resourceDescriptions: { energy: 'Use', mastery: 'Mastered' },
+  prestigeDescriptions: { wisdom: 'Bonus' },
+  masteryDescription: 'Mastered'
+};
+global.StatSystem = { max: r => r.baseMax };
 global.ResourceSystem = { max: r => r.baseMax };
-global.Lang = { resource: k => k };
+global.Lang = {
+  stat: k => k,
+  resource: k => k,
+  ui: k => k,
+  statDesc: k => null,
+  resourceDesc: k => null,
+  prestigeDesc: k => null
+};
 global.capitalize = s => s;
-global.PubSub = { subscribe: (ev, fn) => { global.eventName = ev; } };
+global.PubSub = { subscribe: () => {} };
 const { ResourcesTab } = require('./js/ui/resources_tab.js');
 ResourcesTab.init();
-const li = elements['resource-list'].children[0];
-const btn = li.children[0];
-btn.click();
-console.log(JSON.stringify({
-  detail: li.children[1].className,
-  event: global.eventName,
-  first: btn.children[0].className,
-  second: btn.children[1].className,
-  text: btn.children[1].textContent
-}));
+const list = elements['resource-list'].children;
+const out = {};
+for (const li of list) {
+  const name = li.children[0].children[0].textContent;
+  const amt = li.children[0].children[1].textContent;
+  const desc = li.children[1].children[0].textContent;
+  out[name] = { amount: amt, desc: desc };
+}
+console.log(JSON.stringify(out));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     out = json.loads(result.stdout.strip())
-    assert out['event'] == 'resource:changed'
-    assert out['detail'] == 'resource-detail'
-    assert out['first'] == 'resource-label'
-    assert out['second'] == 'resource-amount'
-    assert out['text'] == '10/5'
+    assert out['strength']['amount'] == '1/10'
+    assert out['energy']['amount'] == '5/10'
+    assert out['wisdom']['amount'] == '2'
+    assert out['mastery']['amount'] == '3'
+    assert out['strength']['desc'] == 'Power'
+    assert out['energy']['desc'] == 'Use'
+    assert out['wisdom']['desc'] == 'Bonus'
+    assert out['mastery']['desc'] == 'Mastered'
 
 
 def test_uk_translation_resources_tab():

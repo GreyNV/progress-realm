@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-06
 ### Added
+- Converted mastery points into a resource and added descriptions for all stats, resources and prestige values.
 - Resources tab with expandable buttons showing resource modifiers.
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.

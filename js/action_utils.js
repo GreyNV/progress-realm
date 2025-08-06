@@ -93,7 +93,7 @@ function computeActionYield(action) {
 function gainExp(action, amount) {
     action.exp += amount;
     const beforeLevel = action.level;
-    const beforeMastery = State.masteryPoints;
+    const beforeMastery = State.mastery.value;
     while (action.exp >= action.expToNext) {
         action.exp -= action.expToNext;
         const oldTier = getActionTier(action.level);
@@ -101,7 +101,7 @@ function gainExp(action, amount) {
         action.expToNext = Math.floor(action.expToNext * 1.1 + 5);
         const newTier = getActionTier(action.level);
         if (newTier !== oldTier) {
-            State.masteryPoints += 1;
+            ResourceSystem.add(State.mastery, 1);
             action.currentTier = newTier;
         }
     }
@@ -109,8 +109,8 @@ function gainExp(action, amount) {
         if (action.level !== beforeLevel) {
             PubSub.publish('action:levelUp', { id: action.id, level: action.level });
         }
-        if (State.masteryPoints !== beforeMastery) {
-            PubSub.publish('mastery:changed', State.masteryPoints);
+        if (State.mastery.value !== beforeMastery) {
+            PubSub.publish('mastery:changed', State.mastery.value);
         }
         PubSub.publish('action:exp', { id: action.id, exp: action.exp });
     }

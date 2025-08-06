@@ -29,6 +29,15 @@ const Lang = {
     resource(key) {
         return this.data.resources && this.data.resources[key] || null;
     },
+    statDesc(key) {
+        return this.data.statDescriptions && this.data.statDescriptions[key] || null;
+    },
+    resourceDesc(key) {
+        return this.data.resourceDescriptions && this.data.resourceDescriptions[key] || null;
+    },
+    prestigeDesc(key) {
+        return this.data.prestigeDescriptions && this.data.prestigeDescriptions[key] || null;
+    },
     effect(key) {
         if (!this.data.effects) return null;
         return this.data.effects[key] || null;

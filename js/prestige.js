@@ -3,7 +3,7 @@
 function applyPrestigeBonuses() {
     STAT_KEYS.forEach(k => {
         const pKey = PRESTIGE_MAP[k];
-        const p = State.prestige[pKey] || 0;
+        const p = State.prestige[pKey] ? State.prestige[pKey].value : 0;
         if (State.stats[k]) {
             setState(['stats', k, 'maxMultipliers'], [1 + p * 0.02]);
         }

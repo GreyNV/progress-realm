@@ -1,17 +1,50 @@
 {
     "stats": {
-        "strength": {"value": 0, "baseMax": 50},
-        "intelligence": {"value": 0, "baseMax": 50},
-        "dexterity": {"value": 0, "baseMax": 50}
+        "strength": {
+            "value": 0,
+            "baseMax": 50,
+            "description": "Improves physical power."
+        },
+        "intelligence": {
+            "value": 0,
+            "baseMax": 50,
+            "description": "Powers mental acuity."
+        },
+        "dexterity": {
+            "value": 0,
+            "baseMax": 50,
+            "description": "Increases agility and precision."
+        }
     },
     "resources": {
-        "energy": {"value": 10, "baseMax": 10},
-        "focus": {"value": 10, "baseMax": 10},
-        "health": {"value": 1, "baseMax": 10}
+        "energy": {
+            "value": 10,
+            "baseMax": 10,
+            "description": "Spent to perform actions."
+        },
+        "focus": {
+            "value": 10,
+            "baseMax": 10,
+            "description": "Required for study and research."
+        },
+        "health": {
+            "value": 1,
+            "baseMax": 10,
+            "description": "Represents vitality."
+        }
     },
     "prestige": {
-        "constitution": 0,
-        "wisdom": 0,
-        "reflexes": 0
+        "constitution": {
+            "value": 0,
+            "description": "Permanent bonus from great strength."
+        },
+        "wisdom": {
+            "value": 0,
+            "description": "Permanent bonus from keen intelligence."
+        },
+        "reflexes": {
+            "value": 0,
+            "description": "Permanent bonus from quick dexterity."
+        }
     }
 }
