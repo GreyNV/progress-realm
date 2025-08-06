@@ -1,6 +1,21 @@
 {
     "tabs": [
         {
+            "id": "resources",
+            "name": "Resources",
+            "hidden": false,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "resources",
+                    "name": "Resources",
+                    "type": "buttons",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        },
+        {
             "id": "routines",
             "name": "Routines",
             "hidden": false,

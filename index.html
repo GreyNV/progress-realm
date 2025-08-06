@@ -66,7 +66,15 @@
         <div id="center" class="panel">
             <div class="tabs">
                 <div id="tab-contents">
-                    <div class="tab-content" data-tab="routines">
+                    <div class="tab-content" data-tab="resources">
+                        <div class="tab-section" data-section="resources" data-type="buttons">
+                            <h2 data-i18n="Resources">Resources</h2>
+                            <div class="section-body">
+                                <ul id="resource-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content hidden" data-tab="routines">
                         <div class="tab-section" data-section="actions" data-type="buttons">
                             <h2 data-i18n="Available Actions">Available Actions</h2>
                             <div class="section-body">
@@ -202,6 +210,7 @@
     <script src="js/ui/furniture.js"></script>
     <script src="js/ui/home.js"></script>
     <script src="js/ui/research.js"></script>
+    <script src="js/ui/resources_tab.js"></script>
     <script src="js/prestige.js"></script>
     <script src="js/action_utils.js"></script>
     <script src="js/engine.js"></script>

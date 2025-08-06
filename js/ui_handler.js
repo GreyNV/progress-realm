@@ -4,6 +4,9 @@ const UIHandler = {
         if (typeof CharacterUI !== 'undefined') {
             CharacterUI.init();
         }
+        if (typeof ResourcesTab !== 'undefined') {
+            ResourcesTab.init();
+        }
     },
     async loadTabs() {
         try {
