@@ -1,15 +1,4 @@
 // Misc story-related helpers
-function toggleLeftPanel() {
-    const body = document.body;
-    body.classList.toggle('left-collapsed');
-    const btn = document.getElementById('toggle-left');
-    if (btn) {
-        btn.textContent = body.classList.contains('left-collapsed') ?
-            (Lang.ui('Show Stats') || 'Show Stats') :
-            (Lang.ui('Hide Stats') || 'Hide Stats');
-    }
-}
-
 function applyDarkMode() {
     document.body.classList.toggle('dark', State.darkMode);
     const chk = document.getElementById('dark-mode-toggle');

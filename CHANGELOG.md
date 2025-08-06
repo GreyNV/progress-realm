@@ -1,9 +1,10 @@
 # Changelog
-## [0.41.67] - 2025-08-05
+## [0.41.67] - 2025-08-06
 ### Added
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
 ### Changed
+- Removed stats side panel and related UI initialization; main layout now uses two columns.
 - Tab order now lists Routines, Adventure, Belongings, then Character with updated icons.
 - Character image now uses a single `div` with a background image and layout auto-sizing.
 - Inventory tab renamed and character equipment UI now reacts to language changes.
