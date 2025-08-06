@@ -16,9 +16,15 @@ const ResourcesTab = {
         });
         this.container.appendChild(this._createEntry('mastery', 'mastery', State.mastery));
         if (typeof PubSub !== 'undefined') {
-            PubSub.subscribe('resource:changed', data => this.update(data.name));
-            PubSub.subscribe('stat:changed', data => this.update(data.name));
-            PubSub.subscribe('prestige:changed', data => this.update(data.name));
+            PubSub.subscribe('resources:updated', () => {
+                Object.keys(State.resources).forEach(name => this.update(name));
+            });
+            PubSub.subscribe('stats:updated', () => {
+                Object.keys(State.stats).forEach(name => this.update(name));
+            });
+            PubSub.subscribe('prestige:updated', () => {
+                Object.keys(State.prestige).forEach(name => this.update(name));
+            });
             PubSub.subscribe('mastery:changed', () => this.update('mastery'));
         }
     },

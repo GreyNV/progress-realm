@@ -96,3 +96,63 @@ def test_uk_translation_resources_tab():
     ui = data.get('ui', {})
     assert 'Resources' in ui
     assert 'Resource Modifiers' in ui
+
+
+def test_resources_tab_updates_on_event():
+    script = r"""
+class Elem {
+  constructor(tag){
+    this.tagName = tag;
+    this.children = [];
+    this.className = '';
+    this.dataset = {};
+    this.textContent = '';
+    this.eventListeners = {};
+    this.classList = {
+      add: c => { if (!this.className.split(' ').includes(c)) this.className += (this.className ? ' ' : '') + c; },
+      remove: c => { this.className = this.className.split(' ').filter(x => x !== c).join(' '); },
+      toggle: c => { if (this.className.split(' ').includes(c)) { this.classList.remove(c); return false; } else { this.classList.add(c); return true; } },
+      contains: c => this.className.split(' ').includes(c)
+    };
+  }
+  appendChild(ch){ this.children.push(ch); }
+  addEventListener(ev, fn){ this.eventListeners[ev] = fn; }
+  click(){ if (this.eventListeners['click']) this.eventListeners['click'](); }
+}
+const elements = { 'resource-list': new Elem('ul') };
+global.document = { getElementById: id => elements[id], createElement: tag => new Elem(tag) };
+global.State = {
+  stats: {},
+  resources: { energy: { value:5, baseMax:10, maxAdditions:[], maxMultipliers:[] } },
+  prestige: {},
+  mastery: { value:0, baseMax:Infinity, maxAdditions:[], maxMultipliers:[] },
+  statDescriptions: {},
+  resourceDescriptions: { energy: 'Use' },
+  prestigeDescriptions: {},
+  masteryDescription: ''
+};
+global.StatSystem = { max: r => r.baseMax };
+global.ResourceSystem = { max: r => r.baseMax };
+global.Lang = {
+  stat: k => k,
+  resource: k => k,
+  ui: k => k,
+  statDesc: k => null,
+  resourceDesc: k => null,
+  prestigeDesc: k => null
+};
+global.capitalize = s => s;
+global.PubSub = {
+  events: {},
+  subscribe(n, fn){ (this.events[n] = this.events[n] || []).push(fn); },
+  publish(n, d){ (this.events[n] || []).forEach(fn => fn(d)); }
+};
+const { ResourcesTab } = require('./js/ui/resources_tab.js');
+ResourcesTab.init();
+State.resources.energy.value = 7;
+PubSub.publish('resources:updated');
+console.log(JSON.stringify({ energy: ResourcesTab.entries['energy'].amount.textContent }));
+"""
+    result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
+    data = json.loads(result.stdout.strip())
+    assert data['energy'] == '7/10'

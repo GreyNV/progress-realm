@@ -164,6 +164,9 @@ const SaveSystem = {
         PRESTIGE_KEYS.forEach(k => {
             setState(['prestige', k, 'value'], (previousPrestige[k] || 0) + (prestigeGain[k] || 0));
         });
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('prestige:updated');
+        }
 
         applyPrestigeBonuses();
 
