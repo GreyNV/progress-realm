@@ -5,10 +5,10 @@ const TabManager = {
     activeSections: {},
     _sectionButtons: {},
     icons: {
-        routines: '🏠',
-        adventure: '⚔️',
-        character: '🧍',
-        inventory: '🎒',
+        routines: '⚡',
+        adventure: '🌲',
+        inventory: '📦',
+        character: '👤',
         automation: '🤖',
         chip: '💡'
     },

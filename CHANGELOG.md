@@ -4,6 +4,7 @@
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
 ### Changed
+- Tab order now lists Routines, Adventure, Belongings, then Character with updated icons.
 - Character image now uses a single `div` with a background image and layout auto-sizing.
 - Inventory tab renamed and character equipment UI now reacts to language changes.
 - Character art now renders in a dedicated Character tab element and updates only on equipment changes.
