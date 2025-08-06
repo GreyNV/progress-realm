@@ -2,6 +2,9 @@ class BaseSlot {
     constructor(hasProgress = true) {
         this.el = document.createElement('div');
         this.el.className = 'slot';
+        this.resourceTags = document.createElement('div');
+        this.resourceTags.className = 'resource-tags';
+        this.el.appendChild(this.resourceTags);
         this.label = document.createElement('span');
         this.label.className = 'label';
         this.el.appendChild(this.label);
