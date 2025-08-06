@@ -204,11 +204,6 @@ body.left-collapsed #left {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#left {
-    background-size: contain;
-    background-position: center;
-}
-
 #task-list {
     list-style: none;
     padding: 0;
@@ -650,7 +645,11 @@ body.dark {
     margin-top: 0;
 }
 
-.character-layout img {
+.character-layout .character-image {
     width: 100%;
     max-width: 200px;
+    height: 200px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }

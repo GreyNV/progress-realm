@@ -1,12 +1,10 @@
-// CharacterUI renders equipment slots and available equipment items.
-// It listens for inventory and equipment changes via PubSub.
+// CharacterUI renders equipment slots.
+// It listens for equipment changes via PubSub.
 const CharacterUI = {
     init() {
         this.leftContainer = document.getElementById('character-slots-left');
         this.rightContainer = document.getElementById('character-slots-right');
-        this.itemContainer = document.getElementById('equipment-items');
         if (typeof PubSub !== 'undefined') {
-            PubSub.subscribe('inventory:changed', () => this.updateItems());
             PubSub.subscribe('equipment:changed', (_, eq) => this.updateSlots(eq));
             // rebuild the display when the interface language changes
             PubSub.subscribe('lang:changed', () => {
@@ -15,7 +13,6 @@ const CharacterUI = {
             });
         }
         this.updateSlots(State.equipment);
-        this.updateItems();
     },
     updateSlots(equipped = State.equipment) {
         if (!this.leftContainer || !this.rightContainer) return;
@@ -52,28 +49,6 @@ const CharacterUI = {
         });
         rightSlots.forEach(slot => {
             this.rightContainer.appendChild(buildSlot(slot, equipped[slot]));
-        });
-    },
-    updateItems() {
-        if (!this.itemContainer) return;
-        this.itemContainer.innerHTML = '';
-        const items = Inventory.getItems(true).filter(it => it.type === 'equipment');
-        items.forEach(item => {
-            const itemEl = document.createElement('div');
-            itemEl.className = 'slot';
-            if (item.image) {
-                itemEl.style.backgroundImage = `url(${item.image})`;
-            }
-            itemEl.classList.add(`rarity-${item.rarity}`);
-            const label = document.createElement('span');
-            label.className = 'label';
-            label.textContent = capitalize(item.name);
-            itemEl.appendChild(label);
-            const equipBtn = document.createElement('button');
-            equipBtn.textContent = Lang.ui('Equip') || 'Equip';
-            equipBtn.addEventListener('click', () => Equipment.equip(item.id));
-            itemEl.appendChild(equipBtn);
-            this.itemContainer.appendChild(itemEl);
         });
     }
 };
