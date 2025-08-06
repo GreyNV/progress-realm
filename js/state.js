@@ -19,11 +19,17 @@
 const VERSION = 2;
 
 const ResourceSystem = {
+    // baseMax is coerced to a number and defaults to 0
     create(value, baseMax) {
-        return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [] };
+        return {
+            value: value,
+            baseMax: Number(baseMax) || 0,
+            maxAdditions: [],
+            maxMultipliers: []
+        };
     },
     max(res) {
-        let m = res.baseMax;
+        let m = Number(res.baseMax) || 0;
         (res.maxAdditions || []).forEach(a => { m += a; });
         (res.maxMultipliers || []).forEach(x => { m *= x; });
         return m;
@@ -39,11 +45,17 @@ const ResourceSystem = {
 };
 
 const StatSystem = {
+    // baseMax is coerced to a number and defaults to 0
     create(value, baseMax) {
-        return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [] };
+        return {
+            value: value,
+            baseMax: Number(baseMax) || 0,
+            maxAdditions: [],
+            maxMultipliers: []
+        };
     },
     max(stat) {
-        let m = stat.baseMax;
+        let m = Number(stat.baseMax) || 0;
         (stat.maxAdditions || []).forEach(a => { m += a; });
         (stat.maxMultipliers || []).forEach(x => { m *= x; });
         return m;

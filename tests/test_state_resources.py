@@ -25,3 +25,26 @@ def test_max_handles_missing_arrays():
     assert data['resMax'] == 12
     assert data['statMax'] == 7
 
+
+def test_missing_base_max_defaults_to_zero():
+    script = textwrap.dedent(
+        """
+        const { ResourceSystem, StatSystem } = require('./js/state.js');
+        const res = ResourceSystem.create(5);
+        const stat = StatSystem.create(3);
+        console.log(JSON.stringify({
+            resMax: ResourceSystem.max(res),
+            statMax: StatSystem.max(stat)
+        }));
+        """
+    )
+    result = subprocess.run(
+        ['node', '-e', script],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    data = json.loads(result.stdout.strip())
+    assert data['resMax'] == 0
+    assert data['statMax'] == 0
+

@@ -59,6 +59,7 @@
 ### Fixed
 - Resolved misplaced braces in the inventory UI loop that broke item rendering.
 - Resource and stat max calculations no longer fail when modifier arrays are undefined.
+- Resources without a `baseMax` now default to zero to avoid `NaN` values.
 
 ## [0.41.66] - 2025-07-14
 ### Changed
