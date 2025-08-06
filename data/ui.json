@@ -31,6 +31,28 @@
             ]
         },
         {
+            "id": "inventory",
+            "name": "Belongings",
+            "hidden": false,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "home",
+                    "name": "Home",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                },
+                {
+                    "id": "belongings",
+                    "name": "Belongings",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        },
+        {
             "id": "character",
             "name": "Character",
             "hidden": false,
@@ -46,28 +68,6 @@
                 {
                     "id": "equipment",
                     "name": "Equipment",
-                    "type": "slots",
-                    "hidden": false,
-                    "locked": false
-                }
-            ]
-        },
-        {
-            "id": "inventory",
-            "name": "Inventory",
-            "hidden": false,
-            "locked": false,
-            "sections": [
-                {
-                    "id": "home",
-                    "name": "Home",
-                    "type": "slots",
-                    "hidden": false,
-                    "locked": false
-                },
-                {
-                    "id": "belongings",
-                    "name": "Belongings",
                     "type": "slots",
                     "hidden": false,
                     "locked": false

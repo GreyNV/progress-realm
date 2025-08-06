@@ -49,7 +49,6 @@ const elements = {
   'character-slots-right': new Elem('div'),
   'equipment-items': new Elem('div'),
   'character-image': new Elem('div')
-  'character-image': new Elem('img')
 };
 
 global.document = {
