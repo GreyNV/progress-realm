@@ -19,6 +19,7 @@
 - Adventure encounters pause on resource depletion and resume when resources are fully restored.
 - Queued actions now wait for all related resources to reach their maximum before starting or resuming.
 - Adventure details now show a short description when expanded.
+- Removed equipment listings from inventory belongings and filtered inventory UI to show only consumables and resources.
 - Adventure list uses expandable buttons with encounter previews and cancels when resources run out.
 - Items now have types and consumables restore resources instead of granting soft caps.
 - Adventure tab now requires manual activation and shows encounters in the Active slot.

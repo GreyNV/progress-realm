@@ -10,7 +10,9 @@ const InventoryUI = {
     },
     update() {
         if (!this.container) return;
-        const items = Inventory.getItems(false);
+        const items = Inventory
+            .getItems(false)
+            .filter(it => it.type === 'consumable' || it.type === 'resource');
         this.container.innerHTML = '';
         const groups = {};
         // Group items by type so each section can be labeled
