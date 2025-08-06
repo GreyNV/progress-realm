@@ -38,7 +38,8 @@
     "Drop Chances": "Шанс здобичі",
     "Guaranteed Loot": "Гарантована здобич",
     "Consumables": "Витратні матеріали",
-    "Equipment": "Спорядження"
+    "Equipment": "Спорядження",
+    "Character": "Персонаж"
   },
   "actions": {
     "studying": { "name": "Навчання" },

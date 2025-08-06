@@ -7,6 +7,7 @@ const TabManager = {
     icons: {
         routines: '🏠',
         adventure: '⚔️',
+        character: '🧍',
         inventory: '🎒',
         automation: '🤖',
         chip: '💡'

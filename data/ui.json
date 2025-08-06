@@ -31,6 +31,28 @@
             ]
         },
         {
+            "id": "character",
+            "name": "Character",
+            "hidden": false,
+            "locked": false,
+            "sections": [
+                {
+                    "id": "character",
+                    "name": "Character",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                },
+                {
+                    "id": "equipment",
+                    "name": "Equipment",
+                    "type": "slots",
+                    "hidden": false,
+                    "locked": false
+                }
+            ]
+        },
+        {
             "id": "inventory",
             "name": "Belongings",
             "hidden": false,
