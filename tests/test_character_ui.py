@@ -13,12 +13,13 @@ def test_character_ui_mentions_equipment():
     assert 'Equipment' in text
 
 
-def test_character_translation_has_equipment():
+def test_character_translation_has_sections():
     path = os.path.join('data', 'lang', 'uk.json')
     with open(path) as f:
         data = json.load(f)
     ui = data.get('ui', {})
     assert 'Equipment' in ui
+    assert 'Character' in ui
 
 
 def test_equip_button_equips_item():
@@ -45,9 +46,10 @@ class Elem {
 }
 
 const elements = {
-  'equipment-slots': new Elem('div'),
+  'character-slots-left': new Elem('div'),
+  'character-slots-right': new Elem('div'),
   'equipment-items': new Elem('div'),
-  'equipment-heading': new Elem('div')
+  'character-image': new Elem('img')
 };
 
 global.document = {

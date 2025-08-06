@@ -2,12 +2,9 @@
 // It listens for inventory and equipment changes via PubSub.
 const CharacterUI = {
     init() {
-        this.slotContainer = document.getElementById('equipment-slots');
+        this.leftContainer = document.getElementById('character-slots-left');
+        this.rightContainer = document.getElementById('character-slots-right');
         this.itemContainer = document.getElementById('equipment-items');
-        this.heading = document.getElementById('equipment-heading');
-        if (this.heading) {
-            this.heading.textContent = Lang.ui('Equipment') || 'Equipment';
-        }
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('inventory:changed', () => this.updateItems());
             PubSub.subscribe('equipment:changed', (_, eq) => this.updateSlots(eq));
@@ -16,9 +13,12 @@ const CharacterUI = {
         this.updateItems();
     },
     updateSlots(equipped = State.equipment) {
-        if (!this.slotContainer) return;
-        this.slotContainer.innerHTML = '';
-        Object.entries(equipped).forEach(([slot, itemId]) => {
+        if (!this.leftContainer || !this.rightContainer) return;
+        this.leftContainer.innerHTML = '';
+        this.rightContainer.innerHTML = '';
+        const leftSlots = ['head', 'leftHand', 'ring1', 'pants', 'boots'];
+        const rightSlots = ['armor', 'rightHand', 'gloves', 'ring2', 'necklace'];
+        const buildSlot = (slot, itemId) => {
             const slotEl = document.createElement('div');
             slotEl.className = 'slot';
             slotEl.dataset.slot = slot;
@@ -30,6 +30,8 @@ const CharacterUI = {
                 const item = ItemGenerator.itemList.find(i => i.id === itemId);
                 if (item && item.image) {
                     slotEl.style.backgroundImage = `url(${item.image})`;
+                } else {
+                    slotEl.style.backgroundImage = 'none';
                 }
                 slotEl.dataset.tooltip = capitalize(item ? item.name : itemId);
             }
@@ -38,7 +40,13 @@ const CharacterUI = {
                     Equipment.unequip(slot);
                 }
             });
-            this.slotContainer.appendChild(slotEl);
+            return slotEl;
+        };
+        leftSlots.forEach(slot => {
+            this.leftContainer.appendChild(buildSlot(slot, equipped[slot]));
+        });
+        rightSlots.forEach(slot => {
+            this.rightContainer.appendChild(buildSlot(slot, equipped[slot]));
         });
     },
     updateItems() {

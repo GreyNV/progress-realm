@@ -3,6 +3,9 @@ const UIHandler = {
         await this.loadTabs();
         StatsUI.init();
         ResourcesUI.init();
+        if (typeof CharacterUI !== 'undefined') {
+            CharacterUI.init();
+        }
         this.buildStats();
         this.buildResources();
     },

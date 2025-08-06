@@ -4,6 +4,7 @@
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
 ### Changed
+- Added Character tab with separate character and equipment sections.
 - Equipment.equip validates item slots and infers the correct slot when unspecified.
 - Character equipment items now include an Equip button.
 - Equipment items now specify their equip slot.
