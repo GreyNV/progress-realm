@@ -8,6 +8,7 @@
 - Equipment system with equippable slots and prestige reset.
 - Emitted `prestige:updated` when prestige points are gained or reset.
 ### Changed
+- Stats and resources now initialize with zero value and zero capacity while prestige remains uncapped.
 - Resource buttons now display white text with labels before amounts, showing max/current and aligning amounts right.
 - Removed stats side panel and related UI initialization; main layout now uses two columns.
 - Tab order now lists Routines, Adventure, Belongings, then Character with updated icons.
