@@ -15,7 +15,7 @@ def test_resources_structure():
         assert isinstance(data[section], dict)
         for entry in data[section].values():
             assert entry['value'] == 0
-            assert entry['baseMax'] == 0
+            assert entry['baseMax'] == 10
             assert 'description' in entry
             assert isinstance(entry['description'], str)
 
