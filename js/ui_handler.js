@@ -3,11 +3,18 @@ const UIHandler = {
         await this.loadTabs();
         StatsUI.init();
         ResourcesUI.init();
+        this.buildStats();
+        this.buildResources();
         if (typeof CharacterUI !== 'undefined') {
             CharacterUI.init();
         }
-        this.buildStats();
-        this.buildResources();
+        if (typeof PubSub !== 'undefined') {
+            // rebuild lists when the interface language changes
+            PubSub.subscribe('lang:changed', () => {
+                this.buildStats();
+                this.buildResources();
+            });
+        }
     },
     async loadTabs() {
         try {
