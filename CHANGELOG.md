@@ -18,6 +18,7 @@
 - Inventory screen now hides equipment items; gear is handled in the character UI.
 - Character background art now reflects equipped items instead of inventory contents.
 - Added consume buttons for consumable inventory items.
+- Replaced right panel tabs with stacked Active and Log sections with collapsible headers.
 - Inventory now groups items by type with translated headers.
 - Renamed item type `food` to `consumable` and updated related logic and tests.
 - Actions now restart automatically until resources run out, then queue and wait for full recovery before resuming.
