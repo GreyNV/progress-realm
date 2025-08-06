@@ -5,9 +5,6 @@ const TICKS_PER_SECOND = 1000 / LOGIC_TICK_MS;
 let actions = {};
 
 function updateUI() {
-    StatsUI.update();
-    ResourcesUI.update();
-    MasteryUI.update();
     PrestigeUI.update();
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
@@ -76,7 +73,6 @@ async function init() {
     Lang.applyToLocations(EncounterGenerator.milestones);
     SoftCapSystem.recalculateCaps(State.inventory);
     await UIHandler.init();
-    MasteryUI.init();
     PrestigeUI.init();
     InventoryUI.init();
     HomeUI.init();
@@ -100,11 +96,7 @@ async function init() {
     TabContainer.init();
     Lang.translateUI();
     TabContainer.translate();
-    const toggleBtn = document.getElementById('toggle-left');
     StorySystem.init();
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', toggleLeftPanel);
-    }
     const settingsBtn = document.getElementById('settings-btn');
     if (settingsBtn) {
         settingsBtn.addEventListener('click', openSettings);
@@ -161,9 +153,7 @@ async function init() {
             Lang.applyToLocations(EncounterGenerator.milestones);
             Lang.translateUI();
             TabContainer.translate();
-            StatsUI.translate();
             PrestigeUI.translate();
-            ResourcesUI.translate();
             updateTaskList();
             for (let i = 0; i < State.slotCount; i++) updateSlotUI(i);
             for (let i = 0; i < State.adventureSlotCount; i++) updateAdventureSlotUI(i);
@@ -195,8 +185,6 @@ async function init() {
             updateUI();
             updateTaskList();
         });
-        PubSub.subscribe('stats:updated', updateUI);
-        PubSub.subscribe('mastery:changed', updateUI);
         PubSub.subscribe('age:advanced', updateUI);
         PubSub.subscribe('action:levelUp', updateTaskList);
         PubSub.subscribe('action:exp', updateTaskList);
