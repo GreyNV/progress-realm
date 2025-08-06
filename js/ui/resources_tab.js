@@ -17,14 +17,14 @@ const ResourcesTab = {
         li.className = 'resource-item';
         const btn = document.createElement('button');
         btn.className = 'resource-btn';
-        const amt = document.createElement('span');
-        amt.className = 'resource-amount';
-        amt.textContent = `${res.value}/${ResourceSystem.max(res)}`;
         const label = document.createElement('span');
         label.className = 'resource-label';
         label.textContent = Lang.resource(name) || capitalize(name);
-        btn.appendChild(amt);
+        const amt = document.createElement('span');
+        amt.className = 'resource-amount';
+        amt.textContent = `${ResourceSystem.max(res)}/${res.value}`;
         btn.appendChild(label);
+        btn.appendChild(amt);
         li.appendChild(btn);
         const detail = document.createElement('div');
         detail.className = 'resource-detail hidden';
@@ -61,7 +61,7 @@ const ResourcesTab = {
             this.container.appendChild(el);
             return;
         }
-        this.entries[name].amount.textContent = `${res.value}/${ResourceSystem.max(res)}`;
+        this.entries[name].amount.textContent = `${ResourceSystem.max(res)}/${res.value}`;
         this._renderMods(name, res);
     }
 };

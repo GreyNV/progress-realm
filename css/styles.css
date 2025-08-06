@@ -235,6 +235,12 @@ main {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    color: #fff;
+}
+
+.resource-btn .resource-amount {
+    margin-left: auto;
+    text-align: right;
 }
 
 .resource-detail {
