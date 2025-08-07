@@ -122,7 +122,7 @@ function retreat(resourceName, manual = false) {
     const resLabel = Lang.resource(resourceName) || resourceName;
     const msg = Lang.log('retreat', { encounter: enc, resource: resLabel }) ||
         `You had to retreat after ${enc} because you ran out of ${resLabel}.`;
-    Log.add(msg);
+    if (State.showEncounterLog) Log.add(msg);
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
     AdventureEngine.cancel(manual);

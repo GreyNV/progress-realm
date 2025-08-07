@@ -215,6 +215,7 @@ const State = {
     autoProgress: true,
     darkMode: true,
     language: 'en',
+    showEncounterLog: true,
     hideRarityEnabled: false,
     hideBelowRarity: 'rare',
     defaultActionId: DEFAULT_ACTION_ID,
