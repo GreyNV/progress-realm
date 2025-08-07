@@ -1,4 +1,21 @@
 // Handles save/load and prestige mechanics
+
+function defaultEquipment() {
+    // Returns a fresh equipment object with all slots empty.
+    return {
+        head: null,
+        armor: null,
+        leftHand: null,
+        rightHand: null,
+        pants: null,
+        boots: null,
+        gloves: null,
+        ring1: null,
+        ring2: null,
+        necklace: null
+    };
+}
+
 const SaveSystem = {
     save() {
         const actionData = {};
@@ -77,18 +94,7 @@ const SaveSystem = {
                 }
                 if (!State.equipment) {
                     // initialize equipment slots for older saves
-                    setState('equipment', {
-                        head: null,
-                        armor: null,
-                        leftHand: null,
-                        rightHand: null,
-                        pants: null,
-                        boots: null,
-                        gloves: null,
-                        ring1: null,
-                        ring2: null,
-                        necklace: null
-                    });
+                    setState('equipment', defaultEquipment());
                 }
                 if (State.banditsAmbushSeen === undefined) {
                     setState('banditsAmbushSeen', false);
@@ -175,18 +181,7 @@ const SaveSystem = {
 
         setState('inventory', {});
         // clear all equipped items
-        setState('equipment', {
-            head: null,
-            armor: null,
-            leftHand: null,
-            rightHand: null,
-            pants: null,
-            boots: null,
-            gloves: null,
-            ring1: null,
-            ring2: null,
-            necklace: null
-        });
+        setState('equipment', defaultEquipment());
         setState('homeId', null);
         setState('furniture', []);
         if (typeof PubSub !== 'undefined' && Array.isArray(FurnitureSystem.furniture)) {

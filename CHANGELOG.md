@@ -46,6 +46,7 @@
 - Default home now falls back to "Hut in the Woods" if the saved home is missing.
 
 ### Fixed
+- Equipped items now reset to empty slots after prestiging.
 - Mastery resource is rebuilt on load so saved values and modifiers persist.
 - Home slot now updates correctly after reloads and prestiges.
 - Action slots falling back to the Rest action now begin progress automatically.
