@@ -9,6 +9,7 @@
 - Equipment system with equippable slots and prestige reset.
 - Emitted `prestige:updated` when prestige points are gained or reset.
 ### Changed
+- Encounter resources are now consumed at completion instead of per tick and resource updates are emitted on resolve.
 - Resource tags now display +/- amounts and current/max values beneath action names.
 - Stats and resources now initialize with zero value and a base max of ten while prestige remains uncapped.
 - Max capacity modifiers are now summed and applied after additions, treating absent multipliers as zero.

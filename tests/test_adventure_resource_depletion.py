@@ -5,60 +5,48 @@ import subprocess
 def run_script():
     script = r"""
 const { State, ResourceSystem } = require('./js/state.js');
-const { canAfford } = require('./js/action_utils.js');
 
 global.State = State;
 global.ResourceSystem = ResourceSystem;
-global.canAfford = canAfford;
-global.updateSlotUI = () => {};
-global.setState = () => {};
-global.updateState = () => {};
-global.updateAdventureSlotUI = () => {};
-global.actions = { rest: { progress: 0, name: 'Rest' } };
+global.ItemGenerator = { itemList: [], generateFromEncounter: () => null };
+global.Inventory = { add: () => {} };
+global.Lang = { log: () => '', resource: () => '' };
+global.Log = { add: () => {} };
+global.StorySystem = { trigger: () => {} };
+
+global.PubSub = { events: [], publish(ev) { this.events.push(ev); } };
+
+const { EncounterGenerator } = require('./js/encounter.js');
+
 const encounter = {
     id: 'test',
-    getDuration() { return 1; },
-    getResourceCost() { return { energy: 1 }; }
-};
-global.EncounterGenerator = {
-    randomEncounter: () => encounter,
-    resolve: () => {},
-    updateProgressBar: () => {},
-    incrementLevel: () => {},
-    decrementLevel: () => {},
-    resetProgress: () => {},
-    populateSlots: () => {}
+    loot: {},
+    category: 'strength',
+    getResourceCost() { return { energy: 10 }; },
+    getLootMultiplier() { return 1; },
+    getLootChance() { return 0; }
 };
 
-const { AdventureEngine } = require('./js/adventure_engine.js');
+State.resources.energy = ResourceSystem.create(10, 10);
 
-State.resources.energy = ResourceSystem.create(0, 10);
-State.resources.health = ResourceSystem.create(100, 100);
-
-AdventureEngine.start();
-// Simulate the slot being blocked during the encounter
-State.slots[0].blocked = true;
-AdventureEngine.tick(1);
-
-const slot = State.adventureSlots[0];
-const actionSlot = State.slots[0];
-console.log(JSON.stringify({
-    engineActive: AdventureEngine.active,
-    activeIndex: AdventureEngine.activeIndex,
-    queue: slot.queue ? slot.queue.encounter.id : null,
-    actionId: actionSlot.actionId,
-    blocked: actionSlot.blocked
-}));
+const results = [];
+for (let i = 0; i < 20; i++) {
+    State.resources.energy.value = 10;
+    EncounterGenerator.resolve(encounter);
+    results.push(10 - State.resources.energy.value);
+}
+console.log(JSON.stringify({ consumptions: results, events: PubSub.events }));
 """
     proc = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     return json.loads(proc.stdout.strip())
 
 
-def test_default_action_restored_after_resource_depletion():
-    result = run_script()
-    assert result['engineActive'] is False
-    assert result['activeIndex'] is None
-    assert result['queue'] == 'test'
-    assert result['actionId'] == 'rest'
-    assert result['blocked'] is False
-
+def test_resource_consumption_random_within_range():
+    data = run_script()
+    consumptions = data['consumptions']
+    assert all(0 <= c <= 10 for c in consumptions)
+    assert max(consumptions) > 0
+    assert len(set(consumptions)) > 1
+    events = data['events']
+    assert len(events) == 20
+    assert all(e == 'resources:updated' for e in events)

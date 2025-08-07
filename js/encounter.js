@@ -100,10 +100,6 @@ const AdventureManager = {
     }
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = { AdventureManager, EncounterGenerator, Encounter };
-}
-
 const EncounterGenerator = {
     encounters: [],
     container: null,
@@ -244,19 +240,32 @@ const EncounterGenerator = {
             if (!State.banditsAmbushSeen) {
                 StorySystem.trigger('banditsAmbushVictory');
             }
-            return;
-        }
-        const chance = encounter.getLootChance();
-        if (Math.random() < chance) {
-            const item = ItemGenerator.generateFromEncounter(encounter);
-            if (item) {
-                const itemHTML = `<span class="rarity-${item.rarity}"><b>${item.name}</b></span>`;
-                const encHTML = `<span class="rarity-${encounter.rarity}"><b>${encounter.name}</b></span>`;
-                const msg = Lang.log('foundItem', { item: itemHTML, encounter: encHTML }) ||
-                    `You found ${itemHTML} during ${encHTML}!`;
-                Log.add(msg);
-                Inventory.add(item);
+        } else {
+            const chance = encounter.getLootChance();
+            if (Math.random() < chance) {
+                const item = ItemGenerator.generateFromEncounter(encounter);
+                if (item) {
+                    const itemHTML = `<span class="rarity-${item.rarity}"><b>${item.name}</b></span>`;
+                    const encHTML = `<span class="rarity-${encounter.rarity}"><b>${encounter.name}</b></span>`;
+                    const msg = Lang.log('foundItem', { item: itemHTML, encounter: encHTML }) ||
+                        `You found ${itemHTML} during ${encHTML}!`;
+                    Log.add(msg);
+                    Inventory.add(item);
+                }
             }
+        }
+
+        const cost = encounter.getResourceCost();
+        for (const r in cost) {
+            const amt = Math.random() * cost[r];
+            ResourceSystem.consume(State.resources[r], amt);
+        }
+        if (typeof PubSub !== 'undefined') {
+            PubSub.publish('resources:updated');
         }
     }
 };
+
+if (typeof module !== 'undefined') {
+    module.exports = { AdventureManager, EncounterGenerator, Encounter };
+}
