@@ -53,6 +53,20 @@ context.SaveSystem.prestige().then(() => {
   console.log(JSON.stringify(context.State.equipment));
 });
 """;
-    result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
+    result = subprocess.run(
+        ['node', '-e', script], capture_output=True, text=True, check=True
+    )
     data = json.loads(result.stdout.strip())
-    assert all(v is None for v in data.values())
+    expected = {
+        'head': None,
+        'armor': None,
+        'leftHand': None,
+        'rightHand': None,
+        'pants': None,
+        'boots': None,
+        'gloves': None,
+        'ring1': None,
+        'ring2': None,
+        'necklace': None,
+    }
+    assert data == expected
