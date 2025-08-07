@@ -28,11 +28,6 @@ const DeltaEngine = {
         State.adventureSlots.forEach((slot, i) => {
             encounterProgressDeltas[i] = 0;
             if (!slot.active || !slot.encounter) return;
-            const cost = slot.encounter.getResourceCost();
-            for (const r in cost) {
-                const rate = cost[r];
-                resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
-            }
             encounterProgressDeltas[i] = 1 / slot.duration;
         });
     },

@@ -85,27 +85,6 @@ const AdventureEngine = {
         }
         const slot = State.adventureSlots[this.activeIndex];
         if (!slot.encounter) return;
-        const cost = slot.encounter.getResourceCost();
-        const missing = canAfford(cost, delta);
-        if (missing) {
-            slot.queue = { encounter: slot.encounter, progress: slot.progress };
-            slot.encounter = null;
-            slot.progress = 0;
-            slot.active = false;
-            this.active = false;
-            const idx = this.activeIndex;
-            this.activeIndex = null;
-            // Reset the action slot to its default when resources run out
-            const actionSlot = State.slots[0];
-            actionSlot.actionId = State.defaultActionId;
-            actionSlot.blocked = false;
-            actionSlot.progress = actions[State.defaultActionId].progress || 0;
-            actionSlot.text = actions[State.defaultActionId] ? actions[State.defaultActionId].name : '';
-            setState(['slots', 0, 'blocked'], false);
-            updateSlotUI(0);
-            updateAdventureSlotUI(idx);
-            return;
-        }
         if (slot.progress >= 1) {
             const completedId = slot.encounter.id;
             EncounterGenerator.resolve(slot.encounter);
