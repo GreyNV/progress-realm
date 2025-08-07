@@ -169,6 +169,14 @@ async function init() {
             SaveSystem.save();
         });
     }
+    const encounterLogToggle = document.getElementById('encounter-log-toggle');
+    if (encounterLogToggle) {
+        encounterLogToggle.checked = State.showEncounterLog;
+        encounterLogToggle.addEventListener('change', () => {
+            setState('showEncounterLog', encounterLogToggle.checked);
+            SaveSystem.save();
+        });
+    }
     document.getElementById('reset-btn').addEventListener('click', () => SaveSystem.reset());
     const prestigeBtn = document.getElementById('prestige-btn');
     if (prestigeBtn) {
