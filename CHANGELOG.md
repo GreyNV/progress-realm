@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-06
 ### Added
+- Test verifying inventory consumption updates resources and emits change events.
 - Converted mastery points into a resource and added descriptions for all stats, resources and prestige values.
 - Resources tab with expandable buttons showing resource modifiers.
 - Action slots now show resource tags for costs and yields.
