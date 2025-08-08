@@ -18,13 +18,11 @@ def test_inventory_has_heading_without_equipment():
     assert 'Equipment' not in text
 
 
-def test_index_has_no_equipment_section():
+def test_index_has_equipment_section():
     path = 'index.html'
     with open(path) as f:
         text = f.read()
-    assert 'equipment-heading' not in text
-    assert 'equipment-slots' not in text
-    assert 'equipment-items' not in text
+    assert 'equipment-items' in text
 
 
 def test_uk_translation_sections():

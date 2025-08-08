@@ -61,6 +61,8 @@ global.State = {
 };
 
 global.ItemGenerator = { itemList: [{ id:'stone_spear', type:'equipment', slot:'head', name:'stone spear', rarity:'common' }] };
+global.Inventory = { getItems: () => [] };
+global.PubSub = { subscribe: () => {}, publish: () => {} };
 global.Lang = { ui: k => k };
 global.capitalize = s => s;
 
@@ -78,4 +80,74 @@ console.log(JSON.stringify({ head: State.equipment.head }));
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     data = json.loads(result.stdout.strip())
     assert data['head'] is None
+
+
+def test_equipment_appears_and_equips():
+    script = r"""
+class Elem {
+  constructor(tag) {
+    this.tagName = tag;
+    this.children = [];
+    this.className = '';
+    this.style = {};
+    this.dataset = {};
+    this.textContent = '';
+    this._innerHTML = '';
+    this.eventListeners = {};
+    this.classList = { add: () => {} };
+    Object.defineProperty(this, 'innerHTML', {
+      get: () => this._innerHTML,
+      set: v => { this._innerHTML = v; if (v === '') this.children = []; }
+    });
+  }
+  appendChild(child) { this.children.push(child); }
+  addEventListener(ev, fn) { this.eventListeners[ev] = fn; }
+  click() { if (this.eventListeners['click']) this.eventListeners['click'](); }
+}
+
+const elements = {
+  'character-slots-left': new Elem('div'),
+  'character-slots-right': new Elem('div'),
+  'equipment-items': new Elem('div'),
+  'character-image': new Elem('div')
+};
+
+global.document = {
+  getElementById(id){ return elements[id]; },
+  createElement(tag){ return new Elem(tag); }
+};
+
+global.State = {
+  equipment: { head:null, armor:null, leftHand:null, rightHand:null, pants:null, boots:null, gloves:null, ring1:null, ring2:null, necklace:null },
+  inventory: { stone_spear: { quantity: 1 } }
+};
+
+global.ItemGenerator = { itemList: [{ id:'stone_spear', type:'equipment', slot:'rightHand', name:'Stone Spear', rarity:'common' }] };
+global.Inventory = { getItems: () => [{ id:'stone_spear', type:'equipment', name:'Stone Spear', rarity:'common' }] };
+global.Lang = { ui: k => k };
+global.capitalize = s => s;
+
+global.PubSub = {
+  subs:{},
+  subscribe(ev, fn){ (this.subs[ev] = this.subs[ev] || []).push(fn); },
+  publish(ev, data){ (this.subs[ev] || []).forEach(fn => fn(ev, data)); }
+};
+
+const { Equipment } = require('./js/equipment.js');
+const { CharacterUI } = require('./js/ui/character.js');
+
+CharacterUI.init();
+
+const grid = elements['equipment-items'];
+const card = grid.children[0];
+const button = card.children.find(c => c.tagName === 'button');
+button.click();
+const slot = elements['character-slots-right'].children[1];
+console.log(JSON.stringify({ items: grid.children.length, equipped: State.equipment.rightHand, tooltip: slot.dataset.tooltip }));
+""";
+    result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
+    data = json.loads(result.stdout.strip())
+    assert data['items'] == 1
+    assert data['equipped'] == 'stone_spear'
+    assert data['tooltip'] == 'Stone Spear'
 

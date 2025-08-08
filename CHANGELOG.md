@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-06
 ### Added
+- Character tab now lists owned equipment with equip buttons.
 - Encounter system now tracks the highest encounter level reached and resets to level 1 when an adventure begins.
 - Toggle to show or hide encounter notifications via `showEncounterLog`.
 - Test verifying inventory consumption updates resources and emits change events.
