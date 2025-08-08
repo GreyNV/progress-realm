@@ -208,6 +208,7 @@ const State = {
     mastery: ResourceSystem.create(0, Infinity),
     masteryDescription: 'Earned by advancing action tiers.',
     encounterLevel: 1,
+    maxEncounterLevel: 1,
     encounterStreak: 0,
     currentAdventure: 'forest',
     adventureLevels: { forest: 1 },

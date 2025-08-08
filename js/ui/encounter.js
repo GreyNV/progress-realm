@@ -17,7 +17,7 @@ const EncounterUI = {
         const name = milestone ? milestone.name : EncounterGenerator.milestones[0].name;
         const el = document.getElementById('encounter-location');
         if (el) {
-            el.textContent = `${name} (Level ${EncounterGenerator.level})`;
+            el.textContent = `${name} (Level ${EncounterGenerator.level} (Max ${State.maxEncounterLevel}))`;
         }
     },
     updateProgressBar() {
