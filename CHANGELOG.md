@@ -13,6 +13,8 @@
 - Emitted `prestige:updated` when prestige points are gained or reset.
 - Regression test ensuring encounters retreat when resources are insufficient.
 ### Changed
+- Enlarged character image to 240px and set 80px equipment slots for a balanced character layout.
+- Visual layout test now compares screenshot hashes to avoid storing binary baselines.
 - Encounter resources are now consumed at completion instead of per tick and resource updates are emitted on resolve.
 - Resource tags now display +/- amounts and current/max values beneath action names.
 - Stats and resources now initialize with zero value and a base max of ten while prestige remains uncapped.
