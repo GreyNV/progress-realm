@@ -9,6 +9,7 @@
 - Character equipment UI for managing equippable items.
 - Equipment system with equippable slots and prestige reset.
 - Emitted `prestige:updated` when prestige points are gained or reset.
+- Regression test ensuring encounters retreat when resources are insufficient.
 ### Changed
 - Encounter resources are now consumed at completion instead of per tick and resource updates are emitted on resolve.
 - Resource tags now display +/- amounts and current/max values beneath action names.
@@ -18,6 +19,8 @@
 - Removed stats side panel and related UI initialization; main layout now uses two columns.
 - Tab order now lists Routines, Adventure, Belongings, then Character with updated icons.
 - Character image now uses a single `div` with a background image and layout auto-sizing.
+- Adventure slots now display encounter resource costs with current and max values.
+- Encounters now retreat when required resources cannot be consumed and when health, energy, or focus reach zero.
 - Resources tab listens for `resources:updated`, `stats:updated`, and `prestige:updated` events.
 - Inventory tab renamed and character equipment UI now reacts to language changes.
 - Character art now renders in a dedicated Character tab element and updates only on equipment changes.

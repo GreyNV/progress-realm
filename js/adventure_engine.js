@@ -129,8 +129,12 @@ function retreat(resourceName, manual = false) {
 }
 
 function checkHealth() {
-    if (State.resources.health.value < 0.1) {
-        retreat('health');
+    const names = ['health', 'energy', 'focus'];
+    for (const name of names) {
+        const res = State.resources && State.resources[name];
+        if (res && res.value <= 0) {
+            retreat(name);
+        }
     }
 }
 
