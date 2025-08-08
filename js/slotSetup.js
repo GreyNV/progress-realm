@@ -385,10 +385,39 @@ function updateAdventureSlotUI(i) {
                 parts.push(...lines);
             }
         }
+        const tagsEl = slotEl.querySelector('.resource-tags');
+        if (tagsEl) {
+            tagsEl.innerHTML = '';
+            const cost = slot.encounter.getResourceCost ? slot.encounter.getResourceCost() :
+                (slot.encounter.resourceConsumption || {});
+            for (const r in cost) {
+                const tag = document.createElement('div');
+                tag.className = 'resource-tag';
+                const left = document.createElement('span');
+                const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
+                left.textContent = `-${cost[r]} ${name}`;
+                const right = document.createElement('span');
+                let current = 0;
+                let max = Infinity;
+                const res = State.resources && State.resources[r];
+                if (res) {
+                    current = res.value;
+                    if (typeof ResourceSystem !== 'undefined' && ResourceSystem.max) {
+                        max = ResourceSystem.max(res);
+                    }
+                }
+                right.textContent = max === Infinity ? `${current}` : `${current}/${max}`;
+                tag.appendChild(left);
+                tag.appendChild(right);
+                tagsEl.appendChild(tag);
+            }
+        }
         slotEl.dataset.tooltip = parts.join('\n');
     } else {
         labelEl.textContent = slot.text || '';
         slotEl.style.backgroundImage = 'none';
+        const tagsEl = slotEl.querySelector('.resource-tags');
+        if (tagsEl) tagsEl.innerHTML = '';
         slotEl.dataset.tooltip = '';
     }
     const actionEl = document.querySelector(`#slots .slot[data-slot="${i}"]`);

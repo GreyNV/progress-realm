@@ -258,7 +258,10 @@ const EncounterGenerator = {
         const cost = encounter.getResourceCost();
         for (const r in cost) {
             const amt = Math.random() * cost[r];
-            ResourceSystem.consume(State.resources[r], amt);
+            if (!ResourceSystem.consume(State.resources[r], amt)) {
+                if (typeof retreat === 'function') retreat(r);
+                break;
+            }
         }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('resources:updated');
