@@ -64,6 +64,9 @@ const SaveSystem = {
                 if (State.encounterLevel === undefined) {
                     setState('encounterLevel', 1);
                 }
+                if (State.maxEncounterLevel === undefined) {
+                    setState('maxEncounterLevel', State.encounterLevel || 1);
+                }
                 if (State.encounterStreak === undefined) {
                     setState('encounterStreak', 0);
                 }
@@ -198,6 +201,7 @@ const SaveSystem = {
         setState('adventureLevels', { forest: 1 });
         setState('adventureActive', false);
         setState('encounterLevel', 1);
+        setState('maxEncounterLevel', 1);
         setState('encounterStreak', 0);
         Object.entries(preserved).forEach(([id, data]) => {
             if (actions[id]) Object.assign(actions[id], data);

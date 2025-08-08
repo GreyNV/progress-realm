@@ -6,6 +6,14 @@ const AdventureEngine = {
     start() {
         if (this.active) return;
         this.active = true;
+        EncounterGenerator.level = 1;
+        setState('encounterLevel', 1);
+        if (typeof EncounterGenerator.updateName === 'function') {
+            EncounterGenerator.updateName();
+        }
+        if (typeof EncounterGenerator.updateProgressBar === 'function') {
+            EncounterGenerator.updateProgressBar();
+        }
         const actionSlot = State.slots[0];
         actionSlot.actionId = null;
         actionSlot.progress = 0;

@@ -158,6 +158,9 @@ const EncounterGenerator = {
     incrementLevel() {
         this.level = AdventureManager.incrementLevel();
         setState('encounterLevel', this.level);
+        if (State.maxEncounterLevel === undefined || this.level > State.maxEncounterLevel) {
+            setState('maxEncounterLevel', this.level);
+        }
         this.updateName();
         this.updateProgressBar();
     },
