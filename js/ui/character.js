@@ -4,8 +4,10 @@ const CharacterUI = {
     init() {
         this.leftContainer = document.getElementById('character-slots-left');
         this.rightContainer = document.getElementById('character-slots-right');
+        this.itemsContainer = document.getElementById('equipment-items');
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('equipment:changed', (_, eq) => this.updateSlots(eq));
+            PubSub.subscribe('inventory:changed', () => this.updateItems());
             // rebuild the display when the interface language changes
             PubSub.subscribe('lang:changed', () => {
                 this.updateSlots();
@@ -13,6 +15,7 @@ const CharacterUI = {
             });
         }
         this.updateSlots(State.equipment);
+        this.updateItems();
     },
     updateSlots(equipped = State.equipment) {
         if (!this.leftContainer || !this.rightContainer) return;
@@ -49,6 +52,34 @@ const CharacterUI = {
         });
         rightSlots.forEach(slot => {
             this.rightContainer.appendChild(buildSlot(slot, equipped[slot]));
+        });
+    },
+    updateItems() {
+        if (!this.itemsContainer) return;
+        const items = Inventory.getItems()
+            .filter(it => it.type === 'equipment');
+        this.itemsContainer.innerHTML = '';
+        items.forEach(item => {
+            const slot = document.createElement('div');
+            slot.className = 'slot';
+            if (item.image) {
+                slot.style.backgroundImage = `url(${item.image})`;
+            } else {
+                slot.style.backgroundImage = 'none';
+            }
+            slot.classList.add(`rarity-${item.rarity}`);
+            const label = document.createElement('span');
+            label.className = 'label';
+            label.textContent = capitalize(item.name);
+            slot.appendChild(label);
+            const btn = document.createElement('button');
+            btn.textContent = Lang.ui('Equip') || 'Equip';
+            btn.addEventListener('click', (e) => {
+                if (e) e.stopPropagation();
+                Equipment.equip(item.id);
+            });
+            slot.appendChild(btn);
+            this.itemsContainer.appendChild(slot);
         });
     }
 };
