@@ -1,86 +1,20 @@
 # Changelog
 ## [0.41.67] - 2025-08-06
 ### Added
-- Character tab now lists owned equipment with equip buttons.
-- Encounter system now tracks the highest encounter level reached and resets to level 1 when an adventure begins.
-- Toggle to show or hide encounter notifications via `showEncounterLog`.
-- Test verifying inventory consumption updates resources and emits change events.
-- Converted mastery points into a resource and added descriptions for all stats, resources and prestige values.
-- Resources tab with expandable buttons showing resource modifiers.
-- Action slots now show resource tags for costs and yields.
-- Character equipment UI for managing equippable items.
-- Equipment system with equippable slots and prestige reset.
-- Emitted `prestige:updated` when prestige points are gained or reset.
-- Regression test ensuring encounters retreat when resources are insufficient.
+- Character tab with equipment management and consumable buttons.
+- Resources tab and action slots show costs, yields, and modifiers with expandable details.
+- Adventure system tracks max encounter level, toggles notifications, and retreats on resource depletion.
+- Tests cover resource consumption, encounter retreats, and equipment flows.
+
 ### Changed
-- Enlarged character image to 240px and set 80px equipment slots for a balanced character layout.
-- Visual layout test now compares screenshot hashes to avoid storing binary baselines.
-- Encounter resources are now consumed at completion instead of per tick and resource updates are emitted on resolve.
-- Resource tags now display +/- amounts and current/max values beneath action names.
-- Stats and resources now initialize with zero value and a base max of ten while prestige remains uncapped.
-- Max capacity modifiers are now summed and applied after additions, treating absent multipliers as zero.
-- Resource buttons now display white text with labels before amounts, showing max/current and aligning amounts right.
-- Removed stats side panel and related UI initialization; main layout now uses two columns.
-- Tab order now lists Routines, Adventure, Belongings, then Character with updated icons.
-- Character image now uses a single `div` with a background image and layout auto-sizing.
-- Adventure slots now display encounter resource costs with current and max values.
-- Encounters now retreat when required resources cannot be consumed and when health, energy, or focus reach zero.
-- Resources tab listens for `resources:updated`, `stats:updated`, and `prestige:updated` events.
-- Inventory tab renamed and character equipment UI now reacts to language changes.
-- Character art now renders in a dedicated Character tab element and updates only on equipment changes.
-- Added Character tab with separate character and equipment sections.
-- Equipment.equip validates item slots and infers the correct slot when unspecified.
-- Character equipment items now include an Equip button.
-- Equipment items now specify their equip slot.
-- Inventory screen now hides equipment items; gear is handled in the character UI.
-- Character background art now reflects equipped items instead of inventory contents.
-- Added consume buttons for consumable inventory items.
-- Replaced right panel tabs with stacked Active and Log sections with collapsible headers.
-- Inventory now groups items by type with translated headers.
-- Renamed item type `food` to `consumable` and updated related logic and tests.
-- Actions now restart automatically until resources run out, then queue and wait for full recovery before resuming.
-- Action slot now resets to the default action if an encounter ends due to resource depletion.
-- Adventure encounters pause on resource depletion and resume when resources are fully restored.
-- Queued actions now wait for all related resources to reach their maximum before starting or resuming.
-- Adventure details now show a short description when expanded.
-- Removed equipment listings from inventory belongings and filtered inventory UI to show only consumables and resources.
-- Adventure list uses expandable buttons with encounter previews and cancels when resources run out.
-- Items now have types and consumables restore resources instead of granting soft caps.
-- Adventure tab now requires manual activation and shows encounters in the Active slot.
-- Current encounter now appears in the action slot while adventuring.
-- Action buttons show level progress with a darkening background instead of text.
-- Resource costs are deducted at the start of every action cycle.
-- Furniture purchases no longer replace existing pieces; repairing uses scaled cost.
-- Tab layout moved to bottom on mobile with collapsible sections via new TabContainer.
-- Tabs use icons in a fixed footer and old footer actions moved into the settings modal.
-- Default home now falls back to "Hut in the Woods" if the saved home is missing.
+- Layout reworked: two-column main view; character image enlarged and centered; tabs reordered with new icons.
+- Resources and stats start at zero with base max ten; modifiers sum after additions; prestige and mastery remain uncapped.
+- Encounters consume resources on completion and queued actions wait for full recovery before resuming.
 
 ### Fixed
-- Equipped items now reset to empty slots after prestiging.
-- Mastery resource is rebuilt on load so saved values and modifiers persist.
-- Home slot now updates correctly after reloads and prestiges.
-- Action slots falling back to the Rest action now begin progress automatically.
-- Active slots moved next to the log as a tab and reduced to one slot.
-- Prestige now reassigns the default hut immediately to prevent an empty home slot.
-- Fixed missing default property in Home constructor so default home loads correctly.
-- Actions now cost resources on activation and store progress when interrupted.
-- Resource yields now grant rewards on completion rather than per second.
-- Action buttons display experience progress toward the next level.
-- Action list refreshes when experience is gained and shows a red outline when an action is unaffordable.
-- Tooltips removed from action, home and furniture buttons. Buttons can expand to show details with calculated yields.
-- Expand arrows moved to the right side of buttons and belongings lists remember expanded items.
-- Furniture destruction now triggers a `furniture:destroyed` event to lock its actions.
-- Prestige removes furniture-unlocked actions using the new event.
-- Added AdventureManager with per-adventure encounter pools and levels.
-- Clicking an action now assigns it directly to an available slot.
-- Removed the Recover encounter and related logic.
-- Blocked actions are queued and resume automatically once resources recover.
-
-### Fixed
-- Resolved misplaced braces in the inventory UI loop that broke item rendering.
-- Resource and stat max calculations no longer fail when modifier arrays are undefined.
-- Resources without a `baseMax` now default to zero to avoid `NaN` values.
-
+- Equipped gear clears on prestige and character art updates from equipment.
+- Resource and stat max calculations handle missing modifiers and defaults.
+- Inventory and resource UIs refresh correctly and hide equipment items.
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Research progress now persists through prestiges.
