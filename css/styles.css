@@ -597,6 +597,10 @@ li.unaffordable {
         display: flex;
         flex-direction: column;
     }
+    .character-layout .slot {
+        width: 60px;
+        height: 60px;
+    }
     #inventory-slots {
         grid-template-columns: repeat(3, 1fr);
     }

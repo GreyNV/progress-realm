@@ -7,6 +7,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Character slots shrink to 60px on small screens.
 - Character tab background now uses the section container; removed separate character-image element and updated CSS/JS.
 - Layout reworked: two-column main view; character image enlarged and centered; tabs reordered with new icons.
 - Resources and stats start at zero with base max ten; modifiers sum after additions; prestige and mastery remain uncapped.
