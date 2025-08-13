@@ -7,6 +7,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Character tab background now uses the section container; removed separate character-image element and updated CSS/JS.
 - Layout reworked: two-column main view; character image enlarged and centered; tabs reordered with new icons.
 - Resources and stats start at zero with base max ten; modifiers sum after additions; prestige and mastery remain uncapped.
 - Encounters consume resources on completion and queued actions wait for full recovery before resuming.
