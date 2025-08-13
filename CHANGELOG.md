@@ -13,6 +13,7 @@
 - Encounters consume resources on completion and queued actions wait for full recovery before resuming.
 
 ### Fixed
+- Character layout slots stack vertically on small screens.
 - Equipped gear clears on prestige and character art updates from equipment.
 - Resource and stat max calculations handle missing modifiers and defaults.
 - Inventory and resource UIs refresh correctly and hide equipment items.
