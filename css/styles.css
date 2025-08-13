@@ -592,6 +592,11 @@ li.unaffordable {
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
     }
+    /* Stack character slots vertically on narrow screens */
+    .character-layout .slots {
+        display: flex;
+        flex-direction: column;
+    }
     #inventory-slots {
         grid-template-columns: repeat(3, 1fr);
     }
