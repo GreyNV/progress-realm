@@ -8,7 +8,7 @@ class Elem {
   constructor(){ this.style = {}; }
 }
 const elem = new Elem();
-global.document = { getElementById: () => elem };
+global.document = { querySelector: () => elem };
 global.PubSub = {
   events: {},
   subscribe(ev, fn){ this.events[ev] = fn; },

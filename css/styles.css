@@ -687,6 +687,9 @@ body.dark {
     grid-template-columns: 1fr 240px 1fr;
     gap: 1rem;
     align-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
 
 .character-layout .slots {
@@ -702,13 +705,3 @@ body.dark {
     flex: 0 0 auto;
 }
 
-.character-image {
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-#character-image {
-    width: 240px;
-    height: 240px;
-}
