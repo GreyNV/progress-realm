@@ -714,3 +714,12 @@ body.dark {
     flex: 0 0 auto;
 }
 
+/* Position left and right character slots */
+#character-slots-left {
+    grid-column: 1;
+}
+
+#character-slots-right {
+    grid-column: 3;
+}
+
