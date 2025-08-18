@@ -608,6 +608,14 @@ li.unaffordable {
         display: flex;
         flex-direction: column;
     }
+    /* Keep footer fixed on small screens */
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+    }
 }
 
 .story-image {
