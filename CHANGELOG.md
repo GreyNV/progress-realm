@@ -7,6 +7,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Equipment slots use a translucent background and semi-transparent opacity for equipped items.
 - Character slots shrink to 60px on small screens.
 - Character tab background now uses the section container; removed separate character-image element and updated CSS/JS.
 - Layout reworked: two-column main view; character image enlarged and centered; tabs reordered with new icons.
