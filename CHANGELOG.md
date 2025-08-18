@@ -1,5 +1,5 @@
 # Changelog
-## [0.41.67] - 2025-08-06
+## [0.41.67] - 2025-08-14
 ### Added
 - Character tab with equipment management and consumable buttons.
 - Resources tab and action slots show costs, yields, and modifiers with expandable details.
@@ -12,6 +12,7 @@
 - Layout reworked: two-column main view; character image enlarged and centered; tabs reordered with new icons.
 - Resources and stats start at zero with base max ten; modifiers sum after additions; prestige and mastery remain uncapped.
 - Encounters consume resources on completion and queued actions wait for full recovery before resuming.
+- Fixed character background initialization and styling to apply background to the entire character tab section.
 
 ### Fixed
 - Character layout slots stack vertically on small screens.

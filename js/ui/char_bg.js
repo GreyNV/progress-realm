@@ -6,7 +6,7 @@ const CharacterBackground = {
     fullGearImage: 'assets/char/set+sword.png',
     container: null,
     init() {
-        this.container = document.querySelector('.tab-section[data-section="character"] .character-layout');
+        this.container = document.querySelector('.tab-section[data-section="character"]');
         if (!this.container) return;
         this.container.style.backgroundImage = `url(${this.baseImage})`;
         if (typeof PubSub !== 'undefined') {
