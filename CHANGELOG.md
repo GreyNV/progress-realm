@@ -15,6 +15,7 @@
 - Fixed character background initialization and styling to apply background to the entire character tab section.
 
 ### Fixed
+- Footer stays fixed at the bottom on small screens with padding preventing overlap.
 - Character layout slots stack vertically on small screens.
 - Equipped gear clears on prestige and character art updates from equipment.
 - Resource and stat max calculations handle missing modifiers and defaults.
