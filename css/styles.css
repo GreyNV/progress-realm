@@ -691,14 +691,17 @@ body.dark {
     color: var(--chip-color);
 }
 
+.tab-section[data-section="character"] {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
 .character-layout {
     display: grid;
     grid-template-columns: 1fr 240px 1fr;
     gap: 1rem;
     align-items: center;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
 }
 
 .character-layout .slots {
