@@ -14,6 +14,7 @@
 - Encounters consume resources on completion and queued actions wait for full recovery before resuming.
 
 ### Fixed
+- Footer stays fixed at the bottom on small screens with padding preventing overlap.
 - Character layout slots stack vertically on small screens.
 - Equipped gear clears on prestige and character art updates from equipment.
 - Resource and stat max calculations handle missing modifiers and defaults.
