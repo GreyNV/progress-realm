@@ -35,8 +35,8 @@ footer {
     padding: 0.5rem 1rem;
     position: fixed;
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     display: flex;
     justify-content: space-around;
     z-index: 20;
@@ -154,8 +154,8 @@ footer {
 .modal {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     bottom: 0;
     background: rgba(0,0,0,0.6);
     display: flex;
@@ -239,7 +239,7 @@ main {
 }
 
 .resource-btn .resource-amount {
-    margin-left: auto;
+    margin-inline-start: auto;
     text-align: right;
 }
 
@@ -273,7 +273,7 @@ main {
 #task-list li .level-fill {
     position: absolute;
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
     bottom: 0;
     width: 0%;
     background: rgba(0, 0, 0, 0.3);
@@ -427,8 +427,8 @@ main {
 .progress-wrapper .progress-text {
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     bottom: 0;
     display: flex;
     align-items: center;
@@ -441,8 +441,8 @@ main {
 .slot .label {
     position: absolute;
     top: 1.2rem;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     text-align: center;
     font-size: 0.8rem;
     pointer-events: none;
@@ -452,8 +452,8 @@ main {
 .slot .count {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     text-align: center;
     font-size: 0.8rem;
     pointer-events: none;
@@ -463,7 +463,7 @@ main {
 .slot .consume-btn {
     position: absolute;
     top: 2px;
-    right: 2px;
+    inset-inline-end: 2px;
     font-size: 0.6rem;
     padding: 0 2px;
     border: none;
@@ -533,7 +533,7 @@ li.unaffordable {
 
 .expand-arrow {
     cursor: pointer;
-    margin-left: 0.25rem;
+    margin-inline-start: 0.25rem;
 }
 
 .expand-details {
@@ -580,7 +580,7 @@ li.unaffordable {
 .delta {
     color: #666;
     font-size: 0.8rem;
-    margin-left: 0.25rem;
+    margin-inline-start: 0.25rem;
 }
 
 @media (max-width: 700px) {
@@ -612,8 +612,8 @@ li.unaffordable {
     footer {
         position: fixed;
         bottom: 0;
-        left: 0;
-        right: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
         z-index: 20;
     }
 }
@@ -644,7 +644,7 @@ li.unaffordable {
 
 .collapsible-section .section-header .arrow {
     display: inline-block;
-    margin-right: 0.25rem;
+    margin-inline-end: 0.25rem;
     transition: transform 0.2s;
     transform: rotate(90deg);
 }

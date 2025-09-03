@@ -8,7 +8,7 @@ function setupTooltips() {
         const text = e.target.dataset.tooltip;
         if (!text) return;
         tooltip.innerHTML = text;
-        tooltip.style.left = e.pageX + 'px';
+        tooltip.style.insetInlineStart = e.pageX + 'px';
         tooltip.style.top = (e.pageY + 10) + 'px';
         tooltip.style.display = 'block';
     }

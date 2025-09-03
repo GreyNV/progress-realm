@@ -1,14 +1,14 @@
 import os
 
 
-def test_expand_arrow_margin_left():
+def test_expand_arrow_margin_inline_start():
     with open(os.path.join('css', 'styles.css')) as f:
         text = f.read()
     start = text.find('.expand-arrow')
     assert start != -1
     snippet = text[start:start+80]
-    assert 'margin-left' in snippet
-    assert 'margin-right' not in snippet
+    assert 'margin-inline-start' in snippet
+    assert 'margin-inline-end' not in snippet
 
 
 def test_home_ui_expanded_state():
