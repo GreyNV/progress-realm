@@ -16,6 +16,7 @@
 - Fixed character background initialization and styling to apply background to the entire character tab section.
 
 ### Fixed
+- Panels stack on small screens and the log panel avoids the fixed footer.
 - Footer stays fixed at the bottom on small screens with padding preventing overlap.
 - Character layout slots stack vertically on small screens.
 - Equipped gear clears on prestige and character art updates from equipment.

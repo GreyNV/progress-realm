@@ -194,6 +194,8 @@ main {
     padding: 1rem;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #task-list {
@@ -607,6 +609,9 @@ li.unaffordable {
     #adventure-slots {
         display: flex;
         flex-direction: column;
+    }
+    .log-panel {
+        margin-bottom: 4rem;
     }
     /* Keep footer fixed on small screens */
     footer {
