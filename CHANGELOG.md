@@ -7,6 +7,8 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Switched margin and positioning to logical `*-inline-*` properties for RTL support.
+- Added `left`/`right` fallbacks for footer and modal to support engines lacking logical property support.
 - Tab content now includes padding and sections stretch full width, stacking on small screens.
 - Standardized heading and label typography with global rules and utility class.
 - Equipment slots use a translucent background and semi-transparent opacity for equipped items.
