@@ -35,11 +35,20 @@ footer {
     padding: 0.5rem 1rem;
     position: fixed;
     bottom: 0;
-    inset-inline-start: 0;
-    inset-inline-end: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-around;
     z-index: 20;
+}
+
+@supports (inset-inline-start: 0) {
+    footer {
+        left: unset;
+        right: unset;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+    }
 }
 
 #stats {
@@ -154,14 +163,23 @@ footer {
 .modal {
     position: fixed;
     top: 0;
-    inset-inline-start: 0;
-    inset-inline-end: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
     background: rgba(0,0,0,0.6);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 20;
+}
+
+@supports (inset-inline-start: 0) {
+    .modal {
+        left: unset;
+        right: unset;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+    }
 }
 
 .modal-content {

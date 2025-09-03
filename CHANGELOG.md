@@ -8,6 +8,7 @@
 
 ### Changed
 - Switched margin and positioning to logical `*-inline-*` properties for RTL support.
+- Added `left`/`right` fallbacks for footer and modal to support engines lacking logical property support.
 - Equipment slots use a translucent background and semi-transparent opacity for equipped items.
 - Character slots shrink to 60px on small screens.
 - Character tab background now uses the section container; removed separate character-image element and updated CSS/JS.
