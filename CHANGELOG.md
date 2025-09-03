@@ -1,6 +1,7 @@
 # Changelog
-## [0.41.67] - 2025-08-14
+## [0.41.67] - 2025-08-20
 ### Added
+- Base stylesheet with shared variables, spacing utilities, and typography rules.
 - Theme variables and `[data-theme]` attribute enable light and dark themes.
 - Character tab with equipment management and consumable buttons.
 - Resources tab and action slots show costs, yields, and modifiers with expandable details.
@@ -8,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Header, footer, and various components now rely on spacing utilities.
 - Switched margin and positioning to logical `*-inline-*` properties for RTL support.
 - Added `left`/`right` fallbacks for footer and modal to support engines lacking logical property support.
 - Tab content now includes padding and sections stretch full width, stacking on small screens.
@@ -31,6 +33,7 @@
 - Resource and stat max calculations handle missing modifiers and defaults.
 - Inventory and resource UIs refresh correctly and hide equipment items.
 - Character slot containers stay in correct left and right grid columns.
+- Updated visual layout hashes to match base stylesheet adjustments.
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Research progress now persists through prestiges.
