@@ -1,12 +1,14 @@
 # Changelog
-## [0.41.67] - 2025-08-14
+## [0.41.67] - 2025-08-20
 ### Added
+- Base stylesheet with shared variables, spacing utilities, and typography rules.
 - Character tab with equipment management and consumable buttons.
 - Resources tab and action slots show costs, yields, and modifiers with expandable details.
 - Adventure system tracks max encounter level, toggles notifications, and retreats on resource depletion.
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Header, footer, and various components now rely on spacing utilities.
 - Equipment slots use a translucent background and semi-transparent opacity for equipped items.
 - Character slots shrink to 60px on small screens.
 - Character tab background now uses the section container; removed separate character-image element and updated CSS/JS.

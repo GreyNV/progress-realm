@@ -1,17 +1,4 @@
-:root {
-    --bg-color: #f5f5f5;
-    --panel-bg: #fff;
-    --text-color: #000;
-    --header-bg: #333;
-    --header-text: #fff;
-    --task-bg: #eee;
-    --slot-bg: #333;
-    --chip-color: #0066ff;
-}
-
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
     display: grid;
@@ -19,20 +6,14 @@ body {
     height: 100vh;
 }
 
-header h1 {
-    margin: 0;
-}
-
 header {
     background: var(--header-bg);
     color: var(--header-text);
-    padding: 0.5rem 1rem;
 }
 
 footer {
     background: var(--header-bg);
     color: var(--header-text);
-    padding: 0.5rem 1rem;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -43,7 +24,6 @@ footer {
 }
 
 #stats {
-    font-family: sans-serif;
     color: white;
 }
 
@@ -51,7 +31,7 @@ footer {
 #stats h3 {
     background-color: rgba(0, 0, 0, 0.6);
     display: inline-block;
-    padding: 0.2em 0.5em;
+    padding: var(--space-xs) var(--space-sm);
     border-radius: 4px;
 }
 
@@ -59,12 +39,12 @@ footer {
 #prestige-block ul {
     list-style: none;
     padding: 0;
-    margin: 0.5em 0;
+    margin: var(--space-sm) 0;
 }
 
 #stats-list li,
 #prestige-block li {
-    margin: 0.3em 0;
+    margin: var(--space-xs) 0;
 }
 
 #prestige-block {
@@ -74,7 +54,7 @@ footer {
 #stats-list li span,
 #prestige-block li span {
     background-color: rgba(0, 0, 0, 0.6);
-    padding: 0.1em 0.3em;
+    padding: calc(var(--space-xs) / 2) var(--space-sm);
     border-radius: 4px;
     display: inline-block;
     color: white;
@@ -87,7 +67,6 @@ footer {
 
 #mastery,
 #resources {
-    font-family: sans-serif;
     color: white;
 }
 
@@ -95,15 +74,15 @@ footer {
 #resources h2 {
     background-color: rgba(0, 0, 0, 0.6);
     display: inline-block;
-    padding: 0.2em 0.5em;
+    padding: var(--space-xs) var(--space-sm);
     border-radius: 4px;
-    margin-bottom: 0.5em;
+    margin-bottom: var(--space-sm);
 }
 
 #mastery span,
 #resources-list span {
     background-color: rgba(0, 0, 0, 0.6);
-    padding: 0.1em 0.3em;
+    padding: calc(var(--space-xs) / 2) var(--space-sm);
     border-radius: 4px;
     display: inline-block;
     color: white;
@@ -112,21 +91,21 @@ footer {
 #resources-list {
     list-style: none;
     padding: 0;
-    margin: 0.5em 0;
+    margin: var(--space-sm) 0;
 }
 
 #resources-list li {
-    margin: 0.3em 0;
+    margin: var(--space-xs) 0;
     color: white;
 }
 
 .resource-bar {
     width: 100%;
-    height: 0.5rem;
+    height: var(--space-sm);
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 4px;
     overflow: hidden;
-    margin: 0.2em 0;
+    margin: var(--space-xs) 0;
 }
 
 .resource-bar-fill {
@@ -167,31 +146,31 @@ footer {
 .modal-content {
     background: var(--panel-bg);
     color: var(--text-color);
-    padding: 1rem;
+    padding: var(--space-md);
     border-radius: 4px;
     max-width: 400px;
     text-align: center;
 }
 
 .footer-actions {
-    margin-top: 1rem;
+    margin-top: var(--space-md);
     display: flex;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     justify-content: center;
 }
 
 main {
     display: grid;
     grid-template-columns: 2fr minmax(180px, 1fr);
-    gap: 1rem;
-    padding: 1rem;
-    padding-bottom: 3rem;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    padding-bottom: calc(var(--space-md) * 3);
     align-items: start;
 }
 
 .panel {
     background: var(--panel-bg);
-    padding: 1rem;
+    padding: var(--space-md);
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -214,7 +193,7 @@ main {
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.5rem;
+    gap: var(--space-sm);
 }
 
 #resource-list {
@@ -223,7 +202,7 @@ main {
 }
 
 .resource-item {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-sm);
 }
 
 .resource-btn {
@@ -231,7 +210,7 @@ main {
     display: flex;
     justify-content: space-between;
     background: var(--task-bg);
-    padding: 0.5rem;
+    padding: var(--space-sm);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -244,16 +223,16 @@ main {
 }
 
 .resource-detail {
-    margin-top: 0.25rem;
+    margin-top: var(--space-xs);
     background: var(--task-bg);
-    padding: 0.5rem;
+    padding: var(--space-sm);
     border-radius: 4px;
 }
 
 #task-list li {
     background: var(--task-bg);
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
+    margin-bottom: var(--space-sm);
+    padding: var(--space-sm);
     cursor: grab;
     border-radius: 4px;
     position: relative;
@@ -262,8 +241,8 @@ main {
 
 #adventure-list li {
     background: var(--task-bg);
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
+    margin-bottom: var(--space-sm);
+    padding: var(--space-sm);
     cursor: pointer;
     border-radius: 4px;
     position: relative;
@@ -291,8 +270,8 @@ main {
 #research-list li,
 #chip-list li {
     background: var(--task-bg);
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
+    margin-bottom: var(--space-sm);
+    padding: var(--space-sm);
     cursor: grab;
     border-radius: 4px;
 }
@@ -308,15 +287,15 @@ main {
 
 .slots {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
 }
 
 .slot-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-sm);
 }
 
 #adventure-slots {
@@ -342,43 +321,43 @@ main {
 
 #inventory-slots > h3 {
     grid-column: 1 / -1;
-    margin: 0.5rem 0;
+    margin: var(--space-sm) 0;
 }
 
 
 #encounter-location {
     font-style: italic;
-    margin-top: 0.5rem;
+    margin-top: var(--space-sm);
 }
 
 #encounter-level-progress {
     width: 100%;
-    height: 0.5rem;
-    margin-top: 0.25rem;
+    height: var(--space-sm);
+    margin-top: var(--space-xs);
     display: block;
 }
 
 #adventure-controls {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
 }
 
 #adventure-controls label {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: var(--space-xs);
 }
 
 #return-btn {
-    margin-top: 0.5rem;
+    margin-top: var(--space-sm);
 }
 
 .slot {
     flex: 1;
     border: 4px solid #ccc;
-    padding: 0.5rem;
+    padding: var(--space-sm);
     min-height: 5rem;
     position: relative;
     display: flex;
@@ -397,7 +376,7 @@ main {
 .slot .resource-tags {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-xs);
     pointer-events: none;
 }
 
@@ -406,7 +385,7 @@ main {
     justify-content: space-between;
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
-    padding: 0 0.25rem;
+    padding: 0 var(--space-xs);
     border-radius: 3px;
     font-size: 0.6rem;
 }
@@ -420,7 +399,7 @@ main {
 
 .progress-wrapper progress {
     width: 100%;
-    height: 1rem;
+    height: var(--space-md);
     display: block;
 }
 
@@ -475,7 +454,7 @@ main {
     position: absolute;
     background: #333;
     color: #fff;
-    padding: 0.25rem 0.5rem;
+    padding: var(--space-xs) var(--space-sm);
     border-radius: 4px;
     font-size: 0.75rem;
     pointer-events: none;
@@ -533,13 +512,13 @@ li.unaffordable {
 
 .expand-arrow {
     cursor: pointer;
-    margin-left: 0.25rem;
+    margin-left: var(--space-xs);
 }
 
 .expand-details {
     display: none;
     font-size: 0.85rem;
-    margin-top: 0.25rem;
+    margin-top: var(--space-xs);
 }
 
 .expandable.expanded .expand-details {
@@ -548,7 +527,7 @@ li.unaffordable {
 
 .tab-headers {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     justify-content: space-around;
     flex-wrap: wrap;
 }
@@ -568,8 +547,8 @@ li.unaffordable {
 
 .section-headers {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
 }
 
 .section-headers button.active {
@@ -580,7 +559,7 @@ li.unaffordable {
 .delta {
     color: #666;
     font-size: 0.8rem;
-    margin-left: 0.25rem;
+    margin-left: var(--space-xs);
 }
 
 @media (max-width: 700px) {
@@ -590,7 +569,7 @@ li.unaffordable {
     .slots {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
+        gap: var(--space-sm);
     }
     /* Stack character slots vertically on narrow screens */
     .character-layout .slots {
@@ -622,7 +601,7 @@ li.unaffordable {
     background: #ccc;
     width: 320px;
     height: 320px;
-    margin: 0 auto 1rem;
+    margin: 0 auto var(--space-md);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -644,7 +623,7 @@ li.unaffordable {
 
 .collapsible-section .section-header .arrow {
     display: inline-block;
-    margin-right: 0.25rem;
+    margin-right: var(--space-xs);
     transition: transform 0.2s;
     transform: rotate(90deg);
 }
@@ -654,7 +633,7 @@ li.unaffordable {
 }
 
 .collapsible-section .section-body {
-    margin-top: 0.5rem;
+    margin-top: var(--space-sm);
 }
 
 .log-container {
@@ -663,11 +642,11 @@ li.unaffordable {
 }
 
 .log-view {
-    padding-right: 0.5rem;
+    padding-right: var(--space-sm);
 }
 
 .log-entry {
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--space-xs);
     font-size: 0.9rem;
 }
 
@@ -708,7 +687,7 @@ body.dark {
 .character-layout {
     display: grid;
     grid-template-columns: 1fr 240px 1fr;
-    gap: 1rem;
+    gap: var(--space-md);
     align-items: center;
 }
 
@@ -723,7 +702,7 @@ body.dark {
     border: 2px solid rgba(255, 255, 255, 0.9);
     background-color: rgba(85, 85, 85, 0.5);
     opacity: 0.8;
-    padding: 0.25rem;
+    padding: var(--space-xs);
     flex: 0 0 auto;
 }
 
