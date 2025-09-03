@@ -15,6 +15,7 @@
 - Encounters consume resources on completion and queued actions wait for full recovery before resuming.
 - Fixed character background initialization and styling to apply background to the entire character tab section.
 - Defined reusable spacing variables and applied them to tab headings and section bodies; removed hardcoded slot spacing.
+- Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
 - Footer stays fixed at the bottom on small screens with padding preventing overlap.
