@@ -10,6 +10,19 @@
     --chip-color: #0066ff;
     --space-sm: 0.5rem;
     --space-md: 1rem;
+
+    /* Typography */
+    --font-h2: 1.25rem;
+    --font-h3: 1rem;
+    --font-span: 0.9rem;
+    --font-label: 0.8rem;
+    --font-weight-normal: 400;
+    --font-weight-bold: 600;
+    /* Heading utility */
+    --heading-bg: rgba(0, 0, 0, 0.6);
+    --heading-padding: 0.2em 0.5em;
+    --heading-radius: 4px;
+    --heading-margin-bottom: 0.5em;
 }
 
 body {
@@ -45,17 +58,43 @@ footer {
     z-index: 20;
 }
 
+/* Global typography */
+h2 {
+    font-size: var(--font-h2);
+    font-weight: var(--font-weight-bold);
+}
+
+h3 {
+    font-size: var(--font-h3);
+    font-weight: var(--font-weight-bold);
+}
+
+span {
+    font-size: var(--font-span);
+    font-weight: var(--font-weight-normal);
+}
+
+.label {
+    font-size: var(--font-label);
+    font-weight: var(--font-weight-bold);
+}
+
+/* Utility heading style */
+#stats h2,
+#stats h3,
+#mastery h2,
+#resources h2,
+.section-heading {
+    background-color: var(--heading-bg);
+    display: inline-block;
+    padding: var(--heading-padding);
+    border-radius: var(--heading-radius);
+    margin-bottom: var(--heading-margin-bottom);
+}
+
 #stats {
     font-family: sans-serif;
     color: white;
-}
-
-#stats h2,
-#stats h3 {
-    background-color: rgba(0, 0, 0, 0.6);
-    display: inline-block;
-    padding: 0.2em 0.5em;
-    border-radius: 4px;
 }
 
 #stats-list,
@@ -92,15 +131,6 @@ footer {
 #resources {
     font-family: sans-serif;
     color: white;
-}
-
-#mastery h2,
-#resources h2 {
-    background-color: rgba(0, 0, 0, 0.6);
-    display: inline-block;
-    padding: 0.2em 0.5em;
-    border-radius: 4px;
-    margin-bottom: 0.5em;
 }
 
 #mastery span,
@@ -455,7 +485,6 @@ main {
     left: 0;
     right: 0;
     text-align: center;
-    font-size: 0.8rem;
     pointer-events: none;
     color: #fff;
 }
