@@ -7,6 +7,8 @@
     --task-bg: #eee;
     --slot-bg: #333;
     --chip-color: #0066ff;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
 }
 
 body {
@@ -309,7 +311,6 @@ main {
 .slots {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
 }
 
 .slot-wrapper {
@@ -566,6 +567,10 @@ li.unaffordable {
     display: none;
 }
 
+.tab-section h2 {
+    margin-block-start: var(--space-sm);
+}
+
 .section-headers {
     display: flex;
     gap: 0.5rem;
@@ -653,8 +658,12 @@ li.unaffordable {
     transform: rotate(0deg);
 }
 
+.section-body {
+    margin-block-start: var(--space-md);
+}
+
 .collapsible-section .section-body {
-    margin-top: 0.5rem;
+    margin-block-start: var(--space-sm);
 }
 
 .log-container {
@@ -714,7 +723,6 @@ body.dark {
 
 .character-layout .slots {
     flex-direction: column;
-    margin-top: 0;
 }
 
 .character-layout .slot {
