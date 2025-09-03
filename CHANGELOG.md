@@ -9,6 +9,8 @@
 ### Changed
 - Switched margin and positioning to logical `*-inline-*` properties for RTL support.
 - Added `left`/`right` fallbacks for footer and modal to support engines lacking logical property support.
+- Tab content now includes padding and sections stretch full width, stacking on small screens.
+- Standardized heading and label typography with global rules and utility class.
 - Equipment slots use a translucent background and semi-transparent opacity for equipped items.
 - Character slots shrink to 60px on small screens.
 - Character tab background now uses the section container; removed separate character-image element and updated CSS/JS.
@@ -16,8 +18,12 @@
 - Resources and stats start at zero with base max ten; modifiers sum after additions; prestige and mastery remain uncapped.
 - Encounters consume resources on completion and queued actions wait for full recovery before resuming.
 - Fixed character background initialization and styling to apply background to the entire character tab section.
+- Slot elements now use CSS variables for borders and feature rounded corners, shadows, and hover transitions.
+- Defined reusable spacing variables and applied them to tab headings and section bodies; removed hardcoded slot spacing.
+- Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Panels stack on small screens and the log panel avoids the fixed footer.
 - Footer stays fixed at the bottom on small screens with padding preventing overlap.
 - Character layout slots stack vertically on small screens.
 - Equipped gear clears on prestige and character art updates from equipment.
