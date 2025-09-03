@@ -14,6 +14,7 @@
 - Resources and stats start at zero with base max ten; modifiers sum after additions; prestige and mastery remain uncapped.
 - Encounters consume resources on completion and queued actions wait for full recovery before resuming.
 - Fixed character background initialization and styling to apply background to the entire character tab section.
+- Defined reusable spacing variables and applied them to tab headings and section bodies; removed hardcoded slot spacing.
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
