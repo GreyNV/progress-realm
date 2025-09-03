@@ -1,6 +1,6 @@
 // Misc story-related helpers
 function applyDarkMode() {
-    document.body.classList.toggle('dark', State.darkMode);
+    document.body.dataset.theme = State.darkMode ? 'dark' : 'light';
     const chk = document.getElementById('dark-mode-toggle');
     if (chk) chk.checked = State.darkMode;
 }
@@ -23,5 +23,9 @@ function openInventoryFilter() {
 
 function closeInventoryFilter() {
     PubSub.publish('modal:close', 'inventory-filter-modal');
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = { applyDarkMode, openSettings, closeSettings, openInventoryFilter, closeInventoryFilter };
 }
 

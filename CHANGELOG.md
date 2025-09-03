@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-08-14
 ### Added
+- Theme variables and `[data-theme]` attribute enable light and dark themes.
 - Character tab with equipment management and consumable buttons.
 - Resources tab and action slots show costs, yields, and modifiers with expandable details.
 - Adventure system tracks max encounter level, toggles notifications, and retreats on resource depletion.
