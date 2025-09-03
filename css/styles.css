@@ -7,10 +7,19 @@
     --task-bg: #eee;
     --slot-bg: #333;
     --chip-color: #0066ff;
+    --slot-border-color: #ccc;
+    --slot-border-active: #66cc66;
+    --slot-border-blocked: #cc6666;
+    --slot-hover-bg: #444;
+    --panel-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --font-size-base: 16px;
+    --font-size-sm: 0.8rem;
+    --font-size-xs: 0.6rem;
 }
 
 body {
     font-family: Arial, sans-serif;
+    font-size: var(--font-size-base);
     margin: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -193,7 +202,7 @@ main {
     background: var(--panel-bg);
     padding: 1rem;
     border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--panel-box-shadow);
 }
 
 #task-list {
@@ -377,7 +386,7 @@ main {
 
 .slot {
     flex: 1;
-    border: 4px solid #ccc;
+    border: 4px solid var(--slot-border-color);
     padding: 0.5rem;
     min-height: 5rem;
     position: relative;
@@ -390,8 +399,12 @@ main {
     background-repeat: no-repeat;
 }
 
+.slot:hover {
+    background-color: var(--slot-hover-bg);
+}
+
 .slot.active {
-    border-color: #66cc66;
+    border-color: var(--slot-border-active);
 }
 
 .slot .resource-tags {
@@ -408,7 +421,7 @@ main {
     color: #fff;
     padding: 0 0.25rem;
     border-radius: 3px;
-    font-size: 0.6rem;
+    font-size: var(--font-size-xs);
 }
 
 .progress-wrapper {
@@ -444,7 +457,7 @@ main {
     left: 0;
     right: 0;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
     pointer-events: none;
     color: #fff;
 }
@@ -455,7 +468,7 @@ main {
     left: 0;
     right: 0;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
     pointer-events: none;
     color: #fff;
 }
@@ -464,7 +477,7 @@ main {
     position: absolute;
     top: 2px;
     right: 2px;
-    font-size: 0.6rem;
+    font-size: var(--font-size-xs);
     padding: 0 2px;
     border: none;
     background: rgba(0, 0, 0, 0.5);
@@ -494,7 +507,7 @@ main {
 }
 
 .slot.blocked {
-    border-color: #cc6666;
+    border-color: var(--slot-border-blocked);
 }
 
 .queue-slot {
@@ -684,7 +697,7 @@ li.unaffordable {
 .log-entry .rarity-legendary { color: #e69138; font-weight: bold; }
 .log-entry .rarity-story { color: #f1c40f; font-weight: bold; }
 
-body.dark {
+body[data-theme="dark"] {
     --bg-color: #222;
     --panel-bg: #333;
     --text-color: #eee;
@@ -693,6 +706,9 @@ body.dark {
     --task-bg: #444;
     --slot-bg: #555;
     --chip-color: #3f8cff;
+    --slot-border-color: #888;
+    --slot-hover-bg: #666;
+    --panel-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .tab-headers button[data-tab="chip"] {
