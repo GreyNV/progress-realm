@@ -706,10 +706,10 @@ body.dark {
 }
 
 .character-layout {
-    display: grid;
-    grid-template-columns: 1fr 240px 1fr;
-    gap: 1rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 .character-layout .slots {
@@ -725,14 +725,5 @@ body.dark {
     opacity: 0.8;
     padding: 0.25rem;
     flex: 0 0 auto;
-}
-
-/* Position left and right character slots */
-#character-slots-left {
-    grid-column: 1;
-}
-
-#character-slots-right {
-    grid-column: 3;
 }
 
