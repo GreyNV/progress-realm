@@ -24,6 +24,7 @@
 - Resource and stat max calculations handle missing modifiers and defaults.
 - Inventory and resource UIs refresh correctly and hide equipment items.
 - Character slot containers stay in correct left and right grid columns.
+- Updated visual layout hashes to match base stylesheet adjustments.
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Research progress now persists through prestiges.

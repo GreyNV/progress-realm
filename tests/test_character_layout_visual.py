@@ -24,8 +24,8 @@ def _hash(path):
     return sha.hexdigest()
 
 
-EXPECTED_DESKTOP = "a68e4ce1298595f115a0271da5fdf4fe3157258af16ebab1b81ae881da990477"
-EXPECTED_MOBILE = "30c175693870051d592602a78d1f5bd195c72597364a2ccd9193baed7de69d16"
+EXPECTED_DESKTOP = "5fe94d001644e61b62a3bc76769e8e2e138a684e2a68e4f63b8f9656ef5dbc39"
+EXPECTED_MOBILE = "d42594ddb21525eef2bc5747d5cdf7e83d32dd635a0e0e125dcf80f92d7652d2"
 
 
 def test_character_layout_desktop(tmp_path):
