@@ -7,6 +7,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Tab content now includes padding and sections stretch full width, stacking on small screens.
 - Standardized heading and label typography with global rules and utility class.
 - Equipment slots use a translucent background and semi-transparent opacity for equipped items.
 - Character slots shrink to 60px on small screens.

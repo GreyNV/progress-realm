@@ -598,8 +598,20 @@ li.unaffordable {
     color: #fff;
 }
 
+.tab-content {
+    padding: var(--space-md);
+    max-width: 100%;
+}
+
 .tab-content.hidden {
     display: none;
+}
+
+.tab-section {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .tab-section.hidden {
@@ -644,6 +656,9 @@ li.unaffordable {
     .character-layout .slot {
         width: 60px;
         height: 60px;
+    }
+    .tab-section {
+        flex-direction: column;
     }
     #inventory-slots {
         grid-template-columns: repeat(3, 1fr);
