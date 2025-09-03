@@ -6,7 +6,11 @@
     --header-text: #fff;
     --task-bg: #eee;
     --slot-bg: #333;
+    --slot-border: #ccc;
     --chip-color: #0066ff;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+
     /* Typography */
     --font-h2: 1.25rem;
     --font-h3: 1rem;
@@ -338,7 +342,6 @@ main {
 .slots {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
 }
 
 .slot-wrapper {
@@ -406,7 +409,7 @@ main {
 
 .slot {
     flex: 1;
-    border: 4px solid #ccc;
+    border: 4px solid var(--slot-border);
     padding: 0.5rem;
     min-height: 5rem;
     position: relative;
@@ -417,10 +420,19 @@ main {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .slot.active {
     border-color: #66cc66;
+}
+
+.slot:hover,
+.slot:focus {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .slot .resource-tags {
@@ -594,6 +606,10 @@ li.unaffordable {
     display: none;
 }
 
+.tab-section h2 {
+    margin-block-start: var(--space-sm);
+}
+
 .section-headers {
     display: flex;
     gap: 0.5rem;
@@ -681,8 +697,12 @@ li.unaffordable {
     transform: rotate(0deg);
 }
 
+.section-body {
+    margin-block-start: var(--space-md);
+}
+
 .collapsible-section .section-body {
-    margin-top: 0.5rem;
+    margin-block-start: var(--space-sm);
 }
 
 .log-container {
@@ -720,6 +740,7 @@ body.dark {
     --header-text: #eee;
     --task-bg: #444;
     --slot-bg: #555;
+    --slot-border: #888;
     --chip-color: #3f8cff;
 }
 
@@ -734,15 +755,14 @@ body.dark {
 }
 
 .character-layout {
-    display: grid;
-    grid-template-columns: 1fr 240px 1fr;
-    gap: 1rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 .character-layout .slots {
     flex-direction: column;
-    margin-top: 0;
 }
 
 .character-layout .slot {
@@ -753,14 +773,5 @@ body.dark {
     opacity: 0.8;
     padding: 0.25rem;
     flex: 0 0 auto;
-}
-
-/* Position left and right character slots */
-#character-slots-left {
-    grid-column: 1;
-}
-
-#character-slots-right {
-    grid-column: 3;
 }
 
