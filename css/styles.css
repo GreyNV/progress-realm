@@ -824,7 +824,12 @@ body[data-theme="dark"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+}
+
+/* Equalize column widths for left and right slot groups */
+#character-slots-left,
+#character-slots-right {
+    flex: 1;
 }
 
 .character-layout .slots {
