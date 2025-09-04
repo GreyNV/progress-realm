@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Replaced `margin-left` with `margin-inline-start` in `.delta` rule for proper LTR and RTL alignment.
 - Simplified body layout to three rows so the main section fills remaining height and the footer stays at the bottom.
 - Header, footer, and various components now rely on spacing utilities.
 - Switched margin and positioning to logical `*-inline-*` properties for RTL support.
