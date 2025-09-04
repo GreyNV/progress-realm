@@ -1,6 +1,7 @@
 # Changelog
 ## [0.41.67] - 2025-09-04
 ### Added
+- Dedicated left panel for prestige and mastery information.
 - Base stylesheet with shared variables, spacing utilities, and typography rules.
 - Theme variables and `[data-theme]` attribute enable light and dark themes.
 - Character tab with equipment management and consumable buttons.
@@ -9,6 +10,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Main layout now uses a three-column grid.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
 - Updated `.expand-arrow` to use `margin-inline-start` with a `margin-left` fallback.

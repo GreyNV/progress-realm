@@ -6,6 +6,7 @@ let actions = {};
 
 function updateUI() {
     PrestigeUI.update();
+    MasteryUI.update();
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
@@ -74,6 +75,7 @@ async function init() {
     SoftCapSystem.recalculateCaps(State.inventory);
     await UIHandler.init();
     PrestigeUI.init();
+    MasteryUI.init();
     InventoryUI.init();
     HomeUI.init();
     FurnitureUI.init();

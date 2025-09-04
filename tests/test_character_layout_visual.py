@@ -24,8 +24,9 @@ def _hash(path):
     return sha.hexdigest()
 
 # Baseline screenshot hashes; update only when layout changes
-EXPECTED_DESKTOP = "ec9d88d2816403a555a930c2846b82323985f9ec61d0f29b010ff30774477c2b"
-EXPECTED_MOBILE = "c95be88172c26083fc2b9c025a7970970e4ff9cfe8ca968bcd2e1ffcf7b4e114"
+EXPECTED_DESKTOP = "192f40d1503a21a2d277185a92f1cb68d4a7f6c4e2b163f78acc8a2fe1edb180"
+EXPECTED_MOBILE = "172207dc7642c41470ba437cab837cfdb69dfbfd5e10dd503cb7681ac22014e6"
+
 
 
 def test_character_layout_desktop(tmp_path):
