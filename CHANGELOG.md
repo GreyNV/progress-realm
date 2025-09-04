@@ -10,6 +10,7 @@
 
 ### Changed
 - Replaced `dark` class on `<body>` with `data-theme` attribute and ensured dark mode toggling via `applyDarkMode`.
+- Simplified body layout to three rows so the main section fills remaining height and the footer stays at the bottom.
 - Header, footer, and various components now rely on spacing utilities.
 - Switched margin and positioning to logical `*-inline-*` properties for RTL support.
 - Added `left`/`right` fallbacks for footer and modal to support engines lacking logical property support.
@@ -27,6 +28,7 @@
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Removed duplicate gap declaration in character layout and added flex to slot containers for symmetrical columns.
 - Panels stack on small screens and the log panel avoids the fixed footer.
 - Footer stays fixed at the bottom on small screens with padding preventing overlap.
 - Character layout slots stack vertically on small screens.
