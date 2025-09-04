@@ -36,3 +36,8 @@ h1, h2, h3, h4, h5, h6 {
 .p-md { padding: var(--space-md) !important; }
 .px-md { padding-left: var(--space-md) !important; padding-right: var(--space-md) !important; }
 .py-sm { padding-top: var(--space-sm) !important; padding-bottom: var(--space-sm) !important; }
+
+/* Utility class to hide elements before full styles load */
+.hidden {
+    display: none !important;
+}

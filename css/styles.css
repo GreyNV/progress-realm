@@ -203,10 +203,6 @@ span {
     background-color: #ff4d4d;
 }
 
-.hidden {
-    display: none !important;
-}
-
 .modal {
     position: fixed;
     top: 0;
@@ -616,6 +612,7 @@ li.unaffordable {
 
 .expand-arrow {
     cursor: pointer;
+    margin-inline-start: var(--space-xs);
     margin-left: var(--space-xs);
 }
 
