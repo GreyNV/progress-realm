@@ -243,7 +243,7 @@ span {
 
 main {
     display: grid;
-    grid-template-columns: 2fr minmax(180px, 1fr);
+    grid-template-columns: minmax(180px, 1fr) 2fr minmax(180px, 1fr);
     gap: var(--space-md);
     padding: var(--space-md);
     padding-bottom: calc(var(--space-md) * 3);
