@@ -28,6 +28,7 @@ EXPECTED_DESKTOP = "192f40d1503a21a2d277185a92f1cb68d4a7f6c4e2b163f78acc8a2fe1ed
 EXPECTED_MOBILE = "172207dc7642c41470ba437cab837cfdb69dfbfd5e10dd503cb7681ac22014e6"
 
 
+
 def test_character_layout_desktop(tmp_path):
     new_file = tmp_path / 'desktop.png'
     _capture(800, 400, new_file)
