@@ -1,5 +1,5 @@
 # Changelog
-## [0.41.67] - 2025-08-20
+## [0.41.67] - 2025-09-04
 ### Added
 - Base stylesheet with shared variables, spacing utilities, and typography rules.
 - Theme variables and `[data-theme]` attribute enable light and dark themes.
@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Character slot containers explicitly use flex column layout with equal widths across viewports.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
 - Updated `.expand-arrow` to use `margin-inline-start` with a `margin-left` fallback.
 - Replaced `dark` class on `<body>` with `data-theme` attribute and ensured dark mode toggling via `applyDarkMode`.

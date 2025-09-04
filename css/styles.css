@@ -831,6 +831,7 @@ body[data-theme="dark"] {
 }
 
 .character-layout .slots {
+    display: flex;
     flex-direction: column;
 }
 
