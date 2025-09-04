@@ -803,6 +803,8 @@ body[data-theme="dark"] {
     --slot-border: #888;
     --chip-color: #3f8cff;
     --slot-border-color: #888;
+    --slot-border-active: #66cc66;
+    --slot-border-blocked: #cc6666;
     --slot-hover-bg: #666;
     --panel-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -838,8 +840,8 @@ body[data-theme="dark"] {
 .character-layout .slot {
     width: 80px;
     height: 80px;
-    border: 2px solid rgba(255, 255, 255, 0.9);
-    background-color: rgba(85, 85, 85, 0.5);
+    border: 2px solid var(--slot-border-color);
+    background-color: var(--slot-bg);
     opacity: 0.8;
     padding: var(--space-xs);
     flex: 0 0 auto;

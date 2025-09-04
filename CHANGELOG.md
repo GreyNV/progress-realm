@@ -32,6 +32,7 @@
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Character slots respect theme variables and dark mode defines hover and active state colors.
 - Removed duplicate border declaration in slot styling.
 - Removed duplicate gap declaration in character layout and added flex to slot containers for symmetrical columns.
 - Panels stack on small screens and the log panel avoids the fixed footer.
