@@ -10,6 +10,7 @@
 
 ### Changed
 - Replaced `dark` class on `<body>` with `data-theme` attribute and ensured dark mode toggling via `applyDarkMode`.
+- Replaced `margin-left` with `margin-inline-start` in `.delta` rule for proper LTR and RTL alignment.
 - Simplified body layout to three rows so the main section fills remaining height and the footer stays at the bottom.
 - Header, footer, and various components now rely on spacing utilities.
 - Switched margin and positioning to logical `*-inline-*` properties for RTL support.

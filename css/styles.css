@@ -679,7 +679,8 @@ li.unaffordable {
 .delta {
     color: #666;
     font-size: 0.8rem;
-    margin-left: var(--space-xs);
+    /* Use logical margin to support LTR and RTL layouts */
+    margin-inline-start: var(--space-xs);
 }
 
 @media (max-width: 700px) {
