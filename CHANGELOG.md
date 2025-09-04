@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Simplified body layout to three rows so the main section fills remaining height and the footer stays at the bottom.
 - Header, footer, and various components now rely on spacing utilities.
 - Switched margin and positioning to logical `*-inline-*` properties for RTL support.
 - Added `left`/`right` fallbacks for footer and modal to support engines lacking logical property support.
