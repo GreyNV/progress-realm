@@ -23,7 +23,7 @@ def _hash(path):
         sha.update(f.read())
     return sha.hexdigest()
 
-
+# Baseline screenshot hashes; update only when layout changes
 EXPECTED_DESKTOP = "5fe94d001644e61b62a3bc76769e8e2e138a684e2a68e4f63b8f9656ef5dbc39"
 EXPECTED_MOBILE = "d42594ddb21525eef2bc5747d5cdf7e83d32dd635a0e0e125dcf80f92d7652d2"
 

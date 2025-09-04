@@ -1,5 +1,5 @@
 # Changelog
-## [0.41.67] - 2025-08-20
+## [0.41.67] - 2025-09-04
 ### Added
 - Base stylesheet with shared variables, spacing utilities, and typography rules.
 - Theme variables and `[data-theme]` attribute enable light and dark themes.
@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Character slot containers explicitly use flex column layout with equal widths across viewports.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
 - Updated `.expand-arrow` to use `margin-inline-start` with a `margin-left` fallback.
 - Replaced `dark` class on `<body>` with `data-theme` attribute and ensured dark mode toggling via `applyDarkMode`.
@@ -40,7 +41,7 @@
 - Resource and stat max calculations handle missing modifiers and defaults.
 - Inventory and resource UIs refresh correctly and hide equipment items.
 - Character slot containers stay in correct left and right grid columns.
-- Updated visual layout hashes to match base stylesheet adjustments.
+- Restored character layout visual hashes to the previous baseline.
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Research progress now persists through prestiges.
