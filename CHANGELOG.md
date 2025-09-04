@@ -31,6 +31,7 @@
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Removed duplicate border declaration in slot styling.
 - Removed duplicate gap declaration in character layout and added flex to slot containers for symmetrical columns.
 - Panels stack on small screens and the log panel avoids the fixed footer.
 - Footer stays fixed at the bottom on small screens with padding preventing overlap.
