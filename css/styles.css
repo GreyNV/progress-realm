@@ -72,7 +72,8 @@ footer {
 
 #stats {
     color: white;
-  
+}
+
 /* Global typography */
 h2 {
     font-size: var(--font-h2);
