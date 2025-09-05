@@ -1,5 +1,5 @@
 # Changelog
-## [0.41.67] - 2025-09-04
+## [0.41.67] - 2025-09-05
 ### Added
 - Dedicated left panel for prestige and mastery information.
 - Base stylesheet with shared variables, spacing utilities, and typography rules.
@@ -12,6 +12,7 @@
 ### Changed
 - Main layout now uses a three-column grid.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
+- Scoped mobile grid layout to inventory slots so character slots remain vertical.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
 - Updated `.expand-arrow` to use `margin-inline-start` with a `margin-left` fallback.
 - Replaced `dark` class on `<body>` with `data-theme` attribute and ensured dark mode toggling via `applyDarkMode`.
