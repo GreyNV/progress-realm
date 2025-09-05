@@ -10,6 +10,8 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Moved mobile `@media (max-width: 700px)` block to the end of the stylesheet to ensure styles override correctly.
+- Character layout container now spans full width and slot groups anchor to edges.
 - Main layout now uses a three-column grid.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
 - Scoped mobile grid layout to inventory slots so character slots remain vertical.
@@ -36,6 +38,7 @@
 
 ### Fixed
 - Equipment items retain grid layout on small screens.
+- Fixed missing closing brace in `#stats` rule so the global typography comment is outside the selector.
 - Character slots respect theme variables and dark mode defines hover and active state colors.
 - Removed duplicate border declaration in slot styling.
 - Removed duplicate gap declaration in character layout and added flex to slot containers for symmetrical columns.

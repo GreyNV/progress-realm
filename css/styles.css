@@ -72,7 +72,8 @@ footer {
 
 #stats {
     color: white;
-  
+}
+
 /* Global typography */
 h2 {
     font-size: var(--font-h2);
@@ -825,6 +826,7 @@ body[data-theme="dark"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 /* Equalize column widths for left and right slot groups */
@@ -846,5 +848,46 @@ body[data-theme="dark"] {
     opacity: 0.8;
     padding: var(--space-xs);
     flex: 0 0 auto;
+}
+
+@media (max-width: 700px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+    .slots {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-sm);
+    }
+    /* Stack character slots vertically on narrow screens */
+    .character-layout .slots {
+        display: flex;
+        flex-direction: column;
+    }
+    .character-layout .slot {
+        width: 60px;
+        height: 60px;
+    }
+    .tab-section {
+        flex-direction: column;
+    }
+    #inventory-slots {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    #adventure-slots {
+        display: flex;
+        flex-direction: column;
+    }
+    .log-panel {
+        margin-bottom: 4rem;
+    }
+    /* Keep footer fixed on small screens */
+    footer {
+        position: fixed;
+        bottom: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        z-index: 20;
+    }
 }
 
