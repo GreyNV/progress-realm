@@ -35,6 +35,7 @@
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Equipment items retain grid layout on small screens.
 - Character slots respect theme variables and dark mode defines hover and active state colors.
 - Removed duplicate border declaration in slot styling.
 - Removed duplicate gap declaration in character layout and added flex to slot containers for symmetrical columns.
