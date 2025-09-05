@@ -782,6 +782,7 @@ body[data-theme="dark"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 /* Equalize column widths for left and right slot groups */
