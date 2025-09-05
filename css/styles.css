@@ -684,7 +684,8 @@ li.unaffordable {
     main {
         grid-template-columns: 1fr;
     }
-    .tab-content:not([data-tab="character"]) .slots {
+    /* Use a grid for slot groups on small screens; character layout overrides below */
+    .tab-content .slots {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: var(--space-sm);
