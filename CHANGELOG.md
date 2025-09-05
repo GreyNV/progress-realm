@@ -10,6 +10,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Moved mobile `@media (max-width: 700px)` block to the end of the stylesheet to ensure styles override correctly.
 - Main layout now uses a three-column grid.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
