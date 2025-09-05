@@ -14,6 +14,7 @@
 - Character layout container now spans full width and slot groups anchor to edges.
 - Main layout now uses a three-column grid.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
+- Scoped mobile grid layout to inventory slots so character slots remain vertical.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
 - Updated `.expand-arrow` to use `margin-inline-start` with a `margin-left` fallback.
 - Replaced `dark` class on `<body>` with `data-theme` attribute and ensured dark mode toggling via `applyDarkMode`.
@@ -36,6 +37,7 @@
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Equipment items retain grid layout on small screens.
 - Fixed missing closing brace in `#stats` rule so the global typography comment is outside the selector.
 - Character slots respect theme variables and dark mode defines hover and active state colors.
 - Removed duplicate border declaration in slot styling.
