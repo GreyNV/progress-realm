@@ -10,6 +10,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Character layout container now spans full width and slot groups anchor to edges.
 - Main layout now uses a three-column grid.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
