@@ -1,5 +1,5 @@
 # Changelog
-## [0.41.67] - 2025-09-04
+## [0.41.67] - 2025-09-05
 ### Added
 - Dedicated left panel for prestige and mastery information.
 - Base stylesheet with shared variables, spacing utilities, and typography rules.
@@ -36,6 +36,7 @@
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Fixed missing closing brace in `#stats` rule so the global typography comment is outside the selector.
 - Character slots respect theme variables and dark mode defines hover and active state colors.
 - Removed duplicate border declaration in slot styling.
 - Removed duplicate gap declaration in character layout and added flex to slot containers for symmetrical columns.
