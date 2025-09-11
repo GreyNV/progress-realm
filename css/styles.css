@@ -101,11 +101,9 @@ span {
 #mastery h2,
 #resources h2,
 .section-heading {
-    background-color: var(--heading-bg);
     display: inline-block;
-    padding: var(--heading-padding);
-    border-radius: var(--heading-radius);
     margin-bottom: var(--heading-margin-bottom);
+    cursor: pointer; /* indicate clickability */
 }
 
 #stats {

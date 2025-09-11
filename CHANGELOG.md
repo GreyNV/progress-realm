@@ -10,6 +10,7 @@
 
 ### Changed
 - Removed left panel and switched main layout to a two-column grid with a wider center column.
+- Section headings no longer use background boxes and now show a pointer cursor for interactivity.
 - Moved mobile `@media (max-width: 700px)` block to the end of the stylesheet to ensure styles override correctly.
 - Character layout container now spans full width and slot groups anchor to edges.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
