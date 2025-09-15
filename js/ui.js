@@ -32,38 +32,6 @@ const StatsUI = {
     }
 };
 
-const PrestigeUI = {
-    list: [],
-    init() {
-        this.list = PRESTIGE_KEYS;
-        this.container = document.getElementById('prestige-block');
-        this.translate();
-        this.update();
-    },
-    translate() {
-        document.querySelectorAll('#prestige-block .prestige-label').forEach(el => {
-            const key = el.dataset.key;
-            // Try resource translation first, then stat translation
-            el.textContent = Lang.resource(key) || Lang.stat(key) || capitalize(key);
-        });
-    },
-    update() {
-        if (!this.container) return;
-        let show = false;
-        this.list.forEach(key => {
-            const val = State.prestige[key] ? State.prestige[key].value : 0;
-            const stat = Object.keys(PRESTIGE_MAP).find(k => PRESTIGE_MAP[k] === key);
-            const gain = stat ? Math.floor(Math.log10(State.stats[stat].value + 1)) : 0;
-            const el = document.getElementById(`prestige-${key}`);
-            const gainEl = document.getElementById(`prestige-${key}-gain`);
-            if (el) el.textContent = val;
-            if (gainEl) gainEl.textContent = `(+${gain})`;
-            if (val > 0) show = true;
-        });
-        this.container.style.display = show ? 'block' : 'none';
-    }
-};
-
 const ResourcesUI = {
     list: [],
     init() {
@@ -88,17 +56,6 @@ const ResourcesUI = {
             }
             document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
         });
-    }
-};
-
-const MasteryUI = {
-    init() {
-        const el = document.getElementById('mastery-points');
-        if (el) el.textContent = State.mastery.value;
-    },
-    update() {
-        const el = document.getElementById('mastery-points');
-        if (el) el.textContent = State.mastery.value;
     }
 };
 

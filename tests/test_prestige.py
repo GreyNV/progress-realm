@@ -31,12 +31,17 @@ def test_prestige_bonus_applied():
     assert 'applyPrestigeBonuses()' in text
 
 
-def test_prestige_ui_defined():
+def test_prestige_summary_removed():
     path = os.path.join('js', 'ui.js')
     with open(path) as f:
         text = f.read()
-    assert 'PrestigeUI' in text
-    assert 'prestige-block' in text
+    assert 'PrestigeUI' not in text
+    assert 'mastery-points' not in text
+
+    with open('index.html') as f:
+        html = f.read()
+    assert 'prestige-block' not in html
+    assert 'id="mastery-points"' not in html
 
 
 def test_adventure_defaults_present():

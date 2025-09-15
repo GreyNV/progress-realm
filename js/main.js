@@ -5,8 +5,6 @@ const TICKS_PER_SECOND = 1000 / LOGIC_TICK_MS;
 let actions = {};
 
 function updateUI() {
-    PrestigeUI.update();
-    MasteryUI.update();
     document.getElementById('age-years').textContent = State.age.years;
     document.getElementById('age-days').textContent = Math.floor(State.age.days);
     document.getElementById('max-age').textContent = State.age.max;
@@ -74,8 +72,6 @@ async function init() {
     Lang.applyToLocations(EncounterGenerator.milestones);
     SoftCapSystem.recalculateCaps(State.inventory);
     await UIHandler.init();
-    PrestigeUI.init();
-    MasteryUI.init();
     InventoryUI.init();
     HomeUI.init();
     FurnitureUI.init();
@@ -151,7 +147,6 @@ async function init() {
             Lang.applyToLocations(EncounterGenerator.milestones);
             Lang.translateUI();
             TabContainer.translate();
-            PrestigeUI.translate();
             updateTaskList();
             for (let i = 0; i < State.slotCount; i++) updateSlotUI(i);
             for (let i = 0; i < State.adventureSlotCount; i++) updateAdventureSlotUI(i);
