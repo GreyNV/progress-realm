@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Removed the Prestige and Mastery summary widgets from the center panel and deleted the supporting UI code, styles, and tests.
 - Removed left panel and switched main layout to a two-column grid with a wider center column.
 - Section headings no longer use background boxes and now show a pointer cursor for interactivity.
 - Moved mobile `@media (max-width: 700px)` block to the end of the stylesheet to ensure styles override correctly.

@@ -98,7 +98,6 @@ span {
 /* Utility heading style */
 #stats h2,
 #stats h3,
-#mastery h2,
 #resources h2,
 .section-heading {
     display: inline-block;
@@ -111,24 +110,17 @@ span {
     color: white;
 }
 
-#stats-list,
-#prestige-block ul {
+#stats-list {
     list-style: none;
     padding: 0;
     margin: var(--space-sm) 0;
 }
 
-#stats-list li,
-#prestige-block li {
+#stats-list li {
     margin: var(--space-xs) 0;
 }
 
-#prestige-block {
-    display: none;
-}
-
-#stats-list li span,
-#prestige-block li span {
+#stats-list li span {
     background-color: rgba(0, 0, 0, 0.6);
     padding: calc(var(--space-xs) / 2) var(--space-sm);
     border-radius: 4px;
@@ -136,17 +128,14 @@ span {
     color: white;
 }
 
-#stats-list li,
-#prestige-block li {
+#stats-list li {
     color: white;
 }
 
-#mastery,
 #resources {
     color: white;
 }
 
-#mastery h2,
 #resources h2 {
     background-color: rgba(0, 0, 0, 0.6);
     display: inline-block;
@@ -155,7 +144,6 @@ span {
     margin-bottom: var(--space-sm);
 }
 
-#mastery span,
 #resources-list span {
     background-color: rgba(0, 0, 0, 0.6);
     padding: calc(var(--space-xs) / 2) var(--space-sm);
