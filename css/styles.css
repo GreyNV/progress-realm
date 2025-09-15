@@ -14,6 +14,7 @@
     --slot-hover-bg: #444;
     --panel-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     --font-size-base: 16px;
+    --font-size-md: 1rem;
     --font-size-sm: 0.8rem;
     --font-size-xs: 0.6rem;
     --space-sm: 0.5rem;
@@ -464,6 +465,7 @@ main {
     flex-direction: column;
     gap: var(--space-xs);
     pointer-events: none;
+    margin-top: var(--space-sm);
 }
 
 .slot .resource-tag {
@@ -473,7 +475,7 @@ main {
     color: #fff;
     padding: 0 var(--space-xs);
     border-radius: 3px;
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
 }
 
 .progress-wrapper {
@@ -512,6 +514,11 @@ main {
     font-size: var(--font-size-sm);
     pointer-events: none;
     color: #fff;
+}
+
+#right #slots .slot .label {
+    top: 0;
+    font-size: var(--font-size-md);
 }
 
 .slot .count {
