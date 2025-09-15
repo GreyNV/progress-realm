@@ -21,12 +21,12 @@ const StatsUI = {
             if (li && key !== 'strength' && key !== 'intelligence') {
                 li.style.display = value > 0 ? '' : 'none';
             }
-            document.getElementById(`stat-${key}`).textContent = value.toFixed(1);
+            document.getElementById(`stat-${key}`).textContent = formatNumber(value);
             const capEl = document.getElementById(`stat-${key}-cap`);
             const cap = SoftCapSystem.statCaps[key] !== undefined
                 ? SoftCapSystem.statCaps[key]
                 : getStatMax(key);
-            if (capEl) capEl.textContent = cap.toFixed(1);
+            if (capEl) capEl.textContent = formatNumber(cap);
             document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
         });
     }

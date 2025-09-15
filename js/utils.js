@@ -45,15 +45,24 @@ function capitalize(str) {
 }
 
 /**
- * Format a delta value with sign and one decimal place.
+ * Format a number with three decimal places.
+ * @param {number|string} value
+ * @returns {string}
+ */
+function formatNumber(value) {
+    return Number(value).toFixed(3);
+}
+
+/**
+ * Format a delta value with sign and three decimal places.
  * @param {number} v
  * @returns {string}
  */
 function formatDelta(v) {
     const sign = v > 0 ? '+' : '';
-    return sign + v.toFixed(1);
+    return sign + formatNumber(v);
 }
 
 if (typeof module !== 'undefined') {
-    module.exports = { Utils, capitalize, formatDelta };
+    module.exports = { Utils, capitalize, formatNumber, formatDelta };
 }

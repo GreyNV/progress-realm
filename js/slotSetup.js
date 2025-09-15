@@ -12,14 +12,14 @@ function buildActionTooltip(action) {
         if (yields.stats) {
             for (const [stat, val] of Object.entries(yields.stats)) {
                 const name = Lang.stat(stat) || capitalize(stat);
-                effects.push(`+${val.toFixed(2)} ${name}`);
+                effects.push(`+${formatNumber(val)} ${name}`);
             }
         }
         if (yields.resources) {
             for (const [res, val] of Object.entries(yields.resources)) {
                 const name = Lang.resource(res) || capitalize(res);
                 const sign = val >= 0 ? '+' : '';
-                effects.push(`${sign}${val.toFixed(2)} ${name}`);
+                effects.push(`${sign}${formatNumber(val)} ${name}`);
             }
         }
     }
@@ -365,7 +365,7 @@ function updateAdventureSlotUI(i) {
                 const item = ItemGenerator.itemList.find(i => i.id === id);
                 const name = item ? item.name : id;
                 const pct = chance * (weight / total) * 100;
-                return `${name}: ${pct.toFixed(1)}%`;
+                return `${name}: ${formatNumber(pct)}%`;
             });
             if (lines.length) {
                 parts.push((Lang.ui('Drop Chances') || 'Drop chances') + ':');

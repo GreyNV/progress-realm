@@ -49,6 +49,9 @@ global.document = {
     querySelector: sel => null
 };
 
+const { formatNumber } = require('./js/utils.js');
+global.formatNumber = formatNumber;
+
 const { BaseSlot } = require('./js/slot.js');
 const slot = new BaseSlot();
 slot.el.dataset.slot = '0';

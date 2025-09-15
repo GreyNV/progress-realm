@@ -136,8 +136,8 @@ const HomeUI = {
             if (furn) {
                 const ratio = Math.max(data.durability, 0) / furn.durability;
                 slot.setProgress(ratio,
-                    `${data.durability.toFixed(1)}/${furn.durability}`);
-                slot.setTooltip(`${furn.description}\nDurability: ${data.durability.toFixed(1)}/${furn.durability}`);
+                    `${formatNumber(data.durability)}/${furn.durability}`);
+                slot.setTooltip(`${furn.description}\nDurability: ${formatNumber(data.durability)}/${furn.durability}`);
             }
         });
     }
