@@ -646,6 +646,7 @@ li.unaffordable {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    align-items: stretch;
 }
 .tab-section ul {
     margin: 0;
@@ -758,6 +759,8 @@ li.unaffordable {
 
 .section-body {
     margin-block-start: var(--space-md);
+    flex: 1;
+    width: 100%;
 }
 
 .collapsible-section .section-body {

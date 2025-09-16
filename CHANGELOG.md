@@ -18,6 +18,7 @@
 - Character layout container now spans full width and slot groups anchor to edges.
 - Character slot containers explicitly use flex column layout with equal widths across viewports.
 - Scoped mobile grid layout to inventory slots so character slots remain vertical.
+- Tab sections keep stretched bodies so lists and slot grids reach panel edges on desktop and mobile.
 - Moved `.hidden` utility to the base stylesheet for earlier loading.
 - Updated `.expand-arrow` to use `margin-inline-start` with a `margin-left` fallback.
 - Replaced `dark` class on `<body>` with `data-theme` attribute and ensured dark mode toggling via `applyDarkMode`.
