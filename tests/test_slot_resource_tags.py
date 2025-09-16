@@ -106,5 +106,10 @@ console.log(JSON.stringify(texts));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     data = json.loads(result.stdout.strip())
-    assert data == [['-1 gold', '5/10'], ['-1 mana', '3/5'], ['+2 food', '7/15'], ['+3 strength', '8/20']]
+    assert data == [
+        ['-1.000 gold', '5.000/10.000'],
+        ['-1.000 mana', '3.000/5.000'],
+        ['+2.000 food', '7.000/15.000'],
+        ['+3.000 strength', '8.000/20.000']
+    ]
 

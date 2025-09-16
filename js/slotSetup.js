@@ -42,6 +42,20 @@ function actionLabel(action) {
     return `${action.name} Lv.${action.level}`;
 }
 
+function formatTagValue(value) {
+    const numeric = Number(value);
+    if (typeof formatNumber === 'function' && Number.isFinite(numeric)) {
+        return formatNumber(numeric);
+    }
+    if (value === Infinity || numeric === Infinity) {
+        return '∞';
+    }
+    if (value === -Infinity || numeric === -Infinity) {
+        return '-∞';
+    }
+    return `${value}`;
+}
+
 function assignActionToSlot(actionId) {
     let index = State.slots.findIndex(s => !s.actionId);
     if (index === -1) {
@@ -285,7 +299,7 @@ function updateSlotUI(i) {
             const tag = document.createElement('div');
             tag.className = 'resource-tag';
             const left = document.createElement('span');
-            left.textContent = `${t.sign}${t.amount} ${t.name}`;
+            left.textContent = `${t.sign}${formatTagValue(t.amount)} ${t.name}`;
             const right = document.createElement('span');
             let current = 0;
             let max = Infinity;
@@ -306,7 +320,11 @@ function updateSlotUI(i) {
                     }
                 }
             }
-            right.textContent = max === Infinity ? `${current}` : `${current}/${max}`;
+            const formattedCurrent = formatTagValue(current);
+            const formattedMax = formatTagValue(max);
+            right.textContent = max === Infinity
+                ? `${formattedCurrent}`
+                : `${formattedCurrent}/${formattedMax}`;
             tag.appendChild(left);
             tag.appendChild(right);
             tagsEl.appendChild(tag);
@@ -395,7 +413,7 @@ function updateAdventureSlotUI(i) {
                 tag.className = 'resource-tag';
                 const left = document.createElement('span');
                 const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
-                left.textContent = `-${cost[r]} ${name}`;
+                left.textContent = `-${formatTagValue(cost[r])} ${name}`;
                 const right = document.createElement('span');
                 let current = 0;
                 let max = Infinity;
@@ -406,7 +424,11 @@ function updateAdventureSlotUI(i) {
                         max = ResourceSystem.max(res);
                     }
                 }
-                right.textContent = max === Infinity ? `${current}` : `${current}/${max}`;
+                const formattedCurrent = formatTagValue(current);
+                const formattedMax = formatTagValue(max);
+                right.textContent = max === Infinity
+                    ? `${formattedCurrent}`
+                    : `${formattedCurrent}/${formattedMax}`;
                 tag.appendChild(left);
                 tag.appendChild(right);
                 tagsEl.appendChild(tag);
