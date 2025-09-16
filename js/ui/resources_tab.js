@@ -1,3 +1,16 @@
+if (typeof formatNumber === 'undefined' && typeof require !== 'undefined') {
+    const utils = require('../utils');
+    if (utils && typeof utils.formatNumber === 'function') {
+        if (typeof globalThis !== 'undefined') {
+            globalThis.formatNumber = utils.formatNumber;
+        } else if (typeof window !== 'undefined') {
+            window.formatNumber = utils.formatNumber;
+        } else if (typeof global !== 'undefined') {
+            global.formatNumber = utils.formatNumber;
+        }
+    }
+}
+
 const ResourcesTab = {
     container: null,
     entries: {},
@@ -65,7 +78,9 @@ const ResourcesTab = {
         } else {
             max = ResourceSystem.max(res);
         }
-        amt.textContent = max !== Infinity ? `${res.value}/${max}` : `${res.value}`;
+        amt.textContent = max !== Infinity
+            ? `${formatNumber(res.value)}/${formatNumber(max)}`
+            : `${formatNumber(res.value)}`;
         btn.appendChild(label);
         btn.appendChild(amt);
         li.appendChild(btn);
@@ -95,12 +110,12 @@ const ResourcesTab = {
         list.innerHTML = '';
         (res.maxAdditions || []).forEach(a => {
             const li = document.createElement('li');
-            li.textContent = `+${a}`;
+            li.textContent = `+${formatNumber(a)}`;
             list.appendChild(li);
         });
         (res.maxMultipliers || []).forEach(m => {
             const li = document.createElement('li');
-            li.textContent = `×${m}`;
+            li.textContent = `×${formatNumber(m)}`;
             list.appendChild(li);
         });
     },
@@ -120,7 +135,9 @@ const ResourcesTab = {
             return;
         }
         const max = (group === 'stats' || group === 'prestige') ? StatSystem.max(res) : ResourceSystem.max(res);
-        this.entries[name].amount.textContent = max !== Infinity ? `${res.value}/${max}` : `${res.value}`;
+        this.entries[name].amount.textContent = max !== Infinity
+            ? `${formatNumber(res.value)}/${formatNumber(max)}`
+            : `${formatNumber(res.value)}`;
         this._renderMods(name, res);
     }
 };
