@@ -1,3 +1,16 @@
+if (typeof formatNumber === 'undefined' && typeof require !== 'undefined') {
+    const utils = require('../utils');
+    if (utils && typeof utils.formatNumber === 'function') {
+        if (typeof globalThis !== 'undefined') {
+            globalThis.formatNumber = utils.formatNumber;
+        } else if (typeof window !== 'undefined') {
+            window.formatNumber = utils.formatNumber;
+        } else if (typeof global !== 'undefined') {
+            global.formatNumber = utils.formatNumber;
+        }
+    }
+}
+
 const EncounterUI = {
     init() {
         if (typeof PubSub !== 'undefined') {
@@ -17,7 +30,9 @@ const EncounterUI = {
         const name = milestone ? milestone.name : EncounterGenerator.milestones[0].name;
         const el = document.getElementById('encounter-location');
         if (el) {
-            el.textContent = `${name} (Level ${EncounterGenerator.level} (Max ${State.maxEncounterLevel}))`;
+            const currentLevel = formatNumber(EncounterGenerator.level);
+            const maxLevel = formatNumber(State.maxEncounterLevel);
+            el.textContent = `${name} (Level ${currentLevel} (Max ${maxLevel}))`;
         }
     },
     updateProgressBar() {

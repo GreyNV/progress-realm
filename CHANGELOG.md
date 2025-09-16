@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Resource and encounter displays now format all values with the shared `formatNumber` helper for consistency.
 - Normalized stat, resource, and tooltip numbers to use a shared `formatNumber` helper with three-decimal precision.
 - Enlarged active slot labels and positioned resource cost tags beneath them for improved readability.
 - Removed the Prestige and Mastery summary widgets from the center panel and deleted the supporting UI code, styles, and tests.
