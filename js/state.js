@@ -98,7 +98,9 @@ function applySoftCap(current, cap, inc) {
         return newValue + delta;
     }
     const distance = Math.max(0, newValue - cap);
-    return newValue + (delta / (1 + distance));
+    const target = delta + distance + (distance * distance) / 2;
+    const nextDistance = Math.sqrt(1 + (2 * target)) - 1;
+    return cap + nextDistance;
 }
 
 function resolveResourceCap(res) {
