@@ -5,8 +5,8 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "health": 1,
-            "focus": 1
+            "intelligence": 1,
+            "dexterity": 1
         },
         "image": "assets/items/herb.png",
         "description": "A collection of useful medicinal plants."
@@ -17,7 +17,7 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "health": 5
+            "strength": 5
         },
         "image": "assets/items/rabbit.png",
         "description": "Fresh meat from a hunted rabbit."
@@ -120,8 +120,8 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "health": 1,
-            "energy": 2
+            "strength": 1,
+            "dexterity": 2
         },
         "image": "assets/user_uploaded/water_flask.jpg",
         "description": "A simple container filled with fresh water."
@@ -156,9 +156,9 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "health": 1,
-            "energy": 1,
-            "focus": 1
+            "strength": 1,
+            "dexterity": 1,
+            "intelligence": 1
         },
         "image": "assets/user_uploaded/berries.jpg",
         "description": "A handful of ripe forest berries."
@@ -186,8 +186,8 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "health": 3,
-            "energy": 2
+            "strength": 3,
+            "dexterity": 2
         },
         "image": "assets/user_uploaded/cooked_fish.jpg",
         "description": "Freshly cooked fish that restores vigor."

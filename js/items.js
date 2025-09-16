@@ -16,8 +16,13 @@ class Item {
         if (this.type === 'consumable' && this.restore) {
             const parts = [];
             for (const [key, val] of Object.entries(this.restore)) {
-                const resName = Lang.resource(key) || key;
-                parts.push(`+${val} ${resName}`);
+                let label = key;
+                if (typeof Lang !== 'undefined') {
+                    const statName = typeof Lang.stat === 'function' ? Lang.stat(key) : null;
+                    const resName = typeof Lang.resource === 'function' ? Lang.resource(key) : null;
+                    label = statName || resName || key;
+                }
+                parts.push(`+${val} ${label}`);
             }
             return `Restores ${parts.join(', ')}`;
         }
