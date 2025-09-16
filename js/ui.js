@@ -23,9 +23,17 @@ const StatsUI = {
             }
             document.getElementById(`stat-${key}`).textContent = formatNumber(value);
             const capEl = document.getElementById(`stat-${key}-cap`);
-            const cap = SoftCapSystem.statCaps[key] !== undefined
-                ? SoftCapSystem.statCaps[key]
-                : getStatMax(key);
+            let cap;
+            if (typeof SoftCapSystem !== 'undefined') {
+                if (typeof SoftCapSystem.getStatCap === 'function') {
+                    cap = SoftCapSystem.getStatCap(key);
+                } else if (SoftCapSystem.statCaps && SoftCapSystem.statCaps[key] !== undefined) {
+                    cap = SoftCapSystem.statCaps[key];
+                }
+            }
+            if (cap === undefined) {
+                cap = getStatMax(key);
+            }
             if (capEl) capEl.textContent = formatNumber(cap);
             document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
         });
@@ -46,9 +54,17 @@ const ResourcesUI = {
     update() {
         this.list.forEach(key => {
             const value = getResourceValue(key);
-            const cap = SoftCapSystem.resourceCaps[key] !== undefined
-                ? SoftCapSystem.resourceCaps[key]
-                : getResourceMax(key);
+            let cap;
+            if (typeof SoftCapSystem !== 'undefined') {
+                if (typeof SoftCapSystem.getResourceCap === 'function') {
+                    cap = SoftCapSystem.getResourceCap(key);
+                } else if (SoftCapSystem.resourceCaps && SoftCapSystem.resourceCaps[key] !== undefined) {
+                    cap = SoftCapSystem.resourceCaps[key];
+                }
+            }
+            if (cap === undefined) {
+                cap = getResourceMax(key);
+            }
             const fill = document.getElementById(`res-${key}-fill`);
             if (fill) {
                 const percent = cap > 0 ? Math.min(value / cap, 1) * 100 : 0;

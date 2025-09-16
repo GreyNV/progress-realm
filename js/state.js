@@ -20,12 +20,13 @@ const VERSION = 2;
 
 const ResourceSystem = {
     // baseMax is coerced to a number and defaults to 10
-    create(value, baseMax) {
+    create(value, baseMax, key) {
         return {
             value: value,
             baseMax: Number(baseMax ?? 10),
             maxAdditions: [],
-            maxMultipliers: []
+            maxMultipliers: [],
+            key: key
         };
     },
     max(res) {
@@ -35,7 +36,11 @@ const ResourceSystem = {
         return (base + additions) * mult;
     },
     add(res, amt) {
-        res.value = Math.min(res.value + amt, this.max(res));
+        if (!res || typeof amt !== 'number' || Number.isNaN(amt)) {
+            return;
+        }
+        const cap = resolveResourceCap(res);
+        res.value = applySoftCap(res.value, cap, amt);
     },
     consume(res, amt) {
         if (res.value < amt) return false;
@@ -46,12 +51,13 @@ const ResourceSystem = {
 
 const StatSystem = {
     // baseMax is coerced to a number and defaults to 10
-    create(value, baseMax) {
+    create(value, baseMax, key) {
         return {
             value: value,
             baseMax: Number(baseMax ?? 10),
             maxAdditions: [],
-            maxMultipliers: []
+            maxMultipliers: [],
+            key: key
         };
     },
     max(stat) {
@@ -61,9 +67,65 @@ const StatSystem = {
         return (base + additions) * mult;
     },
     add(stat, amt) {
-        stat.value = Math.min(stat.value + amt, this.max(stat));
+        if (!stat || typeof amt !== 'number' || Number.isNaN(amt)) {
+            return;
+        }
+        const cap = resolveStatCap(stat);
+        stat.value = applySoftCap(stat.value, cap, amt);
     }
 };
+
+function applySoftCap(current, cap, inc) {
+    const baseValue = Number(current ?? 0);
+    const amount = Number(inc ?? 0);
+    if (!Number.isFinite(amount) || amount === 0) {
+        return baseValue;
+    }
+    if (!Number.isFinite(cap)) {
+        return baseValue + amount;
+    }
+    let newValue = baseValue;
+    let delta = amount;
+    if (delta > 0 && newValue < cap) {
+        const toCap = cap - newValue;
+        if (delta <= toCap) {
+            return newValue + delta;
+        }
+        newValue = cap;
+        delta -= toCap;
+    }
+    if (delta <= 0) {
+        return newValue + delta;
+    }
+    const distance = Math.max(0, newValue - cap);
+    const target = delta + distance + (distance * distance) / 2;
+    const nextDistance = Math.sqrt(1 + (2 * target)) - 1;
+    return cap + nextDistance;
+}
+
+function resolveResourceCap(res) {
+    if (!res) return undefined;
+    const key = res.key;
+    if (typeof SoftCapSystem !== 'undefined' && SoftCapSystem && typeof SoftCapSystem.getResourceCap === 'function') {
+        const cap = SoftCapSystem.getResourceCap(key);
+        if (cap !== undefined) {
+            return cap;
+        }
+    }
+    return ResourceSystem.max(res);
+}
+
+function resolveStatCap(stat) {
+    if (!stat) return undefined;
+    const key = stat.key;
+    if (typeof SoftCapSystem !== 'undefined' && SoftCapSystem && typeof SoftCapSystem.getStatCap === 'function') {
+        const cap = SoftCapSystem.getStatCap(key);
+        if (cap !== undefined) {
+            return cap;
+        }
+    }
+    return StatSystem.max(stat);
+}
 
 function getResourceValue(name) {
     return State.resources[name].value;
@@ -75,14 +137,26 @@ function getResourceMax(name) {
 
 function setResourceValue(name, val) {
     const r = State.resources[name];
-    r.value = Math.min(val, getResourceMax(name));
+    if (!r) return;
+    if (typeof val !== 'number' || Number.isNaN(val)) {
+        r.value = val;
+        return;
+    }
+    const delta = val - Number(r.value ?? 0);
+    if (delta <= 0) {
+        r.value = val;
+        return;
+    }
+    const cap = resolveResourceCap(r);
+    r.value = applySoftCap(r.value, cap, delta);
 }
 function ensureResource(name, value, max) {
     const res = State.resources[name];
     if (!res || typeof res.value !== "number") {
-        State.resources[name] = ResourceSystem.create(value, max);
+        State.resources[name] = ResourceSystem.create(value, max, name);
     }
     const r = State.resources[name];
+    if (r.key !== name) r.key = name;
     if (!Array.isArray(r.maxAdditions)) r.maxAdditions = [];
     if (!Array.isArray(r.maxMultipliers) || r.maxMultipliers.length === 0) r.maxMultipliers = [0];
 }
@@ -97,15 +171,27 @@ function getStatMax(name) {
 
 function setStatValue(name, val) {
     const s = State.stats[name];
-    s.value = Math.min(val, getStatMax(name));
+    if (!s) return;
+    if (typeof val !== 'number' || Number.isNaN(val)) {
+        s.value = val;
+        return;
+    }
+    const delta = val - Number(s.value ?? 0);
+    if (delta <= 0) {
+        s.value = val;
+        return;
+    }
+    const cap = resolveStatCap(s);
+    s.value = applySoftCap(s.value, cap, delta);
 }
 
 function ensureStat(name, value, max) {
     const stat = State.stats[name];
     if (!stat || typeof stat.value !== "number") {
-        State.stats[name] = StatSystem.create(value, max);
+        State.stats[name] = StatSystem.create(value, max, name);
     }
     const s = State.stats[name];
+    if (s.key !== name) s.key = name;
     if (!Array.isArray(s.maxAdditions)) s.maxAdditions = [];
     if (!Array.isArray(s.maxMultipliers) || s.maxMultipliers.length === 0) s.maxMultipliers = [0];
 }
@@ -114,7 +200,8 @@ function ensureMastery() {
     const savedValue = State.mastery && typeof State.mastery.value === 'number'
         ? State.mastery.value
         : 0;
-    State.mastery = ResourceSystem.create(savedValue, Infinity);
+    State.mastery = ResourceSystem.create(savedValue, Infinity, 'mastery');
+    if (State.mastery.key !== 'mastery') State.mastery.key = 'mastery';
     if (!Array.isArray(State.mastery.maxAdditions)) State.mastery.maxAdditions = [];
     if (!Array.isArray(State.mastery.maxMultipliers) || State.mastery.maxMultipliers.length === 0) State.mastery.maxMultipliers = [0];
 }
@@ -205,7 +292,7 @@ const State = {
     furniture: [],
     researchCompleted: [],
     time: 1,
-    mastery: ResourceSystem.create(0, Infinity),
+    mastery: ResourceSystem.create(0, Infinity, 'mastery'),
     masteryDescription: 'Earned by advancing action tiers.',
     encounterLevel: 1,
     maxEncounterLevel: 1,
@@ -247,18 +334,18 @@ async function loadBaseData() {
         RESOURCE_KEYS = Object.keys(json.resources || {});
         STAT_KEYS.forEach(k => {
             const def = json.stats[k];
-            State.stats[k] = StatSystem.create(def.value, def.baseMax);
+            State.stats[k] = StatSystem.create(def.value, def.baseMax, k);
             State.statDescriptions[k] = def.description || '';
         });
         RESOURCE_KEYS.forEach(k => {
             const def = json.resources[k];
-            State.resources[k] = ResourceSystem.create(def.value, def.baseMax);
+            State.resources[k] = ResourceSystem.create(def.value, def.baseMax, k);
             State.resourceDescriptions[k] = def.description || '';
         });
         State.prestige = {};
         Object.keys(json.prestige || {}).forEach(k => {
             const def = json.prestige[k];
-            State.prestige[k] = StatSystem.create(def.value, Infinity);
+            State.prestige[k] = StatSystem.create(def.value, Infinity, k);
             State.prestigeDescriptions[k] = def.description || '';
         });
         if (typeof BonusEngine !== 'undefined' && BonusEngine.initialize) {

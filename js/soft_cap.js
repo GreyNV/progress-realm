@@ -4,36 +4,66 @@ const SoftCapSystem = {
     baseResourceCaps: { energy: 20, focus: 20, health: 10 },
     statCaps: {},
     resourceCaps: {},
-    falloff: 0.5,
     recalculateCaps() {
         this.statCaps = { ...this.baseStatCaps };
         this.resourceCaps = { ...this.baseResourceCaps };
-        for (const r in this.resourceCaps) {
-            if (State.resources[r]) {
-                setState(['resources', r, 'baseMax'], this.resourceCaps[r]);
+        this._applyBaseCaps('resources', this.baseResourceCaps);
+        this._applyBaseCaps('stats', this.baseStatCaps);
+        this.refreshCaps();
+    },
+    _applyBaseCaps(group, caps) {
+        if (!State[group]) return;
+        Object.keys(caps).forEach(key => {
+            if (State[group][key]) {
+                setState([group, key, 'baseMax'], caps[key]);
             }
-        }
-        for (const s in this.statCaps) {
-            if (State.stats[s]) {
-                setState(['stats', s, 'baseMax'], this.statCaps[s]);
-                this.statCaps[s] = StatSystem.max(State.stats[s]);
+        });
+    },
+    refreshCaps() {
+        this._refreshResourceCaps();
+        this._refreshStatCaps();
+    },
+    _refreshResourceCaps() {
+        if (!State.resources) return;
+        Object.keys(State.resources).forEach(key => {
+            const res = State.resources[key];
+            if (res) {
+                this.resourceCaps[key] = ResourceSystem.max(res);
             }
-        }
+        });
+    },
+    _refreshStatCaps() {
+        if (!State.stats) return;
+        Object.keys(State.stats).forEach(key => {
+            const stat = State.stats[key];
+            if (stat) {
+                this.statCaps[key] = StatSystem.max(stat);
+            }
+        });
     },
     apply() {
-        for (const s in this.statCaps) {
-            const cap = this.statCaps[s];
-            const val = getStatValue(s);
-            if (val > cap) {
-                setStatValue(s, cap + (val - cap) * this.falloff);
-            }
+        this.refreshCaps();
+    },
+    getResourceCap(name) {
+        if (!name || !State.resources || !State.resources[name]) {
+            return this.resourceCaps[name];
         }
-        for (const r in this.resourceCaps) {
-            const cap = this.resourceCaps[r];
-            const val = getResourceValue(r);
-            if (val > cap) {
-                setResourceValue(r, cap + (val - cap) * this.falloff);
-            }
+        if (this.resourceCaps[name] === undefined) {
+            this.resourceCaps[name] = ResourceSystem.max(State.resources[name]);
         }
+        return this.resourceCaps[name];
+    },
+    getStatCap(name) {
+        if (!name || !State.stats || !State.stats[name]) {
+            return this.statCaps[name];
+        }
+        if (this.statCaps[name] === undefined) {
+            this.statCaps[name] = StatSystem.max(State.stats[name]);
+        }
+        return this.statCaps[name];
     }
 };
+
+if (typeof module !== 'undefined') {
+    module.exports = { SoftCapSystem };
+}
