@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Consumable items now route restore effects through `StatSystem.add`, skipping resource keys, publishing `stats:updated`, and covering soft-cap behavior with updated tests.
 - Adventure encounters now auto-restart once depleted resources are fully restored, stopping the fallback rest action.
 - Resource and encounter displays now format all values with the shared `formatNumber` helper for consistency.
 - Normalized stat, resource, and tooltip numbers to use a shared `formatNumber` helper with three-decimal precision.

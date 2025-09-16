@@ -2,6 +2,8 @@ import json
 import os
 import subprocess
 
+import pytest
+
 
 def test_item_fields():
     path = os.path.join('data', 'items.json')
@@ -33,18 +35,22 @@ def test_consumable_restoration_values():
     assert set(berries['restore'].keys()) == {'health', 'energy', 'focus'}
 
 
-def test_inventory_consume_updates_resources_and_events():
+def test_inventory_consume_updates_stats_and_events():
     script = r"""
 const { ItemGenerator, Inventory } = require('./js/items.js');
 global.State = {
     inventory: { berries: { quantity: 2 } },
+    stats: {},
     resources: {
-        health: { value: 0 },
-        energy: { value: 0 },
-        focus: { value: 0 }
+        health: { value: 0 }
     },
     equipment: {}
 };
+const { StatSystem } = require('./js/state.js');
+global.StatSystem = StatSystem;
+State.stats.strength = StatSystem.create(9, 10, 'strength');
+const expected = StatSystem.create(9, 10, 'strength');
+StatSystem.add(expected, 3);
 global.updateState = function(path, fn) {
     const [root, id, prop] = path;
     if (root === 'inventory' && prop === 'quantity') {
@@ -55,24 +61,29 @@ global.deleteState = function(path) {
     const [root, id] = path;
     if (root === 'inventory') delete State.inventory[id];
 };
-global.ResourceSystem = {
-    add: (res, amt) => { res.value += amt; }
-};
 ItemGenerator.itemList = [
-    { id: 'berries', type: 'consumable', restore: { health: 1, energy: 1, focus: 1 } }
+    { id: 'berries', type: 'consumable', restore: { strength: 3, health: 2 } }
 ];
 const events = [];
 global.PubSub = { publish: (event) => events.push(event) };
 
 Inventory.consume('berries');
 
-console.log(JSON.stringify({ inventory: State.inventory, resources: State.resources, events }));
+console.log(JSON.stringify({
+    inventory: State.inventory,
+    resources: State.resources,
+    stats: State.stats,
+    events,
+    expected: expected.value
+}));
 """;
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     data = json.loads(result.stdout.strip())
     assert data['inventory']['berries']['quantity'] == 1
-    assert data['resources']['health']['value'] == 1
-    assert data['resources']['energy']['value'] == 1
-    assert data['resources']['focus']['value'] == 1
+    assert data['resources']['health']['value'] == 0
+    strength_val = data['stats']['strength']['value']
+    assert strength_val == pytest.approx(data['expected'])
+    assert strength_val < 12  # confirms soft cap applied instead of linear growth
     assert 'inventory:changed' in data['events']
-    assert 'resources:updated' in data['events']
+    assert 'stats:updated' in data['events']
+    assert 'resources:updated' not in data['events']

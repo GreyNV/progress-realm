@@ -117,13 +117,33 @@ const Inventory = {
         updateState(['inventory', id, 'quantity'], q => q - qty);
         if (State.inventory[id].quantity <= 0) deleteState(['inventory', id]);
         if (item && item.type === 'consumable') {
-            for (const [res, amt] of Object.entries(item.restore)) {
-                if (State.resources[res]) {
-                    ResourceSystem.add(State.resources[res], amt * qty);
+            const stats = (State && State.stats) ? State.stats : {};
+            const resources = (State && State.resources) ? State.resources : {};
+            let statsChanged = false;
+            const restoreEntries = item.restore ? Object.entries(item.restore) : [];
+            for (const [key, amt] of restoreEntries) {
+                const stat = stats ? stats[key] : undefined;
+                if (!stat) {
+                    if (resources && resources[key]) {
+                        continue;
+                    }
+                    const message = `Inventory.consume: missing stat definition for "${key}" on item ${id}`;
+                    if (typeof Logger !== 'undefined' && typeof Logger.warn === 'function') {
+                        Logger.warn(message);
+                    } else if (typeof console !== 'undefined' && typeof console.warn === 'function') {
+                        console.warn(message);
+                    }
+                    continue;
                 }
+                if (typeof StatSystem !== 'undefined' && typeof StatSystem.add === 'function') {
+                    StatSystem.add(stat, amt * qty);
+                } else {
+                    stat.value = (Number(stat.value) || 0) + amt * qty;
+                }
+                statsChanged = true;
             }
-            if (typeof PubSub !== 'undefined') {
-                PubSub.publish('resources:updated');
+            if (statsChanged && typeof PubSub !== 'undefined') {
+                PubSub.publish('stats:updated');
             }
         }
         if (typeof PubSub !== 'undefined') {
