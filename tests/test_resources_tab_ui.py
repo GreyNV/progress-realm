@@ -79,10 +79,10 @@ console.log(JSON.stringify(out));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     out = json.loads(result.stdout.strip())
-    assert out['strength']['amount'] == '1/10'
-    assert out['energy']['amount'] == '5/10'
-    assert out['wisdom']['amount'] == '2'
-    assert out['mastery']['amount'] == '3'
+    assert out['strength']['amount'] == '1.000/10.000'
+    assert out['energy']['amount'] == '5.000/10.000'
+    assert out['wisdom']['amount'] == '2.000'
+    assert out['mastery']['amount'] == '3.000'
     assert out['strength']['desc'] == 'Power'
     assert out['energy']['desc'] == 'Use'
     assert out['wisdom']['desc'] == 'Bonus'
@@ -155,4 +155,4 @@ console.log(JSON.stringify({ energy: ResourcesTab.entries['energy'].amount.textC
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     data = json.loads(result.stdout.strip())
-    assert data['energy'] == '7/10'
+    assert data['energy'] == '7.000/10.000'
