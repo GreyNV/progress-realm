@@ -66,15 +66,31 @@ const AdventureEngine = {
         if (!this.active) {
             for (let i = 0; i < State.adventureSlots.length; i++) {
                 const slot = State.adventureSlots[i];
-                if (slot.queue) {
-                    const cost = slot.queue.encounter.getResourceCost();
+                const queue = slot.queue;
+                if (!queue) continue;
+
+                if (queue.restart) {
+                    const resources = Array.isArray(queue.resources) ? queue.resources : [];
+                    const ready = resources.length === 0 || resources.every(r => {
+                        const res = State.resources[r];
+                        return res && res.value >= ResourceSystem.max(res);
+                    });
+                    if (ready) {
+                        slot.queue = null;
+                        this.start();
+                    }
+                    break;
+                }
+
+                if (queue.encounter) {
+                    const cost = queue.encounter.getResourceCost();
                     const ready = Object.keys(cost).every(r => {
                         const res = State.resources[r];
                         return res && res.value >= ResourceSystem.max(res);
                     });
                     if (ready) {
-                        slot.encounter = slot.queue.encounter;
-                        slot.progress = slot.queue.progress;
+                        slot.encounter = queue.encounter;
+                        slot.progress = queue.progress;
                         slot.duration = slot.encounter.getDuration();
                         slot.queue = null;
                         slot.active = true;
@@ -84,6 +100,8 @@ const AdventureEngine = {
                     }
                     break;
                 }
+
+                break;
             }
             return;
         }
@@ -131,6 +149,18 @@ function retreat(resourceName, manual = false) {
     const msg = Lang.log('retreat', { encounter: enc, resource: resLabel }) ||
         `You had to retreat after ${enc} because you ran out of ${resLabel}.`;
     if (State.showEncounterLog) Log.add(msg);
+    if (!manual && slot) {
+        const queue = { restart: true };
+        const resources = new Set();
+        if (slot.encounter && typeof slot.encounter.getResourceCost === 'function') {
+            Object.keys(slot.encounter.getResourceCost() || {}).forEach(r => resources.add(r));
+        }
+        if (resourceName) resources.add(resourceName);
+        if (resources.size) {
+            queue.resources = Array.from(resources);
+        }
+        slot.queue = queue;
+    }
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
     AdventureEngine.cancel(manual);
