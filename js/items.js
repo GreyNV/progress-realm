@@ -1,6 +1,6 @@
 // Agents: ItemGenerator and Inventory work together to manage loot. Encounters
-// call `Inventory.add()` with items produced here. Consumable items restore
-// resources directly when used.
+// call `Inventory.add()` with items produced here. Consumable items now grant
+// stat boosts when used instead of restoring resources directly.
 class Item {
     constructor(data) {
         this.id = data.id;
@@ -16,10 +16,18 @@ class Item {
         if (this.type === 'consumable' && this.restore) {
             const parts = [];
             for (const [key, val] of Object.entries(this.restore)) {
-                const resName = Lang.resource(key) || key;
-                parts.push(`+${val} ${resName}`);
+                let label = key;
+                if (typeof Lang !== 'undefined') {
+                    const statName = typeof Lang.stat === 'function' ? Lang.stat(key) : null;
+                    const resName = typeof Lang.resource === 'function' ? Lang.resource(key) : null;
+                    label = statName || resName || key;
+                }
+                parts.push(`+${val} ${label}`);
             }
-            return `Restores ${parts.join(', ')}`;
+            if (!parts.length) {
+                return '';
+            }
+            return `Grants ${parts.join(', ')}`;
         }
         return '';
     }
