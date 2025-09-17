@@ -11,6 +11,14 @@ if (typeof formatNumber === 'undefined' && typeof require !== 'undefined') {
     }
 }
 
+function getSoftcapLabel() {
+    if (typeof Lang !== 'undefined' && Lang.ui) {
+        const label = Lang.ui('Softcap');
+        if (label) return label;
+    }
+    return 'Softcap';
+}
+
 const EncounterUI = {
     init() {
         if (typeof PubSub !== 'undefined') {
@@ -31,8 +39,13 @@ const EncounterUI = {
         const el = document.getElementById('encounter-location');
         if (el) {
             const currentLevel = formatNumber(EncounterGenerator.level);
-            const maxLevel = formatNumber(State.maxEncounterLevel);
-            el.textContent = `${name} (Level ${currentLevel} (Max ${maxLevel}))`;
+            const maxLevelValue = typeof State !== 'undefined' ? State.maxEncounterLevel : undefined;
+            let softcapPart = '';
+            if (typeof maxLevelValue === 'number' && Number.isFinite(maxLevelValue)) {
+                const maxLevel = formatNumber(maxLevelValue);
+                softcapPart = `, ${getSoftcapLabel()} ${maxLevel}`;
+            }
+            el.textContent = `${name} (Level ${currentLevel}${softcapPart})`;
         }
     },
     updateProgressBar() {

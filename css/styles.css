@@ -478,6 +478,19 @@ main {
     font-size: var(--font-size-sm);
 }
 
+.slot .resource-tag-values {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    gap: 0.1rem;
+}
+
+.slot .resource-tag-softcap {
+    font-size: var(--font-size-xs);
+    opacity: 0.8;
+}
+
 .progress-wrapper {
     position: relative;
     cursor: pointer;

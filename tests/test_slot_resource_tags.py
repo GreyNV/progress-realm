@@ -101,15 +101,21 @@ global.Lang = { ui: () => '', stat: s => s, resource: r => r };
 
 updateSlotUI(0);
 const tagsEl = slot.el.querySelector('.resource-tags');
-const texts = tagsEl.children.map(ch => ch.children.map(c => c.textContent));
-console.log(JSON.stringify(texts));
+const rows = tagsEl.children.map(tag => {
+    const left = tag.children[0] ? tag.children[0].textContent : '';
+    const right = tag.children[1];
+    const current = right && right.children[0] ? right.children[0].textContent : (right ? right.textContent : '');
+    const softcap = right && right.children[1] ? right.children[1].textContent : null;
+    return [left, current, softcap];
+});
+console.log(JSON.stringify(rows));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     data = json.loads(result.stdout.strip())
     assert data == [
-        ['-1.000 gold', '5.000/10.000'],
-        ['-1.000 mana', '3.000/5.000'],
-        ['+2.000 food', '7.000/15.000'],
-        ['+3.000 strength', '8.000/20.000']
+        ['-1.000 gold', '5.000', 'Softcap 10.000'],
+        ['-1.000 mana', '3.000', 'Softcap 5.000'],
+        ['+2.000 food', '7.000', 'Softcap 15.000'],
+        ['+3.000 strength', '8.000', 'Softcap 20.000']
     ]
 
