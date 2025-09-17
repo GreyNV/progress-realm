@@ -55,6 +55,10 @@ global.State = {
 };
 global.StatSystem = { max: r => r.baseMax };
 global.ResourceSystem = { max: r => r.baseMax };
+global.SoftCapSystem = {
+  getStatCap: name => name === 'strength' ? 15 : (name === 'wisdom' ? Infinity : undefined),
+  getResourceCap: name => name === 'energy' ? 12 : undefined
+};
 global.Lang = {
   stat: k => k,
   resource: k => k,
@@ -72,21 +76,31 @@ const out = {};
 for (const li of list) {
   const name = li.children[0].children[0].textContent;
   const amt = li.children[0].children[1].textContent;
-  const desc = li.children[1].children[0].textContent;
-  out[name] = { amount: amt, desc: desc };
+  const detail = li.children[1];
+  let desc = '';
+  let softcap = '';
+  for (const child of detail.children) {
+    if ((child.className || '').includes('resource-desc')) desc = child.textContent;
+    if ((child.className || '').includes('resource-softcap')) softcap = child.textContent;
+  }
+  out[name] = { amount: amt, desc: desc, softcap: softcap };
 }
 console.log(JSON.stringify(out));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     out = json.loads(result.stdout.strip())
-    assert out['strength']['amount'] == '1.000/10.000'
-    assert out['energy']['amount'] == '5.000/10.000'
+    assert out['strength']['amount'] == '1.000'
+    assert out['energy']['amount'] == '5.000'
     assert out['wisdom']['amount'] == '2.000'
     assert out['mastery']['amount'] == '3.000'
     assert out['strength']['desc'] == 'Power'
     assert out['energy']['desc'] == 'Use'
     assert out['wisdom']['desc'] == 'Bonus'
     assert out['mastery']['desc'] == 'Mastered'
+    assert out['strength']['softcap'] == 'Softcap: 15.000'
+    assert out['energy']['softcap'] == 'Softcap: 12.000'
+    assert out['wisdom']['softcap'] == 'Softcap: ∞'
+    assert out['mastery']['softcap'] == 'Softcap: ∞'
 
 
 def test_uk_translation_resources_tab():
@@ -133,6 +147,11 @@ global.State = {
 };
 global.StatSystem = { max: r => r.baseMax };
 global.ResourceSystem = { max: r => r.baseMax };
+let cap = 10;
+global.SoftCapSystem = {
+  getResourceCap: () => cap,
+  getStatCap: () => undefined
+};
 global.Lang = {
   stat: k => k,
   resource: k => k,
@@ -149,10 +168,12 @@ global.PubSub = {
 };
 const { ResourcesTab } = require('./js/ui/resources_tab.js');
 ResourcesTab.init();
+cap = 15;
 State.resources.energy.value = 7;
 PubSub.publish('resources:updated');
-console.log(JSON.stringify({ energy: ResourcesTab.entries['energy'].amount.textContent }));
+console.log(JSON.stringify({ energy: ResourcesTab.entries['energy'].amount.textContent, softcap: ResourcesTab.entries['energy'].softcap.textContent }));
 """
     result = subprocess.run(['node', '-e', script], capture_output=True, text=True, check=True)
     data = json.loads(result.stdout.strip())
-    assert data['energy'] == '7.000/10.000'
+    assert data['energy'] == '7.000'
+    assert data['softcap'] == 'Softcap: 15.000'
