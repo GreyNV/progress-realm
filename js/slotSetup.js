@@ -56,6 +56,36 @@ function formatTagValue(value) {
     return `${value}`;
 }
 
+function getSoftcapLabel() {
+    if (typeof Lang !== 'undefined' && Lang.ui) {
+        const label = Lang.ui('Softcap');
+        if (label) return label;
+    }
+    return 'Softcap';
+}
+
+function buildTagValueElement(currentValue, maxValue) {
+    const container = document.createElement('span');
+    container.className = 'resource-tag-values';
+
+    const currentEl = document.createElement('span');
+    currentEl.className = 'resource-tag-current';
+    currentEl.textContent = formatTagValue(currentValue);
+    container.appendChild(currentEl);
+
+    if (maxValue !== Infinity) {
+        const softcapText = formatTagValue(maxValue);
+        const softcapEl = document.createElement('span');
+        softcapEl.className = 'resource-tag-softcap';
+        const label = getSoftcapLabel();
+        softcapEl.textContent = `${label} ${softcapText}`;
+        container.appendChild(softcapEl);
+        container.title = `${label} ${softcapText}`;
+    }
+
+    return container;
+}
+
 function assignActionToSlot(actionId) {
     let index = State.slots.findIndex(s => !s.actionId);
     if (index === -1) {
@@ -300,7 +330,6 @@ function updateSlotUI(i) {
             tag.className = 'resource-tag';
             const left = document.createElement('span');
             left.textContent = `${t.sign}${formatTagValue(t.amount)} ${t.name}`;
-            const right = document.createElement('span');
             let current = 0;
             let max = Infinity;
             if (t.type === 'resource') {
@@ -320,11 +349,7 @@ function updateSlotUI(i) {
                     }
                 }
             }
-            const formattedCurrent = formatTagValue(current);
-            const formattedMax = formatTagValue(max);
-            right.textContent = max === Infinity
-                ? `${formattedCurrent}`
-                : `${formattedCurrent}/${formattedMax}`;
+            const right = buildTagValueElement(current, max);
             tag.appendChild(left);
             tag.appendChild(right);
             tagsEl.appendChild(tag);
@@ -414,7 +439,6 @@ function updateAdventureSlotUI(i) {
                 const left = document.createElement('span');
                 const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
                 left.textContent = `-${formatTagValue(cost[r])} ${name}`;
-                const right = document.createElement('span');
                 let current = 0;
                 let max = Infinity;
                 const res = State.resources && State.resources[r];
@@ -424,11 +448,7 @@ function updateAdventureSlotUI(i) {
                         max = ResourceSystem.max(res);
                     }
                 }
-                const formattedCurrent = formatTagValue(current);
-                const formattedMax = formatTagValue(max);
-                right.textContent = max === Infinity
-                    ? `${formattedCurrent}`
-                    : `${formattedCurrent}/${formattedMax}`;
+                const right = buildTagValueElement(current, max);
                 tag.appendChild(left);
                 tag.appendChild(right);
                 tagsEl.appendChild(tag);
