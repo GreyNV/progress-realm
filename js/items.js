@@ -1,6 +1,6 @@
 // Agents: ItemGenerator and Inventory work together to manage loot. Encounters
-// call `Inventory.add()` with items produced here. Consumable items restore
-// resources directly when used.
+// call `Inventory.add()` with items produced here. Consumable items grant
+// permanent stat increases when used.
 class Item {
     constructor(data) {
         this.id = data.id;
@@ -17,13 +17,11 @@ class Item {
             const parts = [];
             for (const [key, val] of Object.entries(this.restore)) {
                 let label = key;
-                if (typeof Lang !== 'undefined') {
-                    const statName = typeof Lang.stat === 'function' ? Lang.stat(key) : null;
-                    let resName = null;
-                    if (!statName && typeof Lang.resource === 'function') {
-                        resName = Lang.resource(key);
+                if (typeof Lang !== 'undefined' && typeof Lang.stat === 'function') {
+                    const statName = Lang.stat(key);
+                    if (statName) {
+                        label = statName;
                     }
-                    label = statName || resName || key;
                 }
                 parts.push(`+${val} ${label}`);
             }
@@ -133,15 +131,11 @@ const Inventory = {
         if (State.inventory[id].quantity <= 0) deleteState(['inventory', id]);
         if (item && item.type === 'consumable') {
             const stats = (State && State.stats) ? State.stats : {};
-            const resources = (State && State.resources) ? State.resources : {};
             let statsChanged = false;
             const restoreEntries = item.restore ? Object.entries(item.restore) : [];
             for (const [key, amt] of restoreEntries) {
                 const stat = stats ? stats[key] : undefined;
                 if (!stat) {
-                    if (resources && resources[key]) {
-                        continue;
-                    }
                     const message = `Inventory.consume: missing stat definition for "${key}" on item ${id}`;
                     if (typeof Logger !== 'undefined' && typeof Logger.warn === 'function') {
                         Logger.warn(message);
