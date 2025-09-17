@@ -156,6 +156,7 @@
         "type": "consumable",
         "restore": {
             "strength": 1,
+            "dexterity": 1,
             "intelligence": 2
         },
         "image": "assets/user_uploaded/berries.jpg",

@@ -9,6 +9,8 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Soft caps now apply prestige boosts through a dedicated SoftCapSystem multiplier helper, keeping stat max arrays untouched.
+- Berries consumables now restore dexterity alongside other stats to match restoration rules.
 - Consumable item descriptions and consumption logic now only reference stat bonuses, warning if a stat key is missing instead of silently treating it as a resource.
 - Reworked consumable item tests to enforce stat-only restoration keys and added a regression case proving soft-cap diminishing returns when consuming stat boosts.
 - Rebalanced consumable stat bonuses and show their effects as localized stat increases in the inventory tooltip.

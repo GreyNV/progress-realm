@@ -4,8 +4,13 @@ function applyPrestigeBonuses() {
     STAT_KEYS.forEach(k => {
         const pKey = PRESTIGE_MAP[k];
         const p = State.prestige[pKey] ? State.prestige[pKey].value : 0;
-        if (State.stats[k]) {
-            setState(['stats', k, 'maxMultipliers'], [1 + p * 0.02]);
+        if (
+            State.stats[k] &&
+            typeof SoftCapSystem !== 'undefined' &&
+            SoftCapSystem &&
+            typeof SoftCapSystem.bumpStatCap === 'function'
+        ) {
+            SoftCapSystem.bumpStatCap(k, 1 + p * 0.02);
         }
         if (typeof BonusEngine !== 'undefined') {
             BonusEngine.statMultipliers[k] = 1 + p * 0.05;

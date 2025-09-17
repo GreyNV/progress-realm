@@ -77,3 +77,49 @@ def test_stats_exceed_soft_cap_with_diminishing_returns():
     assert data['afterFirst'] > data['cap']
     assert 0 < data['gainSecond'] < 10
     assert 0 < data['gainThird'] < data['gainSecond']
+
+
+def test_refresh_caps_uses_stat_multiplier_without_touching_state():
+    script = textwrap.dedent(
+        """
+        const { State, ResourceSystem, StatSystem, setState } = require('./js/state.js');
+        global.State = State;
+        global.ResourceSystem = ResourceSystem;
+        global.StatSystem = StatSystem;
+        global.setState = setState;
+        const { SoftCapSystem } = require('./js/soft_cap.js');
+        global.SoftCapSystem = SoftCapSystem;
+
+        State.stats = { strength: StatSystem.create(0, 50, 'strength') };
+        const beforeMultipliers = (State.stats.strength.maxMultipliers || []).slice();
+
+        SoftCapSystem.recalculateCaps();
+        const baseSoftCap = SoftCapSystem.getStatCap('strength');
+        const baseRawCap = StatSystem.max(State.stats.strength);
+
+        SoftCapSystem.bumpStatCap('strength', 1.5);
+        SoftCapSystem.refreshCaps();
+        const afterRefresh = SoftCapSystem.getStatCap('strength');
+        const rawAfterRefresh = StatSystem.max(State.stats.strength);
+        const afterMultipliers = (State.stats.strength.maxMultipliers || []).slice();
+
+        SoftCapSystem.recalculateCaps();
+        const afterRecalc = SoftCapSystem.getStatCap('strength');
+
+        console.log(JSON.stringify({
+            baseSoftCap,
+            baseRawCap,
+            afterRefresh,
+            rawAfterRefresh,
+            afterRecalc,
+            beforeMultipliers,
+            afterMultipliers
+        }));
+        """
+    )
+    data = _run_node(script)
+    assert data['baseSoftCap'] == data['baseRawCap']
+    assert round(data['afterRefresh'], 6) == round(data['baseSoftCap'] * 1.5, 6)
+    assert data['rawAfterRefresh'] == data['baseRawCap']
+    assert data['afterRecalc'] == data['afterRefresh']
+    assert data['beforeMultipliers'] == data['afterMultipliers']

@@ -4,6 +4,7 @@ const SoftCapSystem = {
     baseResourceCaps: { energy: 20, focus: 20, health: 10 },
     statCaps: {},
     resourceCaps: {},
+    statCapMultipliers: {},
     recalculateCaps() {
         this.statCaps = { ...this.baseStatCaps };
         this.resourceCaps = { ...this.baseResourceCaps };
@@ -37,9 +38,28 @@ const SoftCapSystem = {
         Object.keys(State.stats).forEach(key => {
             const stat = State.stats[key];
             if (stat) {
-                this.statCaps[key] = StatSystem.max(stat);
+                const baseCap = StatSystem.max(stat);
+                const multiplier = this._statMultiplierFor(key);
+                this.statCaps[key] = baseCap * multiplier;
             }
         });
+    },
+    bumpStatCap(name, multiplier) {
+        if (!name) return;
+        const numeric = Number(multiplier);
+        if (!Number.isFinite(numeric) || numeric <= 0 || numeric === 1) {
+            delete this.statCapMultipliers[name];
+        } else {
+            this.statCapMultipliers[name] = numeric;
+        }
+        if (!State.stats || !State.stats[name]) {
+            delete this.statCaps[name];
+            return;
+        }
+        const stat = State.stats[name];
+        const baseCap = StatSystem.max(stat);
+        const effectiveMultiplier = this._statMultiplierFor(name);
+        this.statCaps[name] = baseCap * effectiveMultiplier;
     },
     apply() {
         this.refreshCaps();
@@ -58,9 +78,18 @@ const SoftCapSystem = {
             return this.statCaps[name];
         }
         if (this.statCaps[name] === undefined) {
-            this.statCaps[name] = StatSystem.max(State.stats[name]);
+            const baseCap = StatSystem.max(State.stats[name]);
+            const multiplier = this._statMultiplierFor(name);
+            this.statCaps[name] = baseCap * multiplier;
         }
         return this.statCaps[name];
+    },
+    _statMultiplierFor(name) {
+        const mult = this.statCapMultipliers[name];
+        if (!Number.isFinite(mult) || mult <= 0) {
+            return 1;
+        }
+        return mult;
     }
 };
 
