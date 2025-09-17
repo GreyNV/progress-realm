@@ -72,15 +72,7 @@ const ResourcesTab = {
         }
         const amt = document.createElement('span');
         amt.className = 'resource-amount';
-        let max;
-        if (group === 'stats' || group === 'prestige') {
-            max = StatSystem.max(res);
-        } else {
-            max = ResourceSystem.max(res);
-        }
-        amt.textContent = max !== Infinity
-            ? `${formatNumber(res.value)}/${formatNumber(max)}`
-            : `${formatNumber(res.value)}`;
+        amt.textContent = this._formatAmount(res.value);
         btn.appendChild(label);
         btn.appendChild(amt);
         li.appendChild(btn);
@@ -93,6 +85,10 @@ const ResourcesTab = {
             descEl.textContent = descText;
             detail.appendChild(descEl);
         }
+        const softcapEl = document.createElement('p');
+        softcapEl.className = 'resource-softcap';
+        softcapEl.textContent = this._buildSoftcapText(group, name, res);
+        detail.appendChild(softcapEl);
         const mods = document.createElement('ul');
         mods.className = 'resource-mods';
         detail.appendChild(mods);
@@ -100,7 +96,7 @@ const ResourcesTab = {
         btn.addEventListener('click', () => {
             detail.classList.toggle('hidden');
         });
-        this.entries[name] = { amount: amt, mods: mods, group: group };
+        this.entries[name] = { amount: amt, mods: mods, group: group, softcap: softcapEl };
         this._renderMods(name, res);
         return li;
     },
@@ -119,6 +115,57 @@ const ResourcesTab = {
             list.appendChild(li);
         });
     },
+    _formatAmount(value) {
+        if (value === undefined || value === null) {
+            return '—';
+        }
+        const numeric = Number(value);
+        if (Number.isFinite(numeric)) {
+            return formatNumber(numeric);
+        }
+        return '∞';
+    },
+    _resolveCapValue(group, name, res) {
+        const softCapSystem = (typeof SoftCapSystem !== 'undefined' && SoftCapSystem) ? SoftCapSystem : null;
+        if (group === 'stats' || group === 'prestige') {
+            if (softCapSystem && typeof softCapSystem.getStatCap === 'function') {
+                const cap = softCapSystem.getStatCap(name);
+                if (cap !== undefined && cap !== null) {
+                    return cap;
+                }
+            }
+            if (typeof StatSystem !== 'undefined' && StatSystem && typeof StatSystem.max === 'function' && res) {
+                return StatSystem.max(res);
+            }
+            return undefined;
+        }
+        if (softCapSystem && typeof softCapSystem.getResourceCap === 'function') {
+            const cap = softCapSystem.getResourceCap(name);
+            if (cap !== undefined && cap !== null) {
+                return cap;
+            }
+        }
+        if (typeof ResourceSystem !== 'undefined' && ResourceSystem && typeof ResourceSystem.max === 'function' && res) {
+            return ResourceSystem.max(res);
+        }
+        return undefined;
+    },
+    _buildSoftcapText(group, name, res) {
+        const cap = this._resolveCapValue(group, name, res);
+        if (cap === undefined || cap === null) {
+            return 'Softcap: —';
+        }
+        const numericCap = Number(cap);
+        if (Number.isFinite(numericCap)) {
+            return `Softcap: ${formatNumber(numericCap)}`;
+        }
+        return 'Softcap: ∞';
+    },
+    _updateSoftcap(name, group, res) {
+        const entry = this.entries[name];
+        if (!entry || !entry.softcap) return;
+        entry.softcap.textContent = this._buildSoftcapText(group, name, res);
+    },
     update(name) {
         let res = State.resources[name] || State.stats[name] || State.prestige[name];
         let group = 'resources';
@@ -134,10 +181,10 @@ const ResourcesTab = {
             this.container.appendChild(el);
             return;
         }
-        const max = (group === 'stats' || group === 'prestige') ? StatSystem.max(res) : ResourceSystem.max(res);
-        this.entries[name].amount.textContent = max !== Infinity
-            ? `${formatNumber(res.value)}/${formatNumber(max)}`
-            : `${formatNumber(res.value)}`;
+        const entry = this.entries[name];
+        entry.group = group;
+        entry.amount.textContent = this._formatAmount(res.value);
+        this._updateSoftcap(name, group, res);
         this._renderMods(name, res);
     }
 };
