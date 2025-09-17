@@ -40,7 +40,8 @@
     "Consumables": "Витратні матеріали",
     "Equipment": "Спорядження",
     "Equip": "Одягти",
-    "Character": "Персонаж"
+    "Character": "Персонаж",
+    "Stat increase": "Збільшення характеристики"
   },
   "actions": {
     "studying": { "name": "Навчання" },

@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Rebalanced consumable stat bonuses and show their effects as localized stat increases in the inventory tooltip.
 - Consumable items now route restore effects through `StatSystem.add`, skipping resource keys, publishing `stats:updated`, and covering soft-cap behavior with updated tests.
 - Updated consumable item definitions to grant stat increases instead of restoring resources.
 - Adventure encounters now auto-restart once depleted resources are fully restored, stopping the fallback rest action.

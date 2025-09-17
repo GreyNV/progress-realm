@@ -19,12 +19,22 @@ class Item {
                 let label = key;
                 if (typeof Lang !== 'undefined') {
                     const statName = typeof Lang.stat === 'function' ? Lang.stat(key) : null;
-                    const resName = typeof Lang.resource === 'function' ? Lang.resource(key) : null;
+                    let resName = null;
+                    if (!statName && typeof Lang.resource === 'function') {
+                        resName = Lang.resource(key);
+                    }
                     label = statName || resName || key;
                 }
                 parts.push(`+${val} ${label}`);
             }
-            return `Restores ${parts.join(', ')}`;
+            if (!parts.length) {
+                return '';
+            }
+            let prefix = 'Stat increase';
+            if (typeof Lang !== 'undefined' && typeof Lang.ui === 'function') {
+                prefix = Lang.ui('Stat increase') || prefix;
+            }
+            return `${prefix}: ${parts.join(', ')}`;
         }
         return '';
     }
