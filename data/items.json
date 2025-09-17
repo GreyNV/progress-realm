@@ -5,7 +5,7 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "intelligence": 1,
+            "intelligence": 2,
             "dexterity": 1
         },
         "image": "assets/items/herb.png",
@@ -17,7 +17,7 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "strength": 5
+            "strength": 4
         },
         "image": "assets/items/rabbit.png",
         "description": "Fresh meat from a hunted rabbit."
@@ -120,7 +120,7 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "strength": 1,
+            "intelligence": 1,
             "dexterity": 2
         },
         "image": "assets/user_uploaded/water_flask.jpg",
@@ -157,7 +157,7 @@
         "type": "consumable",
         "restore": {
             "strength": 1,
-            "dexterity": 1,
+            "dexterity": 2,
             "intelligence": 1
         },
         "image": "assets/user_uploaded/berries.jpg",
@@ -186,8 +186,8 @@
         "rarity": "common",
         "type": "consumable",
         "restore": {
-            "strength": 3,
-            "dexterity": 2
+            "strength": 2,
+            "dexterity": 3
         },
         "image": "assets/user_uploaded/cooked_fish.jpg",
         "description": "Freshly cooked fish that restores vigor."
