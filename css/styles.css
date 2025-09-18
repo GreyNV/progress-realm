@@ -826,38 +826,68 @@ body[data-theme="dark"] {
 }
 
 .tab-section[data-section="character"] {
+    position: relative;
+}
+
+.character-layout {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: var(--space-md);
+}
+
+.character-portrait {
+    position: relative;
+    width: min(100%, 520px);
+    aspect-ratio: 3 / 4;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
 }
 
-.character-layout {
-    gap: var(--space-md);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-/* Equalize column widths for left and right slot groups */
-#character-slots-left,
-#character-slots-right {
-    flex: 1;
-}
-
-.character-layout .slots {
+.character-slot-column {
+    position: absolute;
+    top: 6%;
+    bottom: 6%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: clamp(82px, 28%, 132px);
+    padding-block: clamp(1rem, 4vh, 2.5rem);
+    padding-inline: clamp(0.5rem, 2vw, 1.25rem);
+    z-index: 1;
+}
+
+.character-slot-column-left {
+    inset-inline-start: 0;
+}
+
+.character-slot-column-right {
+    inset-inline-end: 0;
 }
 
 .character-layout .slot {
-    width: 80px;
-    height: 80px;
     border: 2px solid var(--slot-border-color);
     background-color: var(--slot-bg);
-    opacity: 0.8;
+}
+
+.character-slot-column .slot {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1;
+    min-height: 0;
     padding: var(--space-xs);
-    flex: 0 0 auto;
+    border-width: 3px;
+    border-color: var(--slot-border-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    background-color: var(--slot-bg);
+}
+
+.character-slot-column .slot .label {
+    top: 0.6rem;
+    font-size: 0.75rem;
 }
 
 @media (max-width: 700px) {
@@ -869,14 +899,17 @@ body[data-theme="dark"] {
         grid-template-columns: repeat(3, 1fr);
         gap: var(--space-sm);
     }
-    /* Stack character slots vertically on narrow screens */
-    .character-layout .slots {
-        display: flex;
-        flex-direction: column;
+    .character-slot-column {
+        width: clamp(70px, 32vw, 110px);
+        padding-block: clamp(0.75rem, 3vh, 1.8rem);
+        padding-inline: clamp(0.5rem, 3vw, 1rem);
     }
-    .character-layout .slot {
-        width: 60px;
-        height: 60px;
+    .character-slot-column .slot {
+        border-width: 2px;
+    }
+    .character-slot-column .slot .label {
+        top: 0.45rem;
+        font-size: 0.7rem;
     }
     .tab-section {
         flex-direction: column;

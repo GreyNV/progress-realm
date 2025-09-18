@@ -8,7 +8,14 @@ class Elem {
   constructor(){ this.style = {}; }
 }
 const elem = new Elem();
-global.document = { querySelector: () => elem };
+global.document = {
+  querySelector: (selector) => {
+    if (selector === '.character-portrait' || selector === '.tab-section[data-section="character"]') {
+      return elem;
+    }
+    return null;
+  }
+};
 global.PubSub = {
   events: {},
   subscribe(ev, fn){ this.events[ev] = fn; },
