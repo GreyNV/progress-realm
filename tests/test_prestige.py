@@ -3,6 +3,16 @@ import os
 import subprocess
 import textwrap
 
+
+def _run_node(script: str):
+    result = subprocess.run(
+        ['node', '-e', script],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return json.loads(result.stdout.strip())
+
 def test_prestige_button_exists():
     with open('index.html') as f:
         html = f.read()
@@ -29,6 +39,57 @@ def test_prestige_bonus_applied():
     with open(path) as f:
         text = f.read()
     assert 'applyPrestigeBonuses()' in text
+
+
+def test_prestige_soft_cap_bonus_updates_caps_only():
+    script = textwrap.dedent(
+        """
+        const { State, ResourceSystem, StatSystem, setState, PRESTIGE_MAP } = require('./js/state.js');
+        global.State = State;
+        global.ResourceSystem = ResourceSystem;
+        global.StatSystem = StatSystem;
+        global.setState = setState;
+        global.PRESTIGE_MAP = PRESTIGE_MAP;
+        global.STAT_KEYS = ['strength'];
+        const { SoftCapSystem } = require('./js/soft_cap.js');
+        global.SoftCapSystem = SoftCapSystem;
+        global.BonusEngine = { statMultipliers: {} };
+
+        const { applyPrestigeBonuses } = require('./js/prestige.js');
+
+        State.stats = { strength: StatSystem.create(0, 50, 'strength') };
+        State.stats.strength.maxMultipliers = [0];
+        State.prestige = { constitution: StatSystem.create(5, Infinity, 'constitution') };
+
+        SoftCapSystem.recalculateCaps();
+        const beforeSoftCap = SoftCapSystem.getStatCap('strength');
+        const beforeRawCap = StatSystem.max(State.stats.strength);
+        const beforeMultipliers = (State.stats.strength.maxMultipliers || []).slice();
+
+        applyPrestigeBonuses();
+
+        const afterSoftCap = SoftCapSystem.getStatCap('strength');
+        const afterRawCap = StatSystem.max(State.stats.strength);
+        const afterMultipliers = (State.stats.strength.maxMultipliers || []).slice();
+        const bonusMultiplier = BonusEngine.statMultipliers.strength;
+
+        console.log(JSON.stringify({
+            beforeSoftCap,
+            afterSoftCap,
+            beforeRawCap,
+            afterRawCap,
+            beforeMultipliers,
+            afterMultipliers,
+            bonusMultiplier
+        }));
+        """
+    )
+    data = _run_node(script)
+    assert data['beforeSoftCap'] == data['beforeRawCap']
+    assert round(data['afterSoftCap'], 6) == round(data['beforeSoftCap'] * 1.1, 6)
+    assert data['afterRawCap'] == data['beforeRawCap']
+    assert data['beforeMultipliers'] == data['afterMultipliers'] == [0]
+    assert round(data['bonusMultiplier'], 6) == round(1 + 5 * 0.05, 6)
 
 
 def test_prestige_summary_removed():
