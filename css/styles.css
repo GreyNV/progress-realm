@@ -486,11 +486,6 @@ main {
     gap: 0.1rem;
 }
 
-.slot .resource-tag-softcap {
-    font-size: var(--font-size-xs);
-    opacity: 0.8;
-}
-
 .progress-wrapper {
     position: relative;
     cursor: pointer;

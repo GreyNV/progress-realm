@@ -56,36 +56,6 @@ function formatTagValue(value) {
     return `${value}`;
 }
 
-function getSoftcapLabel() {
-    if (typeof Lang !== 'undefined' && Lang.ui) {
-        const label = Lang.ui('Softcap');
-        if (label) return label;
-    }
-    return 'Softcap';
-}
-
-function buildTagValueElement(currentValue, maxValue) {
-    const container = document.createElement('span');
-    container.className = 'resource-tag-values';
-
-    const currentEl = document.createElement('span');
-    currentEl.className = 'resource-tag-current';
-    currentEl.textContent = formatTagValue(currentValue);
-    container.appendChild(currentEl);
-
-    if (maxValue !== Infinity) {
-        const softcapText = formatTagValue(maxValue);
-        const softcapEl = document.createElement('span');
-        softcapEl.className = 'resource-tag-softcap';
-        const label = getSoftcapLabel();
-        softcapEl.textContent = `${label} ${softcapText}`;
-        container.appendChild(softcapEl);
-        container.title = `${label} ${softcapText}`;
-    }
-
-    return container;
-}
-
 function assignActionToSlot(actionId) {
     let index = State.slots.findIndex(s => !s.actionId);
     if (index === -1) {
@@ -331,27 +301,25 @@ function updateSlotUI(i) {
             const left = document.createElement('span');
             left.textContent = `${t.sign}${formatTagValue(t.amount)} ${t.name}`;
             let current = 0;
-            let max = Infinity;
             if (t.type === 'resource') {
                 const res = State.resources && State.resources[t.key];
                 if (res) {
                     current = res.value;
-                    if (typeof ResourceSystem !== 'undefined' && ResourceSystem.max) {
-                        max = ResourceSystem.max(res);
-                    }
                 }
             } else {
                 const stat = State.stats && State.stats[t.key];
                 if (stat) {
                     current = stat.value;
-                    if (typeof StatSystem !== 'undefined' && StatSystem.max) {
-                        max = StatSystem.max(stat);
-                    }
                 }
             }
-            const right = buildTagValueElement(current, max);
+            const valuesEl = document.createElement('span');
+            valuesEl.className = 'resource-tag-values';
+            const currentEl = document.createElement('span');
+            currentEl.className = 'resource-tag-current';
+            currentEl.textContent = formatTagValue(current);
+            valuesEl.appendChild(currentEl);
             tag.appendChild(left);
-            tag.appendChild(right);
+            tag.appendChild(valuesEl);
             tagsEl.appendChild(tag);
         }
     }
@@ -440,17 +408,18 @@ function updateAdventureSlotUI(i) {
                 const name = typeof Lang !== 'undefined' && Lang.resource ? (Lang.resource(r) || r) : r;
                 left.textContent = `-${formatTagValue(cost[r])} ${name}`;
                 let current = 0;
-                let max = Infinity;
                 const res = State.resources && State.resources[r];
                 if (res) {
                     current = res.value;
-                    if (typeof ResourceSystem !== 'undefined' && ResourceSystem.max) {
-                        max = ResourceSystem.max(res);
-                    }
                 }
-                const right = buildTagValueElement(current, max);
+                const valuesEl = document.createElement('span');
+                valuesEl.className = 'resource-tag-values';
+                const currentEl = document.createElement('span');
+                currentEl.className = 'resource-tag-current';
+                currentEl.textContent = formatTagValue(current);
+                valuesEl.appendChild(currentEl);
                 tag.appendChild(left);
-                tag.appendChild(right);
+                tag.appendChild(valuesEl);
                 tagsEl.appendChild(tag);
             }
         }
