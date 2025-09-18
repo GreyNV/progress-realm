@@ -16,21 +16,22 @@ def test_queue_slot_styles_defined():
     assert '.resource-tags' in text and '.resource-tag' in text
 
 
-def test_action_repeats_queues_and_resumes_at_max():
+def test_action_queue_resumes_at_thresholds():
     script = r"""
 const { ActionEngine } = require('./js/action_engine.js');
+let publishCount = 0;
 global.State = {
     defaultActionId: 'idle',
     time: 1,
     slots: [{ actionId: 'idle', progress: 0, blocked: false, text: '', queue: null }],
     resources: {
-        gold: { value: 2, baseMax: 2, maxAdditions: [], maxMultipliers: [] },
-        mana: { value: 2, baseMax: 2, maxAdditions: [], maxMultipliers: [] }
+        gold: { value: 4, baseMax: 5, maxAdditions: [], maxMultipliers: [] },
+        mana: { value: 4, baseMax: 6, maxAdditions: [], maxMultipliers: [] }
     }
 };
 global.actions = {
     idle: { name: 'Idle', progress: 0 },
-    work: { name: 'Work', progress: 0, resourceCost: { gold: 1 }, resourceConsumption: { mana: 1 } }
+    work: { name: 'Work', progress: 0, resourceCost: { gold: 2 }, resourceConsumption: { mana: 1 } }
 };
 global.ResourceSystem = {
     max: res => res.baseMax,
@@ -49,38 +50,89 @@ global.canAfford = (costs, delta) => {
 global.scalingMultiplier = () => 1;
 global.applyYield = () => {};
 global.gainExp = () => {};
-global.PubSub = { publish: () => {} };
-global.SoftCapSystem = { apply: () => {} };
+global.PubSub = {
+    publish: event => {
+        if (event === 'resources:updated') publishCount += 1;
+    }
+};
+global.SoftCapSystem = {
+    apply: () => {},
+    getResourceCap: name => name === 'mana' ? 4 : undefined
+};
 global.checkHealth = () => {};
 global.SaveSystem = { save: () => {} };
 
+const states = [];
+function snapshot(label) {
+    states.push({
+        label,
+        slot: JSON.parse(JSON.stringify(State.slots[0])),
+        resources: JSON.parse(JSON.stringify(State.resources)),
+        publishCount
+    });
+}
+
 ActionEngine.start(0, 'work');
-console.log(JSON.stringify({slot: State.slots[0], res: State.resources}));
+snapshot('start');
+
 ActionEngine.tick(2);
-console.log(JSON.stringify({slot: State.slots[0], res: State.resources}));
-State.resources.gold.value = State.resources.gold.baseMax;
-ActionEngine.tick(1);
-console.log(JSON.stringify({slot: State.slots[0], res: State.resources}));
-State.resources.mana.value = State.resources.mana.baseMax;
+snapshot('queuedForCost');
+
+State.resources.gold.value = 2;
+State.resources.mana.value = 4;
 ActionEngine.tick(0);
-console.log(JSON.stringify({slot: State.slots[0], res: State.resources}));
+snapshot('resumedAtThreshold');
+
+State.resources.mana.value = 0;
+ActionEngine.tick(1);
+snapshot('queuedForConsumption');
+
+State.resources.mana.value = 4;
+ActionEngine.tick(0);
+snapshot('resumedAfterConsumption');
+
+console.log(JSON.stringify(states));
 """
     result = subprocess.run(
         ['node', '-e', script], check=True, capture_output=True, text=True
     )
-    lines = result.stdout.strip().splitlines()
-    assert len(lines) == 4
-    start_state = json.loads(lines[0])
-    tick1_state = json.loads(lines[1])
-    tick2_state = json.loads(lines[2])
-    tick3_state = json.loads(lines[3])
-    # action starts and runs immediately
+    states = json.loads(result.stdout.strip())
+    assert len(states) == 5
+
+    start_state = states[0]
+    queued_cost = states[1]
+    resumed_cost = states[2]
+    queued_consumption = states[3]
+    resumed_consumption = states[4]
+
     assert start_state['slot']['actionId'] == 'work'
-    # after resources drop below cost, action queues and default runs
-    assert tick1_state['slot']['actionId'] == 'idle'
-    assert tick1_state['slot']['queue']['id'] == 'work'
-    assert tick1_state['res']['gold']['value'] == 0
-    # replenishing only gold is not enough to resume
-    assert tick2_state['slot']['actionId'] == 'idle'
-    # once all resources are at max, queued action resumes
-    assert tick3_state['slot']['actionId'] == 'work'
+    assert start_state['resources']['gold']['value'] == 2
+    assert start_state['resources']['mana']['value'] == 4
+    assert start_state['publishCount'] == 1
+
+    assert queued_cost['slot']['actionId'] == 'idle'
+    assert queued_cost['slot']['queue']['id'] == 'work'
+    assert queued_cost['slot']['queue']['costPaid'] is False
+    assert queued_cost['resources']['gold']['value'] == 0
+    assert queued_cost['resources']['mana']['value'] == 2
+    assert queued_cost['publishCount'] == 3
+
+    assert resumed_cost['slot']['actionId'] == 'work'
+    assert resumed_cost['slot']['queue'] is None
+    assert resumed_cost['resources']['gold']['value'] == 0
+    assert resumed_cost['resources']['mana']['value'] == 4
+    assert resumed_cost['resources']['gold']['value'] < resumed_cost['resources']['gold']['baseMax']
+    assert resumed_cost['resources']['mana']['value'] < resumed_cost['resources']['mana']['baseMax']
+    assert resumed_cost['publishCount'] == 5
+
+    assert queued_consumption['slot']['actionId'] == 'idle'
+    assert queued_consumption['slot']['queue']['costPaid'] is True
+    assert queued_consumption['resources']['mana']['value'] == 0
+    assert queued_consumption['publishCount'] == 5
+
+    assert resumed_consumption['slot']['actionId'] == 'work'
+    assert resumed_consumption['slot']['queue'] is None
+    assert resumed_consumption['resources']['mana']['value'] == 4
+    assert resumed_consumption['resources']['mana']['value'] < resumed_consumption['resources']['mana']['baseMax']
+    assert resumed_consumption['resources']['gold']['value'] == resumed_cost['resources']['gold']['value']
+    assert resumed_consumption['publishCount'] == 6

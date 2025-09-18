@@ -1,5 +1,14 @@
 // AdventureEngine handles encounter slots and retreat logic
 
+let queueResourceHelpers = null;
+if (typeof module !== 'undefined' && module.exports) {
+    try {
+        queueResourceHelpers = require('./resource_queue_helpers.js');
+    } catch (err) {
+        queueResourceHelpers = null;
+    }
+}
+
 const AdventureEngine = {
     activeIndex: null,
     active: false,
@@ -178,52 +187,21 @@ function checkHealth() {
 }
 
 function resolveQueueResourceCap(name) {
-    if (typeof State === 'undefined' || !State || !State.resources) {
-        return undefined;
-    }
-    const res = State.resources[name];
-    if (!res) {
-        return undefined;
-    }
-    if (
-        typeof SoftCapSystem !== 'undefined' &&
-        SoftCapSystem &&
-        typeof SoftCapSystem.getResourceCap === 'function'
-    ) {
-        const cap = SoftCapSystem.getResourceCap(name);
-        if (cap !== undefined && cap !== null) {
-            return cap;
-        }
-    }
-    if (
-        typeof ResourceSystem !== 'undefined' &&
-        ResourceSystem &&
-        typeof ResourceSystem.max === 'function'
-    ) {
-        return ResourceSystem.max(res);
-    }
-    if (res.baseMax !== undefined) {
-        return res.baseMax;
+    const helper = queueResourceHelpers ||
+        (typeof QueueResourceHelper !== 'undefined' ? QueueResourceHelper : null);
+    if (helper && typeof helper.resolveQueueResourceCap === 'function') {
+        return helper.resolveQueueResourceCap(name);
     }
     return undefined;
 }
 
 function resourceAtQueueThreshold(name, explicitThreshold) {
-    if (typeof State === 'undefined' || !State || !State.resources) {
-        return false;
+    const helper = queueResourceHelpers ||
+        (typeof QueueResourceHelper !== 'undefined' ? QueueResourceHelper : null);
+    if (helper && typeof helper.resourceAtQueueThreshold === 'function') {
+        return helper.resourceAtQueueThreshold(name, explicitThreshold);
     }
-    const res = State.resources[name];
-    if (!res || typeof res.value !== 'number') {
-        return false;
-    }
-    if (typeof explicitThreshold === 'number' && !Number.isNaN(explicitThreshold)) {
-        return res.value >= explicitThreshold;
-    }
-    const cap = resolveQueueResourceCap(name);
-    if (cap === undefined) {
-        return res.value > 0;
-    }
-    return res.value >= cap;
+    return false;
 }
 
 if (typeof module !== 'undefined') {
