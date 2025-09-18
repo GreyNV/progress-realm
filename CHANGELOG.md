@@ -9,6 +9,7 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Adventure encounters resume queued runs once resources reach soft-cap limits or encounter costs, ensuring retreats recover to achievable thresholds and adding regression coverage.
 - Soft caps now apply prestige boosts through a dedicated SoftCapSystem multiplier helper, keeping stat max arrays untouched.
 - Berries consumables now restore dexterity alongside other stats to match restoration rules.
 - Consumable item descriptions and consumption logic now only reference stat bonuses, warning if a stat key is missing instead of silently treating it as a resource.

@@ -71,10 +71,7 @@ const AdventureEngine = {
 
                 if (queue.restart) {
                     const resources = Array.isArray(queue.resources) ? queue.resources : [];
-                    const ready = resources.length === 0 || resources.every(r => {
-                        const res = State.resources[r];
-                        return res && res.value >= ResourceSystem.max(res);
-                    });
+                    const ready = resources.length === 0 || resources.every(r => resourceAtQueueThreshold(r));
                     if (ready) {
                         slot.queue = null;
                         this.start();
@@ -83,10 +80,14 @@ const AdventureEngine = {
                 }
 
                 if (queue.encounter) {
-                    const cost = queue.encounter.getResourceCost();
-                    const ready = Object.keys(cost).every(r => {
-                        const res = State.resources[r];
-                        return res && res.value >= ResourceSystem.max(res);
+                    const cost = typeof queue.encounter.getResourceCost === 'function' ?
+                        queue.encounter.getResourceCost() || {} : {};
+                    const costKeys = Object.keys(cost);
+                    const ready = costKeys.length === 0 || costKeys.every(r => {
+                        const rawCost = cost[r];
+                        const numericCost = Number(rawCost);
+                        const threshold = Number.isNaN(numericCost) ? undefined : numericCost;
+                        return resourceAtQueueThreshold(r, threshold);
                     });
                     if (ready) {
                         slot.encounter = queue.encounter;
@@ -174,6 +175,55 @@ function checkHealth() {
             retreat(name);
         }
     }
+}
+
+function resolveQueueResourceCap(name) {
+    if (typeof State === 'undefined' || !State || !State.resources) {
+        return undefined;
+    }
+    const res = State.resources[name];
+    if (!res) {
+        return undefined;
+    }
+    if (
+        typeof SoftCapSystem !== 'undefined' &&
+        SoftCapSystem &&
+        typeof SoftCapSystem.getResourceCap === 'function'
+    ) {
+        const cap = SoftCapSystem.getResourceCap(name);
+        if (cap !== undefined && cap !== null) {
+            return cap;
+        }
+    }
+    if (
+        typeof ResourceSystem !== 'undefined' &&
+        ResourceSystem &&
+        typeof ResourceSystem.max === 'function'
+    ) {
+        return ResourceSystem.max(res);
+    }
+    if (res.baseMax !== undefined) {
+        return res.baseMax;
+    }
+    return undefined;
+}
+
+function resourceAtQueueThreshold(name, explicitThreshold) {
+    if (typeof State === 'undefined' || !State || !State.resources) {
+        return false;
+    }
+    const res = State.resources[name];
+    if (!res || typeof res.value !== 'number') {
+        return false;
+    }
+    if (typeof explicitThreshold === 'number' && !Number.isNaN(explicitThreshold)) {
+        return res.value >= explicitThreshold;
+    }
+    const cap = resolveQueueResourceCap(name);
+    if (cap === undefined) {
+        return res.value > 0;
+    }
+    return res.value >= cap;
 }
 
 if (typeof module !== 'undefined') {
