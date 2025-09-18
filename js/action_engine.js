@@ -3,6 +3,15 @@
 // FurnitureSystem, SoftCapSystem, SaveSystem
 // Exports: ActionEngine
 
+let queueResourceHelpers = null;
+if (typeof module !== 'undefined' && module.exports) {
+    try {
+        queueResourceHelpers = require('./resource_queue_helpers.js');
+    } catch (err) {
+        queueResourceHelpers = null;
+    }
+}
+
 const ActionEngine = {
     start(slotIndex, actionId) {
         if (typeof AdventureEngine !== 'undefined' && AdventureEngine.active) {
@@ -54,20 +63,16 @@ const ActionEngine = {
                 const qAction = actions[slot.queue.id];
                 let canResume = true;
                 if (qAction.resourceCost && !slot.queue.costPaid) {
-                    // resume only when cost resources are fully replenished
                     for (const r in qAction.resourceCost) {
-                        const res = State.resources[r];
-                        if (!res || res.value !== ResourceSystem.max(res)) {
+                        if (!queueResourceAtThreshold(r, qAction.resourceCost[r])) {
                             canResume = false;
                             break;
                         }
                     }
                 }
                 if (canResume && qAction.resourceConsumption) {
-                    // consumption resources must also be at maximum before resuming
                     for (const r in qAction.resourceConsumption) {
-                        const res = State.resources[r];
-                        if (!res || res.value !== ResourceSystem.max(res)) {
+                        if (!queueResourceAtThreshold(r)) {
                             canResume = false;
                             break;
                         }
@@ -161,6 +166,18 @@ const ActionEngine = {
         SaveSystem.save();
     }
 };
+
+function queueResourceAtThreshold(name, explicitThreshold) {
+    const helper = queueResourceHelpers ||
+        (typeof QueueResourceHelper !== 'undefined' ? QueueResourceHelper : null);
+    if (helper && typeof helper.resourceAtQueueThreshold === 'function') {
+        return helper.resourceAtQueueThreshold(name, explicitThreshold);
+    }
+    if (typeof resourceAtQueueThreshold === 'function') {
+        return resourceAtQueueThreshold(name, explicitThreshold);
+    }
+    return false;
+}
 
 if (typeof module !== 'undefined') {
     module.exports = { ActionEngine };
