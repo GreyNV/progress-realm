@@ -324,30 +324,62 @@ function updateSlotUI(i) {
         }
     }
     if (queueEl) {
-        if (slot.queue && slot.queue.id) {
-            const qAction = actions[slot.queue.id];
-            queueEl.classList.remove('hidden');
-            const qp = queueEl.querySelector('progress');
-            const qLabel = queueEl.querySelector('.label');
-            if (qp) {
-                qp.max = 1;
-                qp.value = slot.queue.progress || 0;
-            }
-            if (qLabel) qLabel.textContent = qAction.name;
-            if (qAction.image) {
-                queueEl.style.backgroundImage = `url(${qAction.image})`;
-            } else {
-                queueEl.style.backgroundImage = 'none';
-            }
-            queueEl.dataset.tooltip = buildActionTooltip(qAction);
-        } else {
+        const queueData = slot.queue;
+        const qp = queueEl.querySelector('progress');
+        const qLabel = queueEl.querySelector('.label');
+        const clearQueue = () => {
             queueEl.classList.add('hidden');
-            const qp = queueEl.querySelector('progress');
-            const qLabel = queueEl.querySelector('.label');
-            if (qp) qp.value = 0;
+            if (qp) {
+                qp.value = 0;
+                qp.max = 1;
+            }
             if (qLabel) qLabel.textContent = '';
             queueEl.style.backgroundImage = 'none';
+            queueEl.style.backgroundSize = '';
             queueEl.dataset.tooltip = '';
+            if (typeof RARITY_CLASSES !== 'undefined' && Array.isArray(RARITY_CLASSES)) {
+                RARITY_CLASSES.forEach(r => queueEl.classList.remove(`rarity-${r}`));
+            }
+        };
+        if (queueData && (queueData.id || queueData.encounter)) {
+            queueEl.classList.remove('hidden');
+            if (typeof RARITY_CLASSES !== 'undefined' && Array.isArray(RARITY_CLASSES)) {
+                RARITY_CLASSES.forEach(r => queueEl.classList.remove(`rarity-${r}`));
+            }
+            if (qp) {
+                qp.max = 1;
+                qp.value = typeof queueData.progress === 'number' ? queueData.progress : 0;
+            }
+            let tooltip = '';
+            if (queueData.id) {
+                const qAction = actions[queueData.id];
+                if (qLabel) qLabel.textContent = qAction ? qAction.name : '';
+                if (qAction && qAction.image) {
+                    queueEl.style.backgroundImage = `url(${qAction.image})`;
+                    queueEl.style.backgroundSize = 'cover';
+                } else {
+                    queueEl.style.backgroundImage = 'none';
+                    queueEl.style.backgroundSize = '';
+                }
+                tooltip = qAction ? buildActionTooltip(qAction) : '';
+            } else if (queueData.encounter) {
+                const enc = queueData.encounter;
+                if (qLabel) qLabel.textContent = enc && enc.name ? enc.name : '';
+                if (enc && enc.image) {
+                    queueEl.style.backgroundImage = `url(${enc.image})`;
+                    queueEl.style.backgroundSize = 'cover';
+                } else {
+                    queueEl.style.backgroundImage = 'none';
+                    queueEl.style.backgroundSize = '';
+                }
+                if (enc && enc.rarity && typeof RARITY_CLASSES !== 'undefined' && Array.isArray(RARITY_CLASSES)) {
+                    queueEl.classList.add(`rarity-${enc.rarity}`);
+                }
+                tooltip = enc && enc.description ? enc.description : '';
+            }
+            queueEl.dataset.tooltip = tooltip || '';
+        } else {
+            clearQueue();
         }
     }
 }

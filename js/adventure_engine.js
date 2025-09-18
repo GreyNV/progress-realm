@@ -55,6 +55,9 @@ const AdventureEngine = {
         EncounterGenerator.populateSlots();
         if (manual) {
             State.adventureSlots.forEach(s => { s.queue = null; });
+            if (Array.isArray(State.slots)) {
+                State.slots.forEach(s => { if (s) s.queue = null; });
+            }
         }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('adventure:stopped');
@@ -75,14 +78,25 @@ const AdventureEngine = {
         if (!this.active) {
             for (let i = 0; i < State.adventureSlots.length; i++) {
                 const slot = State.adventureSlots[i];
+                const actionSlot = Array.isArray(State.slots) ? State.slots[i] : null;
                 const queue = slot.queue;
                 if (!queue) continue;
+
+                if (queue && actionSlot && actionSlot.queue !== queue) {
+                    actionSlot.queue = queue;
+                }
 
                 if (queue.restart) {
                     const resources = Array.isArray(queue.resources) ? queue.resources : [];
                     const ready = resources.length === 0 || resources.every(r => resourceAtQueueThreshold(r));
                     if (ready) {
                         slot.queue = null;
+                        if (actionSlot) {
+                            actionSlot.queue = null;
+                        }
+                        if (typeof updateSlotUI === 'function') {
+                            updateSlotUI(i);
+                        }
                         this.start();
                     }
                     break;
@@ -100,13 +114,23 @@ const AdventureEngine = {
                     });
                     if (ready) {
                         slot.encounter = queue.encounter;
-                        slot.progress = queue.progress;
+                        slot.progress = typeof queue.progress === 'number' ? queue.progress : 0;
                         slot.duration = slot.encounter.getDuration();
                         slot.queue = null;
+                        if (actionSlot) {
+                            actionSlot.queue = null;
+                        }
+                        if (typeof updateSlotUI === 'function') {
+                            updateSlotUI(i);
+                        }
                         slot.active = true;
                         this.active = true;
                         this.activeIndex = i;
-                        updateAdventureSlotUI(i);
+                        if (typeof updateAdventureSlotUI === 'function') {
+                            updateAdventureSlotUI(i);
+                        } else if (typeof updateSlotUI === 'function') {
+                            updateSlotUI(i);
+                        }
                     }
                     break;
                 }
@@ -169,7 +193,18 @@ function retreat(resourceName, manual = false) {
         if (resources.size) {
             queue.resources = Array.from(resources);
         }
+        if (slot.encounter) {
+            queue.encounter = slot.encounter;
+        }
+        queue.progress = typeof slot.progress === 'number' ? slot.progress : 0;
         slot.queue = queue;
+        if (
+            Array.isArray(State.slots) &&
+            AdventureEngine.activeIndex !== null &&
+            State.slots[AdventureEngine.activeIndex]
+        ) {
+            State.slots[AdventureEngine.activeIndex].queue = queue;
+        }
     }
     EncounterGenerator.decrementLevel();
     EncounterGenerator.resetProgress();
