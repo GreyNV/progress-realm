@@ -3,12 +3,12 @@
 // FurnitureSystem, SoftCapSystem, SaveSystem
 // Exports: ActionEngine
 
-let queueResourceHelpers = null;
+let actionQueueResourceHelpers = null;
 if (typeof module !== 'undefined' && module.exports) {
     try {
-        queueResourceHelpers = require('./resource_queue_helpers.js');
+        actionQueueResourceHelpers = require('./resource_queue_helpers.js');
     } catch (err) {
-        queueResourceHelpers = null;
+        actionQueueResourceHelpers = null;
     }
 }
 
@@ -168,7 +168,7 @@ const ActionEngine = {
 };
 
 function queueResourceAtThreshold(name, explicitThreshold) {
-    const helper = queueResourceHelpers ||
+    const helper = actionQueueResourceHelpers ||
         (typeof QueueResourceHelper !== 'undefined' ? QueueResourceHelper : null);
     if (helper && typeof helper.resourceAtQueueThreshold === 'function') {
         return helper.resourceAtQueueThreshold(name, explicitThreshold);
