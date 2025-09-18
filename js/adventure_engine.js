@@ -1,11 +1,11 @@
 // AdventureEngine handles encounter slots and retreat logic
 
-let queueResourceHelpers = null;
+let adventureQueueResourceHelpers = null;
 if (typeof module !== 'undefined' && module.exports) {
     try {
-        queueResourceHelpers = require('./resource_queue_helpers.js');
+        adventureQueueResourceHelpers = require('./resource_queue_helpers.js');
     } catch (err) {
-        queueResourceHelpers = null;
+        adventureQueueResourceHelpers = null;
     }
 }
 
@@ -222,7 +222,7 @@ function checkHealth() {
 }
 
 function resolveQueueResourceCap(name) {
-    const helper = queueResourceHelpers ||
+    const helper = adventureQueueResourceHelpers ||
         (typeof QueueResourceHelper !== 'undefined' ? QueueResourceHelper : null);
     if (helper && typeof helper.resolveQueueResourceCap === 'function') {
         return helper.resolveQueueResourceCap(name);
@@ -231,7 +231,7 @@ function resolveQueueResourceCap(name) {
 }
 
 function resourceAtQueueThreshold(name, explicitThreshold) {
-    const helper = queueResourceHelpers ||
+    const helper = adventureQueueResourceHelpers ||
         (typeof QueueResourceHelper !== 'undefined' ? QueueResourceHelper : null);
     if (helper && typeof helper.resourceAtQueueThreshold === 'function') {
         return helper.resourceAtQueueThreshold(name, explicitThreshold);

@@ -52,6 +52,8 @@
 - Character layout uses flexbox with left and right slot containers and no spacer div.
 
 ### Fixed
+- Renamed action and adventure queue helper bindings to avoid global collisions
+  that triggered SyntaxErrors when both engines loaded together.
 - Equipment items retain grid layout on small screens.
 - Fixed missing closing brace in `#stats` rule so the global typography comment is outside the selector.
 - Character slots respect theme variables and dark mode defines hover and active state colors.
