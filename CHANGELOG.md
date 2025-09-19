@@ -9,6 +9,8 @@
 - Tests cover resource consumption, encounter retreats, and equipment flows.
 
 ### Changed
+- Character portrait frame now constrains to roughly 350x750 with widened slot spacing so equipment columns sit further from the character art.
+- Character tab portrait now uses an overlaid slot frame so five equipment slots line up along each side without covering the character art.
 - Action engine now resumes queued actions once resources meet upfront costs or soft-cap thresholds via a shared queue helper, honoring pre-paid costs and extending regression coverage.
 - Adventure encounters resume queued runs once resources reach soft-cap limits or encounter costs, ensuring retreats recover to achievable thresholds and adding regression coverage.
 - Soft caps now apply prestige boosts through a dedicated SoftCapSystem multiplier helper, keeping stat max arrays untouched.
