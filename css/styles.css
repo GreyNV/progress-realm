@@ -838,24 +838,27 @@ body[data-theme="dark"] {
 
 .character-portrait {
     position: relative;
-    width: min(100%, 520px);
-    aspect-ratio: 3 / 4;
+    width: min(100%, 350px);
+    height: 750px;
+    max-height: 85vh;
+    margin-inline: auto;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center bottom;
     background-size: contain;
 }
 
 .character-slot-column {
     position: absolute;
-    top: 6%;
-    bottom: 6%;
+    top: clamp(4%, 6vh, 8%);
+    bottom: clamp(4%, 6vh, 8%);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: clamp(82px, 28%, 132px);
-    padding-block: clamp(1rem, 4vh, 2.5rem);
-    padding-inline: clamp(0.5rem, 2vw, 1.25rem);
+    gap: clamp(1rem, 6vh, 2.5rem);
+    width: clamp(60px, 18%, 90px);
+    padding-block: clamp(0.5rem, 2.5vh, 1.75rem);
+    padding-inline: clamp(0.2rem, 1.2vw, 0.6rem);
     z-index: 1;
 }
 
@@ -900,9 +903,12 @@ body[data-theme="dark"] {
         gap: var(--space-sm);
     }
     .character-slot-column {
-        width: clamp(70px, 32vw, 110px);
-        padding-block: clamp(0.75rem, 3vh, 1.8rem);
-        padding-inline: clamp(0.5rem, 3vw, 1rem);
+        top: clamp(3%, 5vh, 7%);
+        bottom: clamp(3%, 5vh, 7%);
+        gap: clamp(0.75rem, 6vh, 1.75rem);
+        width: clamp(52px, 28vw, 78px);
+        padding-block: clamp(0.4rem, 2.5vh, 1.1rem);
+        padding-inline: clamp(0.2rem, 4vw, 0.6rem);
     }
     .character-slot-column .slot {
         border-width: 2px;
