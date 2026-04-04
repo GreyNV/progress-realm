@@ -4,7 +4,7 @@
     "name": "Recover",
     "description": "You take a moment to catch your breath and tend to wounds.",
     "rarity": "common",
-    "category": "strength",
+    "category": "constitution",
     "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/user_uploaded/recover.jpg",
@@ -12,14 +12,15 @@
       "energy": -1
     },
     "items": {},
-    "loot": {}
+    "loot": {},
+    "dungeon": "frontier"
   },
   {
     "id": "foragingHerbs",
     "name": "Foraging for Herbs",
     "description": "Dewy plants grow in the underbrush, promising useful herbs.",
     "rarity": "common",
-    "category": "intelligence",
+    "category": "will",
     "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/enc/foraging.png",
@@ -28,12 +29,24 @@
       "focus": 1
     },
     "items": {
-      "herb": 1.0,
+      "herb": 1,
       "sturdy_bark": 0.05,
       "berries": 0.3
     },
     "loot": {
       "herb": 1
+    },
+    "dungeon": "frontier",
+    "weight": 1.2,
+    "statFactors": {
+      "will": {
+        "speed": 0.05,
+        "output": 0.08
+      },
+      "intelligence": {
+        "speed": 0.02,
+        "output": 0.03
+      }
     }
   },
   {
@@ -41,7 +54,7 @@
     "name": "Rabbit Hunting",
     "description": "A swift rabbit darts between the trees, ripe for the chase.",
     "rarity": "common",
-    "category": "dexterity",
+    "category": "agility",
     "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/enc/rabbit.png",
@@ -56,17 +69,40 @@
       "feather": 0.2
     },
     "loot": {
-      "rabbit_meat": 1}
+      "rabbit_meat": 1
+    },
+    "dungeon": "frontier",
+    "weight": 1.1,
+    "statFactors": {
+      "agility": {
+        "speed": 0.06,
+        "output": 0.08
+      },
+      "will": {
+        "speed": 0.03,
+        "output": 0.04
+      }
+    }
   },
   {
     "id": "wolfAmbush",
     "name": "Wolf Ambush",
     "description": "Hungry wolves burst from the shadows with fangs bared.",
     "rarity": "rare",
-    "category": "strength",
+    "combat": true,
+    "category": "constitution",
     "baseDuration": 2,
     "minLevel": 0,
     "image": "assets/enc/wolf.png",
+    "enemy": {
+      "name": "Starved Wolf",
+      "type": "beast",
+      "sprite": "assets/enc/wolf.png",
+      "maxHp": 18,
+      "attack": 4,
+      "defense": 1,
+      "speed": 1.1
+    },
     "resourceConsumption": {
       "energy": 1.5,
       "focus": 1,
@@ -76,7 +112,20 @@
       "wolf_pelt": 0.5
     },
     "loot": {
-      "feather": 1
+      "feather": 1,
+      "hunter_fang": 1
+    },
+    "dungeon": "deep_woods",
+    "weight": 0.7,
+    "statFactors": {
+      "constitution": {
+        "speed": 0.05,
+        "output": 0.06
+      },
+      "strength": {
+        "speed": 0.03,
+        "output": 0.04
+      }
     }
   },
   {
@@ -98,6 +147,17 @@
     },
     "loot": {
       "wood_log": 1
+    },
+    "dungeon": "frontier",
+    "statFactors": {
+      "strength": {
+        "speed": 0.05,
+        "output": 0.07
+      },
+      "constitution": {
+        "speed": 0.02,
+        "output": 0.03
+      }
     }
   },
   {
@@ -114,12 +174,23 @@
       "focus": 0.6
     },
     "items": {
-      
       "ore_chunk": 0.05,
-      "iron_ore": 0.5
+      "iron_ore": 0.5,
+      "quartz_shard": 0.45
     },
     "loot": {
       "stone_piece": 1
+    },
+    "dungeon": "quarry_edge",
+    "statFactors": {
+      "intelligence": {
+        "speed": 0.05,
+        "output": 0.07
+      },
+      "strength": {
+        "speed": 0.03,
+        "output": 0.04
+      }
     }
   },
   {
@@ -137,11 +208,25 @@
     },
     "items": {
       "sturdy_bark": 0.25,
-      "feather": 0.5
+      "feather": 0.5,
+      "tempered_ore": 0.2,
+      "quartz_shard": 0.35
     },
     "loot": {
       "wood_log": 1,
       "money": 2
+    },
+    "dungeon": "quarry_edge",
+    "weight": 0.8,
+    "statFactors": {
+      "intelligence": {
+        "speed": 0.05,
+        "output": 0.07
+      },
+      "intelligence": {
+        "speed": 0.02,
+        "output": 0.03
+      }
     }
   },
   {
@@ -149,7 +234,7 @@
     "name": "Gather Water",
     "description": "Collect fresh water from a nearby spring.",
     "rarity": "common",
-    "category": "dexterity",
+    "category": "constitution",
     "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/generated/gather_water.png",
@@ -162,6 +247,17 @@
     },
     "loot": {
       "water_flask": 1
+    },
+    "dungeon": "frontier",
+    "statFactors": {
+      "constitution": {
+        "speed": 0.04,
+        "output": 0.05
+      },
+      "will": {
+        "speed": 0.02,
+        "output": 0.03
+      }
     }
   },
   {
@@ -169,7 +265,7 @@
     "name": "Dig for Clay",
     "description": "Wet soil along the river may yield workable clay.",
     "rarity": "common",
-    "category": "strength",
+    "category": "intelligence",
     "baseDuration": 1,
     "minLevel": 2,
     "image": "assets/generated/dig_clay.png",
@@ -178,10 +274,23 @@
       "focus": 0.5
     },
     "items": {
-      "iron_ore": 0.2
+      "iron_ore": 0.2,
+      "quartz_shard": 0.4
     },
     "loot": {
-      "clay": 1
+      "clay": 1,
+      "quartz_shard": 1
+    },
+    "dungeon": "quarry_edge",
+    "statFactors": {
+      "intelligence": {
+        "speed": 0.05,
+        "output": 0.07
+      },
+      "strength": {
+        "speed": 0.03,
+        "output": 0.04
+      }
     }
   },
   {
@@ -189,7 +298,7 @@
     "name": "Berry Picking",
     "description": "Small bushes offer sweet berries if you search carefully.",
     "rarity": "common",
-    "category": "intelligence",
+    "category": "will",
     "baseDuration": 1,
     "minLevel": 0,
     "image": "assets/generated/berry_picking.png",
@@ -203,6 +312,17 @@
     },
     "loot": {
       "berries": 1
+    },
+    "dungeon": "frontier",
+    "statFactors": {
+      "will": {
+        "speed": 0.05,
+        "output": 0.07
+      },
+      "intelligence": {
+        "speed": 0.02,
+        "output": 0.03
+      }
     }
   },
   {
@@ -210,7 +330,7 @@
     "name": "Fishing Trip",
     "description": "Cast a line in the lake for a quick meal.",
     "rarity": "common",
-    "category": "intelligence",
+    "category": "will",
     "baseDuration": 1,
     "minLevel": 1,
     "image": "assets/generated/fishing_trip.png",
@@ -224,6 +344,17 @@
     },
     "loot": {
       "cooked_fish": 1
+    },
+    "dungeon": "frontier",
+    "statFactors": {
+      "will": {
+        "speed": 0.04,
+        "output": 0.06
+      },
+      "agility": {
+        "speed": 0.02,
+        "output": 0.03
+      }
     }
   },
   {
@@ -231,7 +362,7 @@
     "name": "Search Abandoned Camp",
     "description": "An old campsite may still hold valuable supplies.",
     "rarity": "common",
-    "category": "intelligence",
+    "category": "will",
     "baseDuration": 2,
     "minLevel": 5,
     "image": "assets/generated/abandoned_camp.png",
@@ -243,21 +374,45 @@
       "torch": 0.5,
       "money": 0.3,
       "water_flask": 0.2,
-      "wooden_shield": 0.05
+      "wooden_shield": 0.05,
+      "spirit_resin": 0.55
     },
     "loot": {
-      "money": 1
+      "money": 1,
+      "spirit_resin": 1
+    },
+    "dungeon": "deep_woods",
+    "weight": 0.9,
+    "statFactors": {
+      "will": {
+        "speed": 0.06,
+        "output": 0.08
+      },
+      "intelligence": {
+        "speed": 0.03,
+        "output": 0.04
+      }
     }
   },
   {
     "id": "boarHunt",
     "name": "Boar Hunt",
-    "description": "A wild boar charges through the brush\u2014dangerous but rewarding.",
+    "description": "A wild boar charges through the brush-dangerous but rewarding.",
     "rarity": "rare",
-    "category": "strength",
+    "combat": true,
+    "category": "constitution",
     "baseDuration": 2,
     "minLevel": 10,
     "image": "assets/enc/foghtboar.jpg",
+    "enemy": {
+      "name": "Razorback Boar",
+      "type": "beast",
+      "sprite": "assets/enc/foghtboar.jpg",
+      "maxHp": 28,
+      "attack": 6,
+      "defense": 2,
+      "speed": 0.85
+    },
     "resourceConsumption": {
       "energy": 1.5,
       "focus": 1,
@@ -265,11 +420,25 @@
     },
     "items": {
       "boar_tusk": 0.2,
+      "hunter_fang": 0.45,
       "feather": 0.4,
       "herb": 0.4
     },
     "loot": {
-      "herb": 1
+      "herb": 1,
+      "spirit_resin": 1
+    },
+    "dungeon": "deep_woods",
+    "weight": 0.65,
+    "statFactors": {
+      "constitution": {
+        "speed": 0.05,
+        "output": 0.07
+      },
+      "strength": {
+        "speed": 0.02,
+        "output": 0.03
+      }
     }
   },
   {
@@ -277,7 +446,7 @@
     "name": "Find Ore",
     "description": "Deep in the earth lies precious ore waiting to be mined.",
     "rarity": "rare",
-    "category": "strength",
+    "category": "intelligence",
     "baseDuration": 2,
     "minLevel": 15,
     "image": "assets/enc/mineore.jpg",
@@ -286,10 +455,25 @@
       "focus": 1.2
     },
     "items": {
-      "ore_chunk": 0.6
+      "ore_chunk": 0.6,
+      "tempered_ore": 0.55,
+      "quartz_shard": 0.25
     },
     "loot": {
-      "iron_ore": 1
+      "iron_ore": 1,
+      "tempered_ore": 1
+    },
+    "dungeon": "quarry_edge",
+    "weight": 0.75,
+    "statFactors": {
+      "intelligence": {
+        "speed": 0.06,
+        "output": 0.08
+      },
+      "strength": {
+        "speed": 0.03,
+        "output": 0.04
+      }
     }
   },
   {
@@ -297,11 +481,21 @@
     "name": "Bandits Ambush",
     "description": "Outlaws spring from hiding to surround you with blades drawn.",
     "rarity": "story",
-    "category": "strength",
+    "combat": true,
+    "category": "constitution",
     "baseDuration": 10,
     "minLevel": 50,
     "storyLevel": 50,
     "image": "",
+    "enemy": {
+      "name": "Bandit Captain",
+      "type": "humanoid",
+      "sprite": "assets/HealerGone.png",
+      "maxHp": 46,
+      "attack": 9,
+      "defense": 4,
+      "speed": 1
+    },
     "resourceConsumption": {
       "energy": 3,
       "focus": 2,
@@ -312,7 +506,25 @@
       "gem": 1,
       "iron_sword": 1,
       "wooden_shield": 1,
-      "leather_armor": 1
+      "leather_armor": 1,
+      "bandit_token": 2,
+      "smuggled_map": 1
+    },
+    "dungeon": "bandit_road",
+    "weight": 0.15,
+    "statFactors": {
+      "constitution": {
+        "speed": 0.04,
+        "output": 0.05
+      },
+      "agility": {
+        "speed": 0.04,
+        "output": 0.05
+      },
+      "will": {
+        "speed": 0.02,
+        "output": 0.02
+      }
     }
   },
   {
@@ -320,10 +532,20 @@
     "name": "Ancient Vault Exploration",
     "description": "A mysterious vault opens, promising untold riches.",
     "rarity": "rare",
+    "combat": true,
     "category": "intelligence",
     "baseDuration": 2,
     "minLevel": 30,
     "image": "assets/enc/ancientvault.jpg",
+    "enemy": {
+      "name": "Vault Warden",
+      "type": "construct",
+      "sprite": "assets/enc/ancientvault.jpg",
+      "maxHp": 38,
+      "attack": 7,
+      "defense": 5,
+      "speed": 0.9
+    },
     "resourceConsumption": {
       "energy": 1,
       "focus": 1,
@@ -333,10 +555,26 @@
       "stone_spear": 0.3,
       "wooden_shield": 0.3,
       "leather_armor": 0.2,
-      "gem": 0.2
+      "gem": 0.2,
+      "vault_core": 0.35,
+      "etched_tablet": 0.35
     },
     "loot": {
-      "money": 1
+      "money": 1,
+      "vault_core": 1,
+      "etched_tablet": 1
+    },
+    "dungeon": "ancient_vault",
+    "weight": 0.45,
+    "statFactors": {
+      "intelligence": {
+        "speed": 0.06,
+        "output": 0.07
+      },
+      "intelligence": {
+        "speed": 0.03,
+        "output": 0.04
+      }
     }
   }
 ]

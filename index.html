@@ -7,17 +7,32 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="dark">
-    <header>
-        <h1>Progress Realm</h1>
-        <div id="header-info">
-            Age: <span id="age-years">16</span>y <span id="age-days">0</span>d / <span id="max-age">75</span>y
-            <span id="speed-display">Speed: <span id="speed-value">1x</span></span>
-            <span id="speed-controls">
-                <button data-speed="1">1x</button>
-                <button data-speed="2">2x</button>
-                <button data-speed="10">10x</button>
-            </span>
-            <button id="toggle-left" data-i18n="Hide Stats">Hide Stats</button>
+    <header class="app-header">
+        <div class="header-brand">
+            <p class="header-kicker">Realm Systems</p>
+            <h1>Progress Realm</h1>
+            <p class="header-copy">Guide your recovery, direct your layers, and press deeper into the realm.</p>
+        </div>
+        <div class="header-controls">
+            <div class="header-status">
+                <span class="status-pill">
+                    <span class="status-label" data-i18n="Age">Age</span>
+                    <span id="age-years">16</span>y <span id="age-days">0</span>d / <span id="max-age">75</span>y
+                </span>
+                <span class="status-pill">
+                    <span class="status-label" data-i18n="Speed">Speed</span>
+                    <span id="speed-value">1x</span>
+                </span>
+            </div>
+            <div class="header-actions">
+                <div id="speed-controls" class="segmented-control">
+                    <button data-speed="1">1x</button>
+                    <button data-speed="2">2x</button>
+                    <button data-speed="10">10x</button>
+                </div>
+                <button id="overview-btn" class="ghost-button" data-i18n="Overview">Overview</button>
+                <button id="settings-btn" class="ghost-button" data-i18n="Settings">Settings</button>
+            </div>
         </div>
     </header>
 
@@ -56,138 +71,280 @@
         </div>
     </div>
 
-    <main id="app">
-        <div id="left" class="panel">
-            <section id="stats">
-                <h2 data-i18n="Stats">Stats</h2>
-                <ul id="stats-list"></ul>
-
-                <section id="prestige-block">
-                    <h3 data-i18n="Prestige">Prestige</h3>
-                    <ul>
-                        <li><span class="prestige-label" data-key="constitution">Constitution</span>: <span id="prestige-constitution">0</span> <span id="prestige-constitution-gain" class="delta">(+0)</span></li>
-                        <li><span class="prestige-label" data-key="wisdom">Wisdom</span>: <span id="prestige-wisdom">0</span> <span id="prestige-wisdom-gain" class="delta">(+0)</span></li>
-                        <li><span class="prestige-label" data-key="reflexes">Reflexes</span>: <span id="prestige-reflexes">0</span> <span id="prestige-reflexes-gain" class="delta">(+0)</span></li>
-                    </ul>
-                </section>
-            </section>
-
-            <section id="mastery">
-                <h2><span data-i18n="Mastery Points">Mastery Points</span>: <span id="mastery-points">0</span></h2>
-            </section>
-
-            <section id="resources">
-                <h2 data-i18n="Resources">Resources</h2>
-                <ul id="resources-list"></ul>
-            </section>
-        </div>
-
-        <div id="center" class="panel">
-            <div class="tabs">
-                <div id="tab-headers" class="tab-headers"></div>
-                <div id="tab-contents">
-                    <div class="tab-content" data-tab="routines">
-                        <h2 data-i18n="Available Actions">Available Actions</h2>
-                        <ul id="task-list"></ul>
-                        <h2 data-i18n="Action Slots">Action Slots</h2>
-                        <div id="slots" class="slots"></div>
-                    </div>
-                    <div class="tab-content hidden" data-tab="adventure">
-                        <h2 data-i18n="Adventure">Adventure</h2>
-                        <p id="encounter-location"></p>
-                        <progress id="encounter-level-progress" value="0" max="10"></progress>
-                        <div id="adventure-controls">
-                            <button id="return-btn" data-i18n="Return">Return</button>
-                            <label><input type="checkbox" id="autoprogress-toggle" checked> <span data-i18n="Autoprogress">Autoprogress</span></label>
+    <main id="app-shell">
+        <div class="app-main-column">
+        <section id="overview-view" class="app-view">
+            <div class="dashboard-grid">
+                <section id="run-summary-card" class="dashboard-card dashboard-hero">
+                    <div class="card-header">
+                        <div>
+                            <p class="card-kicker" data-i18n="Routine Command">Routine Command</p>
+                            <h2 data-i18n="Overview">Overview</h2>
+                            <p class="workspace-description" data-i18n="Review your active routine tempo here, then jump into the full routines workspace for assignments and upgrades.">Review your active routine tempo here, then jump into the full routines workspace for assignments and upgrades.</p>
                         </div>
-                        <div id="adventure-slots" class="slots"></div>
+                        <div class="hero-actions">
+                            <button id="hero-open-routines" class="accent-button" data-workspace="routines" data-i18n="Open Full Routines">Open Full Routines</button>
+                        </div>
                     </div>
-                    <div class="tab-content hidden" data-tab="inventory">
+                    <div class="hero-metrics">
+                        <div class="hero-metric">
+                            <span class="hero-label" data-i18n="Open Slots">Open Slots</span>
+                            <strong id="overview-open-slots">0</strong>
+                        </div>
+                        <div class="hero-metric">
+                            <span class="hero-label" data-i18n="Routine Multiplier">Routine Multiplier</span>
+                            <strong id="overview-routine-multiplier">x1.00</strong>
+                        </div>
+                        <div class="hero-metric">
+                            <span class="hero-label" data-i18n="Upgrades">Upgrades</span>
+                            <strong id="overview-upgrades-multiplier">x1.00</strong>
+                        </div>
+                    </div>
+                    <section class="dashboard-routine-dynamics">
+                        <h3 data-i18n="Routine Dynamics">Routine Dynamics</h3>
+                        <div id="overview-routine-insights" class="info-grid"></div>
+                    </section>
+                    <section class="dashboard-adventure-overview">
+                        <div class="workspace-card-actions">
+                            <div>
+                                <h3 data-i18n="Next Adventure">Next Adventure</h3>
+                                <p class="info-note" data-i18n="Use your current routine pace to prepare the next expedition push.">Use your current routine pace to prepare the next expedition push.</p>
+                            </div>
+                            <button id="overview-open-adventure" class="ghost-button" data-workspace="adventure" data-i18n="Open Adventure">Open Adventure</button>
+                        </div>
+                        <div id="overview-adventure-insights" class="info-grid"></div>
+                    </section>
+                </section>
+
+                <section id="activity-card" class="dashboard-card recent-activity-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="card-kicker" data-i18n="Recent Activity">Recent Activity</p>
+                            <h2 data-i18n="Log">Log</h2>
+                        </div>
+                    </div>
+                    <label class="log-toggle">
+                        <input id="encounter-log-toggle" type="checkbox" checked>
+                        <span data-i18n="Show Encounter Notifications">Show Encounter Notifications</span>
+                    </label>
+                    <div id="log-container" class="log-container">
+                        <div id="log" class="log-view"></div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="workspace-view" class="app-view hidden">
+            <div class="workspace-shell">
+                <div class="workspace-header">
+                    <button id="back-to-overview" class="ghost-button" data-i18n="Back to Overview">Back to Overview</button>
+                    <div class="workspace-heading">
+                        <p id="workspace-kicker" class="card-kicker"></p>
+                        <h2 id="workspace-title"></h2>
+                        <p id="workspace-description" class="workspace-description"></p>
+                    </div>
+                </div>
+                <div id="workspace-summary" class="workspace-summary"></div>
+                <div id="workspace-views">
+                    <div class="tab-content workspace-panel hidden" data-tab="routines">
+                        <div class="workspace-panel-grid">
+                            <section class="workspace-card workspace-card-wide">
+                                <h3 data-i18n="Routine Dynamics">Routine Dynamics</h3>
+                                <div id="routine-insights" class="info-grid"></div>
+                            </section>
+                            <section class="workspace-card">
+                                <h3 data-i18n="Available Actions">Available Actions</h3>
+                                <ul id="task-list"></ul>
+                            </section>
+                            <section class="workspace-card">
+                                <h3 data-i18n="Routine Upgrades">Routine Upgrades</h3>
+                                <div id="routine-upgrades-list" class="routine-upgrade-list"></div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="tab-content workspace-panel hidden" data-tab="adventure">
+                        <div class="workspace-panel-grid adventure-panel-grid">
+                            <section class="workspace-card adventure-catalog-card">
+                                <h3 data-i18n="Dungeon Catalog">Dungeon Catalog</h3>
+                                <div id="dungeon-list" class="dungeon-list"></div>
+                            </section>
+                            <section class="workspace-card adventure-overview-card">
+                                <div class="workspace-card-actions">
+                                    <div>
+                                        <p class="card-kicker" data-i18n="Active Expedition">Active Expedition</p>
+                                        <h3 data-i18n="Adventure">Adventure</h3>
+                                    </div>
+                                </div>
+                                <div class="adventure-overview-core">
+                                    <p id="encounter-location"></p>
+                                    <progress id="encounter-level-progress" value="0" max="10"></progress>
+                                    <div id="adventure-controls">
+                                        <button id="return-btn" data-i18n="Return">Return</button>
+                                        <label><input type="checkbox" id="autoprogress-toggle" checked> <span data-i18n="Autoprogress">Autoprogress</span></label>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="workspace-card adventure-flow-card">
+                                <h3 data-i18n="Encounter Flow">Encounter Flow</h3>
+                                <div id="adventure-slots" class="slots"></div>
+                            </section>
+                            <section class="workspace-card adventure-log-card">
+                                <div class="workspace-card-actions">
+                                    <div>
+                                        <p class="card-kicker" data-i18n="Expedition Log">Expedition Log</p>
+                                        <h3 data-i18n="Recent Activity">Recent Activity</h3>
+                                    </div>
+                                </div>
+                                <div id="adventure-log-container" class="log-container adventure-log-container">
+                                    <div id="adventure-log" class="log-view"></div>
+                                </div>
+                            </section>
+                            <section id="combat-console" class="workspace-card workspace-card-wide hidden">
+                                <div class="workspace-card-actions">
+                                    <div>
+                                        <p class="card-kicker">Combat Console</p>
+                                        <h3 data-i18n="Battle Feed">Battle Feed</h3>
+                                    </div>
+                                    <div id="combat-outcome-banner" class="combat-outcome-banner"></div>
+                                </div>
+                                <div class="combat-layout">
+                                    <article class="combat-side">
+                                        <div id="combat-player-sprite" class="combat-sprite combat-player-sprite"></div>
+                                        <h4 id="combat-player-name">Traveler</h4>
+                                        <div class="combat-bar">
+                                            <div id="combat-player-hp-fill" class="combat-bar-fill"></div>
+                                        </div>
+                                        <p id="combat-player-hp">0 / 0</p>
+                                        <ul id="combat-player-stats" class="combat-stat-list"></ul>
+                                        <div class="combat-loadout">
+                                            <span id="combat-player-weapon">Unarmed</span>
+                                            <span id="combat-player-shield">No Shield</span>
+                                        </div>
+                                    </article>
+                                    <article class="combat-side combat-side-enemy">
+                                        <div id="combat-enemy-sprite" class="combat-sprite combat-enemy-sprite"></div>
+                                        <h4 id="combat-enemy-name">Enemy</h4>
+                                        <div class="combat-bar">
+                                            <div id="combat-enemy-hp-fill" class="combat-bar-fill enemy-bar-fill"></div>
+                                        </div>
+                                        <p id="combat-enemy-hp">0 / 0</p>
+                                        <ul id="combat-enemy-stats" class="combat-stat-list"></ul>
+                                        <p id="combat-enemy-intent" class="combat-intent"></p>
+                                    </article>
+                                </div>
+                                <div class="combat-log-panel">
+                                    <p class="card-kicker">Round Feed</p>
+                                    <div id="combat-log" class="combat-log"></div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="tab-content workspace-panel hidden" data-tab="inventory">
+                        <section class="workspace-card workspace-card-wide">
+                            <h3 data-i18n="Holdings Overview">Holdings Overview</h3>
+                            <div id="inventory-insights" class="info-grid"></div>
+                        </section>
                         <div class="section-headers" data-parent="inventory"></div>
                         <div class="tab-section" data-section="home">
-                            <h2 data-i18n="Available Homes">Available Homes</h2>
-                            <ul id="home-list"></ul>
-                            <h2 data-i18n="Home Slot">Home Slot</h2>
-                            <div id="home-slot" class="slots"></div>
-                            <h2 data-i18n="Furniture">Furniture</h2>
-                            <div id="furniture-slots" class="slots"></div>
-                            <h2 data-i18n="Available Furniture">Available Furniture</h2>
-                            <ul id="furniture-list"></ul>
+                            <div class="workspace-panel-grid">
+                                <section class="workspace-card">
+                                    <h3 data-i18n="Available Homes">Available Homes</h3>
+                                    <ul id="home-list"></ul>
+                                </section>
+                                <section class="workspace-card">
+                                    <h3 data-i18n="Home Slot">Home Slot</h3>
+                                    <div id="home-slot" class="slots"></div>
+                                    <h3 data-i18n="Furniture">Furniture</h3>
+                                    <div id="furniture-slots" class="slots"></div>
+                                </section>
+                                <section class="workspace-card">
+                                    <h3 data-i18n="Available Furniture">Available Furniture</h3>
+                                    <ul id="furniture-list"></ul>
+                                </section>
+                            </div>
                         </div>
-                        <div class="tab-section" data-section="belongings">
-                            <h2 data-i18n="Belongings">Belongings</h2>
-                            <button id="inventory-filter-btn">Hide Items</button>
-                            <div id="inventory-slots" class="slots"></div>
+                        <div class="tab-section hidden" data-section="belongings">
+                            <div class="workspace-panel-grid">
+                                <section class="workspace-card workspace-card-wide">
+                                    <div class="workspace-card-actions">
+                                        <h3 data-i18n="Belongings">Belongings</h3>
+                                        <button id="inventory-filter-btn" class="ghost-button" data-i18n="Hide Items">Hide Items</button>
+                                    </div>
+                                    <div id="inventory-slots" class="slots"></div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="tab-section hidden" data-section="equipment">
+                            <div class="workspace-panel-grid">
+                                <section class="workspace-card">
+                                    <h3 data-i18n="Character">Character</h3>
+                                    <div class="character-layout">
+                                        <div id="character-slots-left" class="character-slot-column character-slot-column-left"></div>
+                                        <div id="character-portrait-panel" class="character-portrait-panel"></div>
+                                        <div id="character-slots-right" class="character-slot-column character-slot-column-right"></div>
+                                    </div>
+                                </section>
+                                <section class="workspace-card">
+                                    <h3 data-i18n="Equipment">Equipment</h3>
+                                    <div id="equipment-items" class="slots equipment-items"></div>
+                                </section>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab-content hidden" data-tab="automation">
-                        <h2 data-i18n="Control">Control</h2>
-                        <p>Crafting and Automation go here.</p>
+                    <div class="tab-content workspace-panel hidden" data-tab="automation">
+                        <div class="workspace-panel-grid">
+                            <section class="workspace-card workspace-card-wide">
+                                <h3 data-i18n="Control">Control</h3>
+                                <div id="automation-insights" class="info-grid"></div>
+                            </section>
+                        </div>
                     </div>
-                    <div class="tab-content hidden" data-tab="chip">
-                        <h2 data-i18n="Updates">Updates</h2>
-                        <ul id="chip-list"></ul>
-                        <h2 data-i18n="Chip Slots">Chip Slots</h2>
-                        <div id="chip-slots" class="slots"></div>
-                        <h2 data-i18n="Research">Research</h2>
-                        <ul id="research-list"></ul>
+                    <div class="tab-content workspace-panel hidden" data-tab="chip">
+                        <div class="workspace-panel-grid">
+                            <section class="workspace-card workspace-card-wide">
+                                <h3 data-i18n="Archive Feed">Archive Feed</h3>
+                                <div id="chip-insights" class="info-grid"></div>
+                            </section>
+                            <section class="workspace-card workspace-card-wide">
+                                <h3 data-i18n="Prestige Legacy">Prestige Legacy</h3>
+                                <ul id="prestige-list" class="inspector-list"></ul>
+                            </section>
+                            <section class="workspace-card">
+                                <h3 data-i18n="Updates">Updates</h3>
+                                <ul id="chip-list"></ul>
+                            </section>
+                            <section class="workspace-card">
+                                <h3 data-i18n="Chip Slots">Chip Slots</h3>
+                                <div id="chip-slots" class="slots"></div>
+                            </section>
+                            <section class="workspace-card">
+                                <h3 data-i18n="Research">Research</h3>
+                                <ul id="research-list"></ul>
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
         </div>
 
-        <div id="right" class="panel log-panel">
-            <h2 data-i18n="Log">Log</h2>
-            <div id="log-container" class="log-container">
-                <div id="log" class="log-view"></div>
+        <aside id="stat-breakdown-card" class="dashboard-card app-sidebar-card">
+            <div class="card-header">
+                <div>
+                    <p class="card-kicker" data-i18n="Persistent Growth">Persistent Growth</p>
+                    <h2 data-i18n="Stat Breakdown">Stat Breakdown</h2>
+                </div>
             </div>
-        </div>
+            <div id="overview-stat-breakdown" class="stat-breakdown-grid stat-breakdown-grid-sidebar"></div>
+        </aside>
     </main>
 
-    <footer>
+    <footer class="app-footer">
         <button id="save-btn" data-i18n="Save">Save</button>
         <button id="load-btn" data-i18n="Load">Load</button>
-        <button id="settings-btn" data-i18n="Settings">Settings</button>
         <button id="prestige-btn" data-i18n="Prestige">Prestige</button>
         <button id="reset-btn" data-i18n="Reset">Reset</button>
     </footer>
-    <script src="js/logger.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/pubsub.js"></script>
-    <script src="js/bonus.js"></script>
-    <script src="js/state.js"></script>
-    <script src="js/slot.js"></script>
-    <script src="js/lang.js"></script>
-    <script src="js/age_system.js"></script>
-    <script src="js/encounter.js"></script>
-    <script src="js/items.js"></script>
-    <script src="js/soft_cap.js"></script>
-    <script src="js/ui/inventory.js"></script>
-    <script src="js/updates.js"></script>
-    <script src="js/ui/updates.js"></script>
-    <script src="js/tab_manager.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/ui_handler.js"></script>
-    <script src="js/ui/char_bg.js"></script>
-    <script src="js/story.js"></script>
-    <script src="js/ui/story.js"></script>
-    <script src="js/furniture.js"></script>
-    <script src="js/home.js"></script>
-    <script src="js/research.js"></script>
-    <script src="js/ui/furniture.js"></script>
-    <script src="js/ui/home.js"></script>
-    <script src="js/ui/research.js"></script>
-    <script src="js/prestige.js"></script>
-    <script src="js/action_utils.js"></script>
-    <script src="js/engine.js"></script>
-    <script src="js/action_engine.js"></script>
-    <script src="js/adventure_engine.js"></script>
-    <script src="js/slotSetup.js"></script>
-    <script src="js/ui/encounter.js"></script>
-    <script src="js/ui/modal.js"></script>
-    <script src="js/tooltipHandler.js"></script>
-    <script src="js/save_system.js"></script>
-    <script src="js/story_core.js"></script>
-    <script src="js/main.js"></script>
+    <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

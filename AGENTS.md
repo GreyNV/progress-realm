@@ -67,3 +67,4 @@
 - After gathering context, analyze the logic for readability, efficiency, and optimization opportunities.
 - Add or update comments to clarify the purpose of the code sections you touch.
 - Follow these steps on every run.
+- Agent role sheets and repo navigation guidance live under [`docs/agents/README.md`](/D:/progress-realm/docs/agents/README.md). Use that knowledge layer to route specialist review work before broad repo scanning.

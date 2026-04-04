@@ -1,14 +1,13 @@
-// Applies prestige multipliers to stats and bonuses
+// Compatibility shim. The browser runtime installs `applyPrestigeBonuses` from `src/systems`.
 
 function applyPrestigeBonuses() {
+    const installed = typeof globalThis !== 'undefined' ? globalThis.applyPrestigeBonuses : null;
+    if (typeof installed === 'function' && installed !== applyPrestigeBonuses) {
+        return installed();
+    }
     STAT_KEYS.forEach(k => {
-        const pKey = PRESTIGE_MAP[k];
-        const p = State.prestige[pKey] || 0;
-        if (State.stats[k]) {
-            setState(['stats', k, 'maxMultipliers'], [1 + p * 0.02]);
-        }
         if (typeof BonusEngine !== 'undefined') {
-            BonusEngine.statMultipliers[k] = 1 + p * 0.05;
+            BonusEngine.statMultipliers[k] = 1;
         }
     });
 }

@@ -1,3 +1,6 @@
+// Legacy compatibility module for Node-based tests.
+// The live browser runtime uses the typed dwelling system from `src/systems`.
+
 class Home {
     constructor(data) {
         this.id = data.id;
@@ -8,35 +11,17 @@ class Home {
         this.default = data.default || false;
         this.furnitureSlots = data.furnitureSlots || 0;
         this.cost = data.cost || {};
+        this.adventureBonuses = data.adventureBonuses || {};
     }
 }
 
-const HomeSystem = {
+const HomeSystem = (typeof window !== 'undefined' && window.HomeSystem) || {
     homes: [],
-    async load() {
-        try {
-            const res = await fetch('data/homes.json');
-            const json = await res.json();
-            this.homes = json.map(h => new Home(h));
-        } catch (e) {
-            console.error('Failed to load homes', e);
-            this.homes = [];
-        }
-        const defaultHome = this.homes.find(h => h.default);
-        if (!State.homeId && defaultHome) {
-            setState('homeId', defaultHome.id);
-            if (!Array.isArray(State.homesOwned)) {
-                setState('homesOwned', []);
-            }
-            if (!State.homesOwned.includes(defaultHome.id)) {
-                pushState('homesOwned', defaultHome.id);
-            }
-            SaveSystem.save();
-        }
-    },
+    async load() {},
     setHome(id) {
-        const home = this.homes.find(h => h.id === id);
+        const home = this.homes.find(entry => entry.id === id);
         if (!home) return;
+
         const owned = Array.isArray(State.homesOwned) && State.homesOwned.includes(id);
         if (!owned) {
             if (!Inventory.canAfford(home.cost)) return;
@@ -46,8 +31,11 @@ const HomeSystem = {
             }
             pushState('homesOwned', id);
         }
+
         setState('homeId', id);
-        SaveSystem.save();
+        if (typeof SaveSystem !== 'undefined' && SaveSystem.save) {
+            SaveSystem.save();
+        }
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('home:changed', id);
         }

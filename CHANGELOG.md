@@ -2,10 +2,72 @@
 
 ## [Unreleased] - 2025-07-30
 ### Added
+- Added a new run-based routine-upgrade layer with item-cost buyables, multiplicative routine speed bonuses by stat, an active routine preview card in `Routine Dynamics`, and a dedicated upgrades panel replacing the old routine slot section.
+- Added data-driven tab unlock coverage for the new early-game flow, including tests for stat-gated adventure access and dashboard selector output for unlock progress.
+- Added visible completion-time readouts to routine buttons, routine slots, adventure slots, and dungeon route cards so action timing is readable without relying on tooltips alone.
+- Added autosave coverage for refresh safety with typed orchestrator tests for page-hide, visibility-change, and periodic save hooks, plus a regression test that invalid save envelopes are quarantined instead of being silently ignored.
 - Activation cost for actions deducted only once on start with visible block state when insufficient resources.
 - Slot progress now resumes from previous value when reselecting an action.
 - Queued actions and adventures wait until all resources are full before resuming.
 - Retreats now store the last encounter and resume it after recovery.
+- Added a dashboard-native resource inspector with expandable stat, resource, and prestige drill-downs.
+- Added live resource trend charts and a dashboard equipment/loadout overview with direct shortcuts into belongings and equipment sections.
+- Added per-run telemetry for action assignments/runtime plus encounter and dungeon completion counts to support future chip research hooks.
+- Added a selectable dungeon catalog in the adventure workspace so players can route expedition flow into specific encounter pools.
+- Added workspace insight panels for routines, adventure, belongings, chip, and automation so detailed layer context lives inside each layer instead of on the overview.
+- Added a new painted routine illustration set for the six starter routines and wired those versioned assets into the live action data.
+### Changed
+- Preserved mastery progression through save/load and prestige by carrying the mastery XP track forward during reset instead of rebuilding it from prestige levels alone, with regression coverage for both reload and prestige flows.
+- Moved the stat breakdown into a persistent sticky sidebar shared by overview and all workspace tabs, condensed each stat card into a tighter non-duplicated summary, and made the panel independently scroll when it grows taller than the viewport.
+- Collapsed the live stat model from six stats to five by removing craftsmanship, renaming dexterity/endurance/awareness to agility/constitution/will, remapping old save data into the new stat keys, and retuning starter routines, routine upgrades, dungeon focus, encounters, combat assumptions, and tests around the simplified stat set.
+- Normalized all routines to a shared 10-second / 10-XP baseline and temporarily disabled tooltip behavior across the typed UI so the current surfaces rely only on visible information.
+- Added a real encounter progress bar to the dashboard adventure preview, upgraded route possible-drops into item-aware chips with icons, and applied stronger dark overlays to routine art so labels stay readable over the images.
+- Darkened routine image treatments behind labels, added live encounter progress to the dashboard adventure block, replaced vague signature-drop summaries with a dedicated possible-drops block, and removed guaranteed-loot listings from the active encounter UI path.
+- Added a compact adventure overview section directly under the routines pass on the dashboard, tightened the side stat panel density, and simplified stat cards by removing carryover stat-name labels in favor of a generic mastery layer.
+- Moved the overview stat breakdown into its own persistent dashboard card, corrected mastery mapping to read the proper carryover stat keys, and exposed per-stat upgrade effects alongside run and mastery layers.
+- Added an overview stat-breakdown strip and reusable stat icon/chip references across routine cards, active slots, and dungeon cards so players can see which stats are driving routine and expedition speed at a glance.
+- Reframed the dashboard as a routine-command overview by moving the routines summary and `Routine Dynamics` block onto the overview page, reducing the dashboard to that snapshot plus the bottom log, and keeping the full routines workspace as the deeper control surface behind a dedicated CTA.
+- Locked non-core layers behind progression, made adventure unlock from early routine training instead of story flags, and simplified the dashboard to focus on current activity, routine pace, and adventure readiness instead of showing every layer upfront.
+- Wired the live app to autosave on page hide, before unload, hidden-tab transitions, periodic intervals, and manual reload requests so refresh preserves recent progress instead of depending on settings clicks or the manual save button alone.
+- Added a real mastery XP track alongside the carryover stat levels, mirrored routine XP into mastery progression, and changed routines to award stat/mastery XP continuously from action progress instead of only at cycle completion.
+- Refined routine progression around current-routine speed multipliers by separating current-run and mastery compounding in the typed formula system, anchoring completion XP to base cycle time, and replacing the duplicated routines `Lead Stat` / `Assignments` UI with a routine-specific multiplier breakdown.
+- Removed action-level and mastery-point progression from the live routine loop, switched dashboard hero/telemetry metrics to stat- and route-driven signals, and converted research readiness from mastery spend to milestone requirements based on route clears, field samples, and routine/adventure telemetry.
+- Removed the final live legacy browser dependencies by installing typed logger, utility, slot, and prestige globals from `src/`, leaving `src/core/legacyScriptLoader.ts` empty and reducing the old `js/` files to compatibility shims for tests only.
+- Ported the remaining layer UIs, dashboard HUD shell, shared state bridge, pubsub, bonus/age/equipment helpers, queue helpers, soft-cap system, and combat engine into typed `src/` modules, reducing the live legacy browser loader to `logger`, `utils`, `slot`, and `prestige` only while keeping the old `js/` files as compatibility shims for tests.
+- Installed typed tooltip, modal, story UI, story helper, and resource-inspector globals from `src/`, removed `js/tooltipHandler.js`, `js/story_core.js`, `js/ui/modal.js`, `js/ui/story.js`, and `js/ui/resources_tab.js` from the live browser loader, and reduced those files to compatibility shims for tests and fallback use.
+- Published the shared `State` surface and state helpers from `js/state.js` onto `globalThis` so the typed bootstrap can consume the legacy state bridge reliably during the remaining full-port transition.
+- Simplified the legacy compatibility modules for items, dwellings, research, and updates so `js/items.js`, `js/home.js`, `js/furniture.js`, `js/research.js`, and `js/updates.js` now preserve only the Node/test-facing fallback behavior instead of carrying old browser delegation branches.
+- Simplified the legacy Node/test compatibility modules for actions, adventure flow, and encounters by removing browser delegation branches from `js/action_engine.js`, `js/adventure_engine.js`, and `js/encounter.js` while preserving their exported fallback behavior.
+- Simplified legacy-only compatibility files such as `js/lang.js`, `js/story.js`, `js/save_system.js`, and `js/tab_manager.js` into thin shims now that the live browser path uses typed globals from `src/app`.
+- Ported the live browser implementations of localization, story progression, save/load, and workspace routing into `src/app/legacyGlobals.ts`, then removed `js/lang.js`, `js/story.js`, `js/save_system.js`, and `js/tab_manager.js` from the browser loader while keeping those files as compatibility shims for the existing test harness.
+- Installed item, inventory, home, furniture, research, and update globals directly from `src/systems/`, then removed `js/items.js`, `js/home.js`, `js/furniture.js`, `js/research.js`, and `js/updates.js` from the live browser script loader while keeping those files as compatibility modules for the test harness.
+- Installed the remaining formula, encounter, and engine browser globals directly from `src/systems/`, then removed `js/action_utils.js`, `js/engine.js`, `js/action_engine.js`, `js/adventure_engine.js`, and `js/encounter.js` from the live browser script loader so the legacy files remain compatibility shims instead of active browser dependencies.
+- Added an agent infrastructure pack under `docs/agents/` with a knowledge map, specialist role sheets, and a machine-readable registry that points agents to the right modules, technologies, and review patterns.
+- Replatformed the app onto a Vite + TypeScript shell with a typed content registry, schema-validated data loaders, selector/view-model support, a centralized progression service, and explicit save-version migrations while preserving the existing gameplay runtime through a legacy bridge.
+- Moved items, inventory, homes, furniture, research, and updates onto new `src/systems/` TypeScript services, with the legacy `js/` modules now acting as browser compatibility shells instead of owning the primary runtime logic.
+- Moved encounter generation plus the action and adventure engine browser runtime onto new `src/systems/` TypeScript services, while preserving the legacy `js/` exports as compatibility wrappers for tests and remaining UI hooks.
+- Moved the action/encounter formula layer and `DeltaEngine` simulation math into new TypeScript systems, with the legacy `js/action_utils.js` and `js/engine.js` files now delegating to the typed runtime in the browser path.
+- Added `src/ui/` dashboard, layout, and encounter presentation modules, with `js/ui.js`, `js/ui_handler.js`, and `js/ui/encounter.js` now delegating their decision-heavy browser path logic to the typed UI layer.
+- Added typed slot widget, log, and combat UI modules under `src/ui/`, with `js/slotSetup.js`, `js/ui.js` log handling, and `js/ui/combat.js` now delegating their browser path logic to the new UI services.
+- Moved startup sequencing and DOM event wiring into a typed app orchestrator under `src/app/orchestrator.ts`, reducing `js/main.js` to a compatibility shim that only preserves the remaining global entry bindings.
+- Removed several legacy UI wrappers from the live browser script loader path, simplified `js/main.js`, `js/ui_handler.js`, `js/ui/encounter.js`, `js/ui/combat.js`, and `js/slotSetup.js` into thin compatibility shims, and installed their live browser globals directly from the typed `src/ui` layer.
+- Filtered the adventure-side log to expedition events only, added explicit dungeon metadata/unlock rules with Frontier as the sole starting route, surfaced the current activity slot on the dashboard, and added a quick recommended routine action for open slots.
+- Refined the adventure workspace into a left-side route/flow column and right-side expedition/log column, removed duplicate encounter-overview intel, moved prestige details out of the main dashboard into the chip/archive layer, and made `rest` an internal idle slot rather than a visible routine.
+- Reworked the adventure workspace so the active expedition overview and encounter intel live together in the right-side command panel, with encounter flow pushed into a cleaner full-width section below.
+- Trimmed obsolete dashboard pieces by removing the hidden equipment/signals overview cards, deleting the orphaned `data/tasks.json`, and dropping unused layer-control helpers so the current shell reflects the active stat-first design.
+- Rebuilt the game shell into an overview-first dashboard with fantasy-tech styling and focused layer workspaces.
+- Added dashboard control panels for routines, adventure, belongings, automation, and chip progression with locked-layer states.
+- Converted `TabManager` into a view router that opens full workspaces from the overview and supports returning back to the dashboard.
+- Expanded `UIHandler` and `ui.js` to render overview summaries, workspace summaries, and live layer metrics without changing gameplay systems.
+- Adventure now supports mixed-mode encounters, including auto-battle combat encounters with a combat console, enemy/player stats, and retreat-on-defeat flow.
+- Equipment now contributes combat behavior through weapon, shield, and passive gear bonuses while remaining compatible with the existing inventory/equipment UI.
+- Added a combat art-direction pack covering battle sprite targets, file naming, composition rules, and prompt-ready asset specs for the first combat visual pass.
+- Restored threshold-based queue recovery for actions and adventures, plus an encounter-log toggle, without bringing back the old tab shell.
+- Moved overview module ordering into `data/ui.json`, merged resource charts into the critical resources card, and fixed the dashboard startup bug that prevented workspace buttons from functioning.
+- Made the dashboard layer cards interactive, including quick routine assignment, adventure auto-progress control, inventory section shortcuts, and chip quick actions.
+- Replaced the routine and adventure resource economy with stat-driven XP, levels, prestige-weighted scaling, dungeon-tagged encounters, and dashboard telemetry built around stat growth instead of energy/focus/health.
+- Reworked the overview into a lighter dynamics monitor focused on current flow, layer entry points, and activity, while primary stat output now surfaces as live multipliers instead of raw level-first labels.
+- Slightly increased stat XP gain and replaced adventure level-centric displays with current expedition multiplier readouts.
 ## [0.41.66] - 2025-07-14
 ### Changed
 - Clicking a task immediately assigns it to an available slot.

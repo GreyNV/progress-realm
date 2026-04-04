@@ -4,7 +4,7 @@ import os
 def test_pubsub_script_included():
     with open('index.html') as f:
         html = f.read()
-    assert 'js/pubsub.js' in html
+    assert '/src/main.ts' in html
 
 
 def test_pubsub_defined():

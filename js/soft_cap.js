@@ -1,7 +1,7 @@
 // Handles stat and resource soft cap calculations
 const SoftCapSystem = {
-    baseStatCaps: { strength: 50, intelligence: 50, dexterity: 50 },
-    baseResourceCaps: { energy: 20, focus: 20, health: 10 },
+  baseStatCaps: { strength: 50, intelligence: 50, agility: 50, constitution: 50, will: 50 },
+    baseResourceCaps: {},
     statCaps: {},
     resourceCaps: {},
     falloff: 0.5,
@@ -51,5 +51,39 @@ const SoftCapSystem = {
                 setResourceValue(r, cap + (val - cap) * this.falloff);
             }
         }
+        this.refreshCaps();
+    },
+    refreshCaps() {
+        Object.keys(State.resources || {}).forEach(name => {
+            this.resourceCaps[name] = ResourceSystem.max(State.resources[name]);
+        });
+        Object.keys(State.stats || {}).forEach(name => {
+            this.statCaps[name] = StatSystem.max(State.stats[name]);
+        });
+    },
+    getResourceCap(name) {
+        if (!name) return undefined;
+        if (this.resourceCaps[name] === undefined && State.resources[name]) {
+            this.resourceCaps[name] = ResourceSystem.max(State.resources[name]);
+        }
+        return this.resourceCaps[name];
+    },
+    getStatCap(name) {
+        if (!name) return undefined;
+        if (this.statCaps[name] === undefined && State.stats[name]) {
+            this.statCaps[name] = StatSystem.max(State.stats[name]);
+        }
+        return this.statCaps[name];
+    },
+    bumpStatCap(name, multiplier) {
+        if (!name || !State.stats[name]) return;
+        const numeric = Number(multiplier);
+        const baseMax = this.baseStatCaps[name] !== undefined ? this.baseStatCaps[name] : State.stats[name].baseMax;
+        if (Number.isFinite(numeric) && numeric > 0) {
+            setState(['stats', name, 'baseMax'], baseMax * numeric);
+        } else {
+            setState(['stats', name, 'baseMax'], baseMax);
+        }
+        this.refreshCaps();
     }
 };

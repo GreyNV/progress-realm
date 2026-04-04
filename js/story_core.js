@@ -1,37 +1,50 @@
-// Misc story-related helpers
+// Compatibility shim. The browser runtime installs these helpers from `src/app`.
+function getScope() {
+    return globalThis;
+}
+
+function getInstalled(name) {
+    const scope = getScope();
+    return typeof scope[name] === 'function' ? scope[name].bind(scope) : null;
+}
+
 function toggleLeftPanel() {
-    const body = document.body;
-    body.classList.toggle('left-collapsed');
-    const btn = document.getElementById('toggle-left');
-    if (btn) {
-        btn.textContent = body.classList.contains('left-collapsed') ?
-            (Lang.ui('Show Stats') || 'Show Stats') :
-            (Lang.ui('Hide Stats') || 'Hide Stats');
-    }
+    const installed = getInstalled('toggleLeftPanel');
+    if (installed && installed !== toggleLeftPanel) return installed();
 }
 
 function applyDarkMode() {
-    document.body.classList.toggle('dark', State.darkMode);
-    const chk = document.getElementById('dark-mode-toggle');
-    if (chk) chk.checked = State.darkMode;
+    const installed = getInstalled('applyDarkMode');
+    if (installed && installed !== applyDarkMode) return installed();
 }
 
 function openSettings() {
-    PubSub.publish('modal:open', 'settings-modal');
+    const installed = getInstalled('openSettings');
+    if (installed && installed !== openSettings) return installed();
 }
 
 function closeSettings() {
-    PubSub.publish('modal:close', 'settings-modal');
+    const installed = getInstalled('closeSettings');
+    if (installed && installed !== closeSettings) return installed();
 }
 
 function openInventoryFilter() {
-    PubSub.publish('modal:open', 'inventory-filter-modal');
-    const chk = document.getElementById('hide-rarity-toggle');
-    const sel = document.getElementById('hide-rarity-select');
-    if (chk) chk.checked = State.hideRarityEnabled;
-    if (sel) sel.value = State.hideBelowRarity;
+    const installed = getInstalled('openInventoryFilter');
+    if (installed && installed !== openInventoryFilter) return installed();
 }
 
 function closeInventoryFilter() {
-    PubSub.publish('modal:close', 'inventory-filter-modal');
+    const installed = getInstalled('closeInventoryFilter');
+    if (installed && installed !== closeInventoryFilter) return installed();
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        toggleLeftPanel,
+        applyDarkMode,
+        openSettings,
+        closeSettings,
+        openInventoryFilter,
+        closeInventoryFilter
+    };
 }

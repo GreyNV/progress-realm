@@ -1,55 +1,60 @@
-// Core engine driving action progression
+// Legacy compatibility module for Node-based tests.
+// The live browser runtime uses the typed action engine from `src/systems`.
+
+function clearQueuedAction(slot) {
+    slot.queue = null;
+    slot.queuedActionId = null;
+}
 
 const ActionEngine = {
-    start(slotIndex, actionId) {
+    start(slotIndex, actionId, options = {}) {
         const slot = State.slots[slotIndex];
         const action = actions[actionId];
-        if (!action) return;
+        if (!slot || !action) return;
+
+        updateState(['actionAssignments', actionId], count => (count || 0) + 1);
         slot.blocked = false;
-        if (action.activationCost) {
-            const missing = canAfford(action.activationCost, 1, 1);
-            if (missing) {
-                slot.blocked = true;
-                slot.queuedActionId = actionId;
-                slot.progress = 0;
-                slot.text = `${Lang.resource(missing) || missing} required`;
-                updateSlotUI(slotIndex);
-                return;
-            }
-            for (const r in action.activationCost) {
-                ResourceSystem.consume(State.resources[r], action.activationCost[r]);
-            }
-            if (typeof PubSub !== 'undefined') PubSub.publish('resources:updated');
-        }
-        slot.queuedActionId = null;
+        clearQueuedAction(slot);
         slot.actionId = actionId;
-        slot.progress = action.exp / action.expToNext;
+        slot.progress = typeof options.resumeProgress === 'number'
+            ? options.resumeProgress
+            : action.exp / action.expToNext;
         slot.text = action.name;
-        updateSlotUI(slotIndex);
+
+        if (typeof updateSlotUI === 'function') {
+            updateSlotUI(slotIndex);
+        }
     },
+
     tick(delta) {
         DeltaEngine.calculate();
         DeltaEngine.apply(delta, State.time);
-        State.slots.forEach((slot, i) => {
-            if (slot.blocked && slot.queuedActionId) {
-                if (Utils.allResourcesFull()) {
-                    this.start(i, slot.queuedActionId);
-                }
-                return;
-            }
+
+        State.slots.forEach((slot, index) => {
             if (!slot.actionId) return;
+
             if (typeof FurnitureSystem !== 'undefined' && FurnitureSystem.use) {
                 FurnitureSystem.use(slot.actionId, delta * State.time);
-                if (!slot.actionId) return; // action may be locked and removed
+                if (!slot.actionId) return;
             }
+
             const action = actions[slot.actionId];
             if (!action) return;
+
+            updateState(['actionRuntime', action.id], seconds => (seconds || 0) + (delta * State.time));
             slot.progress = action.exp / action.expToNext;
-            updateSlotUI(i);
+
+            if (typeof updateSlotUI === 'function') {
+                updateSlotUI(index);
+            }
         });
-        SoftCapSystem.apply();
-        checkHealth();
-        SaveSystem.save();
+
+        if (typeof SoftCapSystem !== 'undefined' && SoftCapSystem.apply) {
+            SoftCapSystem.apply();
+        }
+        if (typeof SaveSystem !== 'undefined' && SaveSystem.save) {
+            SaveSystem.save();
+        }
     }
 };
 

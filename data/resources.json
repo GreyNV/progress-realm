@@ -1,17 +1,17 @@
 {
     "stats": {
-        "strength": {"value": 0, "baseMax": 50},
-        "intelligence": {"value": 0, "baseMax": 50},
-        "dexterity": {"value": 0, "baseMax": 50}
+        "strength": {"value": 0, "baseMax": 20, "baseXpRequirement": 20, "description": "Raises the speed and output of forceful routines, heavy fieldwork, and direct combat."},
+        "intelligence": {"value": 0, "baseMax": 22, "baseXpRequirement": 22, "description": "Improves study, planning, and routes that reward analysis or careful preparation."},
+        "agility": {"value": 0, "baseMax": 18, "baseXpRequirement": 18, "description": "Improves precision, quick movement, and agile encounters across the realm."},
+        "constitution": {"value": 0, "baseMax": 24, "baseXpRequirement": 24, "description": "Improves sustained effort, recovery, and longer routines that rely on staying power."},
+        "will": {"value": 0, "baseMax": 18, "baseXpRequirement": 18, "description": "Improves focus, resolve, and routes that reward anticipation and presence of mind."}
     },
-    "resources": {
-        "energy": {"value": 10, "baseMax": 10},
-        "focus": {"value": 10, "baseMax": 10},
-        "health": {"value": 1, "baseMax": 10}
-    },
+    "resources": {},
     "prestige": {
-        "constitution": 0,
-        "wisdom": 0,
-        "reflexes": 0
+        "constitution": {"value": 0, "description": "Persistent strength lineage that boosts physical action speed and output at a reduced rate."},
+        "wisdom": {"value": 0, "description": "Persistent insight that softly improves intelligence-based routines and expeditions."},
+        "reflexes": {"value": 0, "description": "Persistent agility that gently improves agility scaling across runs."},
+        "vigor": {"value": 0, "description": "Persistent stamina that softly improves constitution-focused routines and travel."},
+        "instinct": {"value": 0, "description": "Persistent resolve that gently improves will-driven routines and discoveries."}
     }
 }

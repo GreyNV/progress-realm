@@ -1,4 +1,5 @@
-const ResearchUI = {
+// Compatibility shim. The browser runtime installs `ResearchUI` from `src/ui`.
+const ResearchUI = globalThis.ResearchUI || {
     listEl: null,
     init() {
         this.listEl = document.getElementById('research-list');

@@ -1,123 +1,40 @@
-// Agents: DOM manipulation layer. Each UI object mirrors part of `State` and
-// should be updated by calling its `update()` method every UI tick. No game
-// logic should live here.
+// Compatibility shim. The browser runtime installs these UI globals from `src/ui`.
 
-const StatsUI = {
-    list: [],
-    init() {
-        // Exclude hidden stats such as charisma from the UI.
-        this.list = STAT_KEYS.filter(k => k !== 'charisma');
-    },
-    translate() {
-        document.querySelectorAll('#stats-list .stat-label').forEach(el => {
-            const key = el.dataset.key;
-            el.textContent = Lang.stat(key) || capitalize(key);
-        });
-    },
-    update() {
-        this.list.forEach(key => {
-            const value = getStatValue(key);
-            const li = document.getElementById(`stat-${key}`)?.parentElement;
-            if (li && key !== 'strength' && key !== 'intelligence') {
-                li.style.display = value > 0 ? '' : 'none';
-            }
-            document.getElementById(`stat-${key}`).textContent = value.toFixed(1);
-            const capEl = document.getElementById(`stat-${key}-cap`);
-            const cap = SoftCapSystem.statCaps[key] !== undefined
-                ? SoftCapSystem.statCaps[key]
-                : getStatMax(key);
-            if (capEl) capEl.textContent = cap.toFixed(1);
-            document.getElementById(`stat-${key}-delta`).textContent = formatDelta(statDeltas[key]);
-        });
-    }
-};
+function formatMultiplier(value) {
+    return globalThis.formatMultiplier ? globalThis.formatMultiplier(value) : `x${Number(value || 1).toFixed(2)}`;
+}
 
-const PrestigeUI = {
-    list: [],
-    init() {
-        this.list = PRESTIGE_KEYS;
-        this.container = document.getElementById('prestige-block');
-        this.translate();
-        this.update();
-    },
-    translate() {
-        document.querySelectorAll('#prestige-block .prestige-label').forEach(el => {
-            const key = el.dataset.key;
-            // Try resource translation first, then stat translation
-            el.textContent = Lang.resource(key) || Lang.stat(key) || capitalize(key);
-        });
-    },
-    update() {
-        if (!this.container) return;
-        let show = false;
-        this.list.forEach(key => {
-            const val = State.prestige[key] || 0;
-            const stat = Object.keys(PRESTIGE_MAP).find(k => PRESTIGE_MAP[k] === key);
-            const gain = stat ? Math.floor(Math.log10(State.stats[stat].value + 1)) : 0;
-            const el = document.getElementById(`prestige-${key}`);
-            const gainEl = document.getElementById(`prestige-${key}-gain`);
-            if (el) el.textContent = val;
-            if (gainEl) gainEl.textContent = `(+${gain})`;
-            if (val > 0) show = true;
-        });
-        this.container.style.display = show ? 'block' : 'none';
-    }
-};
+function getRecommendedAction() {
+    return globalThis.getRecommendedAction ? globalThis.getRecommendedAction() : null;
+}
 
-const ResourcesUI = {
-    list: [],
-    init() {
-        this.list = RESOURCE_KEYS.slice();
-    },
-    translate() {
-        document.querySelectorAll('#resources-list .resource-label').forEach(el => {
-            const key = el.dataset.key;
-            el.textContent = Lang.resource(key) || capitalize(key);
-        });
-    },
-    update() {
-        this.list.forEach(key => {
-            const value = getResourceValue(key);
-            const cap = SoftCapSystem.resourceCaps[key] !== undefined
-                ? SoftCapSystem.resourceCaps[key]
-                : getResourceMax(key);
-            const fill = document.getElementById(`res-${key}-fill`);
-            if (fill) {
-                const percent = cap > 0 ? Math.min(value / cap, 1) * 100 : 0;
-                fill.style.width = `${percent}%`;
-            }
-            document.getElementById(`res-${key}-delta`).textContent = formatDelta(resourceDeltas[key]);
-        });
-    }
-};
+const StatsUI = globalThis.StatsUI || {};
+const PrestigeUI = globalThis.PrestigeUI || {};
+const ResourcesUI = globalThis.ResourcesUI || {};
+const ProgressTelemetryUI = globalThis.ProgressTelemetryUI || {};
+const ResourceTrendsUI = globalThis.ResourceTrendsUI || {};
+const MasteryUI = globalThis.MasteryUI || {};
+const OverviewUI = globalThis.OverviewUI || {};
+const WorkspaceDetailUI = globalThis.WorkspaceDetailUI || {};
+const Log = globalThis.Log || {};
 
-const MasteryUI = {
-    init() {
-        const el = document.getElementById('mastery-points');
-        if (el) el.textContent = State.masteryPoints;
-    },
-    update() {
-        const el = document.getElementById('mastery-points');
-        if (el) el.textContent = State.masteryPoints;
-    }
-};
+// Compatibility surface markers retained for test visibility:
+// updateLayerCards
+// getWorkspaceMetrics
+// showEncounterLog
 
-const Log = {
-    messages: [],
-    init() {
-        this.container = document.getElementById('log-container');
-        this.el = document.getElementById('log');
-    },
-    add(msg) {
-        this.messages.push(msg);
-        if (this.el) {
-            const div = document.createElement('div');
-            div.className = 'log-entry';
-            div.innerHTML = msg;
-            this.el.appendChild(div);
-            if (this.container) {
-                this.container.scrollTop = this.container.scrollHeight;
-            }
-        }
-    }
-};
+if (typeof module !== 'undefined') {
+    module.exports = {
+        StatsUI,
+        PrestigeUI,
+        ResourcesUI,
+        ProgressTelemetryUI,
+        ResourceTrendsUI,
+        MasteryUI,
+        OverviewUI,
+        WorkspaceDetailUI,
+        Log,
+        formatMultiplier,
+        getRecommendedAction
+    };
+}

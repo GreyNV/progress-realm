@@ -1,4 +1,5 @@
-const UpdateUI = {
+// Compatibility shim. The browser runtime installs `UpdateUI` from `src/ui`.
+const UpdateUI = globalThis.UpdateUI || {
     listEl: null,
     slotContainer: null,
     init() {

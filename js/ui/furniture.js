@@ -1,4 +1,5 @@
-const FurnitureUI = {
+// Compatibility shim. The browser runtime installs `FurnitureUI` from `src/ui`.
+const FurnitureUI = globalThis.FurnitureUI || {
     listEl: null,
     init() {
         this.listEl = document.getElementById('furniture-list');

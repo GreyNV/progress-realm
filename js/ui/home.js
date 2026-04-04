@@ -1,4 +1,5 @@
-const HomeUI = {
+// Compatibility shim. The browser runtime installs `HomeUI` from `src/ui`.
+const HomeUI = globalThis.HomeUI || {
     listEl: null,
     slotContainer: null,
     furnitureContainer: null,

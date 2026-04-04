@@ -4,7 +4,15 @@
     "name": "Basic Cooking",
     "image": "assets/research/basic_cooking.png",
     "description": "Learn simple recipes.",
-    "cost": 500,
+    "requirements": {
+      "adventureCompletions": {
+        "frontier": 6
+      },
+      "inventory": {
+        "herb": 4,
+        "rabbit_meat": 4
+      }
+    },
     "unlocks": ["cooking"]
   },
   {
@@ -12,7 +20,15 @@
     "name": "Advanced Tools",
     "image": "assets/research/advanced_tools.png",
     "description": "Unlock better crafting equipment.",
-    "cost": 800,
+    "requirements": {
+      "adventureCompletions": {
+        "quarry_edge": 5
+      },
+      "inventory": {
+        "quartz_shard": 3,
+        "tempered_ore": 3
+      }
+    },
     "unlocks": ["blacksmithing"]
   }
 ]

@@ -1,3 +1,6 @@
+// Legacy compatibility module for Node-based tests.
+// The live browser runtime uses the typed research system from `src/systems`.
+
 class ResearchItem {
     constructor(data) {
         this.id = data.id;
@@ -10,29 +13,22 @@ class ResearchItem {
     }
 }
 
-const ResearchSystem = {
+const ResearchSystem = (typeof window !== 'undefined' && window.ResearchSystem) || {
     research: [],
-    async load() {
-        try {
-            const res = await fetch('data/research.json');
-            const json = await res.json();
-            this.research = json.map(r => new ResearchItem(r));
-        } catch (e) {
-            console.error('Failed to load research', e);
-            this.research = [];
-        }
-    },
+    async load() {},
     purchase(id) {
-        const item = this.research.find(r => r.id === id);
+        const item = this.research.find(entry => entry.id === id);
         if (!item) return;
         if (!State.researchCompleted.includes(id)) {
             pushState('researchCompleted', id);
         }
-        item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
         if (typeof PubSub !== 'undefined') {
+            item.unlocks.forEach(actionId => PubSub.publish('unlock:action', actionId));
             PubSub.publish('research:updated');
         }
-        SaveSystem.save();
+        if (typeof SaveSystem !== 'undefined' && SaveSystem.save) {
+            SaveSystem.save();
+        }
     }
 };
 

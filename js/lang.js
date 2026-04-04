@@ -1,7 +1,8 @@
-// Agents: Localization helper. UI text and descriptions funnel through this
-// object so translations can be swapped at runtime. Game logic should remain
-// language agnostic and pull strings via `Lang.*` methods.
-const Lang = {
+// Legacy compatibility shim.
+// The live browser runtime installs `Lang` from `src/app/legacyGlobals.ts`.
+// This file remains for repository compatibility and direct test references.
+
+const Lang = (typeof window !== 'undefined' && window.Lang) || {
     current: 'en',
     data: {},
     async load(lang) {
@@ -11,8 +12,10 @@ const Lang = {
             return;
         }
         try {
-            const res = await fetch(`data/lang/${lang}.json`);
-            this.data = await res.json();
+            const registry = typeof window !== 'undefined' ? window.__appContent : null;
+            this.data = registry && typeof registry.getLanguage === 'function'
+                ? await registry.getLanguage(lang)
+                : await (await fetch(`data/lang/${lang}.json`)).json();
             this.current = lang;
         } catch (e) {
             console.error('Lang load failed', e);
@@ -26,67 +29,35 @@ const Lang = {
     stat(key) {
         return this.data.stats && this.data.stats[key] || null;
     },
+    statDesc(key) {
+        return this.data.statDescriptions && this.data.statDescriptions[key] || null;
+    },
     resource(key) {
         return this.data.resources && this.data.resources[key] || null;
     },
+    resourceDesc(key) {
+        return this.data.resourceDescriptions && this.data.resourceDescriptions[key] || null;
+    },
+    prestigeDesc(key) {
+        return this.data.prestigeDescriptions && this.data.prestigeDescriptions[key] || null;
+    },
     effect(key) {
-        if (!this.data.effects) return null;
-        return this.data.effects[key] || null;
+        return this.data.effects ? this.data.effects[key] || null : null;
     },
     story(key) {
         return this.data.story && this.data.story[key] || null;
     },
     log(key, params = {}) {
         if (!this.data.log) return null;
-        let text = this.data.log[key];
+        const text = this.data.log[key];
         if (!text) return null;
         return text.replace(/\{(\w+)\}/g, (m, p) => params[p] !== undefined ? params[p] : m);
     },
-    translateUI() {
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            let text = this.ui(el.dataset.i18n);
-            if (!text) text = el.dataset.i18n;
-            if (el.childNodes.length > 1 && el.childNodes[0].nodeType === Node.TEXT_NODE) {
-                el.childNodes[0].textContent = text;
-            } else {
-                el.textContent = text;
-            }
-        });
-    },
-    applyToActions(actions) {
-        if (!this.data.actions) return;
-        Object.values(actions).forEach(a => {
-            const t = this.data.actions[a.id];
-            if (!t) return;
-            if (t.name) a.name = t.name;
-            if (t.description) a.description = t.description;
-        });
-    },
-    applyToItems(items) {
-        if (!this.data.items) return;
-        items.forEach(i => {
-            const t = this.data.items[i.id];
-            if (!t) return;
-            if (t.name) i.name = t.name;
-            if (t.description) i.description = t.description;
-        });
-    },
-    applyToEncounters(encs) {
-        if (!this.data.encounters) return;
-        encs.forEach(e => {
-            const t = this.data.encounters[e.id];
-            if (!t) return;
-            if (t.name) e.name = t.name;
-            if (t.description) e.description = t.description;
-        });
-    },
-    applyToLocations(milestones) {
-        if (!this.data.locations) return;
-        milestones.forEach(m => {
-            const t = this.data.locations[m.name];
-            if (t) m.name = t;
-        });
-    }
+    translateUI() {},
+    applyToActions() {},
+    applyToItems() {},
+    applyToEncounters() {},
+    applyToLocations() {}
 };
 
 if (typeof module !== 'undefined') {

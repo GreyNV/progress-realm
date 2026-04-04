@@ -1,31 +1,44 @@
 const EncounterUI = {
+    dungeonList: null,
+
     init() {
+        this.dungeonList = document.getElementById('dungeon-list');
         if (typeof PubSub !== 'undefined') {
             PubSub.subscribe('encounter:update', () => {
                 this.updateName();
                 this.updateProgressBar();
+                this.updateDungeonCatalog();
             });
+            PubSub.subscribe('dungeon:selected', () => this.updateDungeonCatalog());
+            PubSub.subscribe('lang:changed', () => this.updateDungeonCatalog());
         }
+        this.updateDungeonCatalog();
         this.updateName();
         this.updateProgressBar();
     },
+
     updateName() {
-        const milestone = EncounterGenerator.milestones
-            .slice()
-            .reverse()
-            .find(m => EncounterGenerator.level >= m.level);
-        const name = milestone ? milestone.name : EncounterGenerator.milestones[0].name;
-        const el = document.getElementById('encounter-location');
-        if (el) {
-            el.textContent = `${name} (Level ${EncounterGenerator.level})`;
-        }
+        return window.__uiModules.encounter.updateName();
     },
+
     updateProgressBar() {
-        const bar = document.getElementById('encounter-level-progress');
-        if (bar) {
-            bar.max = 10;
-            bar.value = Math.min(State.encounterStreak || 0, 10);
-        }
+        return window.__uiModules.encounter.updateProgressBar();
+    },
+
+    updateDungeonCatalog() {
+        return window.__uiModules.encounter.updateDungeonCatalog(this.dungeonList);
+    },
+
+    getDungeonSignatureDrops(dungeon) {
+        return window.__uiModules.encounter.getDungeonSignatureDrops(dungeon);
+    },
+
+    getItemLabel(itemId) {
+        return window.__uiModules.encounter.getItemLabel(itemId);
+    },
+
+    getDungeonStrongestStat(dungeonId) {
+        return window.__uiModules.encounter.getDungeonStrongestStat(dungeonId);
     }
 };
 

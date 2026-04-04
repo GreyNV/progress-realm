@@ -33,7 +33,9 @@ def test_prestige_ui_defined():
     with open(path) as f:
         text = f.read()
     assert 'PrestigeUI' in text
-    assert 'prestige-block' in text
+    with open('index.html') as f:
+        html = f.read()
+    assert 'prestige-list' in html
 
 
 def test_encounter_level_default_one():

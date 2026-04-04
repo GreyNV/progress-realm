@@ -5,7 +5,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "focus": 1
+      "intelligence": 1
     },
     "image": "assets/items/herb.png",
     "description": "A collection of useful medicinal plants."
@@ -27,7 +27,7 @@
     "rarity": "rare",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "health": 2
+      "strength": 2
     },
     "image": "assets/items/wolfpelt.png",
     "description": "Thick hide taken from a wolf."
@@ -38,7 +38,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "energy": 1
+      "strength": 1
     },
     "image": "assets/items/woodlog.PNG",
     "description": "Sturdy timber cut from local trees."
@@ -60,7 +60,7 @@
     "rarity": "rare",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "health": 1
+      "strength": 1
     },
     "image": "assets/items/boartusk.PNG",
     "description": "A sharp tusk prized by craftsmen."
@@ -80,6 +80,14 @@
     "id": "stone_spear",
     "name": "Stone Spear",
     "rarity": "rare",
+    "type": "equipment",
+    "slot": "rightHand",
+    "weaponProfile": {
+      "baseAttack": 4,
+      "speed": 0.95,
+      "critChance": 0.08,
+      "critDamage": 1.5
+    },
     "effectType": "increaseSoftcap",
     "effectValue": {
       "strength": 1.5
@@ -91,9 +99,24 @@
     "id": "wooden_shield",
     "name": "Wooden Shield",
     "rarity": "rare",
+    "type": "equipment",
+    "slot": "leftHand",
+    "adventureBonuses": {
+      "dungeons": {
+        "deep_woods": { "speed": 0.04, "lootChance": 0.01 }
+      }
+    },
+    "combatBonuses": {
+      "defense": 1,
+      "maxHp": 3
+    },
+    "shieldProfile": {
+      "blockChance": 0.35,
+      "blockValue": 2
+    },
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "health": 1
+      "strength": 1
     },
     "image": "assets/items/woodshield.PNG",
     "description": "Simple shield offering basic protection."
@@ -102,9 +125,15 @@
     "id": "leather_armor",
     "name": "Leather Armor",
     "rarity": "rare",
+    "type": "equipment",
+    "slot": "armor",
+    "combatBonuses": {
+      "maxHp": 8,
+      "defense": 2
+    },
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "health": 2
+      "strength": 2
     },
     "image": "assets/items/leatherarmor.PNG",
     "description": "Light armor made from treated hides."
@@ -113,9 +142,23 @@
     "id": "gem",
     "name": "Gem",
     "rarity": "rare",
+    "type": "equipment",
+    "slot": "necklace",
+    "adventureBonuses": {
+      "categories": {
+        "intelligence": { "speed": 0.05, "lootMultiplier": 0.06 }
+      },
+      "dungeons": {
+        "ancient_vault": { "lootChance": 0.03 }
+      }
+    },
+    "combatBonuses": {
+      "critChance": 0.05,
+      "speed": 0.15
+    },
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "focus": 2
+      "intelligence": 2
     },
     "image": "assets/items/gem.PNG",
     "description": "A shimmering gemstone of unknown origin."
@@ -124,6 +167,14 @@
     "id": "iron_sword",
     "name": "Iron Sword",
     "rarity": "rare",
+    "type": "equipment",
+    "slot": "rightHand",
+    "weaponProfile": {
+      "baseAttack": 6,
+      "speed": 1,
+      "critChance": 0.12,
+      "critDamage": 1.75
+    },
     "effectType": "increaseSoftcap",
     "effectValue": {
       "strength": 2
@@ -137,7 +188,7 @@
     "rarity": "rare",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "health": 1
+      "strength": 1
     },
     "image": "assets/user_uploaded/AQADB_gxG_UwMUt-.jpg",
     "description": "Thick bark that can reinforce armor."
@@ -148,7 +199,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "energy": 1
+      "intelligence": 1
     },
     "image": "assets/user_uploaded/water_flask.jpg",
     "description": "A simple container filled with fresh water."
@@ -170,7 +221,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "dexterity": 1
+      "agility": 1
     },
     "image": "assets/user_uploaded/feather.jpg",
     "description": "Soft plumage useful for fletching arrows."
@@ -181,7 +232,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "dexterity": 1
+      "agility": 1
     },
     "image": "assets/user_uploaded/clay.jpg",
     "description": "Moist earth that can be shaped and fired."
@@ -192,7 +243,7 @@
     "rarity": "common",
     "effectType": "increaseSoftcap",
     "effectValue": {
-      "energy": 1
+      "agility": 1
     },
     "image": "assets/user_uploaded/berries.jpg",
     "description": "A handful of ripe forest berries."
@@ -210,6 +261,17 @@
     "id": "torch",
     "name": "Torch",
     "rarity": "common",
+    "type": "equipment",
+    "slot": "leftHand",
+    "adventureBonuses": {
+      "dungeons": {
+        "ancient_vault": { "speed": 0.12, "lootChance": 0.04 },
+        "deep_woods": { "speed": 0.03 }
+      }
+    },
+    "combatBonuses": {
+      "attack": 1
+    },
     "effectType": "increaseSoftcap",
     "effectValue": {
       "intelligence": 1
@@ -227,5 +289,93 @@
     },
     "image": "assets/user_uploaded/cooked_fish.jpg",
     "description": "Freshly cooked fish that restores vigor."
+  },
+  {
+    "id": "quartz_shard",
+    "name": "Quartz Shard",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "intelligence": 1
+    },
+    "image": "assets/items/quartz_shard.svg",
+    "description": "A bright shard cut from the quarry wall."
+  },
+  {
+    "id": "tempered_ore",
+    "name": "Tempered Ore",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "strength": 2
+    },
+    "image": "assets/items/tempered_ore.svg",
+    "description": "Heavy ore veined with metal strong enough for serious work."
+  },
+  {
+    "id": "spirit_resin",
+    "name": "Spirit Resin",
+    "rarity": "common",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "intelligence": 1
+    },
+    "image": "assets/items/spirit_resin.svg",
+    "description": "Luminous sap gathered from deep woodland growth."
+  },
+  {
+    "id": "hunter_fang",
+    "name": "Hunter Fang",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "agility": 2
+    },
+    "image": "assets/items/hunter_fang.svg",
+    "description": "A trophy taken from a predator that rules the woods."
+  },
+  {
+    "id": "vault_core",
+    "name": "Vault Core",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "intelligence": 2
+    },
+    "image": "assets/items/vault_core.svg",
+    "description": "A sealed power source recovered from ancient machinery."
+  },
+  {
+    "id": "etched_tablet",
+    "name": "Etched Tablet",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "intelligence": 2
+    },
+    "image": "assets/items/etched_tablet.svg",
+    "description": "A stone plate covered in diagrams and forgotten marks."
+  },
+  {
+    "id": "bandit_token",
+    "name": "Bandit Token",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "agility": 1
+    },
+    "image": "assets/items/bandit_token.svg",
+    "description": "A marked token carried by the raiders of the road."
+  },
+  {
+    "id": "smuggled_map",
+    "name": "Smuggled Map",
+    "rarity": "rare",
+    "effectType": "increaseSoftcap",
+    "effectValue": {
+      "intelligence": 2
+    },
+    "image": "assets/items/smuggled_map.svg",
+    "description": "A folded route chart showing hidden paths and caches."
   }
 ]

@@ -16,11 +16,11 @@
 // via DeltaEngine and others.
 
 // Game save version. Shared with main.js for compatibility checks
-const VERSION = 2;
+const VERSION = 3;
 
 const ResourceSystem = {
-    create(value, baseMax) {
-        return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [] };
+    create(value, baseMax, key = null) {
+        return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [], key: key };
     },
     max(res) {
         let m = res.baseMax;
@@ -39,17 +39,31 @@ const ResourceSystem = {
 };
 
 const StatSystem = {
-    create(value, baseMax) {
-        return { value: value, baseMax: baseMax, maxAdditions: [], maxMultipliers: [] };
+    create(value, baseMax, key = null) {
+        const level = Math.max(0, Number(value || 0));
+        return {
+            value: level,
+            level: level,
+            exp: 0,
+            expToNext: 10 + level * 6,
+            baseMax: baseMax,
+            maxAdditions: [],
+            maxMultipliers: [],
+            key: key
+        };
     },
     max(stat) {
-        let m = stat.baseMax;
-        stat.maxAdditions.forEach(a => { m += a; });
-        stat.maxMultipliers.forEach(x => { m *= x; });
-        return m;
+        return stat.expToNext || 10;
     },
     add(stat, amt) {
-        stat.value = Math.min(stat.value + amt, this.max(stat));
+        if (amt <= 0) return;
+        stat.exp = (stat.exp || 0) + amt;
+        while (stat.exp >= stat.expToNext) {
+            stat.exp -= stat.expToNext;
+            stat.level = (stat.level || stat.value || 0) + 1;
+            stat.value = stat.level;
+            stat.expToNext = Math.floor(stat.expToNext * 1.16 + 6);
+        }
     }
 };
 
@@ -67,7 +81,10 @@ function setResourceValue(name, val) {
 }
 function ensureResource(name, value, max) {
     if (!State.resources[name] || typeof State.resources[name].value !== "number") {
-        State.resources[name] = ResourceSystem.create(value, max);
+        State.resources[name] = ResourceSystem.create(value, max, name);
+    }
+    if (State.resources[name].key !== name) {
+        State.resources[name].key = name;
     }
 }
 
@@ -81,13 +98,34 @@ function getStatMax(name) {
 
 function setStatValue(name, val) {
     const s = State.stats[name];
-    s.value = Math.min(val, getStatMax(name));
+    s.level = Math.max(0, val);
+    s.value = s.level;
 }
 
 function ensureStat(name, value, max) {
     if (!State.stats[name] || typeof State.stats[name].value !== "number") {
-        State.stats[name] = StatSystem.create(value, max);
+        State.stats[name] = StatSystem.create(value, max, name);
     }
+    if (State.stats[name].key !== name) {
+        State.stats[name].key = name;
+    }
+    if (State.stats[name].level === undefined) {
+        State.stats[name].level = State.stats[name].value || 0;
+    }
+    if (State.stats[name].exp === undefined) {
+        State.stats[name].exp = 0;
+    }
+    if (State.stats[name].expToNext === undefined) {
+        State.stats[name].expToNext = 10 + State.stats[name].level * 6;
+    }
+}
+
+function getStatLevel(name) {
+    return State.stats[name] ? State.stats[name].level || 0 : 0;
+}
+
+function getStatExp(name) {
+    return State.stats[name] ? State.stats[name].exp || 0 : 0;
 }
 
 function _pathParts(path) {
@@ -134,10 +172,41 @@ const DEFAULT_ACTION_ID = 'rest';
 const PRESTIGE_MAP = {
     strength: 'constitution',
     intelligence: 'wisdom',
-    dexterity: 'reflexes'
+    agility: 'reflexes',
+    constitution: 'vigor',
+    will: 'instinct'
 };
 const PRESTIGE_KEYS = Object.values(PRESTIGE_MAP);
 const RARITY_CLASSES = ['common', 'rare', 'epic', 'legendary', 'story'];
+
+function createDefaultEquipment() {
+    return {
+        head: null,
+        armor: null,
+        leftHand: null,
+        rightHand: null,
+        pants: null,
+        boots: null,
+        gloves: null,
+        ring1: null,
+        ring2: null,
+        necklace: null
+    };
+}
+
+function createDefaultCombatState() {
+    return {
+        active: false,
+        phase: 'idle',
+        encounterId: null,
+        round: 0,
+        player: null,
+        enemy: null,
+        log: [],
+        outcome: null,
+        timeToNextTurn: 0
+    };
+}
 
 const State = {
     version: VERSION,
@@ -148,6 +217,9 @@ const State = {
     stats: {},
     resources: {},
     prestige: {},
+    statDescriptions: {},
+    resourceDescriptions: {},
+    prestigeDescriptions: {},
     prestiging: false,
     // number of available action slots
     slotCount: 1,
@@ -156,49 +228,93 @@ const State = {
     adventureSlots: [],
     inventorySlotCount: 8,
     inventory: {},
+    equipment: createDefaultEquipment(),
     homeId: null,
     homesOwned: [],
     furniture: [],
     researchCompleted: [],
+    actionAssignments: {},
+    actionRuntime: {},
+    encounterCompletions: {},
+    adventureCompletions: {},
     time: 1,
     masteryPoints: 0,
     encounterLevel: 1,
     encounterStreak: 0,
+    currentDungeon: 'frontier',
     queuedEncounterId: null,
+    combat: createDefaultCombatState(),
     autoProgress: true,
     darkMode: true,
     language: 'en',
+    showEncounterLog: true,
     hideRarityEnabled: false,
     hideBelowRarity: 'rare',
     defaultActionId: DEFAULT_ACTION_ID,
 };
 
 for (let i = 0; i < State.slotCount; i++) {
-    State.slots.push({ actionId: DEFAULT_ACTION_ID, progress: 0, blocked: false, text: '', queuedActionId: null });
+    State.slots.push({
+        actionId: DEFAULT_ACTION_ID,
+        progress: 0,
+        blocked: false,
+        text: '',
+        queuedActionId: null,
+        queue: null
+    });
 }
 
 for (let i = 0; i < State.adventureSlotCount; i++) {
-    State.adventureSlots.push({ text: '', progress: 0, duration: 1, encounter: null, active: false });
+    State.adventureSlots.push({
+        text: '',
+        progress: 0,
+        duration: 1,
+        encounter: null,
+        active: false,
+        queue: null
+    });
 }
 
 async function loadBaseData() {
     try {
-        let res = await fetch('data/resources.json');
-        if (!res.ok) {
-            res = await fetch('../data/resources.json');
+        const registry = typeof window !== 'undefined' ? window.__appContent : null;
+        let json = registry && registry.resources ? registry.resources : null;
+        if (!json) {
+            let res = await fetch('data/resources.json');
+            if (!res.ok) {
+                res = await fetch('../data/resources.json');
+            }
+            json = await res.json();
         }
-        const json = await res.json();
         STAT_KEYS = Object.keys(json.stats || {});
         RESOURCE_KEYS = Object.keys(json.resources || {});
         STAT_KEYS.forEach(k => {
             const def = json.stats[k];
-            State.stats[k] = StatSystem.create(def.value, def.baseMax);
-        });
+        State.stats[k] = StatSystem.create(def.value, def.baseMax, k);
+        if (def.exp) {
+            State.stats[k].exp = def.exp;
+        }
+        if (def.expToNext) {
+            State.stats[k].expToNext = def.expToNext;
+        }
+        State.statDescriptions[k] = def.description || '';
+    });
         RESOURCE_KEYS.forEach(k => {
             const def = json.resources[k];
-            State.resources[k] = ResourceSystem.create(def.value, def.baseMax);
+            State.resources[k] = ResourceSystem.create(def.value, def.baseMax, k);
+            State.resourceDescriptions[k] = def.description || '';
         });
-        State.prestige = { ...json.prestige };
+        State.prestige = {};
+        Object.keys(json.prestige || {}).forEach(k => {
+            const def = json.prestige[k];
+            if (typeof def === 'number') {
+                State.prestige[k] = def;
+                State.prestigeDescriptions[k] = '';
+                return;
+            }
+            State.prestige[k] = def.value || 0;
+            State.prestigeDescriptions[k] = def.description || '';
+        });
         if (typeof BonusEngine !== 'undefined' && BonusEngine.initialize) {
             BonusEngine.initialize(STAT_KEYS, RESOURCE_KEYS);
         }
@@ -226,7 +342,65 @@ if (typeof module !== 'undefined') {
         RESOURCE_KEYS,
         PRESTIGE_MAP,
         PRESTIGE_KEYS,
+        getStatLevel,
+        getStatExp,
         DEFAULT_ACTION_ID,
+        createDefaultEquipment,
+        createDefaultCombatState,
     };
+}
+
+if (typeof globalThis !== 'undefined') {
+    const scope = globalThis;
+
+    if (!Object.getOwnPropertyDescriptor(scope, 'VERSION')) {
+        Object.defineProperty(scope, 'VERSION', {
+            configurable: true,
+            get() {
+                return VERSION;
+            }
+        });
+    }
+
+    if (!Object.getOwnPropertyDescriptor(scope, 'STAT_KEYS')) {
+        Object.defineProperty(scope, 'STAT_KEYS', {
+            configurable: true,
+            get() {
+                return STAT_KEYS;
+            },
+            set(value) {
+                STAT_KEYS = value;
+            }
+        });
+    }
+
+    if (!Object.getOwnPropertyDescriptor(scope, 'RESOURCE_KEYS')) {
+        Object.defineProperty(scope, 'RESOURCE_KEYS', {
+            configurable: true,
+            get() {
+                return RESOURCE_KEYS;
+            },
+            set(value) {
+                RESOURCE_KEYS = value;
+            }
+        });
+    }
+
+    scope.State = State;
+    scope.ResourceSystem = ResourceSystem;
+    scope.StatSystem = StatSystem;
+    scope.setState = setState;
+    scope.updateState = updateState;
+    scope.pushState = pushState;
+    scope.deleteState = deleteState;
+    scope.mergeState = mergeState;
+    scope.loadBaseData = loadBaseData;
+    scope.PRESTIGE_MAP = PRESTIGE_MAP;
+    scope.PRESTIGE_KEYS = PRESTIGE_KEYS;
+    scope.RARITY_CLASSES = RARITY_CLASSES;
+    scope.getStatLevel = getStatLevel;
+    scope.getStatExp = getStatExp;
+    scope.createDefaultEquipment = createDefaultEquipment;
+    scope.createDefaultCombatState = createDefaultCombatState;
 }
 

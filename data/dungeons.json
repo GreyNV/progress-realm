@@ -1,0 +1,61 @@
+[
+    {
+        "id": "frontier",
+        "name": "Frontier",
+        "description": "The first safe route beyond the healer's hut. Light gathering, simple hunts, and dependable supplies.",
+        "recommendedStat": "balanced",
+        "unlock": {
+            "type": "always"
+        }
+    },
+    {
+        "id": "quarry_edge",
+        "name": "Quarry Edge",
+        "description": "A harsher labor route with stone, ore, and heavier field work.",
+        "recommendedStat": "intelligence",
+        "unlock": {
+            "encounterLevel": 2,
+            "dungeonClears": {
+                "frontier": 4
+            }
+        }
+    },
+    {
+        "id": "deep_woods",
+        "name": "Deep Woods",
+        "description": "A dangerous hunting route with beasts, abandoned camps, and stronger wilderness rewards.",
+        "recommendedStat": "will",
+        "unlock": {
+            "encounterLevel": 3,
+            "dungeonClears": {
+                "frontier": 6
+            }
+        }
+    },
+    {
+        "id": "ancient_vault",
+        "name": "Ancient Vault",
+        "description": "A late expedition where rare equipment and guarded relics begin to appear.",
+        "recommendedStat": "intelligence",
+        "unlock": {
+            "encounterLevel": 6,
+            "dungeonClears": {
+                "deep_woods": 4,
+                "quarry_edge": 3
+            }
+        }
+    },
+    {
+        "id": "bandit_road",
+        "name": "Bandit Road",
+        "description": "A hostile story route tied to bandit encounters and late-run escalation.",
+        "recommendedStat": "constitution",
+        "hiddenUntilUnlocked": true,
+        "unlock": {
+            "encounterLevel": 8,
+            "dungeonClears": {
+                "ancient_vault": 2
+            }
+        }
+    }
+]

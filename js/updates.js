@@ -1,6 +1,6 @@
-// Agents: UpdateSystem handles long term upgrades. The flow is
-// UpdateSystem.load -> UpdateSystem.init -> UpdateSystem.start -> tick/apply.
-// Completed updates can unlock actions and alter bonuses.
+// Legacy compatibility module for Node-based tests.
+// The live browser runtime uses the typed update system from `src/systems`.
+
 class Update {
     constructor(data) {
         this.id = data.id;
@@ -12,24 +12,16 @@ class Update {
         this.state = data.state || 'locked';
         this.bonus = data.bonus || {};
         this.unlocks = data.unlocks || { actions: [], encounters: [] };
+        this.replaceEncounters = data.replaceEncounters || null;
         this.progress = 0;
     }
 }
 
-const UpdateSystem = {
+const UpdateSystem = (typeof window !== 'undefined' && window.UpdateSystem) || {
     updates: [],
     slots: [],
     slotCount: 1,
-    async load() {
-        try {
-            const res = await fetch('data/updates.json');
-            const json = await res.json();
-            this.updates = json.map(u => new Update(u));
-        } catch (e) {
-            console.error('Failed to load updates', e);
-            this.updates = [];
-        }
-    },
+    async load() {},
     init() {
         while (this.slots.length < this.slotCount) {
             this.slots.push({ updateId: null, progress: 0, active: false });
@@ -40,8 +32,8 @@ const UpdateSystem = {
     },
     start(index, id) {
         const slot = this.slots[index];
-        const update = this.updates.find(u => u.id === id && u.state === 'available');
-        if (!update) return;
+        const update = this.updates.find(entry => entry.id === id && entry.state === 'available');
+        if (!slot || !update) return;
         if (!Inventory.canAfford(update.resourceConsumption)) return;
         Inventory.consumeCost(update.resourceConsumption);
         slot.updateId = id;
@@ -55,9 +47,9 @@ const UpdateSystem = {
     updateListUI() {},
     updateSlotUI() {},
     tick(delta) {
-        this.slots.forEach((slot, i) => {
+        this.slots.forEach(slot => {
             if (!slot.active) return;
-            const update = this.updates.find(u => u.id === slot.updateId);
+            const update = this.updates.find(entry => entry.id === slot.updateId);
             if (!update) return;
             slot.progress += delta / update.duration;
             if (typeof PubSub !== 'undefined') {
@@ -76,9 +68,9 @@ const UpdateSystem = {
         });
     },
     applyUpdate(update) {
-        if (update.bonus && update.bonus.stats) {
-            for (const [k, v] of Object.entries(update.bonus.stats)) {
-                BonusEngine.statAdditions[k] = (BonusEngine.statAdditions[k] || 0) + v;
+        if (update.bonus && update.bonus.stats && typeof BonusEngine !== 'undefined') {
+            for (const [key, value] of Object.entries(update.bonus.stats)) {
+                BonusEngine.statAdditions[key] = (BonusEngine.statAdditions[key] || 0) + value;
             }
         }
         if (update.unlocks && update.unlocks.actions) {
@@ -104,16 +96,16 @@ const UpdateSystem = {
         }
         if (update.replaceEncounters) {
             for (const [oldId, newId] of Object.entries(update.replaceEncounters)) {
-                const oldEnc = EncounterGenerator.encounters.find(e => e.id === oldId);
-                const newEnc = EncounterGenerator.encounters.find(e => e.id === newId);
-                if (oldEnc) {
-                    oldEnc.locked = true;
+                const oldEncounter = EncounterGenerator.encounters.find(entry => entry.id === oldId);
+                const newEncounter = EncounterGenerator.encounters.find(entry => entry.id === newId);
+                if (oldEncounter) {
+                    oldEncounter.locked = true;
                     if (typeof PubSub !== 'undefined') {
                         PubSub.publish('lock:encounter', oldId);
                     }
                 }
-                if (newEnc) {
-                    newEnc.locked = false;
+                if (newEncounter) {
+                    newEncounter.locked = false;
                     if (typeof PubSub !== 'undefined') {
                         PubSub.publish('unlock:encounter', newId);
                     }

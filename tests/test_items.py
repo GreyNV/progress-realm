@@ -14,6 +14,8 @@ def test_item_fields():
         assert 'effectValue' in item
         assert isinstance(item['effectValue'], dict)
         assert 'image' in item
+        if item.get('type') == 'equipment':
+            assert 'slot' in item
 
 
 def test_effect_formula_log():
@@ -22,7 +24,7 @@ def test_effect_formula_log():
         data = json.load(f)
     herb = next(i for i in data if i['id'] == 'herb')
     qty = 1
-    effect_val = herb['effectValue']['focus']
+    effect_val = herb['effectValue']['intelligence']
     import math
     effect = effect_val * math.log(qty + 1)
     assert effect > 0

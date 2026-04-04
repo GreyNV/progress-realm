@@ -1,0 +1,45 @@
+{
+    "version": 1,
+    "agents": [
+        {
+            "id": "architecture_agent",
+            "name": "Architecture Agent",
+            "focus": "System boundaries, state ownership, save compatibility, module coupling",
+            "entry_doc": "roles/architecture_agent.md",
+            "primary_files": ["js/state.js", "js/save_system.js", "js/main.js", "js/ui_handler.js", "js/tab_manager.js"],
+            "technologies": ["vanilla-js", "json-content", "localStorage", "PubSub"]
+        },
+        {
+            "id": "systems_agent",
+            "name": "Systems Agent",
+            "focus": "Progression, simulation, encounters, combat, scaling formulas",
+            "entry_doc": "roles/systems_agent.md",
+            "primary_files": ["js/engine.js", "js/action_utils.js", "js/action_engine.js", "js/adventure_engine.js", "js/combat_engine.js", "js/encounter.js"],
+            "technologies": ["simulation-loop", "stateful-progression", "formula-balancing"]
+        },
+        {
+            "id": "ui_agent",
+            "name": "UI Agent",
+            "focus": "Dashboard, workspaces, layout, routing, DOM update patterns",
+            "entry_doc": "roles/ui_agent.md",
+            "primary_files": ["index.html", "css/styles.css", "js/ui.js", "js/ui_handler.js", "js/tab_manager.js", "js/ui/encounter.js"],
+            "technologies": ["html", "css", "dom-ui", "responsive-layout"]
+        },
+        {
+            "id": "content_agent",
+            "name": "Content Agent",
+            "focus": "Actions, encounters, dungeons, items, rewards, unlock clarity",
+            "entry_doc": "roles/content_agent.md",
+            "primary_files": ["data/actions.json", "data/encounters.json", "data/dungeons.json", "data/items.json", "data/homes.json", "data/furniture.json", "data/research.json", "data/updates.json"],
+            "technologies": ["json-content-design", "progression-design", "reward-architecture"]
+        },
+        {
+            "id": "qa_agent",
+            "name": "QA Agent",
+            "focus": "Regression checks, invariants, smoke coverage, breakage detection",
+            "entry_doc": "roles/qa_agent.md",
+            "primary_files": ["tests/test_dashboard_layout.py", "tests/test_encounters.py", "tests/test_items.py", "tests/test_prestige.py", "tests/test_tab_manager_module.py"],
+            "technologies": ["pytest", "static-invariant-tests", "behavior-regression"]
+        }
+    ]
+}

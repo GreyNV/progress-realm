@@ -4,7 +4,7 @@ import os
 def test_soft_cap_script_included():
     with open('index.html') as f:
         html = f.read()
-    assert 'js/soft_cap.js' in html
+    assert '/src/main.ts' in html
 
 
 def test_soft_cap_defined():

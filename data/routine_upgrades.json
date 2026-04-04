@@ -1,0 +1,62 @@
+[
+    {
+        "id": "field_notebook",
+        "name": "Field Notebook",
+        "description": "Organized notes sharpen study loops and keep ideas from slipping away.",
+        "stat": "intelligence",
+        "perLevel": 0.03,
+        "maxLevel": 5,
+        "cost": {
+            "herb": 2,
+            "quartz_shard": 1
+        }
+    },
+    {
+        "id": "whetstone_kit",
+        "name": "Whetstone Kit",
+        "description": "A maintenance set that keeps training tools ready for harder sessions.",
+        "stat": "strength",
+        "perLevel": 0.03,
+        "maxLevel": 5,
+        "cost": {
+            "wood_log": 2,
+            "iron_ore": 1
+        }
+    },
+    {
+        "id": "fletching_wrap",
+        "name": "Fletching Wrap",
+        "description": "Feather-light wraps improve balance and repetition during agility drills.",
+        "stat": "agility",
+        "perLevel": 0.03,
+        "maxLevel": 5,
+        "cost": {
+            "feather": 2,
+            "clay": 1
+        }
+    },
+    {
+        "id": "ration_pack",
+        "name": "Ration Pack",
+        "description": "A practical supply pack that extends conditioning sessions without breaking pace.",
+        "stat": "constitution",
+        "perLevel": 0.03,
+        "maxLevel": 5,
+        "cost": {
+            "rabbit_meat": 2,
+            "water_flask": 1
+        }
+    },
+    {
+        "id": "trail_markers",
+        "name": "Trail Markers",
+        "description": "Marked routes and reference signs make scouting passes more deliberate.",
+        "stat": "will",
+        "perLevel": 0.03,
+        "maxLevel": 5,
+        "cost": {
+            "berries": 2,
+            "sturdy_bark": 1
+        }
+    }
+]

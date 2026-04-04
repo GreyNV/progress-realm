@@ -1,4 +1,6 @@
-// Durability lost per second while the furniture's action is active
+// Legacy compatibility module for Node-based tests.
+// The live browser runtime uses the typed dwelling system from `src/systems`.
+
 const DURABILITY_USE_RATE = 0.1;
 
 class Furniture {
@@ -10,36 +12,28 @@ class Furniture {
         this.cost = data.cost || {};
         this.durability = data.durability || 1;
         this.unlocks = data.unlocks || [];
+        this.adventureBonuses = data.adventureBonuses || {};
     }
 }
 
-const FurnitureSystem = {
+const FurnitureSystem = (typeof window !== 'undefined' && window.FurnitureSystem) || {
     furniture: [],
-    async load() {
-        try {
-            const res = await fetch('data/furniture.json');
-            const json = await res.json();
-            this.furniture = json.map(f => new Furniture(f));
-        } catch (e) {
-            console.error('Failed to load furniture', e);
-            this.furniture = [];
-        }
-    },
+    async load() {},
     purchase(id) {
-        const item = this.furniture.find(f => f.id === id);
+        const item = this.furniture.find(entry => entry.id === id);
         if (!item) return;
 
-        const home = HomeSystem.homes.find(h => h.id === State.homeId);
+        const home = typeof HomeSystem !== 'undefined' && HomeSystem.homes.find(entry => entry.id === State.homeId);
         const limit = home ? home.furnitureSlots : 0;
-        const existing = State.furniture.find(f => f.id === id);
+        const existing = State.furniture.find(entry => entry.id === id);
 
         if (existing) {
             const missing = item.durability - existing.durability;
             if (missing <= 0) return;
             const cost = {};
             const ratio = missing / item.durability;
-            for (const [key, val] of Object.entries(item.cost)) {
-                cost[key] = Math.ceil(val * ratio);
+            for (const [key, value] of Object.entries(item.cost)) {
+                cost[key] = Math.ceil(value * ratio);
             }
             if (!Inventory.canAfford(cost)) return;
             Inventory.consumeCost(cost);
@@ -48,7 +42,9 @@ const FurnitureSystem = {
                 PubSub.publish('furniture:durabilityChanged');
                 PubSub.publish('furniture:updated');
             }
-            SaveSystem.save();
+            if (typeof SaveSystem !== 'undefined' && SaveSystem.save) {
+                SaveSystem.save();
+            }
             return;
         }
 
@@ -57,32 +53,34 @@ const FurnitureSystem = {
 
         Inventory.consumeCost(item.cost);
         pushState(['furniture'], { id: item.id, durability: item.durability });
-        item.unlocks.forEach(a => PubSub.publish('unlock:action', a));
         if (typeof PubSub !== 'undefined') {
+            item.unlocks.forEach(actionId => PubSub.publish('unlock:action', actionId));
             PubSub.publish('furniture:updated');
         }
-        SaveSystem.save();
+        if (typeof SaveSystem !== 'undefined' && SaveSystem.save) {
+            SaveSystem.save();
+        }
     },
     use(actionId, seconds = 1) {
         let changed = false;
         const removedUnlocks = [];
-        const updated = State.furniture.filter(f => {
-            const def = this.furniture.find(x => x.id === f.id);
-            if (!def) return false;
-            if (def.unlocks.includes(actionId)) {
-                f.durability -= seconds * DURABILITY_USE_RATE;
-                if (f.durability < 0) f.durability = 0;
+        const updated = State.furniture.filter(record => {
+            const definition = this.furniture.find(entry => entry.id === record.id);
+            if (!definition) return false;
+            if (definition.unlocks.includes(actionId)) {
+                record.durability -= seconds * DURABILITY_USE_RATE;
+                if (record.durability < 0) record.durability = 0;
             }
-            if (f.durability > 0) return true;
+            if (record.durability > 0) return true;
             changed = true;
-            removedUnlocks.push(...def.unlocks);
+            removedUnlocks.push(...definition.unlocks);
             return false;
         });
         setState('furniture', updated);
         if (typeof PubSub !== 'undefined') {
             PubSub.publish('furniture:durabilityChanged');
             if (changed) {
-                removedUnlocks.forEach(a => PubSub.publish('lock:action', a));
+                removedUnlocks.forEach(actionId => PubSub.publish('lock:action', actionId));
                 PubSub.publish('furniture:updated');
             }
         }

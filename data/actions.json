@@ -2,133 +2,203 @@
   {
     "id": "studying",
     "name": "Studying",
-    "image": "assets/enc/studying.png",
+    "image": "assets/enc/studying-v2.png",
     "level": 1,
     "exp": 0,
     "expToNext": 10,
-    "activationCost": { "focus": 1 },
+    "baseDuration": 10,
+    "activationCost": {},
+    "statFactors": {
+      "intelligence": { "speed": 0.05, "output": 0.08 }
+    },
     "baseYield": {
       "stats": {
-        "intelligence": 0.01
+        "intelligence": 1
       },
       "resources": {},
-      "exp": 1
+      "exp": 0
     },
     "scaling": {
-      "type": "softcap",
-      "base": 1,
-      "multiplier": 0.1,
-      "softcapLevel": 5,
-      "falloff": 0.5
+      "type": "flat"
     },
-    "resourceConsumption": {
-      "focus": 0.5
-    }
+    "resourceConsumption": {}
   },
   {
     "id": "training",
     "name": "Training",
-    "image": "assets/enc/training.png",
+    "image": "assets/enc/training-v2.png",
     "level": 1,
     "exp": 0,
     "expToNext": 10,
-    "activationCost": { "energy": 1 },
+    "baseDuration": 10,
+    "activationCost": {},
+    "statFactors": {
+      "strength": { "speed": 0.05, "output": 0.08 }
+    },
     "baseYield": {
       "stats": {
-        "strength": 0.02
+        "strength": 1
       },
       "resources": {},
-      "exp": 1
+      "exp": 0
     },
     "scaling": {
-      "type": "softcap",
-      "base": 1,
-      "multiplier": 0.1,
-      "softcapLevel": 5,
-      "falloff": 0.5
+      "type": "flat"
     },
-    "resourceConsumption": {
-      "energy": 0.5
-    }
+    "resourceConsumption": {}
+  },
+  {
+    "id": "agility_drills",
+    "name": "Agility Drills",
+    "image": "assets/enc/agility-drills-v2.png",
+    "level": 1,
+    "exp": 0,
+    "expToNext": 10,
+    "baseDuration": 10,
+    "activationCost": {},
+    "statFactors": {
+      "agility": { "speed": 0.05, "output": 0.08 }
+    },
+    "baseYield": {
+      "stats": {
+        "agility": 1
+      },
+      "resources": {},
+      "exp": 0
+    },
+    "scaling": {
+      "type": "flat"
+    },
+    "resourceConsumption": {}
+  },
+  {
+    "id": "conditioning",
+    "name": "Conditioning",
+    "image": "assets/enc/conditioning-v2.png",
+    "level": 1,
+    "exp": 0,
+    "expToNext": 10,
+    "baseDuration": 10,
+    "activationCost": {},
+    "statFactors": {
+      "constitution": { "speed": 0.05, "output": 0.08 }
+    },
+    "baseYield": {
+      "stats": {
+        "constitution": 1
+      },
+      "resources": {},
+      "exp": 0
+    },
+    "scaling": {
+      "type": "flat"
+    },
+    "resourceConsumption": {}
+  },
+  {
+    "id": "scouting",
+    "name": "Scouting",
+    "image": "assets/enc/scouting-v2.png",
+    "level": 1,
+    "exp": 0,
+    "expToNext": 10,
+    "baseDuration": 10,
+    "activationCost": {},
+    "statFactors": {
+      "will": { "speed": 0.05, "output": 0.08 }
+    },
+    "baseYield": {
+      "stats": {
+        "will": 1
+      },
+      "resources": {},
+      "exp": 0
+    },
+    "scaling": {
+      "type": "flat"
+    },
+    "resourceConsumption": {}
   },
   {
     "id": "rest",
     "name": "Rest",
     "image": "assets/enc/rest.png",
+    "hidden": true,
     "level": 1,
     "exp": 0,
     "expToNext": 1000,
+    "baseDuration": 10,
     "activationCost": {},
+    "statFactors": {
+      "constitution": { "speed": 0.02, "output": 0.02 },
+      "will": { "speed": 0.02, "output": 0.02 }
+    },
     "baseYield": {
-      "stats": {},
-      "resources": {
-        "focus": 1,
-        "energy": 1,
-        "health": 0.5
+      "stats": {
+        "constitution": 0.6,
+        "will": 0.4
       },
-      "exp": 1
+      "resources": {},
+      "exp": 0
     },
     "scaling": {
-      "type": "softcap",
-      "base": 1,
-      "multiplier": 0.1,
-      "softcapLevel": 5,
-      "falloff": 0.5
+      "type": "flat"
     },
     "resourceConsumption": {}
   },
   {
-    "id": "woodworking",
-    "name": "Woodworking",
-    "image": "assets/enc/woodworking.png",
-    "hidden": true,
-    "level": 1,
-    "exp": 0,
-    "expToNext": 10,
-    "activationCost": { "energy": 1, "focus": 1 },
-    "baseYield": {
-      "stats": {
-        "dexterity": 0.01
-      },
-      "resources": {},
-      "exp": 1
-    },
-    "scaling": {
-      "type": "softcap",
-      "base": 1,
-      "multiplier": 0.1,
-      "softcapLevel": 5,
-      "falloff": 0.5
-    },
-    "resourceConsumption": {
-      "energy": 0.5,
-      "focus": 0.5
-    }
-  },
-  {
-    "id": "sleep",
-    "name": "Sleep",
+    "id": "cooking",
+    "name": "Cooking",
     "image": "assets/enc/sleep.png",
     "hidden": true,
+    "locked": true,
     "level": 1,
     "exp": 0,
     "expToNext": 10,
+    "baseDuration": 10,
     "activationCost": {},
+    "statFactors": {
+      "constitution": { "speed": 0.04, "output": 0.06 },
+      "will": { "speed": 0.01, "output": 0.02 }
+    },
     "baseYield": {
-      "stats": {},
-      "resources": {
-        "focus": 2,
-        "energy": 2,
-        "health": 1
+      "stats": {
+        "constitution": 0.64,
+        "will": 0.36
       },
-      "exp": 1
+      "resources": {},
+      "exp": 0
     },
     "scaling": {
-      "type": "softcap",
-      "base": 1,
-      "multiplier": 0.1,
-      "softcapLevel": 5,
-      "falloff": 0.5
+      "type": "flat"
+    },
+    "resourceConsumption": {}
+  },
+  {
+    "id": "blacksmithing",
+    "name": "Blacksmithing",
+    "image": "assets/enc/woodworking.png",
+    "hidden": true,
+    "locked": true,
+    "level": 1,
+    "exp": 0,
+    "expToNext": 10,
+    "baseDuration": 10,
+    "activationCost": {},
+    "statFactors": {
+      "strength": { "speed": 0.05, "output": 0.08 },
+      "constitution": { "speed": 0.03, "output": 0.05 }
+    },
+    "baseYield": {
+      "stats": {
+        "strength": 0.67,
+        "constitution": 0.33
+      },
+      "resources": {},
+      "exp": 0
+    },
+    "scaling": {
+      "type": "flat"
     },
     "resourceConsumption": {}
   }

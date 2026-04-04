@@ -1,4 +1,5 @@
 # progress-realm
+Agent navigation and specialist review guidance live in [`docs/agents/README.md`](/D:/progress-realm/docs/agents/README.md).
 ### Game Design Document – v0.7.0
 
 #### 1. Game Title

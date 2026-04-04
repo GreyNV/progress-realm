@@ -1,4 +1,5 @@
-const StoryUI = {
+// Compatibility shim. The browser runtime installs `StoryUI` from `src/ui`.
+const StoryUI = globalThis.StoryUI || {
     active: false,
     init() {
         if (typeof PubSub !== 'undefined') {

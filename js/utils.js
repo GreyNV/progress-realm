@@ -1,12 +1,5 @@
-// Agents: Utility methods shared across systems. Keep this lightweight and
-// free of game state so it can be safely imported anywhere.
-const Utils = {
-    /**
-     * Select an item using weighted random choice.
-     * @param {Array} items - list of possible items
-     * @param {Array<number>} weights - corresponding weights
-     * @returns selected item
-     */
+// Compatibility shim. The browser runtime installs `Utils`, `capitalize`, and `formatDelta` from `src/core`.
+const Utils = globalThis.Utils || {
     weightedRandomChoice(items, weights) {
         const total = weights.reduce((a, b) => a + b, 0);
         let r = Math.random() * total;
@@ -16,28 +9,11 @@ const Utils = {
         }
         return items[items.length - 1];
     },
-
-    /**
-     * Format a cost object into a readable string.
-     * @param {Object} cost
-     * @returns {string}
-     */
     formatCost(cost = {}) {
         return Object.entries(cost)
-            .map(([id, qty]) => {
-                const item = typeof ItemGenerator !== 'undefined' && ItemGenerator.itemList
-                    ? ItemGenerator.itemList.find(i => i.id === id)
-                    : null;
-                const name = item ? item.name : id;
-                return `${qty}x ${name}`;
-            })
+            .map(([id, qty]) => `${qty}x ${id}`)
             .join(', ');
     },
-
-    /**
-     * Check if all resources are at their maximum values.
-     * @returns {boolean}
-     */
     allResourcesFull() {
         return RESOURCE_KEYS.every(k => {
             const res = State.resources[k];
@@ -52,6 +28,9 @@ const Utils = {
  * @returns {string}
  */
 function capitalize(str) {
+    if (typeof globalThis !== 'undefined' && typeof globalThis.capitalize === 'function' && globalThis.capitalize !== capitalize) {
+        return globalThis.capitalize(str);
+    }
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
@@ -61,6 +40,9 @@ function capitalize(str) {
  * @returns {string}
  */
 function formatDelta(v) {
+    if (typeof globalThis !== 'undefined' && typeof globalThis.formatDelta === 'function' && globalThis.formatDelta !== formatDelta) {
+        return globalThis.formatDelta(v);
+    }
     const sign = v > 0 ? '+' : '';
     return sign + v.toFixed(1);
 }

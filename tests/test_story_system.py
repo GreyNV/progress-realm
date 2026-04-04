@@ -4,7 +4,7 @@ import os
 def test_story_script_included():
     with open('index.html') as f:
         text = f.read()
-    assert 'js/story.js' in text
+    assert '/src/main.ts' in text
 
 
 def test_story_system_defined():

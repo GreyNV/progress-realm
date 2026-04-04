@@ -7,7 +7,10 @@
     "image": "assets/homes/camp.png",
     "description": "A simple hut hidden among the trees.",
     "furnitureSlots": 1,
-    "cost": {}
+    "cost": {},
+    "adventureBonuses": {
+      "speed": 0.02
+    }
   },
   {
     "id": "simple_house",
@@ -16,7 +19,11 @@
     "image": "assets/homes/cottage.png",
     "description": "Reinforce your hut by improving walls and expanding space to store more furniture.",
     "furnitureSlots": 3,
-    "cost": {"money": 1000, "wood_log": 1000, "clay": 100, "stone_piece": 100}
+    "cost": {"money": 1000, "wood_log": 1000, "clay": 100, "stone_piece": 100, "quartz_shard": 12},
+    "adventureBonuses": {
+      "speed": 0.05,
+      "lootMultiplier": 0.05
+    }
   },
   {
     "id": "manor",
@@ -25,6 +32,11 @@
     "image": "assets/homes/manor.png",
     "description": "An impressive manor with many rooms.",
     "furnitureSlots": 6,
-    "cost": {"money": 10000}
+    "cost": {"money": 10000, "vault_core": 6, "tempered_ore": 20, "spirit_resin": 20},
+    "adventureBonuses": {
+      "speed": 0.09,
+      "lootChance": 0.03,
+      "lootMultiplier": 0.1
+    }
   }
 ]

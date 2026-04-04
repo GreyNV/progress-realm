@@ -1,9 +1,5 @@
-/**
- * Lightweight logger for debugging purposes.
- * Agents can enable verbose output by setting `Logger.enabled = true`.
- * Console methods are used so disabling has minimal performance impact.
- */
-const Logger = {
+// Compatibility shim. The browser runtime installs `Logger` from `src/core`.
+const Logger = globalThis.Logger || {
     enabled: false,
     debug(...args) {
         if (this.enabled) console.debug('[DEBUG]', ...args);

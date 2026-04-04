@@ -5,14 +5,18 @@
  * these two functions, so follow the chain:
  *   ActionEngine.tick -> DeltaEngine.calculate -> DeltaEngine.apply
  */
-const statDeltas = { strength: 0, intelligence: 0, dexterity: 0 };
-const resourceDeltas = { energy: 0, focus: 0, health: 0 };
+const migratedDelta = typeof window !== 'undefined' && window.__gameSystems && window.__gameSystems.deltaEngine;
+const statDeltas = migratedDelta ? migratedDelta.statDeltas : { strength: 0, intelligence: 0, agility: 0, constitution: 0, will: 0 };
+const resourceDeltas = migratedDelta ? migratedDelta.resourceDeltas : {};
 let ageDelta = 0;
 const expDeltas = {};
-const encounterProgressDeltas = [];
+const encounterProgressDeltas = migratedDelta ? migratedDelta.encounterProgressDeltas : [];
+const STAT_XP_GAIN_MULTIPLIER = 1.2;
 
 const DeltaEngine = {
     calculate() {
+        const migrated = typeof window !== 'undefined' && window.__gameSystems && window.__gameSystems.deltaEngine;
+        if (migrated) return migrated.calculate();
         // reset deltas
         STAT_KEYS.forEach(k => { statDeltas[k] = 0; });
         RESOURCE_KEYS.forEach(k => { resourceDeltas[k] = 0; });
@@ -25,26 +29,14 @@ const DeltaEngine = {
         State.slots.forEach(slot => {
             if (!slot.actionId || slot.blocked) return;
             const action = actions[slot.actionId];
-            const mult = scalingMultiplier(action);
+            const mult = scalingMultiplier(action) *
+                getActionSpeedMultiplier(action) *
+                getActionOutputMultiplier(action);
 
             if (action.baseYield.stats) {
                 for (const s in action.baseYield.stats) {
                     statDeltas[s] = (statDeltas[s] || 0) +
                         action.baseYield.stats[s] * mult;
-                }
-            }
-
-            if (action.baseYield.resources) {
-                for (const r in action.baseYield.resources) {
-                    const rate = action.baseYield.resources[r] * mult;
-                    resourceDeltas[r] = (resourceDeltas[r] || 0) + rate;
-                }
-            }
-
-            if (action.resourceConsumption) {
-                for (const r in action.resourceConsumption) {
-                    const rate = action.resourceConsumption[r] * mult;
-                    resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
                 }
             }
 
@@ -59,37 +51,25 @@ const DeltaEngine = {
         State.adventureSlots.forEach((slot, i) => {
             encounterProgressDeltas[i] = 0;
             if (!slot.active || !slot.encounter) return;
-            const cost = slot.encounter.getResourceCost();
-            for (const r in cost) {
-                const rate = cost[r];
-                resourceDeltas[r] = (resourceDeltas[r] || 0) - rate;
-            }
+            if (slot.encounter.combat) return;
             encounterProgressDeltas[i] = 1 / slot.duration;
         });
     },
 
     apply(deltaSeconds, mult = 1) {
+        const migrated = typeof window !== 'undefined' && window.__gameSystems && window.__gameSystems.deltaEngine;
+        if (migrated) return migrated.apply(deltaSeconds, mult);
         let statsChanged = false;
-        let resourcesChanged = false;
         STAT_KEYS.forEach(k => {
-            const base = statDeltas[k] * deltaSeconds * mult;
+            const base = statDeltas[k] * deltaSeconds * mult * STAT_XP_GAIN_MULTIPLIER;
             const delta = typeof BonusEngine !== 'undefined' ?
                 BonusEngine.applyStat(base, k) : base;
-            const before = State.stats[k].value;
+            const beforeLevel = State.stats[k].level;
+            const beforeExp = State.stats[k].exp;
             StatSystem.add(State.stats[k], delta);
-            if (State.stats[k].value !== before) statsChanged = true;
-        });
-        RESOURCE_KEYS.forEach(k => {
-            const base = resourceDeltas[k] * deltaSeconds * mult;
-            const change = typeof BonusEngine !== 'undefined' ?
-                BonusEngine.applyResource(base, k) : base;
-            const before = State.resources[k].value;
-            if (change >= 0) {
-                ResourceSystem.add(State.resources[k], change);
-            } else {
-                ResourceSystem.consume(State.resources[k], -change);
+            if (State.stats[k].level !== beforeLevel || State.stats[k].exp !== beforeExp || delta !== 0) {
+                statsChanged = true;
             }
-            if (State.resources[k].value !== before) resourcesChanged = true;
         });
         AgeSystem.addDays(ageDelta * deltaSeconds * mult);
         for (const id in expDeltas) {
@@ -101,7 +81,6 @@ const DeltaEngine = {
         });
         if (typeof PubSub !== 'undefined') {
             if (statsChanged) PubSub.publish('stats:updated');
-            if (resourcesChanged) PubSub.publish('resources:updated');
         }
     }
 };

@@ -1,3 +1,4 @@
+// Compatibility shim. The browser runtime installs `BaseSlot` from `src/ui`.
 class BaseSlot {
     constructor(hasProgress = true) {
         this.el = document.createElement('div');

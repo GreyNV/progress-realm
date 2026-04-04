@@ -1,61 +1,59 @@
 const UIHandler = {
+    overviewModules: [],
+
     async init() {
         await this.loadTabs();
         StatsUI.init();
         ResourcesUI.init();
-        this.buildStats();
-        this.buildResources();
+        this.buildProgressTelemetry();
+        this.buildResourceCharts();
+        this.buildPrestige();
+        this.buildLayerCards();
+        this.applyOverviewModules();
     },
+
     async loadTabs() {
-        try {
-            const res = await fetch('data/ui.json');
-            const json = await res.json();
-            if (json.tabs && Array.isArray(json.tabs)) {
-                TabManager.load(json.tabs);
-            }
-        } catch (e) {
-            console.error('Failed to load UI layout', e);
-            TabManager.load([]);
+        const loaded = window.__uiModules.layout.loadTabs();
+        this.overviewModules = loaded.overviewModules;
+        TabManager.load(loaded.tabs);
+    },
+
+    applyOverviewModules() {
+        return window.__uiModules.layout.applyOverviewModules(this.overviewModules);
+    },
+
+    buildProgressTelemetry() {
+        if (typeof ProgressTelemetryUI !== 'undefined') {
+            ProgressTelemetryUI.build();
         }
     },
-    buildStats() {
-        const listEl = document.getElementById('stats-list');
-        if (!listEl) return;
-        listEl.innerHTML = '';
-        StatsUI.list.forEach(key => {
-            const li = document.createElement('li');
-            const label = document.createElement('span');
-            label.className = 'stat-label';
-            label.dataset.key = key;
-            label.textContent = Lang.stat(key) || capitalize(key);
-            li.appendChild(label);
-            li.insertAdjacentHTML('beforeend',
-                `: <span id="stat-${key}">0</span>/<span id="stat-${key}-cap">0</span>` +
-                ` (<span id="stat-${key}-delta" class="delta">0</span>/s)`);
-            listEl.appendChild(li);
-        });
+
+    buildPrestige() {
+        if (typeof ResourceInspector !== 'undefined') {
+            ResourceInspector.buildGroup('prestige-list', 'prestige', PRESTIGE_KEYS);
+        }
     },
-    buildResources() {
-        const listEl = document.getElementById('resources-list');
-        if (!listEl) return;
-        listEl.innerHTML = '';
-        ResourcesUI.list.forEach(key => {
-            const li = document.createElement('li');
-            const label = document.createElement('span');
-            label.className = 'resource-label';
-            label.dataset.key = key;
-            label.textContent = Lang.resource(key) || capitalize(key);
-            li.appendChild(label);
-            const bar = document.createElement('div');
-            bar.className = `resource-bar ${key}-bar`;
-            const fill = document.createElement('div');
-            fill.className = 'resource-bar-fill';
-            fill.id = `res-${key}-fill`;
-            bar.appendChild(fill);
-            li.appendChild(bar);
-            li.insertAdjacentHTML('beforeend',
-                ` (<span id="res-${key}-delta" class="delta">0</span>/s)`);
-            listEl.appendChild(li);
-        });
+
+    buildResourceCharts() {
+        if (typeof ResourceTrendsUI !== 'undefined') {
+            ResourceTrendsUI.build();
+        }
+    },
+
+    buildLayerCards() {
+        return window.__uiModules.layout.buildLayerCards(TabManager, Lang);
+    },
+
+    buildWorkspaceSummary(tab) {
+        return window.__uiModules.layout.buildWorkspaceSummary(tab);
+    },
+
+    updateWorkspaceHeader(tab) {
+        return window.__uiModules.layout.updateWorkspaceHeader(tab, Lang);
+    },
+
+    refreshWorkspace() {
+        const tab = TabManager.getCurrentWorkspace();
+        if (tab) this.updateWorkspaceHeader(tab);
     }
 };

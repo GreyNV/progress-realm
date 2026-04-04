@@ -4,7 +4,7 @@ import os
 def test_save_system_script_included():
     with open('index.html') as f:
         html = f.read()
-    assert 'js/save_system.js' in html
+    assert '/src/main.ts' in html
 
 
 def test_save_system_defined():
@@ -15,6 +15,7 @@ def test_save_system_defined():
     assert 'localStorage.setItem' in text
     assert 'localStorage.getItem' in text
     assert 'async prestige()' in text
+    assert '__saveMigrationService' in text
 
 
 def test_research_list_initialized_on_load():

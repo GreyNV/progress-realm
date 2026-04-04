@@ -4,17 +4,31 @@
     "name": "Wooden Table",
     "image": "assets/furniture/wooden_table.png",
     "description": "A sturdy table for daily chores.",
-    "cost": {"wood_log": 10},
+    "cost": {"wood_log": 10, "quartz_shard": 3},
     "durability": 1000,
-    "unlocks": ["woodworking"]
+    "unlocks": ["woodworking"],
+    "adventureBonuses": {
+      "categories": {
+        "intelligence": { "speed": 0.08, "lootMultiplier": 0.05 }
+      },
+      "dungeons": {
+        "quarry_edge": { "lootMultiplier": 0.08 }
+      }
+    }
   },
   {
     "id": "comfy_bed",
     "name": "Comfy Bed",
     "image": "assets/furniture/comfy_bed.png",
     "description": "Rest well to recover faster.",
-    "cost": {"wood_log": 15},
+    "cost": {"wood_log": 15, "spirit_resin": 4},
     "durability": 2000,
-    "unlocks": ["sleep"]
+    "unlocks": ["sleep"],
+    "adventureBonuses": {
+      "speed": 0.07,
+      "dungeons": {
+        "deep_woods": { "speed": 0.05, "lootChance": 0.02 }
+      }
+    }
   }
 ]
