@@ -6,6 +6,16 @@ function capitalize(value: string): string {
     return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+function formatVisibleCardContent(title: string, details: string[]): string {
+    const meta = details.filter(Boolean).join(" • ");
+    return `
+        <div class="task-card-copy">
+            <span class="task-card-title">${title}</span>
+            ${meta ? `<span class="task-card-meta">${meta}</span>` : ""}
+        </div>
+    `;
+}
+
 export function createLayerUiModules() {
     const modules = {
         inventory: {
@@ -190,7 +200,10 @@ export function createLayerUiModules() {
                 (scope.HomeSystem?.homes || []).forEach((home: any) => {
                     if (home.default) return;
                     const li = document.createElement("li");
-                    li.textContent = home.name;
+                    li.innerHTML = formatVisibleCardContent(home.name, [
+                        home.description,
+                        `Cost: ${scope.Utils?.formatCost(home.cost)}`
+                    ]);
                     li.dataset.homeId = home.id;
                     li.dataset.tooltip = `${home.description}\nCost: ${scope.Utils?.formatCost(home.cost)}`;
                     if (scope.Inventory?.canAfford?.(home.cost)) li.classList.add("affordable");
@@ -302,7 +315,6 @@ export function createLayerUiModules() {
                 const used = scope.State.furniture.length;
                 (scope.FurnitureSystem?.furniture || []).forEach((furniture: any) => {
                     const li = document.createElement("li");
-                    li.textContent = furniture.name;
                     const owned = scope.State.furniture.find((entry: any) => entry.id === furniture.id);
                     let cost = furniture.cost;
                     if (owned) {
@@ -313,8 +325,16 @@ export function createLayerUiModules() {
                             cost[key] = Math.ceil(Number(value) * ratio);
                         });
                         li.dataset.tooltip = `${furniture.description}\nRefresh: ${scope.Utils?.formatCost(cost)}`;
+                        li.innerHTML = formatVisibleCardContent(furniture.name, [
+                            furniture.description,
+                            `Refresh: ${scope.Utils?.formatCost(cost)}`
+                        ]);
                     } else {
                         li.dataset.tooltip = `${furniture.description}\nCost: ${scope.Utils?.formatCost(cost)}`;
+                        li.innerHTML = formatVisibleCardContent(furniture.name, [
+                            furniture.description,
+                            `Cost: ${scope.Utils?.formatCost(cost)}`
+                        ]);
                     }
                     const canAfford = scope.Inventory?.canAfford?.(cost);
                     const slotsAvailable = owned || used < limit;
@@ -341,8 +361,11 @@ export function createLayerUiModules() {
                 this.listEl.innerHTML = "";
                 (scope.ResearchSystem?.research || []).forEach((research: any) => {
                     const li = document.createElement("li");
-                    li.textContent = research.name;
                     const requirementText = scope.ResearchSystem?.describeRequirements?.(research) || "";
+                    li.innerHTML = formatVisibleCardContent(research.name, [
+                        research.description,
+                        requirementText
+                    ]);
                     li.dataset.tooltip = requirementText ? `${research.description}\n${requirementText}` : research.description;
                     if (scope.ResearchSystem?.isUnlocked?.(research)) li.classList.add("affordable");
                     if (scope.State.researchCompleted.includes(research.id) || research.done) {
@@ -430,13 +453,23 @@ export function createLayerUiModules() {
                 (scope.UpdateSystem?.updates || []).forEach((update: any) => {
                     if (update.state === "done") return;
                     const li = document.createElement("li");
-                    li.textContent = update.name;
+                    li.innerHTML = formatVisibleCardContent(update.name, [
+                        update.description,
+                        `Cost: ${scope.Utils?.formatCost(update.resourceConsumption)}`
+                    ]);
                     li.dataset.updateId = update.id;
                     li.dataset.tooltip = `${update.description}\nCost: ${scope.Utils?.formatCost(update.resourceConsumption)}`;
                     if (scope.Inventory?.canAfford?.(update.resourceConsumption)) li.classList.add("affordable");
                     if (update.state !== "available") {
                         li.classList.add("locked");
                     } else {
+                        li.addEventListener("click", () => {
+                            // Touch devices need a tap path because drag and drop is unreliable on mobile.
+                            const slotIndex = scope.UpdateSystem.slots.findIndex((slot: any) => !slot.active && !slot.updateId);
+                            if (slotIndex >= 0) {
+                                scope.UpdateSystem.start(slotIndex, update.id);
+                            }
+                        });
                         li.setAttribute("draggable", "true");
                         li.addEventListener("dragstart", (event: DragEvent) => {
                             li.classList.add("dragging");

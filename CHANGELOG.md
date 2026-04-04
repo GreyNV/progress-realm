@@ -2,6 +2,7 @@
 
 ## [Unreleased] - 2025-07-30
 ### Added
+- Added touch-friendly update assignment and visible cost/detail copy for home, furniture, research, and update cards so the game remains playable without hover on mobile.
 - Added a GitHub Actions workflow that builds the Vite app and deploys `dist/` to GitHub Pages on pushes to `main`.
 - Added a new run-based routine-upgrade layer with item-cost buyables, multiplicative routine speed bonuses by stat, an active routine preview card in `Routine Dynamics`, and a dedicated upgrades panel replacing the old routine slot section.
 - Added data-driven tab unlock coverage for the new early-game flow, including tests for stat-gated adventure access and dashboard selector output for unlock progress.
@@ -18,6 +19,8 @@
 - Added workspace insight panels for routines, adventure, belongings, chip, and automation so detailed layer context lives inside each layer instead of on the overview.
 - Added a new painted routine illustration set for the six starter routines and wired those versioned assets into the live action data.
 ### Changed
+- Tightened the narrow-phone layout further by stacking preview footers, enlarging progress touch targets, relaxing slot overlay positioning, and making modal and portrait surfaces fit short screens more reliably.
+- Reworked the mobile CSS with safer viewport padding, larger touch targets, fewer nested scrollers, reduced-motion fallback, and a single-column phone layout for the main interactive panels and slots.
 - Updated the Vite base-path handling and typed content loaders so static assets and JSON content resolve correctly when the game is hosted from a GitHub Pages repository subpath.
 - Preserved mastery progression through save/load and prestige by carrying the mastery XP track forward during reset instead of rebuilding it from prestige levels alone, with regression coverage for both reload and prestige flows.
 - Moved the stat breakdown into a persistent sticky sidebar shared by overview and all workspace tabs, condensed each stat card into a tighter non-duplicated summary, and made the panel independently scroll when it grows taller than the viewport.
