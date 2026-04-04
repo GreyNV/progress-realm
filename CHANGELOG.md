@@ -2,6 +2,7 @@
 
 ## [Unreleased] - 2025-07-30
 ### Added
+- Added regression coverage for mastery save/load promotion and for multiplier calculations that must honor restored mastery levels after reload.
 - Added a reusable right-side drawer pattern and moved the stat breakdown into a collapsible sticky rail so the main workspace can stay full-width until the sidebar is expanded.
 - Added touch-friendly update assignment and visible cost/detail copy for home, furniture, research, and update cards so the game remains playable without hover on mobile.
 - Added a GitHub Actions workflow that builds the Vite app and deploys `dist/` to GitHub Pages on pushes to `main`.
@@ -20,6 +21,7 @@
 - Added workspace insight panels for routines, adventure, belongings, chip, and automation so detailed layer context lives inside each layer instead of on the overview.
 - Added a new painted routine illustration set for the six starter routines and wired those versioned assets into the live action data.
 ### Changed
+- Fixed mastery restoration so saved mastery levels continue to drive routine multipliers after reload instead of dropping back to stale prestige fallback values.
 - Tightened the narrow-phone layout further by stacking preview footers, enlarging progress touch targets, relaxing slot overlay positioning, and making modal and portrait surfaces fit short screens more reliably.
 - Reworked the mobile CSS with safer viewport padding, larger touch targets, fewer nested scrollers, reduced-motion fallback, and a single-column phone layout for the main interactive panels and slots.
 - Updated the Vite base-path handling and typed content loaders so static assets and JSON content resolve correctly when the game is hosted from a GitHub Pages repository subpath.

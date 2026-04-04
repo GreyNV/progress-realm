@@ -86,7 +86,10 @@ function normalizeLegacyStatState(state: any) {
 }
 
 function restoreMasteryProgress(scope: any, key: string, previousMastery: any, baseRequirement: number) {
-    scope.ensureMastery(key, scope.State.prestige?.[key] || 0, baseRequirement);
+    const persistedPrestigeLevel = Math.max(0, Number(scope.State.prestige?.[key] || 0));
+    const persistedMasteryLevel = Math.max(0, Number(previousMastery?.level || 0));
+    const restoredLevel = Math.max(persistedPrestigeLevel, persistedMasteryLevel);
+    scope.ensureMastery(key, restoredLevel, baseRequirement);
     const mastery = scope.State.mastery?.[key];
     if (!mastery) {
         return;
@@ -101,6 +104,7 @@ function restoreMasteryProgress(scope: any, key: string, previousMastery: any, b
         scope.State.prestige[key] = mastery.level;
         mastery.expToNext = Math.floor((mastery.baseXpRequirement || 20) * Math.pow(1.5, mastery.level || 0));
     }
+    scope.State.prestige[key] = Math.max(Number(scope.State.prestige?.[key] || 0), Number(mastery.level || 0));
 }
 
 export function installLegacyAppGlobals(): void {

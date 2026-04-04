@@ -129,6 +129,9 @@ describe("SaveSystem persistence", () => {
 
         scope.State.language = "ua";
         scope.State.stats.intelligence.exp = 7.5;
+        scope.State.mastery = {
+            wisdom: { level: 4, exp: 9, expToNext: 20, baseXpRequirement: 20 }
+        };
         scope.actions.studying.hidden = true;
 
         scope.SaveSystem.save();
@@ -138,8 +141,14 @@ describe("SaveSystem persistence", () => {
             "progressRealmSave",
             expect.stringContaining("\"language\":\"ua\"")
         );
+        expect(scope.localStorage.setItem).toHaveBeenCalledWith(
+            "progressRealmSave",
+            expect.stringContaining("\"mastery\":{\"wisdom\":{\"level\":4,\"exp\":9,\"expToNext\":20,\"baseXpRequirement\":20}}")
+        );
         expect(scope.State.language).toBe("ua");
         expect(scope.State.stats.intelligence.exp).toBe(7.5);
+        expect(scope.State.mastery.wisdom.level).toBe(4);
+        expect(scope.State.mastery.wisdom.exp).toBe(9);
         expect(loadedActions).toEqual({
             studying: { hidden: true, locked: false }
         });
@@ -265,5 +274,43 @@ describe("SaveSystem persistence", () => {
         expect(scope.State.mastery.wisdom.level).toBe(5);
         expect(scope.State.mastery.wisdom.exp).toBe(11);
         expect(scope.window.location.reload).toHaveBeenCalled();
+    });
+
+    it("promotes mastery level during load when carried xp exceeds the next threshold", () => {
+        const scope = globalThis as any;
+        scope.ensureMastery = vi.fn((key: string, level: number, baseXpRequirement: number) => {
+            scope.State.mastery[key] = {
+                level,
+                exp: 0,
+                expToNext: baseXpRequirement,
+                baseXpRequirement
+            };
+            scope.State.prestige[key] = level;
+        });
+        installLegacyAppGlobals();
+
+        scope.localStorage.setItem("progressRealmSave", JSON.stringify({
+            version: 3,
+            state: {
+                stats: {
+                    intelligence: { value: 0, baseMax: 20, baseXpRequirement: 20, level: 0, exp: 0, expToNext: 20 }
+                },
+                resources: {},
+                prestige: { wisdom: 3 },
+                mastery: {
+                    wisdom: { level: 3, exp: 24, expToNext: 20, baseXpRequirement: 20 }
+                },
+                slots: [],
+                defaultActionId: "rest"
+            },
+            actions: {}
+        }));
+
+        scope.SaveSystem.load();
+
+        expect(scope.State.mastery.wisdom.level).toBe(4);
+        expect(scope.State.mastery.wisdom.exp).toBe(4);
+        expect(scope.State.mastery.wisdom.expToNext).toBe(101);
+        expect(scope.State.prestige.wisdom).toBe(4);
     });
 });

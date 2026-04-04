@@ -392,7 +392,7 @@ button:disabled {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transform: translateX(calc(100% - var(--sidebar-rail-width)));
+    transform: translateX(100%);
     transform-origin: right center;
     opacity: 0;
     pointer-events: none;
@@ -1913,21 +1913,28 @@ li.affordable {
         bottom: calc(1rem + var(--safe-bottom));
         width: var(--sidebar-rail-width);
         min-height: 0;
-        pointer-events: none;
+        pointer-events: auto;
     }
 
-    .sidebar-drawer-toggle,
     .app-sidebar-card {
         pointer-events: auto;
     }
 
     .app-sidebar-card {
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
         width: min(22rem, calc(100vw - 0.35rem));
-        height: 100%;
-        max-height: 100%;
+        height: auto;
+        max-height: none;
+        bottom: calc(1rem + var(--safe-bottom));
+        display: none;
+        transform: none;
+        opacity: 1;
+    }
+
+    .app-sidebar-drawer.is-expanded .app-sidebar-card {
+        display: flex;
     }
 
     .workspace-panel-grid {
@@ -1994,6 +2001,7 @@ li.affordable {
 
     .app-sidebar-card {
         width: min(20rem, calc(100vw - 0.35rem));
+        bottom: calc(0.85rem + var(--safe-bottom));
     }
 
     .app-header,
@@ -2140,6 +2148,7 @@ li.affordable {
 
     .app-sidebar-card {
         width: min(18rem, calc(100vw - 0.2rem));
+        bottom: calc(0.7rem + var(--safe-bottom));
     }
 
     .app-header,
