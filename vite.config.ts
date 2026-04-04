@@ -32,7 +32,24 @@ function copyRuntimeDirs(): Plugin {
     };
 }
 
+function resolveBasePath(): string {
+    const explicitBase = process.env.PAGES_BASE_PATH?.trim();
+    if (explicitBase) {
+        return explicitBase.endsWith("/") ? explicitBase : `${explicitBase}/`;
+    }
+
+    if (process.env.GITHUB_ACTIONS === "true") {
+        const repositoryName = process.env.GITHUB_REPOSITORY?.split("/")[1];
+        if (repositoryName) {
+            return `/${repositoryName}/`;
+        }
+    }
+
+    return "/";
+}
+
 export default defineConfig({
+    base: resolveBasePath(),
     plugins: [copyRuntimeDirs()],
     test: {
         environment: "node",

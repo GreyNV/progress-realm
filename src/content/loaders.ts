@@ -30,70 +30,76 @@ import {
     type UpdateContent
 } from "./schemas";
 
+function resolveContentPath(path: string): string {
+    const relativePath = path.replace(/^\/+/, "");
+    return new URL(relativePath, window.location.origin + import.meta.env.BASE_URL).toString();
+}
+
 async function fetchJson<T>(path: string, schema: z.ZodType<T>): Promise<T> {
-    const response = await fetch(path);
+    const resolvedPath = resolveContentPath(path);
+    const response = await fetch(resolvedPath);
     if (!response.ok) {
-        throw new Error(`Failed to load ${path}: ${response.status}`);
+        throw new Error(`Failed to load ${resolvedPath}: ${response.status}`);
     }
     const json = await response.json();
     return schema.parse(json);
 }
 
 export function loadActions(): Promise<ActionContent[]> {
-    return fetchJson("/data/actions.json", z.array(actionSchema));
+    return fetchJson("data/actions.json", z.array(actionSchema));
 }
 
 export function loadDungeons(): Promise<DungeonContent[]> {
-    return fetchJson("/data/dungeons.json", z.array(dungeonSchema));
+    return fetchJson("data/dungeons.json", z.array(dungeonSchema));
 }
 
 export function loadEncounters(): Promise<EncounterContent[]> {
-    return fetchJson("/data/encounters.json", z.array(encounterSchema));
+    return fetchJson("data/encounters.json", z.array(encounterSchema));
 }
 
 export function loadFurniture(): Promise<FurnitureContent[]> {
-    return fetchJson("/data/furniture.json", z.array(furnitureSchema));
+    return fetchJson("data/furniture.json", z.array(furnitureSchema));
 }
 
 export function loadHomes(): Promise<HomeContent[]> {
-    return fetchJson("/data/homes.json", z.array(homeSchema));
+    return fetchJson("data/homes.json", z.array(homeSchema));
 }
 
 export function loadItems(): Promise<ItemContent[]> {
-    return fetchJson("/data/items.json", z.array(itemSchema));
+    return fetchJson("data/items.json", z.array(itemSchema));
 }
 
 export function loadLocations(): Promise<LocationContent[]> {
-    return fetchJson("/data/locations.json", z.array(locationSchema));
+    return fetchJson("data/locations.json", z.array(locationSchema));
 }
 
 export function loadResearch(): Promise<ResearchContent[]> {
-    return fetchJson("/data/research.json", z.array(researchSchema));
+    return fetchJson("data/research.json", z.array(researchSchema));
 }
 
 export function loadRoutineUpgrades(): Promise<RoutineUpgradeContent[]> {
-    return fetchJson("/data/routine_upgrades.json", z.array(routineUpgradeSchema));
+    return fetchJson("data/routine_upgrades.json", z.array(routineUpgradeSchema));
 }
 
 export function loadResources(): Promise<ResourcesContent> {
-    return fetchJson("/data/resources.json", resourcesSchema);
+    return fetchJson("data/resources.json", resourcesSchema);
 }
 
 export function loadStoryEvents(): Promise<StoryEventContent[]> {
-    return fetchJson("/data/story_events.json", z.array(storyEventSchema));
+    return fetchJson("data/story_events.json", z.array(storyEventSchema));
 }
 
 export function loadUiLayout(): Promise<UiContent> {
-    return fetchJson("/data/ui.json", uiSchema);
+    return fetchJson("data/ui.json", uiSchema);
 }
 
 export function loadUpdates(): Promise<UpdateContent[]> {
-    return fetchJson("/data/updates.json", z.array(updateSchema));
+    return fetchJson("data/updates.json", z.array(updateSchema));
 }
 
 export async function loadLanguage(lang: string): Promise<LanguageContent> {
     if (lang === "en") {
         return languageSchema.parse({});
     }
-    return fetchJson(`/data/lang/${lang}.json`, languageSchema);
+    return fetchJson(`data/lang/${lang}.json`, languageSchema);
 }
