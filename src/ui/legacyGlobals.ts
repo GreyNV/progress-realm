@@ -16,6 +16,7 @@ export function installLegacyUiGlobals(): void {
             this.buildPrestige();
             this.buildLayerCards();
             this.applyOverviewModules();
+            this.initDrawers();
         },
         async loadTabs() {
             const loaded = getUi().layout.loadTabs();
@@ -42,6 +43,9 @@ export function installLegacyUiGlobals(): void {
         },
         buildLayerCards() {
             return getUi().layout.buildLayerCards(scope.TabManager, scope.Lang);
+        },
+        initDrawers() {
+            return getUi().layout.initDrawers();
         },
         buildWorkspaceSummary(tab: any) {
             return getUi().layout.buildWorkspaceSummary(tab);

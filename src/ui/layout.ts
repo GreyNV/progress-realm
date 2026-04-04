@@ -1,5 +1,39 @@
 export function createLayoutUi(dashboardUi: ReturnType<typeof import("./dashboard").createDashboardUi>) {
+    const getDrawerStorageKey = (drawer: HTMLElement) => drawer.dataset.drawerStorageKey || `progress-realm:drawer:${drawer.id || "default"}`;
+    const getStoredDrawerState = (drawer: HTMLElement) => globalThis.localStorage?.getItem(getDrawerStorageKey(drawer));
+
     return {
+        setDrawerState(drawer: HTMLElement, expanded: boolean) {
+            drawer.classList.toggle("is-expanded", expanded);
+            drawer.classList.toggle("is-collapsed", !expanded);
+            const toggle = drawer.querySelector("[data-drawer-toggle]") as HTMLButtonElement | null;
+            if (toggle) {
+                toggle.setAttribute("aria-expanded", String(expanded));
+                toggle.dataset.drawerState = expanded ? "expanded" : "collapsed";
+            }
+        },
+        initDrawers() {
+            document.querySelectorAll("[data-drawer]").forEach((node) => {
+                const drawer = node as HTMLElement;
+                const toggle = drawer.querySelector("[data-drawer-toggle]") as HTMLButtonElement | null;
+                if (!toggle || toggle.dataset.drawerBound === "true") {
+                    return;
+                }
+
+                const storedState = getStoredDrawerState(drawer);
+                const defaultExpanded = drawer.dataset.drawerDefault !== "collapsed";
+                this.setDrawerState(drawer, storedState ? storedState === "expanded" : defaultExpanded);
+
+                // Keep drawer state local to the layout layer so future sidebars can reuse the same pattern.
+                toggle.addEventListener("click", () => {
+                    const nextExpanded = !drawer.classList.contains("is-expanded");
+                    this.setDrawerState(drawer, nextExpanded);
+                    globalThis.localStorage?.setItem(getDrawerStorageKey(drawer), nextExpanded ? "expanded" : "collapsed");
+                });
+
+                toggle.dataset.drawerBound = "true";
+            });
+        },
         loadTabs() {
             const registry = (globalThis as any).window?.__appContent;
             const layout = registry?.uiLayout || { overviewModules: [], tabs: [] };

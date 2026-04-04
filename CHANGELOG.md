@@ -2,6 +2,7 @@
 
 ## [Unreleased] - 2025-07-30
 ### Added
+- Added a reusable right-side drawer pattern and moved the stat breakdown into a collapsible sticky rail so the main workspace can stay full-width until the sidebar is expanded.
 - Added touch-friendly update assignment and visible cost/detail copy for home, furniture, research, and update cards so the game remains playable without hover on mobile.
 - Added a GitHub Actions workflow that builds the Vite app and deploys `dist/` to GitHub Pages on pushes to `main`.
 - Added a new run-based routine-upgrade layer with item-cost buyables, multiplicative routine speed bonuses by stat, an active routine preview card in `Routine Dynamics`, and a dedicated upgrades panel replacing the old routine slot section.

@@ -612,13 +612,8 @@ export function createHudUi() {
                 }
                 container.innerHTML = "";
                 (scope.StatsUI?.list || []).forEach((statKey: string) => {
-                    const masteryKey = scope.PRESTIGE_MAP?.[statKey];
-                    const masteryLevel = masteryKey ? (scope.getMasteryLevel?.(masteryKey) || 0) : 0;
                     const layerBreakdown = getStatLayerBreakdown(statKey);
                     const totalMultiplier = layerBreakdown.currentMultiplier * layerBreakdown.masteryMultiplier * layerBreakdown.upgradeMultiplier;
-                    const upgradeLevel = scope.RoutineUpgradeSystem?.getSortedUpgrades?.()
-                        ?.filter((item: any) => item.stat === statKey)
-                        ?.reduce((sum: number, item: any) => sum + Number(item.level || 0), 0) || 0;
                     const card = document.createElement("article");
                     card.className = `stat-breakdown-card stat-breakdown-card-${statKey}`;
                     card.innerHTML = `
@@ -629,20 +624,6 @@ export function createHudUi() {
                                 <strong>${formatMultiplier(totalMultiplier)}</strong>
                             </div>
                         </div>
-                        <div class="stat-breakdown-meta">
-                            <span>${scope.Lang?.ui("Run") || "Run"} Lv.${scope.getStatLevel(statKey)}</span>
-                            <span class="stat-breakdown-mastery">${scope.Lang?.ui("Mastery") || "Mastery"} Lv.${masteryLevel}</span>
-                            <span class="stat-breakdown-upgrade">${scope.Lang?.ui("Upgrade") || "Upgrade"} Lv.${upgradeLevel}</span>
-                        </div>
-                        <div class="stat-breakdown-effects">
-                            <span>${scope.Lang?.ui("Run") || "Run"} ${formatMultiplier(layerBreakdown.currentMultiplier)}</span>
-                            <span class="stat-breakdown-mastery">${scope.Lang?.ui("Mastery") || "Mastery"} ${formatMultiplier(layerBreakdown.masteryMultiplier)}</span>
-                            <span class="stat-breakdown-upgrade">${scope.Lang?.ui("Upgrade") || "Upgrade"} ${formatMultiplier(layerBreakdown.upgradeMultiplier)}</span>
-                        </div>
-                        <div class="routine-breakdown-progress">
-                            <span class="routine-breakdown-progress-fill" style="width:${((scope.getStatExp(statKey) / Math.max(scope.getStatMax(statKey), 1)) * 100).toFixed(2)}%"></span>
-                        </div>
-                        <span class="routine-breakdown-progress-text">${formatXpProgress(scope.getStatExp(statKey), scope.getStatMax(statKey))}</span>
                     `;
                     container.appendChild(card);
                 });

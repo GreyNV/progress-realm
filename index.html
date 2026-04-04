@@ -328,14 +328,35 @@
         </section>
         </div>
 
-        <aside id="stat-breakdown-card" class="dashboard-card app-sidebar-card">
-            <div class="card-header">
-                <div>
-                    <p class="card-kicker" data-i18n="Persistent Growth">Persistent Growth</p>
-                    <h2 data-i18n="Stat Breakdown">Stat Breakdown</h2>
+        <aside
+            id="stat-breakdown-drawer"
+            class="app-sidebar-drawer"
+            data-drawer
+            data-drawer-default="collapsed"
+            data-drawer-storage-key="progress-realm:drawer:stat-breakdown"
+        >
+            <button
+                id="stat-breakdown-toggle"
+                class="sidebar-drawer-toggle"
+                type="button"
+                data-drawer-toggle
+                aria-controls="stat-breakdown-card"
+                aria-expanded="false"
+            >
+                <span class="sidebar-drawer-toggle-icon" aria-hidden="true">||</span>
+                <span class="sidebar-drawer-toggle-label" data-i18n="Stat Breakdown">Stat Breakdown</span>
+            </button>
+            <div id="stat-breakdown-card" class="dashboard-card app-sidebar-card" data-drawer-panel>
+                <div class="card-header">
+                    <div>
+                        <p class="card-kicker" data-i18n="Persistent Growth">Persistent Growth</p>
+                        <h2 data-i18n="Stat Breakdown">Stat Breakdown</h2>
+                    </div>
+                </div>
+                <div class="app-sidebar-body">
+                    <div id="overview-stat-breakdown" class="stat-breakdown-grid stat-breakdown-grid-sidebar"></div>
                 </div>
             </div>
-            <div id="overview-stat-breakdown" class="stat-breakdown-grid stat-breakdown-grid-sidebar"></div>
         </aside>
     </main>
 
